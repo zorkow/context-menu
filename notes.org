@@ -1,0 +1,19 @@
+Let's keep things simple:
+
+* Events
+** Keyboard events
+** Mouse events
+
+* Navigatable: Element with key events etc. Has an html element, role, class
+** Menu: Abstract class of Menus
+*** Context_Menu
+*** Sub_Menu
+** Entry: Abstract class of Menu Entries
+*** Item_Rule: Separator rule item (From entry)
+*** Item_Label: Command executing item (From entry)
+*** Item: Abstract class of items with mouse events
+**** Item_Command: Command executing item
+**** Item_Submenu: Submenu item
+**** Item_Radio: Radiobutton item
+**** Item_Checkbox:  checkbox item
+
