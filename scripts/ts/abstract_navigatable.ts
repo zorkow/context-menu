@@ -23,7 +23,7 @@
 
 namespace Menu {
 
-    export class AbstractNavigatable implements Navigatable {
+  export class AbstractNavigatable implements Navigatable {
 
     /**
      * @override
@@ -51,7 +51,6 @@ namespace Menu {
         break;
       default:
         return;
-        break;
       }
       return this.stop(event);
     };

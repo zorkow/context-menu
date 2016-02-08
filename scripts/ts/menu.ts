@@ -2,9 +2,10 @@
 
 namespace Menu {
 
-  export interface Menu {
+  export interface Menu extends MenuElement {
     items: Item[];
   }
+
 
 
 }
