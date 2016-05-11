@@ -27,7 +27,7 @@
 
 namespace ContextMenu {
 
-  export class AbstractMenu {
+  export class AbstractMenu implements Menu {
 
     private items: Item[] = [];
     private focused: Item;

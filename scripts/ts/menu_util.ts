@@ -17,26 +17,39 @@
 
 
 /**
- * @fileoverview Class of separator items.
+ * @fileoverview Utility class for menu handling.
  *
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-/// <reference path="abstract_entry.ts" />
+/// <reference path="context_menu.ts" />
+
 
 namespace ContextMenu {
 
-  export class Rule extends AbstractEntry {
+  class MenuUtil {
 
     /**
-     * @constructor
-     * @extends {AbstractItem}
-     * @param {Menu} menu The context menu or sub-menu the item belongs to.
+     * Makes menu from a JSON representation. 
+     * @param {Object} json The JSON object.
+     * @return {?Menu} The menu if it could be constructed.
      */
-    constructor(menu: Menu) {
-      super(menu, 'rule');
-      this.setRole('separator');
+    parser(json: Object): Menu {
+      let menu = new ContextMenu();
+      console.log('Parsing Menu');
+      return menu;
     }
 
+    /**
+     * Translates a menu into JSON representation.
+     * @param {Menu} menu A menu object.
+     * @return {Object} A JSON version of the menu.
+     */
+    jsonify(menu: Menu): Object {
+      console.log('Parsing Menu');
+      return {};
+    }
   }
 }
+
+

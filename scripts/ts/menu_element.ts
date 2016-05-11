@@ -34,7 +34,7 @@ namespace ContextMenu {
 
     constructor(className: string, role: string) {
       super();
-      //// TODO: Make this dome independent!
+      //// TODO: Make this DOM independent!
       this.html = document.createElement('div');
       this.html.classList.add(ClassPrefix.addPrefix(className));
       this.html.setAttribute('role', role);

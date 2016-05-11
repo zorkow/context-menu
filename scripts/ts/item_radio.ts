@@ -22,20 +22,39 @@
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-/// <reference path="abstract_entry.ts" />
+/// <reference path="abstract_item.ts" />
 
 namespace ContextMenu {
 
-  export class Rule extends AbstractEntry {
+  export class Radio extends AbstractItem {
+
+    /**
+     * The state variable. Initially set false.
+     * @type {boolean}
+     */
+    //// TODO: This is probably the name of a variable held by the menu
+    //// globally.
+    private variable: boolean = false;
 
     /**
      * @constructor
      * @extends {AbstractItem}
      * @param {Menu} menu The context menu or sub-menu the item belongs to.
+     * @param {string} content The content of the menu item.
+     * @param {boolean} variable The variable that is changed.
+     * @param {string=} id Optionally the id of the menu item.
      */
-    constructor(menu: Menu) {
-      super(menu, 'rule');
-      this.setRole('separator');
+    constructor(menu: Menu, content: string, variable: boolean, id?: string) {
+      super(menu, 'radio', content, id);
+      this.variable = variable;
+      this.setRole('menuitemradio');
+    }
+
+    /**
+     * @override
+     */
+    press() {
+      // this.variable = this.getContent();
     }
 
   }

@@ -22,40 +22,48 @@
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
+/// <reference path="abstract_entry.ts" />
 /// <reference path="item.ts" />
 
 
 namespace ContextMenu {
 
-  export class AbstractItem implements Item {
-    private menu: Menu;
-    private role: string;
-    private html: Element;
+  export class AbstractItem extends AbstractEntry implements Item {
+    private content: string;
+    private id: string;
 
     /**
      * @constructor
      * @implements {Item}
      * @param {Menu} menu The context menu or sub-menu the item belongs to.
-     * @param {string} role The ARIA role of the menu item.
+     * @param {string} type The type of the entry.
+     * @param {string} content The content of the menu item.
+     * @param {string=} id Optionally the id of the menu item.
      */
-    constructor(menu: Menu, role: string) {
-      this.menu = menu;
-      this.role = role;
+    constructor(menu: Menu, type: string, content: string, id?: string) {
+      super(menu, type);
+      this.content = content;
+      this.id = id ? id : content;
     }
 
     /**
-     * @return {Menu} The context menu or sub-menu the item belongs to.
+     * @return {string} The content of the item.
      */
-    getMenu() {
-      return this.menu;
+    getContent() {
+      return this.content;
     }
 
     /**
-     * @return {string} The ARIA role of the menu item.
+     * @return {string} The id of the item.
      */
-    getRole() {
-      return this.role;
+    getId() {
+      return this.id;
     }
+
+   /**
+    * Pressing the menu item.
+    */
+    press() { };
   }
 
 }

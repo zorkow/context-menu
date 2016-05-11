@@ -2,7 +2,7 @@
 
 namespace ContextMenu {
 
-  export interface Menu extends MenuElement {
+  export interface Menu {
 
     /**
      * Returns the items in that menu.
@@ -18,7 +18,7 @@ namespace ContextMenu {
 
     /**
      * Sets the currently focused Item.
-     * @param {Item} The new focused Item.
+     * @param {Item} item The new focused Item.
      */
     setFocused(item: Item): void;
 

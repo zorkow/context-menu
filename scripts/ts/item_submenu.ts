@@ -22,20 +22,53 @@
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-/// <reference path="abstract_entry.ts" />
+/// <reference path="abstract_item.ts" />
 
 namespace ContextMenu {
 
-  export class Rule extends AbstractEntry {
+  export class Submenu extends AbstractItem {
+
+    /**
+     * The state variable. Initially set false.
+     * @type {Menu}
+     */
+    //// TODO: This is probably the name of a variable held by the menu
+    //// globally.
+    private submenu: Menu = null;
 
     /**
      * @constructor
      * @extends {AbstractItem}
      * @param {Menu} menu The context menu or sub-menu the item belongs to.
+     * @param {string} content The content of the menu item.
+     * @param {boolean} variable The variable that is changed.
+     * @param {string=} id Optionally the id of the menu item.
      */
-    constructor(menu: Menu) {
-      super(menu, 'rule');
-      this.setRole('separator');
+    constructor(menu: Menu, content: string, id?: string) {
+      super(menu, 'submenu', content, id);
+    }
+
+    /**
+     * Sets the submenu.
+     * @param {Menu} A menu.
+     */
+    setSubmenu(menu: Menu) {
+      this.submenu = menu;
+    }
+
+    /**
+     * Returns the submenu element.
+     * @return {Menu} The submenu.
+     */
+    getSubmenu(): Menu {
+      return this.submenu;
+    }
+
+    /**
+     * @override
+     */
+    press() {
+      // Open submenu.
     }
 
   }

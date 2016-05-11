@@ -17,18 +17,20 @@
 
 
 /**
- * @fileoverview Abstract class of menu items.
+ * @fileoverview Interface specification for menu entries that have content and
+ *     that are navigatable.
  *
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-/// <reference path="menu.ts" />
+/// <reference path="entry.ts" />
 
 namespace ContextMenu {
 
-  export interface Item {
-    getMenu(): Menu;
-    getRole(): string;
+  export interface Item extends Entry {
+    getContent(): string;
+    getId(): string;
+    press(): void;
   }
 
 }

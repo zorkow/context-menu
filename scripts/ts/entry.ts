@@ -17,26 +17,22 @@
 
 
 /**
- * @fileoverview Class of separator items.
+ * @fileoverview Interface specification for menu entries.
  *
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-/// <reference path="abstract_entry.ts" />
+/// <reference path="menu.ts" />
 
 namespace ContextMenu {
 
-  export class Rule extends AbstractEntry {
-
-    /**
-     * @constructor
-     * @extends {AbstractItem}
-     * @param {Menu} menu The context menu or sub-menu the item belongs to.
-     */
-    constructor(menu: Menu) {
-      super(menu, 'rule');
-      this.setRole('separator');
-    }
-
+  export interface Entry {
+    getHtml(): Element;
+    getMenu(): Menu;
+    setMenu(menu: Menu): void;
+    getRole(): string;
+    setRole(role: string): void;
+    getType(): string;
   }
+
 }
