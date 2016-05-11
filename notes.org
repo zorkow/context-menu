@@ -15,5 +15,7 @@ Let's keep things simple:
 **** Item_Command: Command executing item
 **** Item_Submenu: Submenu item
 **** Item_Radio: Radiobutton item
-**** Item_Checkbox:  checkbox item
+**** Item_Checkbox:  checkbox 
 
+* Some Typescript things:
+** Return types can be omitted in method implementation if they are given in the interface specification.
