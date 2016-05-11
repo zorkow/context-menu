@@ -1,21 +1,27 @@
-var Menu;
-(function (Menu) {
-    class AbstractItem {
-        constructor(menu, role) {
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var ContextMenu;
+(function (ContextMenu) {
+    var AbstractItem = (function () {
+        function AbstractItem(menu, role) {
             this.menu = menu;
             this.role = role;
         }
-        getMenu() {
+        AbstractItem.prototype.getMenu = function () {
             return this.menu;
-        }
-        getRole() {
+        };
+        AbstractItem.prototype.getRole = function () {
             return this.role;
-        }
-    }
-    Menu.AbstractItem = AbstractItem;
-})(Menu || (Menu = {}));
-var Menu;
-(function (Menu) {
+        };
+        return AbstractItem;
+    }());
+    ContextMenu.AbstractItem = AbstractItem;
+})(ContextMenu || (ContextMenu = {}));
+var ContextMenu;
+(function (ContextMenu) {
     (function (KEY) {
         KEY[KEY["RETURN"] = 13] = "RETURN";
         KEY[KEY["ESCAPE"] = 27] = "ESCAPE";
@@ -24,112 +30,135 @@ var Menu;
         KEY[KEY["UP"] = 38] = "UP";
         KEY[KEY["RIGHT"] = 39] = "RIGHT";
         KEY[KEY["DOWN"] = 40] = "DOWN";
-    })(Menu.KEY || (Menu.KEY = {}));
-    var KEY = Menu.KEY;
+    })(ContextMenu.KEY || (ContextMenu.KEY = {}));
+    var KEY = ContextMenu.KEY;
     ;
-})(Menu || (Menu = {}));
-var Menu;
-(function (Menu) {
-    class AbstractNavigatable {
-        keydown(event) {
+})(ContextMenu || (ContextMenu = {}));
+var ContextMenu;
+(function (ContextMenu) {
+    var AbstractNavigatable = (function () {
+        function AbstractNavigatable() {
+        }
+        AbstractNavigatable.prototype.keydown = function (event) {
             switch (event.keyCode) {
-                case Menu.KEY.ESCAPE:
+                case ContextMenu.KEY.ESCAPE:
                     this.escape(event);
                     break;
-                case Menu.KEY.RIGHT:
+                case ContextMenu.KEY.RIGHT:
                     this.right(event);
                     break;
-                case Menu.KEY.LEFT:
+                case ContextMenu.KEY.LEFT:
                     this.left(event);
                     break;
-                case Menu.KEY.UP:
+                case ContextMenu.KEY.UP:
                     this.up(event);
                     break;
-                case Menu.KEY.DOWN:
+                case ContextMenu.KEY.DOWN:
                     this.down(event);
                     break;
-                case Menu.KEY.RETURN:
-                case Menu.KEY.SPACE:
+                case ContextMenu.KEY.RETURN:
+                case ContextMenu.KEY.SPACE:
                     this.space(event);
                     break;
                 default:
                     return;
-                    break;
             }
             return this.stop(event);
-        }
+        };
         ;
-        escape(event) { }
+        AbstractNavigatable.prototype.escape = function (event) { };
         ;
-        space(event) { }
+        AbstractNavigatable.prototype.space = function (event) { };
         ;
-        left(event) { }
+        AbstractNavigatable.prototype.left = function (event) { };
         ;
-        right(event) { }
+        AbstractNavigatable.prototype.right = function (event) { };
         ;
-        up(event) { }
+        AbstractNavigatable.prototype.up = function (event) { };
         ;
-        down(event) { }
+        AbstractNavigatable.prototype.down = function (event) { };
         ;
-        stop(event) {
+        AbstractNavigatable.prototype.stop = function (event) {
             if (event) {
                 event.stopPropagation();
                 event.cancelBubble = true;
             }
-        }
+        };
         ;
-    }
-    Menu.AbstractNavigatable = AbstractNavigatable;
-})(Menu || (Menu = {}));
-var Menu;
-(function (Menu) {
-    class ClassPrefix {
-        constructor() {
+        return AbstractNavigatable;
+    }());
+    ContextMenu.AbstractNavigatable = AbstractNavigatable;
+})(ContextMenu || (ContextMenu = {}));
+var ContextMenu;
+(function (ContextMenu) {
+    var ClassPrefix = (function () {
+        function ClassPrefix() {
             this.prefix = '';
             if (ClassPrefix.instance) {
                 throw new Error('Error: Can not instantiate a singleton class!');
             }
             ClassPrefix.instance = this;
         }
-        static getInstance() {
+        ClassPrefix.getInstance = function () {
             return ClassPrefix.instance;
-        }
-        getPrefix() {
+        };
+        ClassPrefix.prototype.getPrefix = function () {
             return this.prefix;
-        }
-        setPrefix(prefix) {
+        };
+        ClassPrefix.prototype.setPrefix = function (prefix) {
             this.prefix = prefix;
-        }
-        static addPrefix(className) {
+        };
+        ClassPrefix.addPrefix = function (className) {
             return ClassPrefix.getInstance().getPrefix() + '_' + className;
-        }
-    }
-    ClassPrefix.instance = new ClassPrefix();
-    Menu.ClassPrefix = ClassPrefix;
-})(Menu || (Menu = {}));
-var Menu;
-(function (Menu) {
-    class MenuElement extends Menu.AbstractNavigatable {
-        constructor(className, role) {
-            super();
+        };
+        ClassPrefix.instance = new ClassPrefix();
+        return ClassPrefix;
+    }());
+    ContextMenu.ClassPrefix = ClassPrefix;
+})(ContextMenu || (ContextMenu = {}));
+var ContextMenu;
+(function (ContextMenu) {
+    var MenuElement = (function (_super) {
+        __extends(MenuElement, _super);
+        function MenuElement(className, role) {
+            _super.call(this);
             this.html = document.createElement('div');
-            this.html.classList.add(Menu.ClassPrefix.addPrefix(className));
+            this.html.classList.add(ContextMenu.ClassPrefix.addPrefix(className));
             this.html.setAttribute('role', role);
         }
-        addAttributes(attributes) {
-            for (let attr in attributes) {
+        MenuElement.prototype.addAttributes = function (attributes) {
+            for (var attr in attributes) {
                 this.html.setAttribute(attr, attributes[attr]);
             }
+        };
+        return MenuElement;
+    }(ContextMenu.AbstractNavigatable));
+    ContextMenu.MenuElement = MenuElement;
+})(ContextMenu || (ContextMenu = {}));
+var ContextMenu;
+(function (ContextMenu) {
+    var AbstractMenu = (function () {
+        function AbstractMenu() {
         }
-    }
-    Menu.MenuElement = MenuElement;
-})(Menu || (Menu = {}));
-var Menu;
-(function (Menu) {
-    class Rule extends Menu.AbstractItem {
-        constructor(menu) {
-            super(menu, 'separator');
+        AbstractMenu.prototype.getItems = function () {
+            return this.items;
+        };
+        ;
+        AbstractMenu.prototype.getContainer = function () {
+            return this.container;
+        };
+        return AbstractMenu;
+    }());
+    ContextMenu.AbstractMenu = AbstractMenu;
+})(ContextMenu || (ContextMenu = {}));
+var ContextMenu;
+(function (ContextMenu) {
+    var Rule = (function (_super) {
+        __extends(Rule, _super);
+        function Rule(menu) {
+            _super.call(this, menu, 'separator');
         }
-    }
-    Menu.Rule = Rule;
-})(Menu || (Menu = {}));
+        return Rule;
+    }(ContextMenu.AbstractItem));
+    ContextMenu.Rule = Rule;
+})(ContextMenu || (ContextMenu = {}));

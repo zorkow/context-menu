@@ -1,5 +1,10 @@
-var Menu;
-(function (Menu) {
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var ContextMenu;
+(function (ContextMenu) {
     var AbstractItem = (function () {
         function AbstractItem(menu, role) {
             this.menu = menu;
@@ -12,11 +17,11 @@ var Menu;
             return this.role;
         };
         return AbstractItem;
-    })();
-    Menu.AbstractItem = AbstractItem;
-})(Menu || (Menu = {}));
-var Menu;
-(function (Menu) {
+    }());
+    ContextMenu.AbstractItem = AbstractItem;
+})(ContextMenu || (ContextMenu = {}));
+var ContextMenu;
+(function (ContextMenu) {
     (function (KEY) {
         KEY[KEY["RETURN"] = 13] = "RETURN";
         KEY[KEY["ESCAPE"] = 27] = "ESCAPE";
@@ -25,39 +30,38 @@ var Menu;
         KEY[KEY["UP"] = 38] = "UP";
         KEY[KEY["RIGHT"] = 39] = "RIGHT";
         KEY[KEY["DOWN"] = 40] = "DOWN";
-    })(Menu.KEY || (Menu.KEY = {}));
-    var KEY = Menu.KEY;
+    })(ContextMenu.KEY || (ContextMenu.KEY = {}));
+    var KEY = ContextMenu.KEY;
     ;
-})(Menu || (Menu = {}));
-var Menu;
-(function (Menu) {
+})(ContextMenu || (ContextMenu = {}));
+var ContextMenu;
+(function (ContextMenu) {
     var AbstractNavigatable = (function () {
         function AbstractNavigatable() {
         }
         AbstractNavigatable.prototype.keydown = function (event) {
             switch (event.keyCode) {
-                case Menu.KEY.ESCAPE:
+                case ContextMenu.KEY.ESCAPE:
                     this.escape(event);
                     break;
-                case Menu.KEY.RIGHT:
+                case ContextMenu.KEY.RIGHT:
                     this.right(event);
                     break;
-                case Menu.KEY.LEFT:
+                case ContextMenu.KEY.LEFT:
                     this.left(event);
                     break;
-                case Menu.KEY.UP:
+                case ContextMenu.KEY.UP:
                     this.up(event);
                     break;
-                case Menu.KEY.DOWN:
+                case ContextMenu.KEY.DOWN:
                     this.down(event);
                     break;
-                case Menu.KEY.RETURN:
-                case Menu.KEY.SPACE:
+                case ContextMenu.KEY.RETURN:
+                case ContextMenu.KEY.SPACE:
                     this.space(event);
                     break;
                 default:
                     return;
-                    break;
             }
             return this.stop(event);
         };
@@ -82,11 +86,11 @@ var Menu;
         };
         ;
         return AbstractNavigatable;
-    })();
-    Menu.AbstractNavigatable = AbstractNavigatable;
-})(Menu || (Menu = {}));
-var Menu;
-(function (Menu) {
+    }());
+    ContextMenu.AbstractNavigatable = AbstractNavigatable;
+})(ContextMenu || (ContextMenu = {}));
+var ContextMenu;
+(function (ContextMenu) {
     var ClassPrefix = (function () {
         function ClassPrefix() {
             this.prefix = '';
@@ -109,22 +113,17 @@ var Menu;
         };
         ClassPrefix.instance = new ClassPrefix();
         return ClassPrefix;
-    })();
-    Menu.ClassPrefix = ClassPrefix;
-})(Menu || (Menu = {}));
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-var Menu;
-(function (Menu) {
+    }());
+    ContextMenu.ClassPrefix = ClassPrefix;
+})(ContextMenu || (ContextMenu = {}));
+var ContextMenu;
+(function (ContextMenu) {
     var MenuElement = (function (_super) {
         __extends(MenuElement, _super);
         function MenuElement(className, role) {
             _super.call(this);
             this.html = document.createElement('div');
-            this.html.classList.add(Menu.ClassPrefix.addPrefix(className));
+            this.html.classList.add(ContextMenu.ClassPrefix.addPrefix(className));
             this.html.setAttribute('role', role);
         }
         MenuElement.prototype.addAttributes = function (attributes) {
@@ -133,17 +132,46 @@ var Menu;
             }
         };
         return MenuElement;
-    })(Menu.AbstractNavigatable);
-    Menu.MenuElement = MenuElement;
-})(Menu || (Menu = {}));
-var Menu;
-(function (Menu) {
+    }(ContextMenu.AbstractNavigatable));
+    ContextMenu.MenuElement = MenuElement;
+})(ContextMenu || (ContextMenu = {}));
+var ContextMenu;
+(function (ContextMenu) {
+    var AbstractMenu = (function () {
+        function AbstractMenu() {
+            this.items = [];
+            this.focused = null;
+        }
+        AbstractMenu.prototype.getItems = function () {
+            return this.items;
+        };
+        ;
+        AbstractMenu.prototype.getFocused = function () {
+            return this.focused;
+        };
+        AbstractMenu.prototype.setFocused = function (item) {
+            this.focused = item;
+        };
+        AbstractMenu.prototype.up = function (event) {
+            if (!this.focused) {
+                this.items.indexOf(this.focused);
+            }
+        };
+        ;
+        AbstractMenu.prototype.down = function (event) { };
+        ;
+        return AbstractMenu;
+    }());
+    ContextMenu.AbstractMenu = AbstractMenu;
+})(ContextMenu || (ContextMenu = {}));
+var ContextMenu;
+(function (ContextMenu) {
     var Rule = (function (_super) {
         __extends(Rule, _super);
         function Rule(menu) {
             _super.call(this, menu, 'separator');
         }
         return Rule;
-    })(Menu.AbstractItem);
-    Menu.Rule = Rule;
-})(Menu || (Menu = {}));
+    }(ContextMenu.AbstractItem));
+    ContextMenu.Rule = Rule;
+})(ContextMenu || (ContextMenu = {}));
