@@ -23,6 +23,7 @@
  */
 
 /// <reference path="menu_element.ts" />
+/// <reference path="variable_pool.ts" />
 
 
 namespace ContextMenu {
@@ -31,12 +32,20 @@ namespace ContextMenu {
 
     private items: Item[] = [];
     private focused: Item;
+    private variablePool = new VariablePool<string | boolean>();
 
     /**
      * @override
      */
     getItems(): Item[] {
       return this.items;
+    };
+
+    /**
+     * @override
+     */
+    getPool(): VariablePool<string | boolean> {
+      return this.variablePool;
     };
 
     /**
@@ -72,6 +81,6 @@ namespace ContextMenu {
         this.focused = this.items[0];
       }
     };
-
+    
   }
 }
