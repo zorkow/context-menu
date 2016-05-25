@@ -23,18 +23,19 @@
  */
 
 /// <reference path="context_menu.ts" />
+/// <reference path="menu.ts" />
 
 
 namespace ContextMenu {
 
-  class MenuUtil {
+  export namespace MenuUtil {
 
     /**
      * Makes menu from a JSON representation. 
      * @param {Object} json The JSON object.
      * @return {?Menu} The menu if it could be constructed.
      */
-    parser(json: Object): Menu {
+    export function parse(json: Object): Menu {
       let menu = new ContextMenu();
       console.log('Parsing Menu');
       return menu;
@@ -45,10 +46,11 @@ namespace ContextMenu {
      * @param {Menu} menu A menu object.
      * @return {Object} A JSON version of the menu.
      */
-    jsonify(menu: Menu): Object {
+    export function jsonify(menu: Menu): Object {
       console.log('Parsing Menu');
       return {};
     }
+
   }
 }
 

@@ -1,8 +1,11 @@
 Let's keep things simple:
 
 * Events
+  Provide one function to register the event(s) with an element.
 ** Keyboard events
 ** Mouse events
+** Touch events (to implement later)
+
 
 * Navigatable: Element with key events etc. Has an html element, role, class
 ** Menu: Abstract class of Menus
