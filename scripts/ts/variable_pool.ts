@@ -17,7 +17,7 @@
 
 
 /**
- * @fileoverview Generic class for keeping track of all menu variables.
+ * @fileoverview Generic class for keeping track of menu variables.
  *
  * @author volker.sorge@gmail.com (Volker Sorge)
  */

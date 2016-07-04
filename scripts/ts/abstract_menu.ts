@@ -23,6 +23,7 @@
  */
 
 /// <reference path="menu_element.ts" />
+/// <reference path="item.ts" />
 /// <reference path="variable_pool.ts" />
 
 
@@ -32,7 +33,7 @@ namespace ContextMenu {
 
     private items: Item[] = [];
     private focused: Item;
-    private variablePool = new VariablePool<string | boolean>();
+    protected variablePool: VariablePool<string | boolean>;
 
     /**
      * @override
@@ -70,8 +71,7 @@ namespace ContextMenu {
         this.focused = this.items[this.items.length - 1];
       }
       let index = this.items.indexOf(this.focused);
-      
-    };
+    }
 
     /**
      * @override
@@ -80,7 +80,7 @@ namespace ContextMenu {
       if (!this.focused) {
         this.focused = this.items[0];
       }
-    };
-    
+    }
+
   }
 }

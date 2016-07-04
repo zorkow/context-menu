@@ -23,17 +23,16 @@
  */
 
 /// <reference path="abstract_item.ts" />
+/// <reference path="sub_menu.ts" />
 
 namespace ContextMenu {
 
   export class Submenu extends AbstractItem {
 
     /**
-     * The state variable. Initially set false.
+     * The sub menu object.
      * @type {Menu}
      */
-    //// TODO: This is probably the name of a variable held by the menu
-    //// globally.
     private submenu: Menu = null;
 
     /**

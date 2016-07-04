@@ -22,14 +22,108 @@
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
+/// <reference path="context_menu.ts" />
 /// <reference path="entry.ts" />
+/// <reference path="item_command.ts" />
+/// <reference path="item_checkbox.ts" />
+/// <reference path="item_label.ts" />
+/// <reference path="item_radio.ts" />
+/// <reference path="item_rule.ts" />
+/// <reference path="item_submenu.ts" />
 
-
+// TODO: 
+// All this uses any type. This is too broad.
+// 
+// Parsing of the JSON should probably be reflected directly in the interface
+// specification of the menu entries.
+//
+// Devolve json parse and stringify functions to single classes.
+// Maybe have a json visitor.
+//
 namespace ContextMenu {
 
-  export function parse(json: string) {
-    JSON.parse(json);
-    return json;
+  let MENU: ContextMenu;
+  let MENU_STACK: ContextMenu[] = [];
+
+  export function parse(json: any): ContextMenu {
+    // Assume we have one menu at the moment.
+    if (!json['menu']) {
+      return;
+    }
+    MENU = new ContextMenu();
+    parseMenu_(json);
+    return MENU;
   }
-  
+
+  function parseMenu_(json: any) {
+    parseVariables_(json.menu.pool);
+    let items: any  = json.menu.items;
+    if (items) {
+      parseItems_(MENU.getItems(), items);
+    }
+    return MENU;
+  }
+
+  function parseCheckboxEntry_(item: any): Checkbox {
+    return new Checkbox(MENU, item.content, item.variable, item.id);
+  }
+
+  function parseCommandEntry_(item: any): Command {
+    return new Command(MENU, item.content, item.action, item.id);
+  }
+
+  function parseLabelEntry_(item: any): Label {
+    return new Label(MENU, item.content, item.id);
+  }
+
+  function parseRadioEntry_(item: any): Radio {
+    return new Radio(MENU, item.content, item.variable, item.id);
+  }
+
+  function parseRuleEntry_(item: any): Rule {
+    return new Rule(MENU);
+  }
+
+  function parseSubmenuEntry_(item: any): Rule {
+    let submenu = new Submenu(MENU, item.content, item.id);
+    MENU_STACK.unshift(MENU);
+    MENU = new SubMenu(submenu);
+    submenu.setSubmenu(parseMenu_(item));
+//    console.log(submenu.getSubmenu());
+    MENU = MENU_STACK.shift();
+    return submenu;
+  }
+
+  let parseMapping_: { [id: string]: Function; } = {
+    'checkbox': parseCheckboxEntry_,
+    'command': parseCommandEntry_,
+    'label': parseLabelEntry_,
+    'radio': parseRadioEntry_,
+    'rule': parseRuleEntry_,
+    'submenu': parseSubmenuEntry_
+  };
+
+  function parseVariables_(variables: {name: string,
+                                       value: boolean|string,
+                                       action: string}[]):
+  VariablePool<boolean|string> {
+    if (!variables) {
+      return;
+    }
+    let pool = MENU.getPool();
+    for (let i = 0, variable: any; variable = variables[i]; i++) {
+      pool.insert(new Variable(variable.name, variable.value, variable.action));
+    }
+    return pool;
+  }
+
+  function parseItems_(menu: Entry[], items: any[]) {
+    for (let i = 0, item: any; item = items[i]; i++) {
+      let func = parseMapping_[item['type']];
+      if (func) {
+        menu.push(func(item));
+      }
+    }
+  }
+
 }

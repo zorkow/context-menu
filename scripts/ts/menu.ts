@@ -23,6 +23,7 @@
  */
 
 /// <reference path="item.ts" />
+/// <reference path="variable_pool.ts" />
 
 namespace ContextMenu {
 
@@ -46,7 +47,11 @@ namespace ContextMenu {
      */
     setFocused(item: Item): void;
 
-    // Variables for checkboxes etc are handled globally.
+    /**
+     * The variable pool associated to this menu.
+     * @return {VariablePool<string | boolean>};
+     */
+    getPool(): VariablePool<string | boolean>;
 
   }
 

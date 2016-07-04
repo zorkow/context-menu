@@ -17,7 +17,7 @@
 
 
 /**
- * @fileoverview Class of context menus.
+ * @fileoverview Class of sub menus.
  *
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
@@ -27,12 +27,18 @@
 
 namespace ContextMenu {
 
-  export class ContextMenu extends AbstractMenu {
+  export class SubMenu extends AbstractMenu {
 
-    constructor() {
+    private anchor: Submenu;
+
+    constructor(anchor: Submenu) {
       super();
-      this.variablePool = new VariablePool<string | boolean>();
+      this.anchor = anchor;
     }
-  }
 
+    getAnchor(): Submenu {
+      return this.anchor;
+    }
+
+  }
 }
