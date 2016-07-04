@@ -1,5 +1,10 @@
 {"menu":
- {"items": 
+ {"pool": [
+   {"name": "",
+    "value": value,
+    "action": function
+ ],
+  "items": 
   [
     {"type": "",
      "id": "",
@@ -19,7 +24,6 @@
   "type": "checkbox",
   "id": "",
   "content": "",
-  "action": function,
   "variable": variable,
 }
 
@@ -40,7 +44,6 @@
   "type": "radio",
   "id": "",
   "content": "",
-  "action": function,
   "variable": variable,
 }
 
@@ -54,6 +57,3 @@
   "content": "",
   "items": []
 }
-
-
-
