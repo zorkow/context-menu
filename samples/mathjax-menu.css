@@ -1,4 +1,4 @@
-  .MathJax_Menu {
+.MathJax_Menu {
   position:absolute;
   background-color:white;
   color:black;
@@ -7,106 +7,106 @@
   font: menu; text-align:left; text-indent:0; text-transform:none;
   line-height:normal; letter-spacing:normal; word-spacing:normal;
   word-wrap:normal; white-space:nowrap; float:none; z-index:201;
-  border-radius: 5px;                     // Opera 10.5 and IE9
-        -webkit-border-radius: 5px;             // Safari and Chrome
-        -moz-border-radius: 5px;                // Firefox
-        -khtml-border-radius: 5px;              // Konqueror
+  border-radius: 5px;                     /* Opera 10.5 and IE9 */
+  -webkit-border-radius: 5px;             /* Safari and Chrome */
+  -moz-border-radius: 5px;                /* Firefox */
+  -khtml-border-radius: 5px;              /* Konqueror */
 
-        box-shadow:0px 10px 20px #808080;         // Opera 10.5 and IE9
-        -webkit-box-shadow:0px 10px 20px #808080; // Safari 3 and Chrome
-        -moz-box-shadow:0px 10px 20px #808080;    // Forefox 3.5
-        -khtml-box-shadow:0px 10px 20px #808080;  // Konqueror
-  }
-  .MathJax_MenuItem {
+  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */
+  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 and Chrome */
+  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */
+  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */
+}
+.MathJax_MenuItem {
   padding: 1px 2em;
   background:transparent;
-  }
-  .MathJax_MenuArrow {
+}
+.MathJax_MenuArrow {
   position:absolute; right:.5em; padding-top:.25em; color:#666666;
   font-family: null; font-size: .75em
-  }
-  .MathJax_MenuActive .MathJax_MenuArrow {color:white}
-  .MathJax_MenuArrow.RTL {left:.5em; right:auto}
-  .MathJax_MenuCheck {
+}
+.MathJax_MenuActive .MathJax_MenuArrow {color:white}
+.MathJax_MenuArrow.RTL {left:.5em; right:auto}
+.MathJax_MenuCheck {
   position:absolute; left:.7em;
   font-family: null
-  }
+}
 
-  
-  .MathJax_MenuCheck.RTL {right:.7em; left:auto}
 
-  .MathJax_MenuRadioCheck {
-      position:absolute; left: .7em;
-  }
-  .MathJax_MenuRadioCheck.RTL {
-      right: .7em; left:auto
-  }
+.MathJax_MenuCheck.RTL {right:.7em; left:auto}
 
-  .MathJax_MenuLabel {
-      padding: 1px 2em 3px 1.33em;
-      font-style:italic
-  }
+.MathJax_MenuRadioCheck {
+  position:absolute; left: .7em;
+}
+.MathJax_MenuRadioCheck.RTL {
+  right: .7em; left:auto
+}
 
-  .MathJax_MenuRule {
-      border-top: 1px solid #DDDDDD;
-      margin: 4px 3px;
-  }
+.MathJax_MenuLabel {
+  padding: 1px 2em 3px 1.33em;
+  font-style:italic
+}
 
-  .MathJax_MenuDisabled {
-      color:GrayText
-  }
-  .MathJax_MenuActive {
-      background-color: #606872;
-      color: white;
-  }
+.MathJax_MenuRule {
+  border-top: 1px solid #DDDDDD;
+  margin: 4px 3px;
+}
 
-  .MathJax_MenuDisabled:focus; .MathJax_MenuLabel:focus {
-                                   background-color: #E8E8E8
-                               }
-  .MathJax_ContextMenu:focus {
-      outline:none
-  }
-  .MathJax_ContextMenu .MathJax_MenuItem:focus {
-      outline:none
-  }
+.MathJax_MenuDisabled {
+  color:GrayText
+}
+.MathJax_MenuActive {
+  background-color: #606872;
+  color: white;
+}
 
-  #MathJax_AboutClose {
-      top:.2em; right:.2em
-  }
-  .MathJax_Menu .MathJax_MenuClose {
-      top:-10px; left:-10px
-  }
+.MathJax_MenuDisabled:focus; .MathJax_MenuLabel:focus {
+                               background-color: #E8E8E8
+                             }
+.MathJax_ContextMenu:focus {
+  outline:none
+}
+.MathJax_ContextMenu .MathJax_MenuItem:focus {
+  outline:none
+}
 
-  .MathJax_MenuClose {
-      position:absolute;
-      cursor:pointer;
-      display:inline-block;
-      border:2px solid #AAA;
-      border-radius:18px;
-        -webkit-border-radius: 18px;             // Safari and Chrome
-        -moz-border-radius: 18px;                // Firefox
-        -khtml-border-radius: 18px;              // Konqueror
-        font-family:'Courier New';Courier;
-        font-size:24px;
-        color:#F0F0F0
-      }
-  .MathJax_MenuClose span {
-      display:block; background-color:#AAA; border:1.5px solid;
-      border-radius:18px;
-      -webkit-border-radius: 18px;             // Safari and Chrome
-        -moz-border-radius: 18px;                // Firefox
-        -khtml-border-radius: 18px;              // Konqueror
-        line-height:0;
-        padding:8px 0 6px     // may need to be browser-specific
-      }
-      .MathJax_MenuClose:hover {
-        color:white!important;
-        border:2px solid #CCC!important
-      }
-      .MathJax_MenuClose:hover span {
-        background-color:#CCC!important
-      }
-      .MathJax_MenuClose:hover:focus {
-        outline:none
-      }
+#MathJax_AboutClose {
+  top:.2em; right:.2em
+}
+.MathJax_Menu .MathJax_MenuClose {
+  top:-10px; left:-10px
+}
+
+.MathJax_MenuClose {
+  position:absolute;
+  cursor:pointer;
+  display:inline-block;
+  border:2px solid #AAA;
+  border-radius:18px;
+  -webkit-border-radius: 18px;             /* Safari and Chrome */
+  -moz-border-radius: 18px;                /* Firefox */
+  -khtml-border-radius: 18px;              /* Konqueror */
+  font-family:'Courier New';Courier;
+  font-size:24px;
+  color:#F0F0F0
+}
+.MathJax_MenuClose span {
+  display:block; background-color:#AAA; border:1.5px solid;
+  border-radius:18px;
+  -webkit-border-radius: 18px;             /* Safari and Chrome */
+  -moz-border-radius: 18px;                /* Firefox */
+  -khtml-border-radius: 18px;              /* Konqueror */
+  line-height:0;
+  padding:8px 0 6px     /* may need to be browser-specific */
+}
+.MathJax_MenuClose:hover {
+  color:white!important;
+  border:2px solid #CCC!important
+}
+.MathJax_MenuClose:hover span {
+  background-color:#CCC!important
+}
+.MathJax_MenuClose:hover:focus {
+  outline:none
+}
 
