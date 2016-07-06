@@ -20,5 +20,12 @@ Let's keep things simple:
 **** Item_Radio: Radiobutton item
 **** Item_Checkbox:  checkbox 
 
+* Menu Structure in HTML
+** MenuFrame: Transparent element on the entire page to ensure menu can be closed.
+*** Outer div attached to the page.
+*** Inner div covering the entire page.
+** Menu: Basic element holding one entire context menu.
+** MenuItem: Single items in the context menu.
+
 * Some Typescript things:
 ** Return types can be omitted in method implementation if they are given in the interface specification.

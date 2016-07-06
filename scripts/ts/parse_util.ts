@@ -89,7 +89,6 @@ namespace ContextMenu {
     MENU_STACK.unshift(MENU);
     MENU = new SubMenu(submenu);
     submenu.setSubmenu(parseMenu_(item));
-//    console.log(submenu.getSubmenu());
     MENU = MENU_STACK.shift();
     return submenu;
   }
