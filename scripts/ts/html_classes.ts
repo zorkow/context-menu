@@ -27,34 +27,76 @@ namespace ContextMenu {
 
   let PREFIX: string = 'CtxtMenu';
 
+  /**
+   * Prefixes a html class name.
+   * @param {string} name The base name.
+   * @return {string} The prefixed name.
+   * @private
+   */
   function prefix_(name: string): string {
-    return PREFIX + '_' + name;
+    return <string>(PREFIX + '_' + name);
+  };
+
+  /**
+   * Prefixes a html class name.
+   * @param {string} name The base name.
+   * @return {HtmlClass} The prefixed name.
+   * @private
+   */
+  function prefixClass_(name: string): HtmlClass {
+    return <HtmlClass>prefix_(name);
+  };
+
+  /**
+   * Prefixes a html class name.
+   * @param {string} name The base name.
+   * @return {HtmlId} The prefixed name.
+   * @private
+   */
+  function prefixId_(name: string): HtmlId {
+    return <HtmlId>prefix_(name);
   };
 
   // This is in lieu of a proper enum type.
-  export let HtmlClasses: {[id: string]: string} = {
-    CONTEXTMENU: prefix_('ContextMenu'),
-    MENU: prefix_('Menu'),
-    MENUARROW: prefix_('MenuArrow'),
-    MENUACTIVE: prefix_('MenuActive'),
-    MENUCHECK: prefix_('MenuCheck'),
-    MENUCLOSE: prefix_('MenuClose'),
-    MENUDISABLED: prefix_('MenuDisabled'),
-    MENUITEM: prefix_('MenuItem'),
-    MENULABEL: prefix_('MenuLabel'),
-    MENURADIOCHECK: prefix_('MenuRadioCheck'),
-    MENURULE: prefix_('MenuRule'),
-    MOUSEPOST: prefix_('MousePost'),
-    PREFIX: PREFIX,
-    RTL: prefix_('RTL')
+  /**
+   * HTML classes.
+   * @enum {string} 
+   */
+  export let HtmlClasses: {[id: string]: HtmlClass} = {
+    CONTEXTMENU: prefixClass_('ContextMenu'),
+    MENU: prefixClass_('Menu'),
+    MENUARROW: prefixClass_('MenuArrow'),
+    MENUACTIVE: prefixClass_('MenuActive'),
+    MENUCHECK: prefixClass_('MenuCheck'),
+    MENUCLOSE: prefixClass_('MenuClose'),
+    MENUDISABLED: prefixClass_('MenuDisabled'),
+    MENUITEM: prefixClass_('MenuItem'),
+    MENULABEL: prefixClass_('MenuLabel'),
+    MENURADIOCHECK: prefixClass_('MenuRadioCheck'),
+    MENURULE: prefixClass_('MenuRule'),
+    MOUSEPOST: prefixClass_('MousePost'),
+    RTL: prefixClass_('RTL')
   };
 
-  export let HtmlIds: {[id: string]: string} = {
-    MENUFRAME: prefix_('MenuFrame'),
-    PREFIX: PREFIX,
-    POPUP: prefix_('Popup'),
-    POPUPCLOSE: prefix_('PopupClose')
+  // This is an awkward type construction!
+  export type HtmlClass = 'CtxtMenu_ContextMenu' | 'CtxtMenu_Menu' |
+    'CtxtMenu_MenuArrow' | 'CtxtMenu_MenuActive' | 'CtxtMenu_MenuCheck' |
+    'CtxtMenu_MenuClose' | 'CtxtMenu_MenuDisabled' | 'CtxtMenu_MenuItem' |
+    'CtxtMenu_MenuLabel' | 'CtxtMenu_MenuRadioCheck' | 'CtxtMenu_MenuRule' |
+    'CtxtMenu_MousePost' | 'CtxtMenu_RTL';
+
+  /**
+   * HTML ids.
+   * @enum {string} 
+   */
+  export let HtmlIds: {[id: string]: HtmlId} = {
+    MENUFRAME: prefixId_('MenuFrame'),
+    POPUP: prefixId_('Popup'),
+    POPUPCLOSE: prefixId_('PopupClose')
   };
+
+  export type HtmlId = 'CtxtMenu_MenuFrame' | 'CtxtMenu_Popup' |
+    'CtxtMenu_PopupClose';
 
 }
 

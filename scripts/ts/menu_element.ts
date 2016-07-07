@@ -23,7 +23,7 @@
  */
 
 /// <reference path="abstract_navigatable.ts" />
-/// <reference path="class_prefix.ts" />
+/// <reference path="html_classes.ts" />
 
 
 namespace ContextMenu {
@@ -32,11 +32,11 @@ namespace ContextMenu {
 
     private html: HTMLElement;
 
-    constructor(className: string, role: string) {
+    constructor(className: HtmlClass, role: string) {
       super();
       //// TODO: Make this DOM independent!
       this.html = document.createElement('div');
-      this.html.classList.add(ClassPrefix.addPrefix(className));
+      this.html.classList.add(className);
       this.html.setAttribute('role', role);
     }
 

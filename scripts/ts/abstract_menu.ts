@@ -29,11 +29,15 @@
 
 namespace ContextMenu {
 
-  export class AbstractMenu implements Menu {
+  export class AbstractMenu extends MenuElement implements Menu {
 
     private items: Item[] = [];
     private focused: Item;
     protected variablePool: VariablePool<string | boolean>;
+
+    constructor() {
+      super(HtmlClasses['CONTEXTMENU'], 'menu');
+    }
 
     /**
      * @override
