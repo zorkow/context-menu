@@ -14,6 +14,26 @@
      "name": "semantics",
      "value": false,
      "action": MENU.Id
+   },
+   {
+     "name": "ALT",
+     "value": false,
+     "action": MENU.Id
+   },
+   {
+     "name": "CMD",
+     "value": false,
+     "action": MENU.Id
+   },
+   {
+     "name": "CTRL",
+     "value": false,
+     "action": MENU.Id
+   },
+   {
+     "name": "Shift",
+     "value": false,
+     "action": MENU.Id
    }
  ],
   "items":
