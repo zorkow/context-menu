@@ -1,13 +1,13 @@
 /*************************************************************
  *
  *  Copyright (c) 2015-2016 The MathJax Consortium
- *
+ * 
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,35 +17,32 @@
 
 
 /**
- * @fileoverview Class of separator items.
+ * @fileoverview Interface for handling HTML elements.
  *
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-/// <reference path="abstract_entry.ts" />
 
 namespace ContextMenu {
 
-  export class Rule extends AbstractEntry {
-
-    className = HtmlClasses['MENUITEM'];
-    role = 'separator';
+  export interface Element  {
 
     /**
-     * @constructor
-     * @extends {AbstractItem}
-     * @param {Menu} menu The context menu or sub-menu the item belongs to.
+     * Generates the DOM element if it does not yet exists and returns it.
+     * @return {HTMLElement} The HTML element associated with this entry.
      */
-    constructor(menu: Menu) {
-      super(menu, 'rule');
-    }
+    getHtml(): HTMLElement;
 
-    generateHtml() {
-      super.generateHtml();
-      let html = this.getHtml();
-      html.classList.add(HtmlClasses['MENURULE']);
-      html.setAttribute('aria-orientation', 'vertical');
-    }
+    /**
+     * @param {HTMLElement} element Sets the HTML Element.
+     */
+    setHtml(element: HTMLElement): void;
+
+    /**
+     * Forces generation of the actual DOM element.
+     */
+    generateHtml(): void;
 
   }
+
 }

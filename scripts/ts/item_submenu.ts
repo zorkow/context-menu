@@ -30,10 +30,16 @@ namespace ContextMenu {
   export class Submenu extends AbstractItem {
 
     /**
-     * The sub menu object.
-     * @type {Menu}
+     * The span with the little arrow.
+     * @type {HTMLElement}
      */
-    private submenu: Menu = null;
+    private span: HTMLElement;
+
+    /**
+     * The sub menu object.
+     * @type {SubMenu}
+     */
+    private submenu: SubMenu = null;
 
     /**
      * @constructor
@@ -51,7 +57,7 @@ namespace ContextMenu {
      * Sets the submenu.
      * @param {Menu} A menu.
      */
-    setSubmenu(menu: Menu) {
+    setSubmenu(menu: SubMenu) {
       this.submenu = menu;
     }
 
@@ -67,7 +73,21 @@ namespace ContextMenu {
      * @override
      */
     press() {
-      // Open submenu.
+      let html = this.getHtml();
+      this.submenu.post(0, 0);
+    }
+
+   /**
+    * @override
+    */
+    generateHtml() {
+      super.generateHtml();
+      let html = this.getHtml();
+      this.span = document.createElement('span');
+      this.span.textContent = '\u25BA';
+      this.span.classList.add(HtmlClasses['MENUARROW']);
+      html.appendChild(this.span);
+      html.setAttribute('aria-haspopup', 'true');
     }
 
   }

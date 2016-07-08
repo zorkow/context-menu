@@ -64,6 +64,18 @@ namespace ContextMenu {
     * Pressing the menu item.
     */
     press() { };
-  }
 
+
+   /**
+    * @override
+    */
+    generateHtml() {
+      super.generateHtml();
+      let html = this.getHtml();
+      html.setAttribute('aria-disabled', 'false');
+      html.textContent = this.content;
+    }
+
+  }
+  
 }

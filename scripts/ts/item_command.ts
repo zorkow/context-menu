@@ -30,7 +30,7 @@ namespace ContextMenu {
 
     //// TODO: The command function. Not sure yet what this will be.
     private command: Function = null;
-
+    
     /**
      * @constructor
      * @extends {AbstractItem}

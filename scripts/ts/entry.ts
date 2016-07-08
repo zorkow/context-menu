@@ -27,9 +27,9 @@
 namespace ContextMenu {
 
   export interface Entry {
-    getHtml(): Element;
     getMenu(): Menu;
     setMenu(menu: Menu): void;
+    //// TODO: Do we need those two?
     getRole(): string;
     setRole(role: string): void;
     getType(): string;

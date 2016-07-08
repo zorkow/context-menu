@@ -23,16 +23,50 @@
  */
 
 /// <reference path="abstract_menu.ts" />
+/// <reference path="item.ts" />
 
 
 namespace ContextMenu {
 
   export class ContextMenu extends AbstractMenu {
 
+    /**
+     * The div that holds the entire menu.
+     * @type {HTMLElement}
+     */
+    private frame: HTMLElement;
+
     constructor() {
       super();
       this.variablePool = new VariablePool<string | boolean>();
     }
+
+    /**
+     * @override
+     */
+    generateHtml() {
+      super.generateHtml();
+      this.frame = document.createElement('div');
+      this.frame.id = HtmlIds['MENUFRAME'];
+      //// TODO: Adapt to other browsers.
+      let styleString = 'left: 0px; top: 0px; z-index: 200; width: 100%; ' +
+        'height: 100%; border: 0px; padding: 0px; margin: 0px;';
+      this.frame.setAttribute('style', 'position: absolute; ' + styleString);
+      let innerDiv = document.createElement('div');
+      innerDiv.setAttribute('style', 'position: fixed; ' + styleString);
+      this.frame.appendChild(innerDiv);
+      this.frame.appendChild(this.getHtml());
+    }
+
+    public getFrame(): HTMLElement {
+      return this.frame;
+    }
+    
+    post(x: number, y: number) {
+      super.post(x, y);
+      document.body.appendChild(this.frame);
+    }
+
   }
 
 }

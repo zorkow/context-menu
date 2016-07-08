@@ -34,9 +34,11 @@ namespace ContextMenu {
     private items: Item[] = [];
     private focused: Item;
     protected variablePool: VariablePool<string | boolean>;
+    className = HtmlClasses['CONTEXTMENU'];
+    role = 'menu';
 
     constructor() {
-      super(HtmlClasses['CONTEXTMENU'], 'menu');
+      super();
     }
 
     /**
@@ -84,6 +86,23 @@ namespace ContextMenu {
       if (!this.focused) {
         this.focused = this.items[0];
       }
+    }
+
+    /**
+     * @override
+     */
+    generateHtml() {
+      super.generateHtml();
+      let html = this.getHtml();
+      html.classList.add(HtmlClasses['MENU']);
+    }
+   
+    public post(x: number, y: number): void {
+      let html = this.getHtml();
+      for (let i = 0, item: Item; item = this.items[i]; i++) {
+        html.appendChild(item.getHtml());
+      }
+      html.setAttribute('style', 'left: ' + x + 'px; top: ' + y + 'px;');
     }
 
   }

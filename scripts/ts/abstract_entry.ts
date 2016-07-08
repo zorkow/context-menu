@@ -23,16 +23,18 @@
  */
 
 /// <reference path="entry.ts" />
+/// <reference path="menu_element.ts" />
 
 
 namespace ContextMenu {
 
-  export class AbstractEntry implements Entry {
+  export class AbstractEntry extends MenuElement implements Entry {
     private menu: Menu;
-    private role: string = 'menuitem';
     private type: string = 'entry';
-    private html: Element;
 
+    className = HtmlClasses['MENUITEM'];
+    role = 'menuitem';
+  
     /**
      * @constructor
      * @implements {Entry}
@@ -40,10 +42,11 @@ namespace ContextMenu {
      * @param {string} type The type of the entry.
      */
     constructor(menu: Menu, type: string) {
+      super();
       this.menu = menu;
       this.type = type;
     }
-
+    
     /**
      * @return {Menu} The context menu or sub-menu the entry belongs to.
      */
@@ -79,12 +82,6 @@ namespace ContextMenu {
       return this.type;
     }
 
-    /**
-     * @return {Element} The HTML element associated with this entry.
-     */
-    getHtml() {
-      return this.html;
-    }
   }
 
 }

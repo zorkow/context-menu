@@ -28,33 +28,64 @@ namespace ContextMenu {
 
   export class Radio extends AbstractItem {
 
+    role = 'menuitemradio';
+
     /**
      * The state variable. Initially set false.
-     * @type {boolean}
+     * @type {Variable}
      */
-    //// TODO: This is probably the name of a variable held by the menu
-    //// globally.
-    private variable: boolean = false;
+    private variable: Variable<string>;
+    private span: HTMLElement;
 
     /**
      * @constructor
      * @extends {AbstractItem}
      * @param {Menu} menu The context menu or sub-menu the item belongs to.
      * @param {string} content The content of the menu item.
-     * @param {boolean} variable The variable that is changed.
+     * @param {string} variable The variable that is changed.
      * @param {string=} id Optionally the id of the menu item.
      */
-    constructor(menu: Menu, content: string, variable: boolean, id?: string) {
+    constructor(menu: Menu, content: string, variable: string, id?: string) {
       super(menu, 'radio', content, id);
-      this.variable = variable;
-      this.setRole('menuitemradio');
+      this.variable = <Variable<string>>menu.getPool().lookup(variable);
     }
 
     /**
      * @override
      */
     press() {
-      // this.variable = this.getContent();
+      let oldValue = this.variable.getValue();
+      if (oldValue === this.getId()) {
+        return;
+      }
+      this.variable.setValue(this.getId());
+      //// TODO: Remove tick from other element.
+    }
+
+   /**
+    * @override
+    */
+    generateHtml() {
+      super.generateHtml();
+      let html = this.getHtml();
+      this.span = document.createElement('span');
+      this.span.textContent = '\u2713';
+      this.span.classList.add(HtmlClasses['MENURADIOCHECK']);
+      html.appendChild(this.span);
+      this.updateAria();
+      this.updateSpan();
+    }
+
+    updateAria() {
+      this.getHtml().setAttribute(
+        'aria-checked',
+        this.variable.getValue() === this.getId() ? 'true' : 'false'
+      );
+    }
+
+    updateSpan() {
+      this.span.style.display =
+        this.variable.getValue() === this.getId() ? '' : 'none';
     }
 
   }

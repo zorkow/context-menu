@@ -27,7 +27,7 @@
 
 namespace ContextMenu {
 
-  export interface Item extends Entry {
+  export interface Item extends Entry, Element {
     getContent(): string;
     getId(): string;
     press(): void;

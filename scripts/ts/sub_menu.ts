@@ -30,14 +30,66 @@ namespace ContextMenu {
   export class SubMenu extends AbstractMenu {
 
     private anchor: Submenu;
+    private baseMenu: ContextMenu;
 
     constructor(anchor: Submenu) {
       super();
       this.anchor = anchor;
+      this.variablePool = this.anchor.getMenu().getPool();
+      this.getBaseMenu();
     }
 
-    getAnchor(): Submenu {
+    public getAnchor(): Submenu {
       return this.anchor;
+    }
+
+    getBaseMenu() {
+      let menu: Menu;
+      do {
+        menu = this.anchor.getMenu();
+      } while (typeof menu === 'SubMenu');
+      this.baseMenu = <ContextMenu>menu;
+    }
+
+    post(x: number, y: number) {
+      //// TODO: Insert a posted flag
+
+      //// TODO: These are currently ignored!
+      let mobileFlag = false;
+      let rtlFlag = false;
+
+      let margin = 5;
+      let parent = this.anchor.getHtml();
+      let menu = this.getHtml();
+      let base = this.baseMenu.getFrame();
+      let side = 'left', mw = parent.offsetWidth;
+      x = (mobileFlag ? 30 : mw - 2); y = 0;
+      while (parent && parent !== base) {
+        x += parent.offsetLeft;
+        y += parent.offsetTop;
+        parent = <HTMLElement>parent.parentNode;
+      }
+      if (!mobileFlag) {
+        if ((rtlFlag && x - mw - menu.offsetWidth > margin) ||
+            (!rtlFlag && x + menu.offsetWidth >
+             document.body.offsetWidth - margin)) {
+          side = 'right';
+          x = Math.max(margin, x - mw - menu.offsetWidth + 6);
+        }
+      }
+
+      // Is the following useful?
+      // 
+      // if (!isPC) {
+      //   // in case these ever get implemented
+      //   menu.style["borderRadiusTop"+side] = 0;       // Opera 10.5
+      //   menu.style["WebkitBorderRadiusTop"+side] = 0; // Safari and Chrome
+      //   menu.style["MozBorderRadiusTop"+side] = 0;    // Firefox
+      //   menu.style["KhtmlBorderRadiusTop"+side] = 0;  // Konqueror
+      // }
+
+      super.post(x, y);
+      this.baseMenu.getFrame().appendChild(this.getHtml());
     }
 
   }

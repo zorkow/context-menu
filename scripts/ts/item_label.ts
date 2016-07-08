@@ -39,5 +39,14 @@ namespace ContextMenu {
       super(menu, 'label', content, id);
     }
 
+   /**
+    * @override
+    */
+    generateHtml() {
+      super.generateHtml();
+      let html = this.getHtml();
+      html.classList.add(HtmlClasses['MENULABEL']);
+    }
+
   }
 }

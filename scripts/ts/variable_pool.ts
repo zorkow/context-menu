@@ -45,11 +45,10 @@ namespace ContextMenu {
      * Lookup a variable in the pool. Returns undefined if the variable does not
      * exist.
      * @param {string} name The name of the variable.
-     * @return {?T} The value of the variable.
+     * @return {?Variable<T>} The variable if it is in the pool.
      */
     lookup(name: string) {
-      let variable = this.pool[name];
-      return variable ? variable.getValue() : variable;
+      return this.pool[name];
     }
 
 

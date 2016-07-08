@@ -42,10 +42,10 @@
 //
 namespace ContextMenu {
 
-  let MENU: ContextMenu;
-  let MENU_STACK: ContextMenu[] = [];
+  let MENU: Menu;
+  let MENU_STACK: Menu[] = [];
 
-  export function parse(json: any): ContextMenu {
+  export function parse(json: any): Menu {
     // Assume we have one menu at the moment.
     if (!json['menu']) {
       return;
@@ -88,7 +88,7 @@ namespace ContextMenu {
     let submenu = new Submenu(MENU, item.content, item.id);
     MENU_STACK.unshift(MENU);
     MENU = new SubMenu(submenu);
-    submenu.setSubmenu(parseMenu_(item));
+    submenu.setSubmenu(<SubMenu>parseMenu_(item));
     MENU = MENU_STACK.shift();
     return submenu;
   }
