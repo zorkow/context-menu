@@ -73,8 +73,8 @@ namespace ContextMenu {
      * @override
      */
     mouseover(event: MouseEvent) {
+      this.focus();
       if (!this.submenu.isPosted()) {
-        this.focus();
         this.submenu.post(0, 0);
       }
       this.stop(event);
@@ -93,6 +93,8 @@ namespace ContextMenu {
         this.getMenu().unpostSubmenus();
         return;
       }
+      this.getHtml().setAttribute('tabindex', '-1');
+      this.getHtml().blur();
     }
 
     /**
