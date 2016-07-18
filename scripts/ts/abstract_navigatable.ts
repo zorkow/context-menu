@@ -23,10 +23,11 @@
  */
 
 /// <reference path="navigatable.ts" />
+/// <reference path="mouse_navigatable.ts" />
 
 namespace ContextMenu {
 
-  export class AbstractNavigatable implements Navigatable {
+  export class AbstractNavigatable implements Navigatable, MouseNavigatable {
 
     /**
      * @override
@@ -93,12 +94,57 @@ namespace ContextMenu {
      * Stops event propagation and bubbling.
      * @param {Event} event The keyboard event that fired.
      */
-    private stop(event: Event): void {
+    protected stop(event: Event): void {
       if (event) {
         event.stopPropagation();
         event.cancelBubble = true;
       }
     };
+
+
+    /**
+     * @override
+     */
+    mousedown(event: MouseEvent): void {
+      return this.stop(event);
+    }
+
+    /**
+     * @override
+     */
+    mouseup(event: MouseEvent): void {
+      return this.stop(event);
+    }
+
+    /**
+     * @override
+     */
+    mouseover(event: MouseEvent): void {
+      return this.stop(event);
+    }
+
+    /**
+     * @override
+     */
+    mouseout(event: MouseEvent): void {
+      return this.stop(event);
+    }
+
+    /**
+     * @override
+     */
+    click(event: MouseEvent): void {
+      return this.stop(event);
+    }
+
+    public addEvents(element: HTMLElement): void {
+      element.addEventListener(MOUSE.DOWN, this.mousedown.bind(this));
+      element.addEventListener(MOUSE.UP, this.mouseup.bind(this));
+      element.addEventListener(MOUSE.OVER, this.mouseover.bind(this));
+      element.addEventListener(MOUSE.OUT, this.mouseout.bind(this));
+      element.addEventListener(MOUSE.CLICK, this.click.bind(this));
+      element.addEventListener('keydown', this.keydown.bind(this));
+    }
   }
 
 }

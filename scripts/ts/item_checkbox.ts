@@ -91,9 +91,7 @@ namespace ContextMenu {
      * @override
      */
     update() {
-      console.log(this.variable.getValue());
       let disp = this.variable.getValue() ? '' : 'none';
-      console.log(disp);
       this.span.style.display = this.variable.getValue() ? '' : 'none';
     }
 

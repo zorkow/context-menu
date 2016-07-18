@@ -31,6 +31,8 @@ namespace ContextMenu {
     getContent(): string;
     getId(): string;
     press(): void;
+    focus(): void;
+    unfocus(): void;
   }
 
 }

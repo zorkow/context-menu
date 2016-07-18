@@ -72,9 +72,34 @@ namespace ContextMenu {
     /**
      * @override
      */
+    mouseover(event: MouseEvent) {
+      if (!this.submenu.isPosted()) {
+        this.focus();
+        this.submenu.post(0, 0);
+      }
+      this.stop(event);
+    }
+
+    /**
+     * @override
+     */
+    unfocus() {
+      if (!this.submenu.isPosted()) {
+        super.unfocus();
+        return;
+      }
+      if (this.getMenu().getFocused() !== this) {
+        super.unfocus();
+        this.getMenu().unpostSubmenus();
+        return;
+      }
+    }
+
+    /**
+     * @override
+     */
     press() {
-      let html = this.getHtml();
-      this.submenu.post(0, 0);
+      this.submenu.isPosted() ? this.submenu.unpost() : this.submenu.post(0, 0);
     }
 
    /**

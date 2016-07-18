@@ -33,7 +33,8 @@ namespace ContextMenu {
     private html: HTMLElement;
     protected role: string;
     protected className: HtmlClass;
-
+    
+    
     constructor() {
       super();
     }
@@ -59,6 +60,7 @@ namespace ContextMenu {
      */
     setHtml(html: HTMLElement) {
       this.html = html;
+      this.addEvents(html);
     }
 
     /**
@@ -66,9 +68,22 @@ namespace ContextMenu {
      */
     generateHtml() {
       //// TODO: Make this DOM independent!
-      this.html = document.createElement('div');
-      this.html.classList.add(this.className);
-      this.html.setAttribute('role', this.role);
+      let html = document.createElement('div');
+      html.classList.add(this.className);
+      html.setAttribute('role', this.role);
+      this.setHtml(html);
+    }
+
+    focus() {
+      let html = this.getHtml();
+      html.setAttribute('tabindex', '0');
+      html.focus();
+    }
+
+    unfocus() {
+      let html = this.getHtml();
+      html.setAttribute('tabindex', '-1');
+      html.blur();
     }
 
   }

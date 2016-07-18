@@ -37,7 +37,6 @@ namespace ContextMenu {
      */
     export function parse(json: Object): Menu {
       let menu = new ContextMenu();
-      console.log('Parsing Menu');
       return menu;
     }
 
@@ -47,7 +46,6 @@ namespace ContextMenu {
      * @return {Object} A JSON version of the menu.
      */
     export function jsonify(menu: Menu): Object {
-      console.log('Parsing Menu');
       return {};
     }
 

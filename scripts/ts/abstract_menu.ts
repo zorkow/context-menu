@@ -67,7 +67,15 @@ namespace ContextMenu {
      * @override
      */
     setFocused(item: Item) {
+      if (this.focused === item) {
+        return;
+      }
+      // Order here is important for test in submenu.unfocus.
+      let old = this.focused;
       this.focused = item;
+      if (old) {
+        old.unfocus();
+      }
     }
 
     /**
@@ -97,7 +105,6 @@ namespace ContextMenu {
       let html = this.getHtml();
       html.classList.add(HtmlClasses['MENU']);
       for (let i = 0, item: Item; item = this.items[i]; i++) {
-        console.log('adding item');
         html.appendChild(item.getHtml());
       }
     }
@@ -133,6 +140,9 @@ namespace ContextMenu {
         <Submenu[]>this.items.filter(x => x instanceof Submenu);
       for (let i = 0, submenu: Submenu; submenu = submenus[i]; i++) {
         submenu.getSubmenu().unpost();
+        if (<Item>submenu !== this.getFocused()) {
+          submenu.unfocus();
+        }
       }
     }
 
@@ -144,7 +154,7 @@ namespace ContextMenu {
       if (!this.posted) {
         return;
       }
-      this.unpostSubmenus();
+      this.setFocused(null);
       let html = this.getHtml();
       html.parentNode.removeChild(html);
       this.posted = false;

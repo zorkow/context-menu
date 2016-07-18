@@ -63,8 +63,32 @@ namespace ContextMenu {
    /**
     * Pressing the menu item.
     */
-    press() { };
+    press() { }
 
+
+    /**
+     * @override
+     */
+    mousedown(event: MouseEvent) {
+      this.press();
+      this.stop(event);
+    }
+
+    /**
+     * @override
+     */
+    mouseover(event: MouseEvent) {
+      this.focus();
+      this.stop(event);
+    }
+
+    /**
+     * @override
+     */
+    mouseout(event: MouseEvent) {
+      this.unfocus();
+      this.stop(event);
+    }
 
    /**
     * @override
@@ -74,6 +98,25 @@ namespace ContextMenu {
       let html = this.getHtml();
       html.setAttribute('aria-disabled', 'false');
       html.textContent = this.content;
+    }
+
+    /**
+     * @override
+     */
+    focus() {
+      this.getMenu().setFocused(this);
+      super.focus();
+      let html = this.getHtml();
+      html.classList.add(HtmlClasses['MENUACTIVE']);
+    }
+
+    /**
+     * @override
+     */
+    unfocus() {
+      let html = this.getHtml();
+      html.classList.remove(HtmlClasses['MENUACTIVE']);
+      super.unfocus();
     }
 
   }

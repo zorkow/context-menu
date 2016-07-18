@@ -58,8 +58,6 @@ namespace ContextMenu {
      */
     press() {
       let oldValue = this.variable.getValue();
-      console.log(oldValue);
-      console.log(this.getId());
       if (oldValue === this.getId()) {
         return;
       }
@@ -109,7 +107,6 @@ namespace ContextMenu {
     }
 
     updateSpan() {
-      console.log(this.getId());
       this.span.style.display =
         this.variable.getValue() === this.getId() ? '' : 'none';
     }

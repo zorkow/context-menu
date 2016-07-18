@@ -55,6 +55,7 @@ namespace ContextMenu {
       let innerDiv = document.createElement('div');
       innerDiv.setAttribute('style', 'position: fixed; ' + styleString);
       this.frame.appendChild(innerDiv);
+      this.frame.addEventListener('mousedown', this.unpost.bind(this));
     }
 
     public getFrame(): HTMLElement {
@@ -67,6 +68,9 @@ namespace ContextMenu {
     }
 
     unpost() {
+      if (!this.isPosted()) {
+        return;
+      }
       super.unpost();
       this.frame.parentNode.removeChild(this.frame);
     }

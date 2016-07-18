@@ -62,20 +62,6 @@ namespace ContextMenu {
     }
 
     /**
-     * @return {string} The ARIA role of the menu entry.
-     */
-    getRole() {
-      return this.role;
-    }
-
-    /**
-     * @param {string} role The ARIA role of the menu entry.
-     */
-    setRole(role: string) {
-      this.role = role;
-    }
-
-    /**
      * @return {string} The type of the menu entry, used for jsonification.
      */
     getType() {
