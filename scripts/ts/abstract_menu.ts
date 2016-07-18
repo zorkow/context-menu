@@ -29,13 +29,14 @@
 
 namespace ContextMenu {
 
-  export class AbstractMenu extends MenuElement implements Menu {
+  export abstract class AbstractMenu extends MenuElement implements Menu {
 
     private items: Item[] = [];
     private focused: Item;
     protected variablePool: VariablePool<string | boolean>;
     className = HtmlClasses['CONTEXTMENU'];
     role = 'menu';
+    private posted = false;
 
     constructor() {
       super();
@@ -95,14 +96,43 @@ namespace ContextMenu {
       super.generateHtml();
       let html = this.getHtml();
       html.classList.add(HtmlClasses['MENU']);
-    }
-   
-    public post(x: number, y: number): void {
-      let html = this.getHtml();
       for (let i = 0, item: Item; item = this.items[i]; i++) {
+        console.log('adding item');
         html.appendChild(item.getHtml());
       }
-      html.setAttribute('style', 'left: ' + x + 'px; top: ' + y + 'px;');
+    }
+
+    /**
+     * @override
+     */
+    isPosted() {
+      return this.posted;
+    }
+
+    public post(x: number, y: number): void {
+      if (this.posted) {
+        return;
+      }
+      this.getHtml().setAttribute(
+          'style', 'left: ' + x + 'px; top: ' + y + 'px;');
+      this.display();
+      this.posted = true;
+    }
+
+    protected abstract display(): void;
+
+    public unpost(): void {
+      if (!this.posted) {
+        return;
+      }
+      let submenus =
+        <Submenu[]>this.items.filter(x => x instanceof Submenu);
+      for (let i = 0, submenu: Submenu; submenu = submenus[i]; i++) {
+        submenu.getSubmenu().unpost();
+      }
+      let html = this.getHtml();
+      html.parentNode.removeChild(html);
+      this.posted = false;
     }
 
   }

@@ -53,6 +53,15 @@ namespace ContextMenu {
      */
     getPool(): VariablePool<string | boolean>;
 
+    /**
+     * @return {boolean} True if menu is posted in the page.
+     */
+    isPosted(): boolean;
+
+    // post(): void;
+
+    unpost(): void;
+
   }
 
 }

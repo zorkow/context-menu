@@ -1,13 +1,13 @@
 /*************************************************************
  *
  *  Copyright (c) 2015-2016 The MathJax Consortium
- * 
+ *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -44,15 +44,18 @@ namespace ContextMenu {
     }
 
     getBaseMenu() {
-      let menu: Menu;
+      //// TODO: Make this type safer!
+      let menu: any = this;
       do {
-        menu = this.anchor.getMenu();
-      } while (typeof menu === 'SubMenu');
+        menu = menu.anchor.getMenu();
+      } while (menu instanceof SubMenu);
       this.baseMenu = <ContextMenu>menu;
     }
 
     post(x: number, y: number) {
-      //// TODO: Insert a posted flag
+      if (!this.anchor.getMenu().isPosted()) {
+        return;
+      }
 
       //// TODO: These are currently ignored!
       let mobileFlag = false;
@@ -79,7 +82,7 @@ namespace ContextMenu {
       }
 
       // Is the following useful?
-      // 
+      //
       // if (!isPC) {
       //   // in case these ever get implemented
       //   menu.style["borderRadiusTop"+side] = 0;       // Opera 10.5
@@ -89,6 +92,9 @@ namespace ContextMenu {
       // }
 
       super.post(x, y);
+    }
+
+    display() {
       this.baseMenu.getFrame().appendChild(this.getHtml());
     }
 
