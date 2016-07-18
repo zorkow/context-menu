@@ -29,3 +29,5 @@ Let's keep things simple:
 
 * Some Typescript things:
 ** Return types can be omitted in method implementation if they are given in the interface specification.
+** Getting around the this problem in callbacks:
+   https://github.com/Microsoft/TypeScript/wiki/'this'-in-TypeScript

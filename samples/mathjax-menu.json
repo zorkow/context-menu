@@ -186,7 +186,24 @@
            }      
        ]
        }
+      },
+
+
+
+
+
+      {"type": "rule"},
+      {"type": "command",
+       "id": "About",
+       "content": "About MathJax",
+       "command": MENU.About
+      },
+      {"type": "command",
+       "id": "Help",
+       "content": "MathJax Help",
+       "command": MENU.Help
       }
+      
   ]
  }
 }
