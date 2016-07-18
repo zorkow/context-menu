@@ -24,6 +24,7 @@
 
 
 /// <reference path="abstract_item.ts" />
+/// <reference path="menu_util.ts" />
 /// <reference path="variable_item.ts" />
 
 namespace ContextMenu {
@@ -62,6 +63,8 @@ namespace ContextMenu {
         return;
       }
       this.variable.setValue(this.getId());
+      //// TODO: Do we really want this behaviour on non-command elements.
+      MenuUtil.close(this);
     }
 
    /**

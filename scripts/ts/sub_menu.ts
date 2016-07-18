@@ -30,7 +30,7 @@ namespace ContextMenu {
   export class SubMenu extends AbstractMenu {
 
     private anchor: Submenu;
-    private baseMenu: ContextMenu;
+    public baseMenu: ContextMenu;
 
     constructor(anchor: Submenu) {
       super();

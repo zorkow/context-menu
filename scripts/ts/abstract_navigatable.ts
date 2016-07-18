@@ -33,6 +33,7 @@ namespace ContextMenu {
      * @override
      */
     keydown(event: KeyboardEvent): void {
+      console.log('Keydown event!');
       switch (event.keyCode) {
       case KEY.ESCAPE:
         this.escape(event);

@@ -23,6 +23,7 @@
  */
 
 /// <reference path="abstract_item.ts" />
+/// <reference path="menu_util.ts" />
 /// <reference path="variable.ts" />
 /// <reference path="variable_item.ts" />
 
@@ -58,6 +59,8 @@ namespace ContextMenu {
      */
     press() {
       this.variable.setValue(!this.variable.getValue());
+      //// TODO: Do we really want this behaviour on non-command elements.
+      MenuUtil.close(this);
     }
 
    /**

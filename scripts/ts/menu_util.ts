@@ -23,7 +23,9 @@
  */
 
 /// <reference path="context_menu.ts" />
+/// <reference path="item.ts" />
 /// <reference path="menu.ts" />
+/// <reference path="sub_menu.ts" />
 
 
 namespace ContextMenu {
@@ -47,6 +49,19 @@ namespace ContextMenu {
      */
     export function jsonify(menu: Menu): Object {
       return {};
+    }
+
+    /**
+     * Closes the entire context menu.
+     * @param {Item} item The item on which the menu close is called.
+     */
+    export function close(item: Item): void {
+      let menu = item.getMenu();
+      if (menu instanceof SubMenu) {
+        menu.baseMenu.unpost();
+      } else {
+        menu.unpost();
+      }
     }
 
   }

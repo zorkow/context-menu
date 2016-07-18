@@ -23,6 +23,7 @@
  */
 
 /// <reference path="abstract_item.ts" />
+/// <reference path="menu_util.ts" />
 
 namespace ContextMenu {
 
@@ -50,6 +51,7 @@ namespace ContextMenu {
      */
     press() {
       this.command();
+      MenuUtil.close(this);
     }
 
   }
