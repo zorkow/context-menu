@@ -22,11 +22,13 @@
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
+
 /// <reference path="abstract_item.ts" />
+/// <reference path="variable_item.ts" />
 
 namespace ContextMenu {
 
-  export class Radio extends AbstractItem {
+  export class Radio extends AbstractItem implements VariableItem {
 
     role = 'menuitemradio';
 
@@ -48,6 +50,7 @@ namespace ContextMenu {
     constructor(menu: Menu, content: string, variable: string, id?: string) {
       super(menu, 'radio', content, id);
       this.variable = <Variable<string>>menu.getPool().lookup(variable);
+      this.register();
     }
 
     /**
@@ -55,11 +58,12 @@ namespace ContextMenu {
      */
     press() {
       let oldValue = this.variable.getValue();
+      console.log(oldValue);
+      console.log(this.getId());
       if (oldValue === this.getId()) {
         return;
       }
       this.variable.setValue(this.getId());
-      //// TODO: Remove tick from other element.
     }
 
    /**
@@ -72,6 +76,27 @@ namespace ContextMenu {
       this.span.textContent = '\u2713';
       this.span.classList.add(HtmlClasses['MENURADIOCHECK']);
       html.appendChild(this.span);
+      this.update();
+    }
+
+    /**
+     * @override
+     */
+    register() {
+      this.variable.register(this);
+    }
+
+    /**
+     * @override
+     */
+    unregister() {
+      this.variable.unregister(this);
+    }
+
+    /**
+     * @override
+     */
+    update() {
       this.updateAria();
       this.updateSpan();
     }
@@ -84,6 +109,7 @@ namespace ContextMenu {
     }
 
     updateSpan() {
+      console.log(this.getId());
       this.span.style.display =
         this.variable.getValue() === this.getId() ? '' : 'none';
     }

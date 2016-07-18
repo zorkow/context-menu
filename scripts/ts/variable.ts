@@ -24,6 +24,8 @@
  */
 
 
+/// <reference path="variable_item.ts" />
+
 namespace ContextMenu {
 
   export class Variable<T> {
@@ -31,6 +33,7 @@ namespace ContextMenu {
     private name: string = '';
     private value: T;
     private callback: (x: T) => void;
+    private items: VariableItem[] = [];
 
 
     /**
@@ -72,8 +75,40 @@ namespace ContextMenu {
         return;
       }
       this.value = value;
+      //// TODO: Embed this in a try catch.
       this.callback(value);
+      this.update();
     };
+
+
+    /**
+     * Registers a new item that has this variable.
+     * @param {VariableItem} item The new variable item.
+     */
+    register(item: VariableItem): void {
+      if (this.items.indexOf(item) === -1) {
+        this.items.push(item);
+      }
+    }
+
+
+    /**
+     * Unregisters an item for this variable.
+     * @param {VariableItem} item The old variable item.
+     */
+    unregister(item: VariableItem): void {
+      let index = this.items.indexOf(item);
+      if (index !== -1) {
+        this.items.splice(index, 1);
+      }
+    }
+
+    /**
+     * Updates the items belonging to the variable.
+     */
+    update(): void {
+      this.items.forEach(x => x.update());
+    }
 
   }
 }

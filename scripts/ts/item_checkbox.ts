@@ -24,10 +24,11 @@
 
 /// <reference path="abstract_item.ts" />
 /// <reference path="variable.ts" />
+/// <reference path="variable_item.ts" />
 
 namespace ContextMenu {
 
-  export class Checkbox extends AbstractItem {
+  export class Checkbox extends AbstractItem implements VariableItem {
 
     role = 'menuitemcheckbox';
 
@@ -35,8 +36,6 @@ namespace ContextMenu {
      * The state variable. Initially set false.
      * @type {boolean}
      */
-    //// TODO: This is probably the name of a variable held by the menu
-    //// globally.
     private variable: Variable<boolean>;
     private span: HTMLElement;
 
@@ -51,6 +50,7 @@ namespace ContextMenu {
     constructor(menu: Menu, content: string, variable: string, id?: string) {
       super(menu, 'checkbox', content, id);
       this.variable = <Variable<boolean>>menu.getPool().lookup(variable);
+      this.register();
     }
 
     /**
@@ -58,7 +58,6 @@ namespace ContextMenu {
      */
     press() {
       this.variable.setValue(!this.variable.getValue());
-      this.updateSpan();
     }
 
    /**
@@ -71,10 +70,30 @@ namespace ContextMenu {
       this.span.textContent = '\u2713';
       this.span.classList.add(HtmlClasses['MENUCHECK']);
       html.appendChild(this.span);
-      this.updateSpan();
+      this.update();
     }
 
-    updateSpan() {
+    /**
+     * @override
+     */
+    register() {
+      this.variable.register(this);
+    }
+
+    /**
+     * @override
+     */
+    unregister() {
+      this.variable.unregister(this);
+    }
+
+    /**
+     * @override
+     */
+    update() {
+      console.log(this.variable.getValue());
+      let disp = this.variable.getValue() ? '' : 'none';
+      console.log(disp);
       this.span.style.display = this.variable.getValue() ? '' : 'none';
     }
 
