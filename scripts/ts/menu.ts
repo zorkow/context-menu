@@ -58,10 +58,20 @@ namespace ContextMenu {
      */
     isPosted(): boolean;
 
-    // post(): void;
+    /**
+     * Posts the menu at the given coordinates.
+     */
+    post(x: number, y: number): void;
 
+    /**
+     * Unposts the menu.
+     */
     unpost(): void;
 
+    /**
+     * Unposts all submenus of this menu.
+     */
+    unpostSubmenus(): void;
   }
 
 }

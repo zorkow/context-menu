@@ -109,7 +109,11 @@ namespace ContextMenu {
       return this.posted;
     }
 
-    public post(x: number, y: number): void {
+
+    /**
+     * @override
+     */
+    post(x: number, y: number) {
       if (this.posted) {
         return;
       }
@@ -121,15 +125,26 @@ namespace ContextMenu {
 
     protected abstract display(): void;
 
-    public unpost(): void {
-      if (!this.posted) {
-        return;
-      }
+    /**
+     * @override
+     */
+    unpostSubmenus(): void {
       let submenus =
         <Submenu[]>this.items.filter(x => x instanceof Submenu);
       for (let i = 0, submenu: Submenu; submenu = submenus[i]; i++) {
         submenu.getSubmenu().unpost();
       }
+    }
+
+
+    /**
+     * @override
+     */
+    unpost(): void {
+      if (!this.posted) {
+        return;
+      }
+      this.unpostSubmenus();
       let html = this.getHtml();
       html.parentNode.removeChild(html);
       this.posted = false;

@@ -56,7 +56,8 @@ namespace ContextMenu {
       if (!this.anchor.getMenu().isPosted()) {
         return;
       }
-
+      this.anchor.getMenu().unpostSubmenus();
+      
       //// TODO: These are currently ignored!
       let mobileFlag = false;
       let rtlFlag = false;

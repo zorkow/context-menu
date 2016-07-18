@@ -27,6 +27,7 @@ namespace ContextMenu {
 
   export interface VariableItem {
 
+    //// TODO: Add level of abstraction for items with variable dependency.
     /**
      * Registers item with variable.
      */

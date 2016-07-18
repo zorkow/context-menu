@@ -66,6 +66,11 @@ namespace ContextMenu {
       this.frame.appendChild(this.getHtml());
     }
 
+    unpost() {
+      super.unpost();
+      this.frame.parentNode.removeChild(this.frame);
+    }
+
   }
 
 }
