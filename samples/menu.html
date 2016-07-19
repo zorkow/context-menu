@@ -3,72 +3,236 @@
 <title>Testing the context menu</title>
 </head>
 <script src="../scripts/js/context_menu.js"></script>
+<script>
+var MENU = {};
+MENU.ShowSource = function() {};
+MENU.isMac = function() {};
+MENU.Zoom = function() {};
+MENU.Id = function(x) {return x};
+var ll = {"menu":
+ {"pool": [
+     {
+         "name": "zoom",
+         "value": "NoZoom",
+         "action": MENU.Zoom
+     },
+     {
+         "name": "zscale",
+         "value": "100%",
+         "action": MENU.Zoom
+     },
+     {
+         "name": "texHints",
+         "value": false,
+         "action": MENU.Id
+     },
+     {
+         "name": "semantics",
+         "value": false,
+         "action": MENU.Id
+     },
+     {
+         "name": "ALT",
+         "value": false,
+         "action": MENU.Id
+     },
+     {
+         "name": "CMD",
+         "value": false,
+         "action": MENU.Id
+     },
+     {
+         "name": "CTRL",
+         "value": false,
+         "action": MENU.Id
+     },
+     {
+         "name": "Shift",
+         "value": false,
+         "action": MENU.Id
+     }
+ ],
+  "items":
+  [
+      {"type": "submenu",
+       "id": "Show",
+       "content": "Show Math As",
+       "menu": {
+           "items" : [
+               {"type": "command",
+                "id": "MathMLcode",
+                "content": "MathML Code",
+                "action": MENU.ShowSource
+               },
+               {"type": "command",
+                "id": "Original",
+                "content": "Original Form",
+                "action": MENU.ShowSource
+               },
+               {"type": "submenu",
+                "id": "Annotation",
+                "content": "Annotation",
+                "menu": {
+                    "items": []}
+               },
+               {"type": "rule"},
+               {"type": "checkbox",
+                "id": "texHints",
+                "content": "Show TeX hints in MathML",
+                "variable": "texHints"
+               },
+               {"type": "checkbox",
+                "id": "semantics",
+                "content": "Add original form as annotation",
+                "variable": "semantics"
+               }
+           ]
+       }
+      },
+      {"type": "rule"},
+      {"type": "submenu",
+       "id": "Settings",
+       "content": "Math Settings",
+       "menu": 
+       {"items" : [
+           {"type": "submenu",
+            "id": "ZoomTrigger",
+            "content": "Zoom Trigger",
+            "menu": {
+                "items": [
+                    {"type": "radio",
+                     "id": "Hover",
+                     "content": "Hover",
+                     "variable": "zoom"
+                    },
+                    {"type": "radio",
+                     "id": "Click",
+                     "content": "Click",
+                     "variable": "zoom"
+                    },
+                    {"type": "radio",
+                     "id": "DoubleClick",
+                     "content": "Double-Click",
+                     "variable": "zoom"
+                    },
+                    {"type": "radio",
+                     "id": "NoZoom",
+                     "content": "No Zoom",
+                     "variable": "zoom",
+                     "value": "None"
+                    },
+                    {"type": "rule"},
+                    {"type": "label",
+                     "id": "TriggerRequires",
+                     "content": "Trigger Requires:"
+                    },
+                    {"type": "checkbox",
+                     "id": "Option",
+                     "content": "Option",
+                     "variable": "ALT"
+                    },
+                    {"type": "checkbox",
+                     "id": "Command",
+                     "content": "Command",
+                     "variable": "CMD",
+                     "hidden": !MENU.isMac
+                    },
+                    {"type": "checkbox",
+                     "id": "Control",
+                     "content": "Control",
+                     "variable": "CTRL",
+                     "hidden":  MENU.isMac
+                    },
+                    {"type": "checkbox",
+                     "id": "Shift",
+                     "content": "Shift",
+                     "variable": "Shift"
+                    }
+                ]
+            }
+           },
+           {"type": "submenu",
+            "id": "ZoomFactor",
+            "content": "Zoom Factor",
+            "menu": {
+                "items": [
+                    {"type": "radio",
+                     "content": "100%",
+                     "variable": "zscale",
+                    },
+                    {"type": "radio",
+                     "content": "125%",
+                     "variable": "zscale",
+                    },
+                    {"type": "radio",
+                     "content": "133%",
+                     "variable": "zscale",
+                    },
+                    {"type": "radio",
+                     "content": "150%",
+                     "variable": "zscale",
+                    },
+                    {"type": "radio",
+                     "content": "175%",
+                     "variable": "zscale",
+                    },
+                    {"type": "radio",
+                     "content": "200%",
+                     "variable": "zscale",
+                    },
+                    {"type": "radio",
+                     "content": "250%",
+                     "variable": "zscale",
+                    },
+                    {"type": "radio",
+                     "content": "300%",
+                     "variable": "zscale",
+                    },
+                    {"type": "radio",
+                     "content": "400%",
+                     "variable": "zscale",
+                    }
+                ]
+            }
+           }      
+       ]
+       }
+      },
 
+
+
+
+
+      {"type": "rule"},
+      {"type": "command",
+       "id": "About",
+       "content": "About MathJax",
+       "command": MENU.About
+      },
+      {"type": "command",
+       "id": "Help",
+       "content": "MathJax Help",
+       "command": MENU.Help
+      }
+      
+  ]
+ }
+}
+;
+cc = ContextMenu.parse(ll); ContextMenu.CssStyles.addMenuStyles();
+
+
+// Unfold zoom menu:
+//cc.post(50,50);
+</script>
 <body>
 <h1>Testing the context menu</h1>
 
-<div id="CtxtMenu_MenuFrame" style="position: absolute; left: 0px; top: 0px; z-index: 200; width: 100%; height: 100%; border: 0px; padding: 0px; margin: 0px;">
-  <div style="position: fixed; left: 0px; top: 0px; z-index: 200; width: 100%; height: 100%; border: 0px; padding: 0px; margin: 0px;">
-  </div>
-  <div class="CtxtMenu_Menu CtxtMenu_ContextMenu" role="menu" tabindex="-1" style="width: 186px; left: 271px; top: 51px;">
-    <div class="CtxtMenu_MenuItem CtxtMenu_MenuActive" role="menuitem" aria-disabled="false" aria-haspopup="true" tabindex="0">Show Math As<span class="CtxtMenu_MenuArrow">&#x25BA;</span>
-    </div>
-    <div class="CtxtMenu_MenuItem CtxtMenu_MenuRule" role="separator" aria-orientation="vertical">
-    </div>
-    <div class="CtxtMenu_MenuItem" role="menuitem" aria-disabled="false" aria-haspopup="true" tabindex="-1">Math Settings <span class="CtxtMenu_MenuArrow">&#x25BA;</span>
-    </div>
-    <div class="CtxtMenu_MenuItem" role="menuitem" aria-disabled="false" aria-haspopup="true" tabindex="-1">Language <span class="CtxtMenu_MenuArrow">&#x25BA;</span>
-    </div>
-    <div class="CtxtMenu_MenuItem CtxtMenu_MenuRule" role="separator" aria-orientation="vertical">
-    </div>
-    <div class="CtxtMenu_MenuItem" role="menuitemcheckbox" aria-disabled="false" aria-checked="true" tabindex="-1">
-     Collapsible Math<span class="CtxtMenu_MenuCheck">&#x2713;</span></div>
-    <div class="CtxtMenu_MenuItem" role="menuitemcheckbox" aria-disabled="false" aria-checked="true" tabindex="-1">
-    <span class="CtxtMenu_MenuCheck">&#x2713;</span> Auto Collapse</div>
-    <div class="CtxtMenu_MenuItem" role="menuitem" aria-disabled="false" aria-haspopup="true" tabindex="-1">Explorer <span class="CtxtMenu_MenuArrow">&#x25BA;</span>
-    </div>
-    <div class="CtxtMenu_MenuItem CtxtMenu_MenuRule" role="separator" aria-orientation="vertical">
-    </div>
-    <div class="CtxtMenu_MenuItem CtxtMenu_MenuLabel" role="menuitem" aria-disabled="false" tabindex="-1">Trigger Requires:</div>
-    <div class="CtxtMenu_MenuItem" role="menuitem" aria-disabled="false">About MathJax</div>
-    <div class="CtxtMenu_MenuItem" role="menuitem" aria-disabled="false">MathJax Help</div>
-  </div>
-  <div class="CtxtMenu_Menu CtxtMenu_ContextMenu" role="menu" tabindex="-1" style="width: 289px; left: 455px; top: 56px;">
-    <div class="CtxtMenu_MenuItem" role="menuitem" aria-disabled="false">MathML Code</div>
-    <div class="CtxtMenu_MenuItem" role="menuitem" aria-disabled="false">TeX Commands</div>
-    <div class="CtxtMenu_MenuItem CtxtMenu_MenuDisabled" role="menuitem" aria-disabled="true" aria-haspopup="true">Annotation <span class="CtxtMenu_MenuArrow">&#x25BA;</span>
-    </div>
-    <div class="CtxtMenu_MenuItem CtxtMenu_MenuRule" role="separator" aria-orientation="vertical">
-    </div>
-    <div class="CtxtMenu_MenuItem" role="menuitemcheckbox" aria-disabled="false" aria-checked="true">
-    <span class="CtxtMenu_MenuCheck">&#x2713;</span> Show TeX hints in MathML</div>
-    <div class="CtxtMenu_MenuItem" role="menuitemcheckbox" aria-disabled="false" aria-checked="false">
-    <span style="display: none;">&#x2713;</span> Add original form as annotation</div>
-  </div>
-<div class="CtxtMenu_Menu CtxtMenu_ContextMenu" role="menu" tabindex="-1" style="width: 109px; left: 755px; top: 59px;">
-  <div class="CtxtMenu_MenuItem" role="menuitemradio" aria-disabled="false" aria-checked="false" tabindex="0">
-  <span style="display: none;">&#x2713;</span> 125%</div>
-  <div class="CtxtMenu_MenuItem" role="menuitemradio" aria-disabled="false" aria-checked="false" tabindex="-1">
-  <span style="display: none;">&#x2713;</span> 133%</div>
-  <div class="CtxtMenu_MenuItem" role="menuitemradio" aria-disabled="false" aria-checked="false">
-  <span style="display: none;">&#x2713;</span> 150%</div>
-  <div class="CtxtMenu_MenuItem" role="menuitemradio" aria-disabled="false" aria-checked="false">
-  <span style="display: none;">&#x2713;</span> 175%</div>
-  <div class="CtxtMenu_MenuItem" role="menuitemradio" aria-disabled="false" aria-checked="true">
-  <span class="CtxtMenu_MenuRadioCheck">&#x2713;</span> 200%</div>
-  <div class="CtxtMenu_MenuItem" role="menuitemradio" aria-disabled="false" aria-checked="false">
-  <span class="CtxtMenu_MenuRadioCheck" style="display: none;">&#x2713;</span> 250%</div>
-  <div class="CtxtMenu_MenuItem" role="menuitemradio" aria-disabled="false" aria-checked="false">
-  <span style="display: none;">&#x2713;</span> 300%</div>
-  <div class="CtxtMenu_MenuItem" role="menuitemradio" aria-disabled="false" aria-checked="false">
-  <span style="display: none;">&#x2713;</span> 400%</div>
-</div>
-</div>
-
+<button onclick=cc.post(50,50)>here</button>
 
 <hr>
 <address></address>
 <!-- hhmts start -->
-Last modified: Thu Jul  7 21:16:04 BST 2016
+Last modified: Tue Jul 19 00:25:18 BST 2016
 <!-- hhmts end -->
 </body> </html>

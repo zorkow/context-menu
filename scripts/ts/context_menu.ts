@@ -65,6 +65,11 @@ namespace ContextMenu {
     display() {
       document.body.appendChild(this.frame);
       this.frame.appendChild(this.getHtml());
+      this.focus();
+    }
+
+    escape(event: KeyboardEvent) {
+      this.unpost();
     }
 
     unpost() {

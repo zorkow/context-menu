@@ -119,6 +119,36 @@ namespace ContextMenu {
       super.unfocus();
     }
 
+    escape(event: KeyboardEvent) {
+      MenuUtil.close(this);
+    }
+    
+    up(event: KeyboardEvent) {
+      (<AbstractMenu>this.getMenu()).up(event);
+    }
+
+    down(event: KeyboardEvent) {
+      (<AbstractMenu>this.getMenu()).down(event);
+    }
+
+    //// TODO: RTL change of direction.
+    left(event: KeyboardEvent) {
+      if (this.getMenu() instanceof ContextMenu) {
+        return;
+      }
+      let menu = <SubMenu>this.getMenu();
+      menu.setFocused(null);
+      menu.getAnchor().focus();
+    }
+
+    right(event: KeyboardEvent) {
+      (<AbstractMenu>this.getMenu()).right(event);
+    }
+
+    space(event: KeyboardEvent): void {
+      this.press();
+    }
+    
   }
 
 }

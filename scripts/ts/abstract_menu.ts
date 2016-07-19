@@ -70,6 +70,9 @@ namespace ContextMenu {
       if (this.focused === item) {
         return;
       }
+      if (!this.focused) {
+        this.unfocus();
+      }
       // Order here is important for test in submenu.unfocus.
       let old = this.focused;
       this.focused = item;
@@ -82,21 +85,44 @@ namespace ContextMenu {
      * @override
      */
     up(event: KeyboardEvent): void {
-      if (!this.focused) {
-        this.focused = this.items[this.items.length - 1];
+      let items = this.getItems().filter(x => x instanceof AbstractItem);
+      if (items.length === 0) {
+        return;
       }
-      let index = this.items.indexOf(this.focused);
+      if (!this.focused) {
+        items[items.length - 1].focus();
+        return;
+      }
+      let index = items.indexOf(this.focused);
+      if (index === -1) {
+        return;
+      }
+      index = index ? --index : items.length - 1;
+      items[index].focus();
     }
 
     /**
      * @override
      */
     down(event: KeyboardEvent): void {
-      if (!this.focused) {
-        this.focused = this.items[0];
+      let items = this.getItems().filter(x => x instanceof AbstractItem);
+      if (items.length === 0) {
+        return;
       }
+      if (!this.focused) {
+        items[0].focus();
+        return;
+      }
+      let index = items.indexOf(this.focused);
+      if (index === -1) {
+        return;
+      }
+      index++;
+      index = (index === items.length) ? 0 : index;
+      items[index].focus();
     }
 
+    
     /**
      * @override
      */

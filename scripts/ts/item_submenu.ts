@@ -55,7 +55,7 @@ namespace ContextMenu {
 
     /**
      * Sets the submenu.
-     * @param {Menu} A menu.
+     * @param {Menu} menu A menu.
      */
     setSubmenu(menu: SubMenu) {
       this.submenu = menu;
@@ -74,9 +74,6 @@ namespace ContextMenu {
      */
     mouseover(event: MouseEvent) {
       this.focus();
-      if (!this.submenu.isPosted()) {
-        this.submenu.post(0, 0);
-      }
       this.stop(event);
     }
 
@@ -100,6 +97,17 @@ namespace ContextMenu {
     /**
      * @override
      */
+    focus() {
+      super.focus();
+      if (!this.submenu.isPosted()) {
+        this.submenu.post(0, 0);
+      }
+
+    }
+
+    /**
+     * @override
+     */
     press() {
       this.submenu.isPosted() ? this.submenu.unpost() : this.submenu.post(0, 0);
     }
@@ -115,6 +123,19 @@ namespace ContextMenu {
       this.span.classList.add(HtmlClasses['MENUARROW']);
       html.appendChild(this.span);
       html.setAttribute('aria-haspopup', 'true');
+    }
+
+
+    left(event: KeyboardEvent) {
+      if (this.getSubmenu().isPosted()) {
+        this.getSubmenu().unpost();
+      } else {
+        super.left(event);
+      }
+    }
+
+    right(event: KeyboardEvent) {
+      (<AbstractMenu>this.getSubmenu()).down(event);
     }
 
   }

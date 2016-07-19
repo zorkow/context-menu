@@ -74,6 +74,8 @@ namespace ContextMenu {
       this.setHtml(html);
     }
 
+
+    //// TODO: Save and restore old tabindex values.
     focus() {
       let html = this.getHtml();
       html.setAttribute('tabindex', '0');
@@ -82,7 +84,9 @@ namespace ContextMenu {
 
     unfocus() {
       let html = this.getHtml();
-      html.setAttribute('tabindex', '-1');
+      if (html.hasAttribute('tabindex')) {
+        html.setAttribute('tabindex', '-1');
+      }
       html.blur();
     }
 
