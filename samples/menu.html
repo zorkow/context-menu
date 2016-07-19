@@ -1,0 +1,238 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html> <head>
+<title>Testing the context menu</title>
+</head>
+<script src="../scripts/js/context_menu.js"></script>
+<script>
+var MENU = {};
+MENU.ShowSource = function() {};
+MENU.isMac = function() {};
+MENU.Zoom = function() {};
+MENU.Id = function(x) {return x};
+var ll = {"menu":
+ {"pool": [
+     {
+         "name": "zoom",
+         "value": "NoZoom",
+         "action": MENU.Zoom
+     },
+     {
+         "name": "zscale",
+         "value": "100%",
+         "action": MENU.Zoom
+     },
+     {
+         "name": "texHints",
+         "value": false,
+         "action": MENU.Id
+     },
+     {
+         "name": "semantics",
+         "value": false,
+         "action": MENU.Id
+     },
+     {
+         "name": "ALT",
+         "value": false,
+         "action": MENU.Id
+     },
+     {
+         "name": "CMD",
+         "value": false,
+         "action": MENU.Id
+     },
+     {
+         "name": "CTRL",
+         "value": false,
+         "action": MENU.Id
+     },
+     {
+         "name": "Shift",
+         "value": false,
+         "action": MENU.Id
+     }
+ ],
+  "items":
+  [
+      {"type": "submenu",
+       "id": "Show",
+       "content": "Show Math As",
+       "menu": {
+           "items" : [
+               {"type": "command",
+                "id": "MathMLcode",
+                "content": "MathML Code",
+                "action": MENU.ShowSource
+               },
+               {"type": "command",
+                "id": "Original",
+                "content": "Original Form",
+                "action": MENU.ShowSource
+               },
+               {"type": "submenu",
+                "id": "Annotation",
+                "content": "Annotation",
+                "menu": {
+                    "items": []}
+               },
+               {"type": "rule"},
+               {"type": "checkbox",
+                "id": "texHints",
+                "content": "Show TeX hints in MathML",
+                "variable": "texHints"
+               },
+               {"type": "checkbox",
+                "id": "semantics",
+                "content": "Add original form as annotation",
+                "variable": "semantics"
+               }
+           ]
+       }
+      },
+      {"type": "rule"},
+      {"type": "submenu",
+       "id": "Settings",
+       "content": "Math Settings",
+       "menu": 
+       {"items" : [
+           {"type": "submenu",
+            "id": "ZoomTrigger",
+            "content": "Zoom Trigger",
+            "menu": {
+                "items": [
+                    {"type": "radio",
+                     "id": "Hover",
+                     "content": "Hover",
+                     "variable": "zoom"
+                    },
+                    {"type": "radio",
+                     "id": "Click",
+                     "content": "Click",
+                     "variable": "zoom"
+                    },
+                    {"type": "radio",
+                     "id": "DoubleClick",
+                     "content": "Double-Click",
+                     "variable": "zoom"
+                    },
+                    {"type": "radio",
+                     "id": "NoZoom",
+                     "content": "No Zoom",
+                     "variable": "zoom",
+                     "value": "None"
+                    },
+                    {"type": "rule"},
+                    {"type": "label",
+                     "id": "TriggerRequires",
+                     "content": "Trigger Requires:"
+                    },
+                    {"type": "checkbox",
+                     "id": "Option",
+                     "content": "Option",
+                     "variable": "ALT"
+                    },
+                    {"type": "checkbox",
+                     "id": "Command",
+                     "content": "Command",
+                     "variable": "CMD",
+                     "hidden": !MENU.isMac
+                    },
+                    {"type": "checkbox",
+                     "id": "Control",
+                     "content": "Control",
+                     "variable": "CTRL",
+                     "hidden":  MENU.isMac
+                    },
+                    {"type": "checkbox",
+                     "id": "Shift",
+                     "content": "Shift",
+                     "variable": "Shift"
+                    }
+                ]
+            }
+           },
+           {"type": "submenu",
+            "id": "ZoomFactor",
+            "content": "Zoom Factor",
+            "menu": {
+                "items": [
+                    {"type": "radio",
+                     "content": "100%",
+                     "variable": "zscale",
+                    },
+                    {"type": "radio",
+                     "content": "125%",
+                     "variable": "zscale",
+                    },
+                    {"type": "radio",
+                     "content": "133%",
+                     "variable": "zscale",
+                    },
+                    {"type": "radio",
+                     "content": "150%",
+                     "variable": "zscale",
+                    },
+                    {"type": "radio",
+                     "content": "175%",
+                     "variable": "zscale",
+                    },
+                    {"type": "radio",
+                     "content": "200%",
+                     "variable": "zscale",
+                    },
+                    {"type": "radio",
+                     "content": "250%",
+                     "variable": "zscale",
+                    },
+                    {"type": "radio",
+                     "content": "300%",
+                     "variable": "zscale",
+                    },
+                    {"type": "radio",
+                     "content": "400%",
+                     "variable": "zscale",
+                    }
+                ]
+            }
+           }      
+       ]
+       }
+      },
+
+
+
+
+
+      {"type": "rule"},
+      {"type": "command",
+       "id": "About",
+       "content": "About MathJax",
+       "command": MENU.About
+      },
+      {"type": "command",
+       "id": "Help",
+       "content": "MathJax Help",
+       "command": MENU.Help
+      }
+      
+  ]
+ }
+}
+;
+cc = ContextMenu.parse(ll); ContextMenu.CssStyles.addMenuStyles();
+
+
+// Unfold zoom menu:
+//cc.post(50,50);
+</script>
+<body>
+<h1>Testing the context menu</h1>
+
+<button onclick=cc.post(50,50)>here</button>
+
+<hr>
+<address></address>
+<!-- hhmts start -->
+Last modified: Tue Jul 19 00:25:18 BST 2016
+<!-- hhmts end -->
+</body> </html>

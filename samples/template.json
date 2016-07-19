@@ -1,0 +1,59 @@
+{"menu":
+ {"pool": [
+   {"name": "",
+    "value": value,
+    "action": function
+ ],
+  "items": 
+  [
+    {"type": "",
+     "id": "",
+     "content": "",
+     "action": function,
+     "variable": variable,
+     "items": []
+    }
+  ]
+ }
+
+}
+
+
+
+{
+  "type": "checkbox",
+  "id": "",
+  "content": "",
+  "variable": variable,
+}
+
+{
+  "type": "command",
+  "id": "",
+  "content": "",
+  "action": function,
+}
+
+{
+  "type": "label",
+  "id": "",
+  "content": "",
+}
+
+{
+  "type": "radio",
+  "id": "",
+  "content": "",
+  "variable": variable,
+}
+
+{
+  "type": "rule",
+}
+
+{
+  "type": "submenu",
+  "id": "",
+  "content": "",
+  "items": []
+}

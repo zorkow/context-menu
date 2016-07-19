@@ -1,0 +1,33 @@
+Let's keep things simple:
+
+* Events
+  Provide one function to register the event(s) with an element.
+** Keyboard events
+** Mouse events
+** Touch events (to implement later)
+
+
+* Navigatable: Element with key events etc. Has an html element, role, class
+** Menu: Abstract class of Menus
+*** Context_Menu
+*** Sub_Menu
+** Entry: Abstract class of Menu Entries
+*** Item_Rule: Separator rule item (From entry)
+*** Item_Label: Command executing item (From entry)
+*** Item: Abstract class of items with mouse events
+**** Item_Command: Command executing item
+**** Item_Submenu: Submenu item
+**** Item_Radio: Radiobutton item
+**** Item_Checkbox:  checkbox 
+
+* Menu Structure in HTML
+** MenuFrame: Transparent element on the entire page to ensure menu can be closed.
+*** Outer div attached to the page.
+*** Inner div covering the entire page.
+** Menu: Basic element holding one entire context menu.
+** MenuItem: Single items in the context menu.
+
+* Some Typescript things:
+** Return types can be omitted in method implementation if they are given in the interface specification.
+** Getting around the this problem in callbacks:
+   https://github.com/Microsoft/TypeScript/wiki/'this'-in-TypeScript

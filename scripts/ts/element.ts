@@ -17,7 +17,7 @@
 
 
 /**
- * @fileoverview Singleton class for HTML class prefixes.
+ * @fileoverview Interface for handling HTML elements.
  *
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
@@ -25,33 +25,24 @@
 
 namespace ContextMenu {
 
-  export class ClassPrefix {
+  export interface Element  {
 
-    private static instance: ClassPrefix = new ClassPrefix();
-    private prefix: string = '';
+    /**
+     * Generates the DOM element if it does not yet exists and returns it.
+     * @return {HTMLElement} The HTML element associated with this entry.
+     */
+    getHtml(): HTMLElement;
 
-    constructor() {
-      if (ClassPrefix.instance) {
-        throw new Error('Error: Can not instantiate a singleton class!');
-      }
-      ClassPrefix.instance = this;
-    }
+    /**
+     * @param {HTMLElement} element Sets the HTML Element.
+     */
+    setHtml(element: HTMLElement): void;
 
-    static getInstance(): ClassPrefix {
-      return ClassPrefix.instance;
-    }
-
-    getPrefix(): string {
-      return this.prefix;
-    }
-
-    setPrefix(prefix: string): void {
-      this.prefix = prefix;
-    }
-
-    static addPrefix(className: string): string {
-      return ClassPrefix.getInstance().getPrefix() + '_' + className;
-    }
+    /**
+     * Forces generation of the actual DOM element.
+     */
+    generateHtml(): void;
 
   }
+
 }

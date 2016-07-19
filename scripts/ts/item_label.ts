@@ -17,40 +17,35 @@
 
 
 /**
- * @fileoverview Singleton class for HTML class prefixes.
+ * @fileoverview Class of separator items.
  *
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
+/// <reference path="abstract_item.ts" />
 
 namespace ContextMenu {
 
-  export class ClassPrefix {
+  export class Label extends AbstractItem {
 
-    private static instance: ClassPrefix = new ClassPrefix();
-    private prefix: string = '';
-
-    constructor() {
-      if (ClassPrefix.instance) {
-        throw new Error('Error: Can not instantiate a singleton class!');
-      }
-      ClassPrefix.instance = this;
+    /**
+     * @constructor
+     * @extends {AbstractItem}
+     * @param {Menu} menu The context menu or sub-menu the item belongs to.
+     * @param {string} content The content of the menu item.
+     * @param {string=} id Optionally the id of the menu item.
+     */
+    constructor(menu: Menu, content: string, id?: string) {
+      super(menu, 'label', content, id);
     }
 
-    static getInstance(): ClassPrefix {
-      return ClassPrefix.instance;
-    }
-
-    getPrefix(): string {
-      return this.prefix;
-    }
-
-    setPrefix(prefix: string): void {
-      this.prefix = prefix;
-    }
-
-    static addPrefix(className: string): string {
-      return ClassPrefix.getInstance().getPrefix() + '_' + className;
+   /**
+    * @override
+    */
+    generateHtml() {
+      super.generateHtml();
+      let html = this.getHtml();
+      html.classList.add(HtmlClasses['MENULABEL']);
     }
 
   }

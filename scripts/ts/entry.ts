@@ -17,41 +17,20 @@
 
 
 /**
- * @fileoverview Singleton class for HTML class prefixes.
+ * @fileoverview Interface specification for menu entries.
  *
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
+/// <reference path="menu.ts" />
 
 namespace ContextMenu {
 
-  export class ClassPrefix {
-
-    private static instance: ClassPrefix = new ClassPrefix();
-    private prefix: string = '';
-
-    constructor() {
-      if (ClassPrefix.instance) {
-        throw new Error('Error: Can not instantiate a singleton class!');
-      }
-      ClassPrefix.instance = this;
-    }
-
-    static getInstance(): ClassPrefix {
-      return ClassPrefix.instance;
-    }
-
-    getPrefix(): string {
-      return this.prefix;
-    }
-
-    setPrefix(prefix: string): void {
-      this.prefix = prefix;
-    }
-
-    static addPrefix(className: string): string {
-      return ClassPrefix.getInstance().getPrefix() + '_' + className;
-    }
-
+  export interface Entry {
+    getMenu(): Menu;
+    setMenu(menu: Menu): void;
+    //// TODO: Do we need those two?
+    getType(): string;
   }
+
 }

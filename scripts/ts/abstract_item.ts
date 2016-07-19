@@ -1,16 +1,19 @@
-// Copyright 2015 Volker Sorge
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//      http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+/*************************************************************
+ *
+ *  Copyright (c) 2015-2016 The MathJax Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 
 
 /**
@@ -19,40 +22,133 @@
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
+/// <reference path="abstract_entry.ts" />
 /// <reference path="item.ts" />
 
 
-namespace Menu {
+namespace ContextMenu {
 
-  export class AbstractItem implements Item {
-    private menu: Menu;
-    private role: string;
-    private html: Element;
+  export class AbstractItem extends AbstractEntry implements Item {
+    private content: string;
+    private id: string;
 
     /**
      * @constructor
      * @implements {Item}
      * @param {Menu} menu The context menu or sub-menu the item belongs to.
-     * @param {string} role The ARIA role of the menu item.
+     * @param {string} type The type of the entry.
+     * @param {string} content The content of the menu item.
+     * @param {string=} id Optionally the id of the menu item.
      */
-    constructor(menu: Menu, role: string) {
-      this.menu = menu;
-      this.role = role;
+    constructor(menu: Menu, type: string, content: string, id?: string) {
+      super(menu, type);
+      this.content = content;
+      this.id = id ? id : content;
     }
 
     /**
-     * @return {Menu} The context menu or sub-menu the item belongs to.
+     * @return {string} The content of the item.
      */
-    getMenu() {
-      return this.menu;
+    getContent() {
+      return this.content;
     }
 
     /**
-     * @return {string} The ARIA role of the menu item.
+     * @return {string} The id of the item.
      */
-    getRole() {
-      return this.role;
+    getId() {
+      return this.id;
     }
+
+   /**
+    * Pressing the menu item.
+    */
+    press() { }
+
+
+    /**
+     * @override
+     */
+    mousedown(event: MouseEvent) {
+      this.press();
+      this.stop(event);
+    }
+
+    /**
+     * @override
+     */
+    mouseover(event: MouseEvent) {
+      this.focus();
+      this.stop(event);
+    }
+
+    /**
+     * @override
+     */
+    mouseout(event: MouseEvent) {
+      this.unfocus();
+      this.stop(event);
+    }
+
+   /**
+    * @override
+    */
+    generateHtml() {
+      super.generateHtml();
+      let html = this.getHtml();
+      html.setAttribute('aria-disabled', 'false');
+      html.textContent = this.content;
+    }
+
+    /**
+     * @override
+     */
+    focus() {
+      this.getMenu().setFocused(this);
+      super.focus();
+      let html = this.getHtml();
+      html.classList.add(HtmlClasses['MENUACTIVE']);
+    }
+
+    /**
+     * @override
+     */
+    unfocus() {
+      let html = this.getHtml();
+      html.classList.remove(HtmlClasses['MENUACTIVE']);
+      super.unfocus();
+    }
+
+    escape(event: KeyboardEvent) {
+      MenuUtil.close(this);
+    }
+    
+    up(event: KeyboardEvent) {
+      (<AbstractMenu>this.getMenu()).up(event);
+    }
+
+    down(event: KeyboardEvent) {
+      (<AbstractMenu>this.getMenu()).down(event);
+    }
+
+    //// TODO: RTL change of direction.
+    left(event: KeyboardEvent) {
+      if (this.getMenu() instanceof ContextMenu) {
+        return;
+      }
+      let menu = <SubMenu>this.getMenu();
+      menu.setFocused(null);
+      menu.getAnchor().focus();
+    }
+
+    right(event: KeyboardEvent) {
+      (<AbstractMenu>this.getMenu()).right(event);
+    }
+
+    space(event: KeyboardEvent): void {
+      this.press();
+    }
+    
   }
 
 }

@@ -1,13 +1,13 @@
 /*************************************************************
  *
  *  Copyright (c) 2015-2016 The MathJax Consortium
- *
+ * 
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,36 +17,31 @@
 
 
 /**
- * @fileoverview Class of separator items.
+ * @fileoverview Interface for menu items with variable attachment.
  *
- * @author volker.sorge@gmail.com (Volker Sorge)
+ * @author v.sorge@mathjax.org (Volker Sorge)
  */
 
-/// <reference path="abstract_entry.ts" />
 
 namespace ContextMenu {
 
-  export class Rule extends AbstractEntry {
+  export interface VariableItem {
 
-    className = HtmlClasses['MENUITEM'];
-    role = 'separator';
+    //// TODO: Add level of abstraction for items with variable dependency.
+    /**
+     * Registers item with variable.
+     */
+    register(): void;
 
     /**
-     * @constructor
-     * @extends {AbstractItem}
-     * @param {Menu} menu The context menu or sub-menu the item belongs to.
+     * Unregisters item from variable.
      */
-    constructor(menu: Menu) {
-      super(menu, 'rule');
-    }
+    unregister(): void;
 
-    generateHtml() {
-      super.generateHtml();
-      let html = this.getHtml();
-      html.classList.add(HtmlClasses['MENURULE']);
-      html.setAttribute('aria-orientation', 'vertical');
-    }
-
-    addEvents(element: HTMLElement) { }
+    /**
+     * Updates the item on variable change.
+     */
+    update(): void;
   }
+
 }

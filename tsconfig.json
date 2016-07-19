@@ -1,12 +1,12 @@
 {
-    "compilerOptions": {
-        "target": "es6",
-        "module": "commonjs",
-        "declaration": false,
-        "noImplicitAny": true,
-        "removeComments": true,
-        "noLib": false,
-        "outDir": "scripts/js",
-        "out": "scripts/js/context_menu2.js"
-    }
+  "compilerOptions": {
+    "target": "es5",
+    "module": "system",
+    "declaration": false,
+    "noImplicitAny": true,
+    "removeComments": true,
+    "noLib": false,
+    // "outDir": "scripts/js"
+    "out": "scripts/js/context_menu.js"
+  }
 }
