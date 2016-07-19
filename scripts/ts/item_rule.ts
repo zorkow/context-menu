@@ -47,5 +47,6 @@ namespace ContextMenu {
       html.setAttribute('aria-orientation', 'vertical');
     }
 
+    addEvents(element: HTMLElement) { }
   }
 }
