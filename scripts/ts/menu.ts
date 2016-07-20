@@ -45,7 +45,7 @@ namespace ContextMenu {
      * Sets the currently focused Item.
      * @param {Item} item The new focused Item.
      */
-    setFocused(item: Item): void;
+    setFocused(item?: Item): void;
 
     /**
      * The variable pool associated to this menu.

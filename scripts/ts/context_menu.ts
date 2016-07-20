@@ -23,6 +23,7 @@
  */
 
 /// <reference path="abstract_menu.ts" />
+/// <reference path="html_classes.ts" />
 /// <reference path="item.ts" />
 
 

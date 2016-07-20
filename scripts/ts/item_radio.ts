@@ -17,7 +17,7 @@
 
 
 /**
- * @fileoverview Class of separator items.
+ * @fileoverview Class of radio buttons.
  *
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
@@ -102,14 +102,14 @@ namespace ContextMenu {
       this.updateSpan();
     }
 
-    updateAria() {
+    private updateAria() {
       this.getHtml().setAttribute(
         'aria-checked',
         this.variable.getValue() === this.getId() ? 'true' : 'false'
       );
     }
 
-    updateSpan() {
+    private updateSpan() {
       this.span.style.display =
         this.variable.getValue() === this.getId() ? '' : 'none';
     }

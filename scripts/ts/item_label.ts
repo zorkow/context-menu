@@ -17,12 +17,13 @@
 
 
 /**
- * @fileoverview Class of separator items.
+ * @fileoverview Class of labelled separator items.
  *
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
 /// <reference path="abstract_item.ts" />
+/// <reference path="menu.ts" />
 
 namespace ContextMenu {
 
