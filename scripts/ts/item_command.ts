@@ -50,6 +50,9 @@ namespace ContextMenu {
      * @override
      */
     press() {
+      if (this.disabled) {
+        return;
+      }
       this.command();
       MenuUtil.close(this);
     }

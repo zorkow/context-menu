@@ -58,6 +58,9 @@ namespace ContextMenu {
      * @override
      */
     press() {
+      if (this.disabled) {
+        return;
+      }
       let oldValue = this.variable.getValue();
       if (oldValue === this.getId()) {
         return;

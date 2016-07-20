@@ -54,7 +54,17 @@ namespace ContextMenu {
      * Unfocusing the menu item.
      */
     unfocus(): void;
-    
+
+    /**
+     * Disable item by greying it out.
+     */
+    disable(): void;
+
+    /**
+     * Enable item.
+     */
+    enable(): void;
+
   }
 
 }

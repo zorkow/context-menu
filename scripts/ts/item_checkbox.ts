@@ -58,6 +58,9 @@ namespace ContextMenu {
      * @override
      */
     press() {
+      if (this.disabled) {
+        return;
+      }
       this.variable.setValue(!this.variable.getValue());
       //// TODO: Do we really want this behaviour on non-command elements.
       MenuUtil.close(this);

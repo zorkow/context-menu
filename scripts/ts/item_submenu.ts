@@ -106,7 +106,7 @@ namespace ContextMenu {
      */
     focus() {
       super.focus();
-      if (!this.submenu.isPosted()) {
+      if (!this.submenu.isPosted() && !this.disabled) {
         this.submenu.post(0, 0);
       }
 
@@ -116,7 +116,9 @@ namespace ContextMenu {
      * @override
      */
     press() {
-      this.submenu.isPosted() ? this.submenu.unpost() : this.submenu.post(0, 0);
+      if (!this.disabled) {
+        this.submenu.isPosted() ? this.submenu.unpost() : this.submenu.post(0, 0);
+      }
     }
 
    /**
@@ -142,7 +144,12 @@ namespace ContextMenu {
     }
 
     right(event: KeyboardEvent) {
-      (<AbstractMenu>this.getSubmenu()).down(event);
+      if (!this.getSubmenu().isPosted()) {
+        this.getSubmenu().post(0, 0);
+      } else {
+        (<AbstractMenu>this.getSubmenu()).down(event);
+      }
+
     }
 
   }

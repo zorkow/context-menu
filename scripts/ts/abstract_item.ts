@@ -34,6 +34,7 @@ namespace ContextMenu {
   export abstract class AbstractItem extends AbstractEntry implements Item {
     private content: string;
     private id: string;
+    protected disabled: boolean = false;
 
     /**
      * @constructor
@@ -107,7 +108,9 @@ namespace ContextMenu {
      * Sets active style for item.
      */
     protected activate() {
-      this.getHtml().classList.add(HtmlClasses['MENUACTIVE']);
+      if (!this.disabled) {
+        this.getHtml().classList.add(HtmlClasses['MENUACTIVE']);
+      }
     }
 
     /**
@@ -134,19 +137,31 @@ namespace ContextMenu {
       super.unfocus();
     }
 
+    /**
+     * @override
+     */
     escape(event: KeyboardEvent) {
       MenuUtil.close(this);
     }
 
+    /**
+     * @override
+     */
     up(event: KeyboardEvent) {
       (<AbstractMenu>this.getMenu()).up(event);
     }
 
+    /**
+     * @override
+     */
     down(event: KeyboardEvent) {
       (<AbstractMenu>this.getMenu()).down(event);
     }
 
     //// TODO: RTL change of direction.
+    /**
+     * @override
+     */
     left(event: KeyboardEvent) {
       if (this.getMenu() instanceof ContextMenu) {
         return;
@@ -156,12 +171,38 @@ namespace ContextMenu {
       menu.getAnchor().focus();
     }
 
+    /**
+     * @override
+     */
     right(event: KeyboardEvent) {
       (<AbstractMenu>this.getMenu()).right(event);
     }
 
+    /**
+     * @override
+     */
     space(event: KeyboardEvent): void {
       this.press();
+    }
+
+    /**
+     * @override
+     */
+    disable(): void {
+      this.disabled = true;
+      let html = this.getHtml();
+      html.classList.add(HtmlClasses['MENUDISABLED']);
+      html.setAttribute('aria-disabled', 'true');
+    }
+
+    /**
+     * @override
+     */
+    enable(): void {
+      this.disabled = false;
+      let html = this.getHtml();
+      html.classList.remove(HtmlClasses['MENUDISABLED']);
+      html.removeAttribute('aria-disabled');
     }
 
   }
