@@ -23,7 +23,10 @@
  */
 
 /// <reference path="abstract_entry.ts" />
+/// <reference path="abstract_menu.ts" />
 /// <reference path="item.ts" />
+/// <reference path="menu.ts" />
+/// <reference path="menu_util.ts" />
 
 
 namespace ContextMenu {
@@ -122,7 +125,7 @@ namespace ContextMenu {
     escape(event: KeyboardEvent) {
       MenuUtil.close(this);
     }
-    
+
     up(event: KeyboardEvent) {
       (<AbstractMenu>this.getMenu()).up(event);
     }
@@ -148,7 +151,7 @@ namespace ContextMenu {
     space(event: KeyboardEvent): void {
       this.press();
     }
-    
+
   }
 
 }
