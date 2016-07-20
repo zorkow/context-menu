@@ -33,12 +33,15 @@ namespace ContextMenu {
     private html: HTMLElement;
     protected role: string;
     protected className: HtmlClass;
-    
-    
+
     constructor() {
       super();
     }
 
+    /**
+     * Adds a attributes and values to the HTML element.
+     * @param {Object.<string, string>} attributes A dictionary of attributes.
+     */
     addAttributes(attributes: {[attr: string]: string}): void {
       for (let attr in attributes) {
         this.html.setAttribute(attr, attributes[attr]);
@@ -74,14 +77,19 @@ namespace ContextMenu {
       this.setHtml(html);
     }
 
-
     //// TODO: Save and restore old tabindex values.
+    /**
+     * @override
+     */
     focus() {
       let html = this.getHtml();
       html.setAttribute('tabindex', '0');
       html.focus();
     }
 
+    /**
+     * @override
+     */
     unfocus() {
       let html = this.getHtml();
       if (html.hasAttribute('tabindex')) {

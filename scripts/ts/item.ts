@@ -29,11 +29,32 @@
 namespace ContextMenu {
 
   export interface Item extends Entry, Element {
+
+    /**
+     * @return {string} The content message of this item.
+     */
     getContent(): string;
+
+    /**
+     * @return {string} The id of this item.
+     */
     getId(): string;
+
+    /**
+     * Pressing the menu item.
+     */
     press(): void;
+
+    /**
+     * Setting focus to the menu item.
+     */
     focus(): void;
+
+    /**
+     * Unfocusing the menu item.
+     */
     unfocus(): void;
+    
   }
 
 }

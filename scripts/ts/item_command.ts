@@ -17,7 +17,7 @@
 
 
 /**
- * @fileoverview Class of separator items.
+ * @fileoverview Class of items that execute a command.
  *
  * @author volker.sorge@gmail.com (Volker Sorge)
  */

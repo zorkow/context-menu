@@ -40,6 +40,9 @@ namespace ContextMenu {
       super(menu, 'rule');
     }
 
+    /**
+     * @override
+     */
     generateHtml() {
       super.generateHtml();
       let html = this.getHtml();
@@ -47,6 +50,11 @@ namespace ContextMenu {
       html.setAttribute('aria-orientation', 'vertical');
     }
 
+    /**
+     * @override
+     */
     addEvents(element: HTMLElement) { }
+
   }
+
 }

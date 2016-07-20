@@ -17,7 +17,7 @@
 
 
 /**
- * @fileoverview Class of separator items.
+ * @fileoverview Class of checkbox items.
  *
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
