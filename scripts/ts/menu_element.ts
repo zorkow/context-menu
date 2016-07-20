@@ -77,7 +77,6 @@ namespace ContextMenu {
       this.setHtml(html);
     }
 
-    //// TODO: Save and restore old tabindex values.
     /**
      * @override
      */

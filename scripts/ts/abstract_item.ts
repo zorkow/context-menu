@@ -89,7 +89,7 @@ namespace ContextMenu {
      * @override
      */
     mouseout(event: MouseEvent) {
-      this.unfocus();
+      this.deactivate();
       this.stop(event);
     }
 
@@ -104,21 +104,33 @@ namespace ContextMenu {
     }
 
     /**
+     * Sets active style for item.
+     */
+    protected activate() {
+      this.getHtml().classList.add(HtmlClasses['MENUACTIVE']);
+    }
+
+    /**
+     * Removes active style from item.
+     */
+    protected deactivate() {
+      this.getHtml().classList.remove(HtmlClasses['MENUACTIVE']);
+    }
+
+    /**
      * @override
      */
     focus() {
       this.getMenu().setFocused(this);
       super.focus();
-      let html = this.getHtml();
-      html.classList.add(HtmlClasses['MENUACTIVE']);
+      this.activate();
     }
 
     /**
      * @override
      */
     unfocus() {
-      let html = this.getHtml();
-      html.classList.remove(HtmlClasses['MENUACTIVE']);
+      this.deactivate();
       super.unfocus();
     }
 

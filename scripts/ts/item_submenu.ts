@@ -80,6 +80,13 @@ namespace ContextMenu {
     /**
      * @override
      */
+    mouseout(event: MouseEvent) {
+      this.stop(event);
+    }
+
+    /**
+     * @override
+     */
     unfocus() {
       if (!this.submenu.isPosted()) {
         super.unfocus();
