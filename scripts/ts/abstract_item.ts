@@ -65,10 +65,18 @@ namespace ContextMenu {
     }
 
    /**
-    * Pressing the menu item.
+    * @override
     */
-    press() { }
+    press() {
+      if (!this.disabled) {
+        this.executeAction();
+      }
+    }
 
+    /**
+     * Execute the item's action if it is not disabled.
+     */
+    protected executeAction() { }
 
     /**
      * @override

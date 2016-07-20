@@ -57,16 +57,12 @@ namespace ContextMenu {
     /**
      * @override
      */
-    press() {
-      if (this.disabled) {
-        return;
-      }
+    executeAction() {
       let oldValue = this.variable.getValue();
       if (oldValue === this.getId()) {
         return;
       }
       this.variable.setValue(this.getId());
-      //// TODO: Do we really want this behaviour on non-command elements.
       MenuUtil.close(this);
     }
 

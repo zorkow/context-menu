@@ -115,10 +115,8 @@ namespace ContextMenu {
     /**
      * @override
      */
-    press() {
-      if (!this.disabled) {
-        this.submenu.isPosted() ? this.submenu.unpost() : this.submenu.post(0, 0);
-      }
+    executeAction() {
+      this.submenu.isPosted() ? this.submenu.unpost() : this.submenu.post(0, 0);
     }
 
    /**

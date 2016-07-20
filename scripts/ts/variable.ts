@@ -77,8 +77,12 @@ namespace ContextMenu {
         return;
       }
       this.value = value;
-      //// TODO: Embed this in a try catch.
-      this.callback(value);
+      try {
+        this.callback(value);
+      } catch (e) {
+        MenuUtil.error(e, 'Error: Callback of variable ' + this.name +
+                       ' threw error: ');
+      }
       this.update();
     };
 

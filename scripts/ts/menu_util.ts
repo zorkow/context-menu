@@ -64,6 +64,11 @@ namespace ContextMenu {
       }
     }
 
+    // error for debug mode.
+    export function error(error: Error, msg: string): void {
+      console.log('ContextMenu Error: ' + msg);
+    }
+
   }
 }
 

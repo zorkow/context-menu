@@ -29,7 +29,6 @@ namespace ContextMenu {
 
   export class Command extends AbstractItem {
 
-    //// TODO: The command function. Not sure yet what this will be.
     private command: Function = null;
 
     /**
@@ -49,11 +48,12 @@ namespace ContextMenu {
     /**
      * @override
      */
-    press() {
-      if (this.disabled) {
-        return;
+    executeAction() {
+      try {
+        this.command();
+      } catch (e) {
+        MenuUtil.error(e, 'Illegal command callback.');
       }
-      this.command();
       MenuUtil.close(this);
     }
 
