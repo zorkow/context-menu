@@ -65,6 +65,8 @@ namespace ContextMenu {
     };
 
 
+    //// TODO: Add accessors for callback.
+    // Possibly put in some messaging service for menu item selected.
     /**
      * Sets new variable value. If different from old one it will execute the
      * callback.

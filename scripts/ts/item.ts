@@ -23,6 +23,7 @@
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
+/// <reference path="element.ts" />
 /// <reference path="entry.ts" />
 
 namespace ContextMenu {

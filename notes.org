@@ -31,3 +31,13 @@ Let's keep things simple:
 ** Return types can be omitted in method implementation if they are given in the interface specification.
 ** Getting around the this problem in callbacks:
    https://github.com/Microsoft/TypeScript/wiki/'this'-in-TypeScript
+** Script for extracting basics of the class hierarchy
+   grep export *.ts | grep -v function | awk -F\: '{print $2}' | sed s/'  export'//g | sed s/{//g | sort > ../../classes.txt
+** Script for extracting class names
+   for i in *.ts; do\
+   echo; echo '---------------'; echo $i:; echo;\
+   grep -e ': [A-Z]' $i | grep -v TODO| sed s/'^.*: \([A-Z]\)'/\\1/  | sed s/[^a-zA-Z].*$//g | grep -e '^[A-Z]' | sort | uniq;\
+   done 
+
+
+ | sed s/[^a-zA-Z].*$//g | grep -e '^[A-Z]' | sort | uniq;\

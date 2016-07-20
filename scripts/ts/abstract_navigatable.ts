@@ -27,7 +27,7 @@
 
 namespace ContextMenu {
 
-  export class AbstractNavigatable implements Navigatable, MouseNavigatable {
+  export abstract class AbstractNavigatable implements Navigatable, MouseNavigatable {
 
     /**
      * @override

@@ -28,7 +28,7 @@
 
 namespace ContextMenu {
 
-  export class AbstractItem extends AbstractEntry implements Item {
+  export abstract class AbstractItem extends AbstractEntry implements Item {
     private content: string;
     private id: string;
 
