@@ -175,6 +175,11 @@ namespace ContextMenu {
     let MENU_ADDED = false;
     let CLOSE_ICON_ADDED = false;
 
+
+    /**
+     * Adds the CSS styles for context menus.
+     * @param {?HTMLDocument} opt_document The HTML document.
+     */
     export function addMenuStyles(opt_document: HTMLDocument): void {
       if (MENU_ADDED) {
         return;
@@ -184,6 +189,11 @@ namespace ContextMenu {
       addCloseIconStyles_(opt_document);
     }
 
+
+    /**
+     * Adds the CSS styles for popup widgets.
+     * @param {?HTMLDocument} opt_document The HTML document.
+     */
     export function addPopupStyles(opt_document: HTMLDocument): void {
       if (POPUP_ADDED) {
         return;
