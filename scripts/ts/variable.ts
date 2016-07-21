@@ -48,14 +48,12 @@ namespace ContextMenu {
       this.callback = callback;
     }
 
-
     /**
      * @return {string} The name of the variable.
      */
     getName() {
       return this.name;
     };
-
 
     /**
      * @return {T} The value of the variable.
@@ -84,8 +82,7 @@ namespace ContextMenu {
                        ' threw error: ');
       }
       this.update();
-    };
-
+    }
 
     /**
      * Registers a new item that has this variable.
@@ -96,7 +93,6 @@ namespace ContextMenu {
         this.items.push(item);
       }
     }
-
 
     /**
      * Unregisters an item for this variable.

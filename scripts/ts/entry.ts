@@ -33,13 +33,11 @@ namespace ContextMenu {
      */
     getMenu(): Menu;
 
-
     /**
      * Sets the parent menu for this entry.
      * @param {Menu} menu The menu the entry is attached to.
      */
     setMenu(menu: Menu): void;
-
 
     /**
      * @return {string} The type of the entry.

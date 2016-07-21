@@ -191,7 +191,6 @@ namespace ContextMenu {
       addCloseIconStyles_(opt_document);
     }
 
-
     /**
      * Adds the CSS styles for popup widgets.
      * @param {?HTMLDocument} opt_document The HTML document.

@@ -123,7 +123,6 @@ namespace ContextMenu {
       items[index].focus();
     }
 
-
     /**
      * @override
      */
@@ -143,7 +142,6 @@ namespace ContextMenu {
       return this.posted;
     }
 
-
     /**
      * @override
      */
@@ -156,7 +154,6 @@ namespace ContextMenu {
       this.display();
       this.posted = true;
     }
-
 
     /**
      * Displays the menu on screen.
@@ -176,7 +173,6 @@ namespace ContextMenu {
         }
       }
     }
-
 
     /**
      * @override

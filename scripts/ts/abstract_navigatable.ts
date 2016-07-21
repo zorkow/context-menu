@@ -28,7 +28,7 @@
 namespace ContextMenu {
 
   export abstract class AbstractNavigatable implements
-    Navigatable, MouseNavigatable {
+  Navigatable, MouseNavigatable {
 
     /**
      * @override
@@ -90,7 +90,6 @@ namespace ContextMenu {
      */
     down(event: KeyboardEvent): void {};
 
-
     /**
      * Stops event propagation and bubbling.
      * @param {Event} event The keyboard event that fired.
@@ -102,7 +101,6 @@ namespace ContextMenu {
         event.cancelBubble = true;
       }
     };
-
 
     /**
      * @override
