@@ -72,6 +72,14 @@ namespace ContextMenu {
      * Unposts all submenus of this menu.
      */
     unpostSubmenus(): void;
+
+    /**
+     * Retrieves a menu item via its id by depth-first search.
+     * @param {string} id The item id.
+     * @return {?Item} The item if it exists.
+     */
+    find(id: string): Item;
+
   }
 
 }

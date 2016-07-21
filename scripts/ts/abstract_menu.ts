@@ -187,5 +187,26 @@ namespace ContextMenu {
       this.posted = false;
     }
 
+    /**
+     * @override
+     */
+    find(id: string): Item {
+      for (let item of this.getItems()) {
+        if (item.getType() === 'rule') {
+          continue;
+        }
+        if (item.getId() === id) {
+          return item;
+        }
+        if (item.getType() === 'submenu') {
+          let result = (<Submenu>item).getSubmenu().find(id);
+          if (result) {
+            return result;
+          }
+        }
+      }
+      return null;
+    }
+
   }
 }
