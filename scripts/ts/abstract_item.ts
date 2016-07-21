@@ -35,6 +35,7 @@ namespace ContextMenu {
     private content: string;
     private id: string;
     protected disabled: boolean = false;
+    private callbacks: Function[] = [];
 
     /**
      * @constructor
@@ -70,6 +71,7 @@ namespace ContextMenu {
     press() {
       if (!this.disabled) {
         this.executeAction();
+        this.executeCallbacks_();
       }
     }
 
@@ -77,6 +79,38 @@ namespace ContextMenu {
      * Execute the item's action if it is not disabled.
      */
     protected executeAction() { }
+
+
+    private executeCallbacks_() {
+      for (let func of this.callbacks) {
+        try {
+          func();
+        } catch (e) {
+          MenuUtil.error(e, 'Callback for menu entry ' + this.getId() +
+                         ' failed.');
+        }
+      }
+    }
+
+
+    /**
+     * @final
+     */
+    registerCallback(func: Function): void {
+      if (this.callbacks.indexOf(func) === -1) {
+        this.callbacks.push(func);
+      }
+    }
+
+    /**
+     * @final
+     */
+    unregisterCallback(func: Function): void {
+      let index = this.callbacks.indexOf(func);
+      if (index !== -1) {
+        this.callbacks.splice(index, 1);
+      }
+    }
 
     /**
      * @override

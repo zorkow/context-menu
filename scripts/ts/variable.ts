@@ -78,8 +78,7 @@ namespace ContextMenu {
       try {
         this.callback(value);
       } catch (e) {
-        MenuUtil.error(e, 'Error: Callback of variable ' + this.name +
-                       ' threw error: ');
+        MenuUtil.error(e, 'Command of variable ' + this.name + ' failed.');
       }
       this.update();
     }
@@ -111,6 +110,15 @@ namespace ContextMenu {
     update(): void {
       this.items.forEach(x => x.update());
     }
+
+    registerCallback(func: Function) {
+      this.items.forEach(x => (<Radio | Checkbox>x).registerCallback(func));
+    }
+
+    unregisterCallback(func: Function) {
+      this.items.forEach(x => (<Radio | Checkbox>x).unregisterCallback(func));
+    }
+
 
   }
 }
