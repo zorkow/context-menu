@@ -223,7 +223,6 @@ namespace ContextMenu {
         inner += styles[style];
         inner += '\n';
       }
-      console.log(inner);
       element.innerHTML = inner;
       doc.head.appendChild(element);
     }

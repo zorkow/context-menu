@@ -80,7 +80,9 @@ namespace ContextMenu {
      */
     protected executeAction() { }
 
-
+    /**
+     * Executes the additional callbacks registered with this menu item.
+     */
     private executeCallbacks_() {
       for (let func of this.callbacks) {
         try {
@@ -92,8 +94,9 @@ namespace ContextMenu {
       }
     }
 
-
     /**
+     * Registers a callback function.
+     * @param {Function} func Callback that does not take any arguments.
      * @final
      */
     registerCallback(func: Function): void {
@@ -103,6 +106,8 @@ namespace ContextMenu {
     }
 
     /**
+     * Removes a callback function.
+     * @param {Function} func Callback that does not take any arguments.
      * @final
      */
     unregisterCallback(func: Function): void {

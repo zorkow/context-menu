@@ -111,10 +111,20 @@ namespace ContextMenu {
       this.items.forEach(x => x.update());
     }
 
+    /**
+     * Registers a callback function with all items associated to this variable.
+     * @param {Function} func Callback that does not take any arguments.
+     * @final
+     */
     registerCallback(func: Function) {
       this.items.forEach(x => (<Radio | Checkbox>x).registerCallback(func));
     }
 
+    /**
+     * Removes a callback function from all items associated to this variable.
+     * @param {Function} func Callback that does not take any arguments.
+     * @final
+     */
     unregisterCallback(func: Function) {
       this.items.forEach(x => (<Radio | Checkbox>x).unregisterCallback(func));
     }
