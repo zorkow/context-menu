@@ -17,7 +17,7 @@
 
 
 /**
- * @fileoverview Class of separator items.
+ * @fileoverview Class of checkbox items.
  *
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
@@ -57,9 +57,8 @@ namespace ContextMenu {
     /**
      * @override
      */
-    press() {
+    executeAction() {
       this.variable.setValue(!this.variable.getValue());
-      //// TODO: Do we really want this behaviour on non-command elements.
       MenuUtil.close(this);
     }
 

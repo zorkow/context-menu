@@ -99,7 +99,7 @@ namespace ContextMenu {
       '  font-family: null' +
       '}',
     MENU_STYLES[makeClass_('MENUCHECK') + makeClass_('RTL')] =
-      '{right:.7em; left:auto}',
+      '{ right:.7em; left:auto }',
     MENU_STYLES[makeClass_('MENURADIOCHECK')] = '{' +
       '  position:absolute; left: .7em;' +
       '}',
@@ -121,8 +121,10 @@ namespace ContextMenu {
       '  background-color: #606872;' +
       '  color: white;' +
       '}',
-    MENU_STYLES[makeClass_('MENUDISABLED') + ':focus; ' +
-                makeClass_('MENULABEL') + ':focus'] = '{' +
+    MENU_STYLES[makeClass_('MENUDISABLED') + ':focus'] = '{' +
+      '  background-color: #E8E8E8' +
+      '}',
+    MENU_STYLES[makeClass_('MENULABEL') + ':focus'] = '{' +
       '  background-color: #E8E8E8' +
       '}',
     MENU_STYLES[makeClass_('CONTEXTMENU') + ':focus'] = '{' +
@@ -175,6 +177,11 @@ namespace ContextMenu {
     let MENU_ADDED = false;
     let CLOSE_ICON_ADDED = false;
 
+
+    /**
+     * Adds the CSS styles for context menus.
+     * @param {?HTMLDocument} opt_document The HTML document.
+     */
     export function addMenuStyles(opt_document: HTMLDocument): void {
       if (MENU_ADDED) {
         return;
@@ -184,6 +191,10 @@ namespace ContextMenu {
       addCloseIconStyles_(opt_document);
     }
 
+    /**
+     * Adds the CSS styles for popup widgets.
+     * @param {?HTMLDocument} opt_document The HTML document.
+     */
     export function addPopupStyles(opt_document: HTMLDocument): void {
       if (POPUP_ADDED) {
         return;
@@ -201,17 +212,18 @@ namespace ContextMenu {
       CLOSE_ICON_ADDED = true;
     }
 
-    function addStyles_(styles: {[id: string]: string},
-                        opt_document: HTMLDocument): void {
+    function addStyles_(styles: {[id: string]: string}, opt_document: HTMLDocument): void {
       let doc = opt_document || document;
       let element: HTMLStyleElement = doc.createElement('style');
       element.type = 'text/css';
+      let inner = '';
       for (let style in styles) {
-        element.innerHTML += style;
-        element.innerHTML += ' ';
-        element.innerHTML += styles[style];
-        element.innerHTML += '\n';
+        inner += style;
+        inner += ' ';
+        inner += styles[style];
+        inner += '\n';
       }
+      element.innerHTML = inner;
       doc.head.appendChild(element);
     }
 

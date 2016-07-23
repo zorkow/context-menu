@@ -48,14 +48,12 @@ namespace ContextMenu {
       this.callback = callback;
     }
 
-
     /**
      * @return {string} The name of the variable.
      */
     getName() {
       return this.name;
     };
-
 
     /**
      * @return {T} The value of the variable.
@@ -65,6 +63,8 @@ namespace ContextMenu {
     };
 
 
+    //// TODO: Add accessors for callback.
+    // Possibly put in some messaging service for menu item selected.
     /**
      * Sets new variable value. If different from old one it will execute the
      * callback.
@@ -75,11 +75,13 @@ namespace ContextMenu {
         return;
       }
       this.value = value;
-      //// TODO: Embed this in a try catch.
-      this.callback(value);
+      try {
+        this.callback(value);
+      } catch (e) {
+        MenuUtil.error(e, 'Command of variable ' + this.name + ' failed.');
+      }
       this.update();
-    };
-
+    }
 
     /**
      * Registers a new item that has this variable.
@@ -90,7 +92,6 @@ namespace ContextMenu {
         this.items.push(item);
       }
     }
-
 
     /**
      * Unregisters an item for this variable.
@@ -109,6 +110,25 @@ namespace ContextMenu {
     update(): void {
       this.items.forEach(x => x.update());
     }
+
+    /**
+     * Registers a callback function with all items associated to this variable.
+     * @param {Function} func Callback that does not take any arguments.
+     * @final
+     */
+    registerCallback(func: Function) {
+      this.items.forEach(x => (<Radio | Checkbox>x).registerCallback(func));
+    }
+
+    /**
+     * Removes a callback function from all items associated to this variable.
+     * @param {Function} func Callback that does not take any arguments.
+     * @final
+     */
+    unregisterCallback(func: Function) {
+      this.items.forEach(x => (<Radio | Checkbox>x).unregisterCallback(func));
+    }
+
 
   }
 }

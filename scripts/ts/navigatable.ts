@@ -52,7 +52,6 @@ namespace ContextMenu {
 
   export interface Navigatable {
 
-
     /**
      * Navigation selection on keyboard events.
      * @param {KeyboardEvent} event The keyboard event that fired.

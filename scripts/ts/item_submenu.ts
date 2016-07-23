@@ -80,6 +80,13 @@ namespace ContextMenu {
     /**
      * @override
      */
+    mouseout(event: MouseEvent) {
+      this.stop(event);
+    }
+
+    /**
+     * @override
+     */
     unfocus() {
       if (!this.submenu.isPosted()) {
         super.unfocus();
@@ -99,7 +106,7 @@ namespace ContextMenu {
      */
     focus() {
       super.focus();
-      if (!this.submenu.isPosted()) {
+      if (!this.submenu.isPosted() && !this.disabled) {
         this.submenu.post(0, 0);
       }
 
@@ -108,7 +115,7 @@ namespace ContextMenu {
     /**
      * @override
      */
-    press() {
+    executeAction() {
       this.submenu.isPosted() ? this.submenu.unpost() : this.submenu.post(0, 0);
     }
 
@@ -135,7 +142,12 @@ namespace ContextMenu {
     }
 
     right(event: KeyboardEvent) {
-      (<AbstractMenu>this.getSubmenu()).down(event);
+      if (!this.getSubmenu().isPosted()) {
+        this.getSubmenu().post(0, 0);
+      } else {
+        (<AbstractMenu>this.getSubmenu()).down(event);
+      }
+
     }
 
   }

@@ -40,7 +40,6 @@ namespace ContextMenu {
       this.pool[variable.getName()] = variable;
     }
 
-
     /**
      * Lookup a variable in the pool. Returns undefined if the variable does not
      * exist.
@@ -50,7 +49,6 @@ namespace ContextMenu {
     lookup(name: string) {
       return this.pool[name];
     }
-
 
     /**
      * Removes the variable from the pool.

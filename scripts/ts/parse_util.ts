@@ -120,7 +120,11 @@ namespace ContextMenu {
     for (let i = 0, item: any; item = items[i]; i++) {
       let func = parseMapping_[item['type']];
       if (func) {
-        menu.push(func(item));
+        let menuItem = func(item);
+        menu.push(menuItem);
+        if (item['disabled']) {
+          menuItem.disable();
+        }
       }
     }
   }

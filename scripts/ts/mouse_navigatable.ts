@@ -43,7 +43,6 @@ namespace ContextMenu {
 
   export interface MouseNavigatable {
 
-
     /**
      * Navigation selection on mouse down events.
      * @param {MouseEvent} event The mouse event that fired.

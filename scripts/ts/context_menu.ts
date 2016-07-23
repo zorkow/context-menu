@@ -23,6 +23,7 @@
  */
 
 /// <reference path="abstract_menu.ts" />
+/// <reference path="html_classes.ts" />
 /// <reference path="item.ts" />
 
 
@@ -55,7 +56,7 @@ namespace ContextMenu {
       let innerDiv = document.createElement('div');
       innerDiv.setAttribute('style', 'position: fixed; ' + styleString);
       this.frame.appendChild(innerDiv);
-      this.frame.addEventListener('mousedown', this.unpost.bind(this));
+      innerDiv.addEventListener('mousedown', this.unpost.bind(this));
     }
 
     public getFrame(): HTMLElement {

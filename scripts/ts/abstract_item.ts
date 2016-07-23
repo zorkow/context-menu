@@ -23,14 +23,19 @@
  */
 
 /// <reference path="abstract_entry.ts" />
+/// <reference path="abstract_menu.ts" />
 /// <reference path="item.ts" />
+/// <reference path="menu.ts" />
+/// <reference path="menu_util.ts" />
 
 
 namespace ContextMenu {
 
-  export class AbstractItem extends AbstractEntry implements Item {
+  export abstract class AbstractItem extends AbstractEntry implements Item {
     private content: string;
     private id: string;
+    protected disabled: boolean = false;
+    private callbacks: Function[] = [];
 
     /**
      * @constructor
@@ -61,10 +66,56 @@ namespace ContextMenu {
     }
 
    /**
-    * Pressing the menu item.
+    * @override
     */
-    press() { }
+    press() {
+      if (!this.disabled) {
+        this.executeAction();
+        this.executeCallbacks_();
+      }
+    }
 
+    /**
+     * Execute the item's action if it is not disabled.
+     */
+    protected executeAction() { }
+
+    /**
+     * Executes the additional callbacks registered with this menu item.
+     */
+    private executeCallbacks_() {
+      for (let func of this.callbacks) {
+        try {
+          func();
+        } catch (e) {
+          MenuUtil.error(e, 'Callback for menu entry ' + this.getId() +
+                         ' failed.');
+        }
+      }
+    }
+
+    /**
+     * Registers a callback function.
+     * @param {Function} func Callback that does not take any arguments.
+     * @final
+     */
+    registerCallback(func: Function): void {
+      if (this.callbacks.indexOf(func) === -1) {
+        this.callbacks.push(func);
+      }
+    }
+
+    /**
+     * Removes a callback function.
+     * @param {Function} func Callback that does not take any arguments.
+     * @final
+     */
+    unregisterCallback(func: Function): void {
+      let index = this.callbacks.indexOf(func);
+      if (index !== -1) {
+        this.callbacks.splice(index, 1);
+      }
+    }
 
     /**
      * @override
@@ -86,7 +137,7 @@ namespace ContextMenu {
      * @override
      */
     mouseout(event: MouseEvent) {
-      this.unfocus();
+      this.deactivate();
       this.stop(event);
     }
 
@@ -101,37 +152,63 @@ namespace ContextMenu {
     }
 
     /**
+     * Sets active style for item.
+     */
+    protected activate() {
+      if (!this.disabled) {
+        this.getHtml().classList.add(HtmlClasses['MENUACTIVE']);
+      }
+    }
+
+    /**
+     * Removes active style from item.
+     */
+    protected deactivate() {
+      this.getHtml().classList.remove(HtmlClasses['MENUACTIVE']);
+    }
+
+    /**
      * @override
      */
     focus() {
       this.getMenu().setFocused(this);
       super.focus();
-      let html = this.getHtml();
-      html.classList.add(HtmlClasses['MENUACTIVE']);
+      this.activate();
     }
 
     /**
      * @override
      */
     unfocus() {
-      let html = this.getHtml();
-      html.classList.remove(HtmlClasses['MENUACTIVE']);
+      this.deactivate();
       super.unfocus();
     }
 
+    /**
+     * @override
+     */
     escape(event: KeyboardEvent) {
       MenuUtil.close(this);
     }
-    
+
+    /**
+     * @override
+     */
     up(event: KeyboardEvent) {
       (<AbstractMenu>this.getMenu()).up(event);
     }
 
+    /**
+     * @override
+     */
     down(event: KeyboardEvent) {
       (<AbstractMenu>this.getMenu()).down(event);
     }
 
     //// TODO: RTL change of direction.
+    /**
+     * @override
+     */
     left(event: KeyboardEvent) {
       if (this.getMenu() instanceof ContextMenu) {
         return;
@@ -141,14 +218,40 @@ namespace ContextMenu {
       menu.getAnchor().focus();
     }
 
+    /**
+     * @override
+     */
     right(event: KeyboardEvent) {
       (<AbstractMenu>this.getMenu()).right(event);
     }
 
+    /**
+     * @override
+     */
     space(event: KeyboardEvent): void {
       this.press();
     }
-    
+
+    /**
+     * @override
+     */
+    disable(): void {
+      this.disabled = true;
+      let html = this.getHtml();
+      html.classList.add(HtmlClasses['MENUDISABLED']);
+      html.setAttribute('aria-disabled', 'true');
+    }
+
+    /**
+     * @override
+     */
+    enable(): void {
+      this.disabled = false;
+      let html = this.getHtml();
+      html.classList.remove(HtmlClasses['MENUDISABLED']);
+      html.removeAttribute('aria-disabled');
+    }
+
   }
 
 }

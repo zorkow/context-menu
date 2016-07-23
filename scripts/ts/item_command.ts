@@ -17,7 +17,7 @@
 
 
 /**
- * @fileoverview Class of separator items.
+ * @fileoverview Class of items that execute a command.
  *
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
@@ -29,7 +29,6 @@ namespace ContextMenu {
 
   export class Command extends AbstractItem {
 
-    //// TODO: The command function. Not sure yet what this will be.
     private command: Function = null;
 
     /**
@@ -49,8 +48,12 @@ namespace ContextMenu {
     /**
      * @override
      */
-    press() {
-      this.command();
+    executeAction() {
+      try {
+        this.command();
+      } catch (e) {
+        MenuUtil.error(e, 'Illegal command callback.');
+      }
       MenuUtil.close(this);
     }
 

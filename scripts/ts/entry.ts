@@ -27,9 +27,21 @@
 namespace ContextMenu {
 
   export interface Entry {
+
+    /**
+     * @return {Menu} The menu the entry belongs to.
+     */
     getMenu(): Menu;
+
+    /**
+     * Sets the parent menu for this entry.
+     * @param {Menu} menu The menu the entry is attached to.
+     */
     setMenu(menu: Menu): void;
-    //// TODO: Do we need those two?
+
+    /**
+     * @return {string} The type of the entry.
+     */
     getType(): string;
   }
 

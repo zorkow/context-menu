@@ -45,7 +45,7 @@ namespace ContextMenu {
      * Sets the currently focused Item.
      * @param {Item} item The new focused Item.
      */
-    setFocused(item: Item): void;
+    setFocused(item?: Item): void;
 
     /**
      * The variable pool associated to this menu.
@@ -72,6 +72,14 @@ namespace ContextMenu {
      * Unposts all submenus of this menu.
      */
     unpostSubmenus(): void;
+
+    /**
+     * Retrieves a menu item via its id by depth-first search.
+     * @param {string} id The item id.
+     * @return {?Item} The item if it exists.
+     */
+    find(id: string): Item;
+
   }
 
 }

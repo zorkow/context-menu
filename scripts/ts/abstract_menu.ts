@@ -1,13 +1,13 @@
 /*************************************************************
  *
  *  Copyright (c) 2015-2016 The MathJax Consortium
- * 
+ *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,6 +22,7 @@
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
+/// <reference path="menu.ts" />
 /// <reference path="menu_element.ts" />
 /// <reference path="item.ts" />
 /// <reference path="variable_pool.ts" />
@@ -122,7 +123,6 @@ namespace ContextMenu {
       items[index].focus();
     }
 
-    
     /**
      * @override
      */
@@ -142,7 +142,6 @@ namespace ContextMenu {
       return this.posted;
     }
 
-
     /**
      * @override
      */
@@ -156,6 +155,9 @@ namespace ContextMenu {
       this.posted = true;
     }
 
+    /**
+     * Displays the menu on screen.
+     */
     protected abstract display(): void;
 
     /**
@@ -172,7 +174,6 @@ namespace ContextMenu {
       }
     }
 
-
     /**
      * @override
      */
@@ -184,6 +185,27 @@ namespace ContextMenu {
       let html = this.getHtml();
       html.parentNode.removeChild(html);
       this.posted = false;
+    }
+
+    /**
+     * @override
+     */
+    find(id: string): Item {
+      for (let item of this.getItems()) {
+        if (item.getType() === 'rule') {
+          continue;
+        }
+        if (item.getId() === id) {
+          return item;
+        }
+        if (item.getType() === 'submenu') {
+          let result = (<Submenu>item).getSubmenu().find(id);
+          if (result) {
+            return result;
+          }
+        }
+      }
+      return null;
     }
 
   }

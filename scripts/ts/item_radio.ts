@@ -17,7 +17,7 @@
 
 
 /**
- * @fileoverview Class of separator items.
+ * @fileoverview Class of radio buttons.
  *
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
@@ -57,13 +57,12 @@ namespace ContextMenu {
     /**
      * @override
      */
-    press() {
+    executeAction() {
       let oldValue = this.variable.getValue();
       if (oldValue === this.getId()) {
         return;
       }
       this.variable.setValue(this.getId());
-      //// TODO: Do we really want this behaviour on non-command elements.
       MenuUtil.close(this);
     }
 
@@ -102,14 +101,14 @@ namespace ContextMenu {
       this.updateSpan();
     }
 
-    updateAria() {
+    private updateAria() {
       this.getHtml().setAttribute(
         'aria-checked',
         this.variable.getValue() === this.getId() ? 'true' : 'false'
       );
     }
 
-    updateSpan() {
+    private updateSpan() {
       this.span.style.display =
         this.variable.getValue() === this.getId() ? '' : 'none';
     }
