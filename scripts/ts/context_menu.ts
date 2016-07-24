@@ -25,6 +25,7 @@
 /// <reference path="abstract_menu.ts" />
 /// <reference path="html_classes.ts" />
 /// <reference path="item.ts" />
+/// <reference path="menu_store.ts" />
 
 
 namespace ContextMenu {
@@ -36,6 +37,18 @@ namespace ContextMenu {
      * @type {HTMLElement}
      */
     private frame: HTMLElement;
+
+    /**
+     * A store the menu belongs to.
+     * @type {MenuStore}
+     */
+    private store_: MenuStore = new MenuStore(this);
+
+    /**
+     * The element the menu is anchored to.
+     * @type {HTMLElement}
+     */
+    private anchor: HTMLElement;
 
     constructor() {
       super();
@@ -59,20 +72,28 @@ namespace ContextMenu {
       innerDiv.addEventListener('mousedown', this.unpost.bind(this));
     }
 
-    public getFrame(): HTMLElement {
-      return this.frame;
-    }
-
+    /**
+     * @override
+     */
     display() {
       document.body.appendChild(this.frame);
       this.frame.appendChild(this.getHtml());
       this.focus();
     }
 
+    /**
+     * @override
+     */
     escape(event: KeyboardEvent) {
       this.unpost();
+      let store = this.getStore();
+      store.insertTaborder();
+      store.getActive().focus();
     }
 
+    /**
+     * @override
+     */
     unpost() {
       if (!this.isPosted()) {
         return;
@@ -81,6 +102,96 @@ namespace ContextMenu {
       this.frame.parentNode.removeChild(this.frame);
     }
 
+    /**
+     * @override
+     */
+    left(event: KeyboardEvent) {
+      let next = this.store_.previous();
+      if (this.anchor && next !== this.anchor) {
+        this.unpost();
+        this.post(next);
+      }
+    }
+
+    /**
+     * @override
+     */
+    right(event: KeyboardEvent) {
+      let next = this.store_.next();
+      if (this.anchor && next !== this.anchor) {
+        this.unpost();
+        this.post(next);
+      }
+    }
+
+    /**
+     * @return {HTMLElement} The frame element wrapping all the elements of the
+     *     menu.
+     */
+    getFrame(): HTMLElement {
+      return this.frame;
+    }
+
+    /**
+     * @return {MenuStore} The store of this menu.
+     */
+    getStore(): MenuStore {
+      return this.store_;
+    }
+
+    // Overloading
+    post(x: number, y: number): void;
+    post(event: Event): void;
+    post(event: HTMLElement): void;
+
+    post(numberOrEvent: any, isY?: number) {
+      if (typeof(isY) !== 'undefined') {
+        this.getStore().removeTaborder();
+        super.post(numberOrEvent, isY);
+        return;
+      }
+      let node: HTMLElement;
+      let x: number;
+      let y: number;
+      let keydown: boolean = false;
+      if (numberOrEvent instanceof Event) {
+        let event = numberOrEvent;
+        x = event['pageX'], y = event['pageY'];
+        if (!x && !y && event['clientX']) {
+          x = event.clientX + document.body.scrollLeft +
+            document.documentElement.scrollLeft;
+          y = event.clientY + document.body.scrollTop  +
+            document.documentElement.scrollTop;
+        }
+        node = event.target;
+        keydown = event.type === 'keydown';
+        this.stop(event);
+      } else {
+        node = numberOrEvent;
+      }
+      this.anchor = node;
+      this.getStore().setActive(node);
+      if ((keydown || (!x && !y)) && node) {
+        let offsetX = window.pageXOffset || document.documentElement.scrollLeft;
+        let offsetY = window.pageYOffset || document.documentElement.scrollTop;
+        let rect = node.getBoundingClientRect();
+        x = (rect.right + rect.left) / 2 + offsetX;
+        y = (rect.bottom + rect.top) / 2 + offsetY;
+      }
+      let rect = node.getBoundingClientRect();
+      let menu = this.getHtml();
+      let margin = 5;
+      if (x + menu.offsetWidth > document.body.offsetWidth - margin) {
+        x = document.body.offsetWidth - menu.offsetWidth - margin;
+      }
+      
+      // Not sure what these do!
+      // 
+      // if (MENU.isMobile) {x = Math.max(5,x-Math.floor(menu.offsetWidth/2)); y -= 20}
+      // MENU.skipUp = event.isContextMenu;
+
+      this.post(x, y);
+    }
   }
 
 }
