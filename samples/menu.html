@@ -226,15 +226,33 @@ cc = ContextMenu.parse(ll); ContextMenu.CssStyles.addMenuStyles();
 
 // Unfold zoom menu:
 //cc.post(50,50);
+
 </script>
+
 <body>
 <h1>Testing the context menu</h1>
 
 <button onclick=cc.post(50,50)>here</button>
 
+<p><div class="test" id="t1">t1</div></p>
+<p><div class="test" id="t2">t2</div></p>
+<p><div class="test" id="t3">t3</div></p>
+<p><div class="test" id="t4">t4</div></p>
+<p><div class="test" id="t5">t5</div></p>
+<p><div class="test" id="t6">t6</div></p>
+<div class="test" id="t7">t7</div>
+<div class="test" id="t8">t8</div>
+<p><div class="test" id="t9">t9</div></p>
+
+<span class="test" id="a7" tabindex="3">a7</span>
+<span class="test" id="a8" tabindex="4">a8</span>
+
 <hr>
 <address></address>
 <!-- hhmts start -->
-Last modified: Wed Jul 20 21:44:21 BST 2016
+Last modified: Mon Jul 25 15:00:49 CEST 2016
 <!-- hhmts end -->
-</body> </html>
+</body>
+<script>cc.getStore().insert(document.getElementsByClassName("test"));</script>
+
+</html>

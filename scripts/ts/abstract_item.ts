@@ -211,6 +211,7 @@ namespace ContextMenu {
      */
     left(event: KeyboardEvent) {
       if (this.getMenu() instanceof ContextMenu) {
+        (<ContextMenu>this.getMenu()).left(event);
         return;
       }
       let menu = <SubMenu>this.getMenu();

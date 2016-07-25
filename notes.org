@@ -27,6 +27,14 @@ Let's keep things simple:
 ** Menu: Basic element holding one entire context menu.
 ** MenuItem: Single items in the context menu.
 
+
+* Attaching the Menu
+** General container element that contains the node -> menu maps.
+** Shift left - right: Get to previous/next element.
+*** Only if in top level menu.
+*** If on submenu element, right should open the submenu
+
+
 * Some Typescript things:
 ** Return types can be omitted in method implementation if they are given in the interface specification.
 ** Getting around the this problem in callbacks:
@@ -40,4 +48,5 @@ Let's keep things simple:
    done 
 
 
- | sed s/[^a-zA-Z].*$//g | grep -e '^[A-Z]' | sort | uniq;\
+ | sed s/[^a-zA-Z].*$//g | grep -e '^[A-Z]' | sort | uniq;\ |
+ |                       |                  |      |        |
