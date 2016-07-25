@@ -106,18 +106,22 @@ namespace ContextMenu {
      * @override
      */
     left(event: KeyboardEvent) {
-      let next = this.store_.previous();
-      if (this.anchor && next !== this.anchor) {
-        this.unpost();
-        this.post(next);
-      }
+      this.move_(this.store_.previous());
     }
 
     /**
      * @override
      */
     right(event: KeyboardEvent) {
-      let next = this.store_.next();
+      this.move_(this.store_.next());
+    }
+
+
+    /**
+     * Moves to the given next element.
+     * @param {HTMLELement} next The next element in the sequence.
+     */
+    move_(next: HTMLElement) {
       if (this.anchor && next !== this.anchor) {
         this.unpost();
         this.post(next);
