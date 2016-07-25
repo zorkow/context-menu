@@ -38,7 +38,7 @@ namespace ContextMenu {
   };
 
   /**
-   * Prefixes a html class name.
+   * Prefixes a html id.
    * @param {string} name The base name.
    * @return {HtmlClass} The prefixed name.
    * @private
@@ -48,13 +48,23 @@ namespace ContextMenu {
   };
 
   /**
-   * Prefixes a html class name.
+   * Prefixes a html attribute.
    * @param {string} name The base name.
    * @return {HtmlId} The prefixed name.
    * @private
    */
   function prefixId_(name: string): HtmlId {
     return <HtmlId>prefix_(name);
+  };
+
+  /**
+   * Prefixes a html class name.
+   * @param {string} name The base name.
+   * @return {HtmlAttr} The prefixed name.
+   * @private
+   */
+  function prefixAttr_(name: string): HtmlAttr {
+    return <HtmlAttr>prefix_(name);
   };
 
   // This is in lieu of a proper enum type.
@@ -98,6 +108,20 @@ namespace ContextMenu {
   export type HtmlId = 'CtxtMenu_MenuFrame' | 'CtxtMenu_Popup' |
     'CtxtMenu_PopupClose';
 
+  /**
+   * HTML attributes.
+   * @enum {string}
+   */
+  export let HtmlAttrs: {[id: string]: HtmlAttr} = {
+    COUNTER: prefixAttr_('Counter'),
+    KEYDOWNFUNC: prefixAttr_('keydownFunc'),
+    CONTEXTMENUFUNC: prefixAttr_('contextmenuFunc'),
+    OLDTAB: prefixAttr_('Oldtabindex'),
+    TOUCHFUNC: prefixAttr_('TouchFunc'),
+  };
+
+  export type HtmlAttr = 'CtxtMenu_Counter' | 'CtxtMenu_keydownFunc' |
+    'CtxtMenu_contextmenuFunc' | 'CtxtMenu_touchstartFunc' |
+    'CtxtMenu_Oldtabindex';
+
 }
-
-

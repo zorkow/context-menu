@@ -32,6 +32,9 @@ namespace ContextMenu {
     private store: HTMLElement[] = [];
     private active: HTMLElement;
     private menu: ContextMenu;
+    private attrMap: {[name: string]: EventListener} = {};
+    private counter: number = 0;
+
 
     /**
      * @constructor
@@ -122,6 +125,7 @@ namespace ContextMenu {
 
     insertAt(element: HTMLElement, position: number) {
       // Twice?
+      this.addTabindex(element);
       this.addEvents(element);
       this.store.splice(position, 0, element);
     }
@@ -149,61 +153,77 @@ namespace ContextMenu {
       if (position >= 0) {
         let old = this.store.splice(position, 1);
         if (old.length === 1) {
-         this.removeEvents(old[0]);
+          this.removeTabindex(old[0]);
+          this.removeEvents(old[0]);
         }
       }
     }
 
+
+    /**
+     * Inserts all elements in the store into the tab order.
+     */
     insertTaborder() {
       this.store.forEach(x => x.setAttribute('tabindex', '0'));
     }
 
+    /**
+     * Removes all elements in the store from the tab order.
+     */
     removeTaborder() {
       this.store.forEach(x => x.setAttribute('tabindex', '-1'));
     }
 
-    map: {[name: string]: EventListener} = {};
-    counter: number = 0;
-
-    //// TODO: Need to add touch event.
-    //// TODO: Use prefixed attribute names with enum.
-    private addEvents(element: HTMLElement) {
+    private addTabindex(element: HTMLElement) {
       if (element.hasAttribute('tabindex')) {
-        element.setAttribute('oldtabindex', element.getAttribute('tabindex'));
+        element.setAttribute(HtmlAttrs['OLDTAB'],
+                             element.getAttribute('tabindex'));
       }
       element.setAttribute('tabindex', '0');
-
-      if (element.hasAttribute('counter')) {
-        return;
-      }
-      let menuFunc = this.menu.post.bind(this.menu);
-      this.map['menuFunc' + this.counter] = menuFunc;
-      element.addEventListener('contextmenu', menuFunc);
-
-      let keydownFunc = this.keydown.bind(this);
-      this.map['keydownFunc' + this.counter] = keydownFunc;
-      element.addEventListener('keydown', keydownFunc);
-
-      element.setAttribute('counter', this.counter.toString());
-      this.counter++;
     }
 
-    private removeEvents(element: HTMLElement) {
-      if (element.hasAttribute('oldtabindex')) {
-        element.setAttribute('tabindex', element.getAttribute('oldtabindex'));
-        element.removeAttribute('oldtabindex');
+    private removeTabindex(element: HTMLElement) {
+      if (element.hasAttribute(HtmlAttrs['OLDTAB'])) {
+        element.setAttribute('tabindex',
+                             element.getAttribute(HtmlAttrs['OLDTAB']));
+        element.removeAttribute(HtmlAttrs['OLDTAB']);
       } else {
         element.removeAttribute('tabindex');
       }
-      if (!element.hasAttribute('counter')) {
+    }
+
+
+    //// TODO: Need to add touch event.
+    private addEvents(element: HTMLElement) {
+      if (element.hasAttribute(HtmlAttrs['COUNTER'])) {
         return;
       }
-      let counter = element.getAttribute('counter');
-      let menuFunc = this.map['menuFunc' + counter];
-      element.removeEventListener('contextmenu', menuFunc);
-      let keydownFunc = this.map['keydownFunc' + counter];
-      element.removeEventListener('keydown', keydownFunc);
-      element.removeAttribute('counter');
+      this.addEvent(element, 'contextmenu', this.menu.post.bind(this.menu));
+      this.addEvent(element, 'keydown', this.keydown.bind(this));
+      element.setAttribute(HtmlAttrs['COUNTER'], this.counter.toString());
+      this.counter++;
+    }
+
+    private addEvent(element: HTMLElement, name: string, func: EventListener) {
+      let attrName = HtmlAttrs[name.toUpperCase() + 'FUNC'];
+      this.attrMap[attrName + this.counter] = func;
+      element.addEventListener(name, func);
+    }
+
+    private removeEvents(element: HTMLElement) {
+      if (!element.hasAttribute(HtmlAttrs['COUNTER'])) {
+        return;
+      }
+      let counter = element.getAttribute(HtmlAttrs['COUNTER']);
+      this.removeEvent(element, 'contextmenu', counter);
+      this.removeEvent(element, 'keydown', counter);
+      element.removeAttribute(HtmlAttrs['COUNTER']);
+    }
+
+    private removeEvent(element: HTMLElement, name: string, counter: string) {
+      let attrName = HtmlAttrs[name.toUpperCase() + 'FUNC'];
+      let menuFunc = this.attrMap[attrName + counter];
+      element.removeEventListener(name, menuFunc);
     }
 
     private keydown(event: KeyboardEvent) {
