@@ -100,71 +100,58 @@ namespace ContextMenu {
       return this.active;
     }
 
-    //// TODO: Implement with Promises?
-    replace(oldElement: HTMLElement, newElement: HTMLElement): void {
-      let index = this.store.indexOf(oldElement);
-      index === -1 ? this.store.push(newElement) :
-        this.store.splice(index, 1, newElement);
+    clear() {
+      this.remove(this.store);
     }
 
-    //// TODO: Overload insert?
-    insert(element: HTMLElement) {
-      this.insertAt(element, this.store.length);
+    private sort(): void {
+      let nodes = document.getElementsByClassName(this.attachedClass);
+      this.store = [].slice.call(nodes);
     }
 
-    insertAll(elements: HTMLElement[]) {
-      this.removeAll();
-      for (let i = elements.length - 1, element: HTMLElement;
-           element = elements[i]; i--) {
-        this.insertAt(element, 0);
+    insert(element: HTMLElement): void;
+    insert(element: HTMLElement[]): void;
+    insert(element: NodeListOf<HTMLElement>): void;
+
+    insert(elementOrList: any) {
+      let elements = elementOrList instanceof HTMLElement ?
+        [elementOrList] : elementOrList;
+      for (let i = 0, element: HTMLElement; element = elements[i]; i++) {
+        this.insertElement(element);
       }
+      this.sort();
     }
 
-    insertBefore(oldElement: HTMLElement, newElement: HTMLElement) {
-      let index = this.store.indexOf(oldElement);
-      index === -1 ? this.insertAt(newElement, 0) :
-        this.insertAt(newElement, index);
+    private insertElement(element: HTMLElement) {
+      if (element.classList.contains(this.attachedClass)) {
+        return;
       }
-
-    insertAt(element: HTMLElement, position: number) {
-      // Twice?
       element.classList.add(this.attachedClass);
       this.addTabindex(element);
       this.addEvents(element);
-      this.store.splice(position, 0, element);
     }
 
-    remove(element: HTMLElement) {
-      this.removeAt(this.store.indexOf(element));
-    }
+    remove(element: HTMLElement): void;
+    remove(element: HTMLElement[]): void;
+    remove(element: NodeListOf<HTMLElement>): void;
 
-    removeAll() {
-      while (this.store.length > 0) {
-        this.removeAt(0);
+    remove(elementOrList: any) {
+      let elements = elementOrList instanceof HTMLElement ?
+        [elementOrList] : elementOrList;
+      for (let i = 0, element: HTMLElement; element = elements[i]; i++) {
+        this.removeElement(element);
       }
+      this.sort();
     }
 
-    //// TODO: We somehow should put those in by taborder.  Maybe add a special
-    // class name and do a document.  Would make it also easier to see if an
-    // element has already events attached.
-    //
-    removeBefore(oldElement: HTMLElement) {
-      this.removeAt(this.store.indexOf(oldElement) - 1);
-    }
-
-    // That's the actual removal function!
-    removeAt(position: number) {
-      if (position >= 0) {
-        let old = this.store.splice(position, 1);
-        if (old.length === 1) {
-          let element = old[0];
-          element.classList.remove(this.attachedClass);
-          this.removeTabindex(element);
-          this.removeEvents(element);
-        }
+    private removeElement(element: HTMLElement) {
+      if (!element.classList.contains(this.attachedClass)) {
+        return;
       }
+      element.classList.remove(this.attachedClass);
+      this.removeTabindex(element);
+      this.removeEvents(element);
     }
-
 
     /**
      * Inserts all elements in the store into the tab order.
