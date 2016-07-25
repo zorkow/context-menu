@@ -73,6 +73,7 @@ namespace ContextMenu {
    * @enum {string} 
    */
   export let HtmlClasses: {[id: string]: HtmlClass} = {
+    ATTACHED: prefixClass_('Attached'),
     CONTEXTMENU: prefixClass_('ContextMenu'),
     MENU: prefixClass_('Menu'),
     MENUARROW: prefixClass_('MenuArrow'),
@@ -93,7 +94,7 @@ namespace ContextMenu {
     'CtxtMenu_MenuArrow' | 'CtxtMenu_MenuActive' | 'CtxtMenu_MenuCheck' |
     'CtxtMenu_MenuClose' | 'CtxtMenu_MenuDisabled' | 'CtxtMenu_MenuItem' |
     'CtxtMenu_MenuLabel' | 'CtxtMenu_MenuRadioCheck' | 'CtxtMenu_MenuRule' |
-    'CtxtMenu_MousePost' | 'CtxtMenu_RTL';
+    'CtxtMenu_MousePost' | 'CtxtMenu_RTL' | 'CtxtMenu_Attached';
 
   /**
    * HTML ids.

@@ -69,7 +69,10 @@ namespace ContextMenu {
       console.log('ContextMenu Error: ' + msg);
     }
 
+    let count = 0;
+    export function counter(): number {
+      return count++;
+    }
+
   }
 }
-
-

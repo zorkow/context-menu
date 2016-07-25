@@ -34,6 +34,8 @@ namespace ContextMenu {
     private menu: ContextMenu;
     private attrMap: {[name: string]: EventListener} = {};
     private counter: number = 0;
+    private attachedClass: string = HtmlClasses['ATTACHED'] + '_' +
+      MenuUtil.counter();
 
 
     /**
@@ -105,6 +107,7 @@ namespace ContextMenu {
         this.store.splice(index, 1, newElement);
     }
 
+    //// TODO: Overload insert?
     insert(element: HTMLElement) {
       this.insertAt(element, this.store.length);
     }
@@ -125,6 +128,7 @@ namespace ContextMenu {
 
     insertAt(element: HTMLElement, position: number) {
       // Twice?
+      element.classList.add(this.attachedClass);
       this.addTabindex(element);
       this.addEvents(element);
       this.store.splice(position, 0, element);
@@ -153,8 +157,10 @@ namespace ContextMenu {
       if (position >= 0) {
         let old = this.store.splice(position, 1);
         if (old.length === 1) {
-          this.removeTabindex(old[0]);
-          this.removeEvents(old[0]);
+          let element = old[0];
+          element.classList.remove(this.attachedClass);
+          this.removeTabindex(element);
+          this.removeEvents(element);
         }
       }
     }
