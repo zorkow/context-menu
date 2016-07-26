@@ -60,7 +60,7 @@ namespace ContextMenu {
       if (menu instanceof SubMenu) {
         menu.baseMenu.unpost();
       } else {
-        (<ContextMenu>menu).escape(null);
+        menu.unpost();
       }
     }
 
