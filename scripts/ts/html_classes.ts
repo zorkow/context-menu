@@ -86,7 +86,10 @@ namespace ContextMenu {
     MENURADIOCHECK: prefixClass_('MenuRadioCheck'),
     MENURULE: prefixClass_('MenuRule'),
     MOUSEPOST: prefixClass_('MousePost'),
-    RTL: prefixClass_('RTL')
+    RTL: prefixClass_('RTL'),
+    POPUP: prefixClass_('Popup'),
+    POPUPCLOSE: prefixClass_('PopupClose'),
+    POPUPCONTENT: prefixClass_('PopupContent')
   };
 
   // This is an awkward type construction!
@@ -94,20 +97,18 @@ namespace ContextMenu {
     'CtxtMenu_MenuArrow' | 'CtxtMenu_MenuActive' | 'CtxtMenu_MenuCheck' |
     'CtxtMenu_MenuClose' | 'CtxtMenu_MenuDisabled' | 'CtxtMenu_MenuItem' |
     'CtxtMenu_MenuLabel' | 'CtxtMenu_MenuRadioCheck' | 'CtxtMenu_MenuRule' |
-    'CtxtMenu_MousePost' | 'CtxtMenu_RTL' | 'CtxtMenu_Attached';
+    'CtxtMenu_MousePost' | 'CtxtMenu_RTL' | 'CtxtMenu_Attached' |
+    'CtxtMenu_Popup' | 'CtxtMenu_PopupClose' | 'CtxtMenu_PopupContent';
 
   /**
    * HTML ids.
    * @enum {string} 
    */
   export let HtmlIds: {[id: string]: HtmlId} = {
-    MENUFRAME: prefixId_('MenuFrame'),
-    POPUP: prefixId_('Popup'),
-    POPUPCLOSE: prefixId_('PopupClose')
+    MENUFRAME: prefixId_('MenuFrame')
   };
 
-  export type HtmlId = 'CtxtMenu_MenuFrame' | 'CtxtMenu_Popup' |
-    'CtxtMenu_PopupClose';
+  export type HtmlId = 'CtxtMenu_MenuFrame' ;
 
   /**
    * HTML attributes.

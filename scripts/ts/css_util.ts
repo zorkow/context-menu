@@ -37,7 +37,15 @@ namespace ContextMenu {
     }
 
     let POPUP_STYLES: {[id: string]: string} = {};
-    POPUP_STYLES[makeId_('POPUP')] = '{' +
+    POPUP_STYLES[makeClass_('POPUPCLOSE')] = '{' +
+      '  top:.2em; right:.2em;' +
+      '}',
+    POPUP_STYLES[makeClass_('POPUPCONTENT')] = '{' +
+      '  overflow:auto; text-align:left; font-size:80%;' +
+      '  padding:.4em .6em; border:1px inset; margin:1em 0px;' +
+      '  max-height:20em; max-width:30em; background-color:#EEEEEE;' +
+      '}',
+    POPUP_STYLES[makeClass_('POPUP')] = '{' +
       '  position:fixed; left:50%; width:auto; text-align:center;' +
       '  border:3px outset; padding:1em 2em; background-color:#DDDDDD;' +
       '  color:black;' +
@@ -56,11 +64,8 @@ namespace ContextMenu {
       '  filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=2,' +
       ' OffY=2, Color="gray", Positive="true"); /* IE */' +
       '}',
-    POPUP_STYLES[makeId_('POPUP') + makeClass_('MOUSEPOST')] = '{' +
+    POPUP_STYLES[makeClass_('POPUP') + makeClass_('MOUSEPOST')] = '{' +
       'outline:none;' +
-      '}',
-    POPUP_STYLES[makeId_('POPUPCLOSE')] = '{' +
-      'top:.2em; right:.2em' +
       '}';
 
     let MENU_STYLES: {[id: string]: string} = {};

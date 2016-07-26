@@ -1,6 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
 <html> <head>
 <title>Testing the context menu</title>
+
 </head>
 <script src="../scripts/js/context_menu.js"></script>
 <script>
@@ -221,14 +222,17 @@ var ll = {"menu":
  }
 }
 ;
+ContextMenu.CssStyles.addPopupStyles();
 cc = ContextMenu.parse(ll); ContextMenu.CssStyles.addMenuStyles();
+
+let dialog = new ContextMenu.Popup(cc, 'a', function(){
+return '<b>bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb </b><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p>';}, 'c');
 
 
 // Unfold zoom menu:
 //cc.post(50,50);
 
 </script>
-
 <body>
 <h1>Testing the context menu</h1>
 
@@ -250,9 +254,10 @@ cc = ContextMenu.parse(ll); ContextMenu.CssStyles.addMenuStyles();
 <hr>
 <address></address>
 <!-- hhmts start -->
-Last modified: Mon Jul 25 15:00:49 CEST 2016
+Last modified: Tue Jul 26 15:44:08 CEST 2016
 <!-- hhmts end -->
 </body>
-<script>cc.getStore().insert(document.getElementsByClassName("test"));</script>
+<script>cc.getStore().insert(document.getElementsByClassName("test"));
+</script>
 
 </html>
