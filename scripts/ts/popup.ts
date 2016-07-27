@@ -27,7 +27,7 @@
 
 namespace ContextMenu {
 
-  export class Popup extends MenuElement {
+  export class Popup extends AbstractPostable {
 
     menu: ContextMenu;
     title: string = '';
@@ -79,25 +79,48 @@ namespace ContextMenu {
       span.classList.add(HtmlClasses['POPUPTITLE']);
       return span;
     }
-    
+
     private generateContent(): HTMLElement {
       let div = document.createElement('div');
       div.classList.add(HtmlClasses['POPUPCONTENT']);
       div.setAttribute('tabindex', '0');
       return div;
     }
-    
+
     private generateSignature(): HTMLElement {
       let span = document.createElement('span');
       span.innerHTML = this.signature;
       span.classList.add(HtmlClasses['POPUPSIGNATURE']);
       return span;
     }
-    
+
+    /**
+     * @override
+     */
+    post(x: number, y: number) {
+      let doc = document.documentElement;
+      let H = window.innerHeight || doc.clientHeight || doc.scrollHeight || 0;
+      let W = window.innerWidth || doc.clientWidth || doc.scrollWidth || 0;
+
+      //// TODO: There is potentially a bug in IE. Look into it.
+      //  Look for MENU.prototype.msieAboutBug in MathMenu.js
+
+      let html = this.getHtml();
+      x = Math.floor((W - html.offsetWidth) / 4);
+      y = Math.floor((H - html.offsetHeight) / 3);
+      super.post(x, y);
+    }
+
     display() {
-      
+      let html = this.menu.getHtml();
+      html.parentNode.removeChild(html);
+
       this.menu.getFrame().appendChild(this.getHtml());
-      
+    }
+
+    unpost() {
+      super.unpost();
+      this.menu.unpost();
     }
 
   }

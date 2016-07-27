@@ -22,18 +22,19 @@
  * @author v.sorge@mathjax.org (Volker Sorge)
  */
 
+/// <reference path="abstract_postable.ts" />
 /// <reference path="css_util.ts" />
 /// <reference path="menu_element.ts" />
 
 namespace ContextMenu {
 
-  export class CloseButton extends MenuElement {
+  export class CloseButton extends AbstractPostable {
 
-    element: MenuElement;
+    private element: Postable;
     className = HtmlClasses['MENUCLOSE'];
     role = 'button';
 
-    constructor(element: MenuElement) {
+    constructor(element: Postable) {
       super();
       this.element = element;
     }
@@ -49,7 +50,13 @@ namespace ContextMenu {
       this.setHtml(html);
     }
 
-  }
-  
-}
+    display() { };
 
+    unpost() {
+      super.unpost();
+      this.element.unpost();
+    }
+
+  }
+
+}

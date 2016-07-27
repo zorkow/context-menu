@@ -10,6 +10,7 @@ MENU.ShowSource = function() {};
 MENU.isMac = function() {};
 MENU.Zoom = function() {};
 MENU.Id = function(x) {return x};
+MENU.About = function(x) {return x};
 var ll = {"menu":
  {"pool": [
      {
@@ -210,12 +211,12 @@ var ll = {"menu":
        "id": "About",
        "content": "About MathJax",
        "command": MENU.About,
-       "disabled": true
       },
       {"type": "command",
        "id": "Help",
        "content": "MathJax Help",
-       "command": MENU.Help
+       "command": MENU.Help,
+       "disabled": true
       }
       
   ]
@@ -225,9 +226,10 @@ var ll = {"menu":
 ContextMenu.CssStyles.addPopupStyles();
 cc = ContextMenu.parse(ll); ContextMenu.CssStyles.addMenuStyles();
 
-let dialog = new ContextMenu.Popup(cc, 'a', function(){
+var dialog = new ContextMenu.Popup(cc, 'a', function(){
 return '<b>bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb </b><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p>';}, 'c');
 
+MENU.About = function() {dialog.post(0, 0)};
 
 // Unfold zoom menu:
 //cc.post(50,50);
@@ -254,7 +256,7 @@ return '<b>bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb b
 <hr>
 <address></address>
 <!-- hhmts start -->
-Last modified: Tue Jul 26 15:44:08 CEST 2016
+Last modified: Wed Jul 27 11:51:43 CEST 2016
 <!-- hhmts end -->
 </body>
 <script>cc.getStore().insert(document.getElementsByClassName("test"));

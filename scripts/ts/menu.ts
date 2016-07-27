@@ -23,11 +23,12 @@
  */
 
 /// <reference path="item.ts" />
+/// <reference path="postable.ts" />
 /// <reference path="variable_pool.ts" />
 
 namespace ContextMenu {
 
-  export interface Menu {
+  export interface Menu extends Postable {
 
     /**
      * Returns the items in that menu.
@@ -52,21 +53,6 @@ namespace ContextMenu {
      * @return {VariablePool<string | boolean>};
      */
     getPool(): VariablePool<string | boolean>;
-
-    /**
-     * @return {boolean} True if menu is posted in the page.
-     */
-    isPosted(): boolean;
-
-    /**
-     * Posts the menu at the given coordinates.
-     */
-    post(x: number, y: number): void;
-
-    /**
-     * Unposts the menu.
-     */
-    unpost(): void;
 
     /**
      * Unposts all submenus of this menu.
