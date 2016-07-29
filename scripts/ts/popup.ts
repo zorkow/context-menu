@@ -62,7 +62,6 @@ namespace ContextMenu {
       html.appendChild(this.generateSignature());
       html.appendChild(this.close.getHtml());
       html.setAttribute('tabindex', '0');
-      this.setHtml(html);
     }
 
     private generateClose(): CloseButton {
@@ -106,6 +105,7 @@ namespace ContextMenu {
       //  Look for MENU.prototype.msieAboutBug in MathMenu.js
 
       let html = this.getHtml();
+      // These look a bit ad hoc. Check with all browsers.
       x = Math.floor((W - html.offsetWidth) / 4);
       y = Math.floor((H - html.offsetHeight) / 3);
       super.post(x, y);
@@ -114,10 +114,32 @@ namespace ContextMenu {
     display() {
       let html = this.menu.getHtml();
       html.parentNode.removeChild(html);
-
       this.menu.getFrame().appendChild(this.getHtml());
     }
 
+    /**
+     * @override
+     */
+    click(event: MouseEvent): void { }
+
+    /**
+     * @override
+     */
+    keydown(event: KeyboardEvent) {
+      this.bubbleKey();
+      super.keydown(event);
+    }
+
+    /**
+     * @override
+     */
+    escape(event: KeyboardEvent): void {
+      this.unpost();
+    }
+
+    /**
+     * @override
+     */
     unpost() {
       super.unpost();
       this.menu.unpost();
