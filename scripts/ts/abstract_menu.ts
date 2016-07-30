@@ -154,6 +154,8 @@ namespace ContextMenu {
      */
     unpost(): void {
       super.unpost();
+      this.unpostSubmenus();
+      this.setFocused(null);
     }
 
     /**

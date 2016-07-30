@@ -39,6 +39,9 @@ namespace ContextMenu {
       this.element = element;
     }
 
+    /**
+     * @override
+     */
     generateHtml() {
       let html = document.createElement('span');
       html.classList.add(this.className);
@@ -50,11 +53,41 @@ namespace ContextMenu {
       this.setHtml(html);
     }
 
+    /**
+     * @override
+     */
     display() { };
 
+    /**
+     * @override
+     */
     unpost() {
       super.unpost();
       this.element.unpost();
+    }
+
+    /**
+     * @override
+     */
+    keydown(event: KeyboardEvent) {
+      this.bubbleKey();
+      super.keydown(event);
+    }
+
+    /**
+     * @override
+     */
+    space(event: KeyboardEvent) {
+      this.unpost();
+      this.stop(event);
+    }
+
+    /**
+     * @override
+     */
+    mousedown(event: MouseEvent) {
+      this.unpost();
+      this.stop(event);
     }
 
   }

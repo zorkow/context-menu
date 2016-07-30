@@ -5,12 +5,18 @@
 </head>
 <script src="../scripts/js/context_menu.js"></script>
 <script>
+var dialog = new ContextMenu.Popup('a', function(){
+return '<b>bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb </b><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p>';}, '<a href="http://www.mathjax.org">MathJax.org</a>');
+
 var MENU = {};
 MENU.ShowSource = function() {};
 MENU.isMac = function() {};
 MENU.Zoom = function() {};
 MENU.Id = function(x) {return x};
-MENU.About = function(x) {return x};
+MENU.About = function() {
+  dialog.post(0, 0);
+};
+
 var ll = {"menu":
  {"pool": [
      {
@@ -201,21 +207,16 @@ var ll = {"menu":
        ]
        }
       },
-
-
-
-
-
       {"type": "rule"},
       {"type": "command",
        "id": "About",
        "content": "About MathJax",
-       "command": MENU.About,
+       "action": MENU.About,
       },
       {"type": "command",
        "id": "Help",
        "content": "MathJax Help",
-       "command": MENU.Help,
+       "action": MENU.Help,
        "disabled": true
       }
       
@@ -224,12 +225,9 @@ var ll = {"menu":
 }
 ;
 ContextMenu.CssStyles.addPopupStyles();
-cc = ContextMenu.parse(ll); ContextMenu.CssStyles.addMenuStyles();
-
-var dialog = new ContextMenu.Popup(cc, 'a', function(){
-return '<b>bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb </b><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p>';}, 'c');
-
-MENU.About = function() {dialog.post(0, 0)};
+ContextMenu.CssStyles.addMenuStyles();
+cc = ContextMenu.parse(ll);
+dialog.attachMenu(cc);
 
 // Unfold zoom menu:
 //cc.post(50,50);
@@ -246,6 +244,12 @@ MENU.About = function() {dialog.post(0, 0)};
 <p><div class="test" id="t4">t4</div></p>
 <p><div class="test" id="t5">t5</div></p>
 <p><div class="test" id="t6">t6</div></p>
+<p><div class="test" id="t1">t1</div></p>
+<p><div class="test" id="t2">t2</div></p>
+<p><div class="test" id="t3">t3</div></p>
+<p><div class="test" id="t4">t4</div></p>
+<p><div class="test" id="t5">t5</div></p>
+<p><div class="test" id="t6">t6</div></p>
 <div class="test" id="t7">t7</div>
 <div class="test" id="t8">t8</div>
 <p><div class="test" id="t9">t9</div></p>
@@ -256,7 +260,7 @@ MENU.About = function() {dialog.post(0, 0)};
 <hr>
 <address></address>
 <!-- hhmts start -->
-Last modified: Wed Jul 27 11:51:43 CEST 2016
+Last modified: Sat Jul 30 19:32:24 CEST 2016
 <!-- hhmts end -->
 </body>
 <script>cc.getStore().insert(document.getElementsByClassName("test"));

@@ -32,7 +32,6 @@ namespace ContextMenu {
 
   export class ContextMenu extends AbstractMenu {
 
-
     /**
      * Flag to avoid redoing taborder if we are between elements.
      * @type {boolean}
@@ -57,6 +56,12 @@ namespace ContextMenu {
      */
     private anchor: HTMLElement;
 
+    /**
+     * Registry of currently open widgets.
+     * @type {Array.<Postable>}
+     */
+    private widgets: Postable[] = [];
+
     constructor() {
       super();
       this.variablePool = new VariablePool<string | boolean>();
@@ -79,6 +84,7 @@ namespace ContextMenu {
       innerDiv.addEventListener('mousedown',
                                 function(event: Event) {
                                   this.unpost();
+                                  this.unpostWidgets();
                                   this.stop(event);
                                 }.bind(this));
     }
@@ -97,16 +103,17 @@ namespace ContextMenu {
      */
     escape(event: KeyboardEvent) {
       this.unpost();
+      this.unpostWidgets();
     }
 
     /**
      * @override
      */
     unpost() {
-      if (!this.isPosted()) {
+      super.unpost();
+      if (this.widgets.length > 0) {
         return;
       }
-      super.unpost();
       this.frame.parentNode.removeChild(this.frame);
       let store = this.getStore();
       if (!this.moving) {
@@ -213,6 +220,25 @@ namespace ContextMenu {
 
       this.post(x, y);
     }
+
+    registerWidget(widget: Postable) {
+      this.widgets.push(widget);
+    }
+
+    unregisterWidget(widget: Postable) {
+      let index = this.widgets.indexOf(widget);
+      if (index > -1) {
+        this.widgets.splice(index, 1);
+      }
+      if (this.widgets.length === 0) {
+        this.unpost();
+      }
+    }
+
+    unpostWidgets() {
+      this.widgets.forEach(x => x.unpost());
+    }
+
   }
 
 }

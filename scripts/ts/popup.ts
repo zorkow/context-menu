@@ -38,15 +38,16 @@ namespace ContextMenu {
     className = HtmlClasses['POPUP'];
     role = 'dialog';
 
-    constructor(menu: ContextMenu,
-                title: string, content: Function, signature: string) {
+    constructor(title: string, content: Function, signature: string) {
       super();
-      this.menu = menu;
       this.title = title;
       this.content = content;
       this.signature = signature;
     }
 
+    attachMenu(menu: ContextMenu): void {
+      this.menu = menu;
+    }
 
     getHtml() {
       let html = super.getHtml();
@@ -111,7 +112,11 @@ namespace ContextMenu {
       super.post(x, y);
     }
 
+    /**
+     * @override
+     */
     display() {
+      this.menu.registerWidget(this);
       let html = this.menu.getHtml();
       html.parentNode.removeChild(html);
       this.menu.getFrame().appendChild(this.getHtml());
@@ -142,7 +147,7 @@ namespace ContextMenu {
      */
     unpost() {
       super.unpost();
-      this.menu.unpost();
+      this.menu.unregisterWidget(this);
     }
 
   }
