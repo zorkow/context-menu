@@ -23,7 +23,8 @@
  */
 
 /// <reference path="close_button.ts" />
-/// <reference path="css_util.ts" />
+/// <reference path="context_menu.ts" />
+/// <reference path="html_classes.ts" />
 
 namespace ContextMenu {
 
@@ -45,16 +46,26 @@ namespace ContextMenu {
       this.signature = signature;
     }
 
+    /**
+     * Attaches the widget to a context menu.
+     * @param {ContextMenu} menu The parent menu.
+     */
     attachMenu(menu: ContextMenu): void {
       this.menu = menu;
     }
 
+    /**
+     * @override
+     */
     getHtml() {
       let html = super.getHtml();
       this.contentDiv.innerHTML = this.content();
       return html;
     }
 
+    /**
+     * @override
+     */
     generateHtml() {
       super.generateHtml();
       let html = this.getHtml();
@@ -65,6 +76,9 @@ namespace ContextMenu {
       html.setAttribute('tabindex', '0');
     }
 
+    /**
+     * @return {CloseButton} The close button for the widget.
+     */
     private generateClose(): CloseButton {
       let close = new CloseButton(this);
       let html = close.getHtml();
@@ -73,6 +87,9 @@ namespace ContextMenu {
       return close;
     }
 
+    /**
+     * @return {HTMLElement} The title element of the widget.
+     */
     private generateTitle(): HTMLElement {
       let span = document.createElement('span');
       span.innerHTML = this.title;
@@ -80,6 +97,10 @@ namespace ContextMenu {
       return span;
     }
 
+    /**
+     * @return {HTMLElement} The basic content element of the widget. The actual
+     *     content is regenerated and attached during posting.
+     */
     private generateContent(): HTMLElement {
       let div = document.createElement('div');
       div.classList.add(HtmlClasses['POPUPCONTENT']);
@@ -87,6 +108,9 @@ namespace ContextMenu {
       return div;
     }
 
+    /**
+     * @return {HTMLElement} The signature element of the widget.
+     */
     private generateSignature(): HTMLElement {
       let span = document.createElement('span');
       span.innerHTML = this.signature;
@@ -150,6 +174,9 @@ namespace ContextMenu {
       this.menu.unregisterWidget(this);
     }
 
+    /**
+     * @override
+     */
     mouseup(event: MouseEvent) {
       this.getHtml().classList.add(HtmlClasses['MOUSEPOST']);
       super.mouseup(event);
