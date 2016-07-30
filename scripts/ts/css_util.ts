@@ -44,6 +44,7 @@ namespace ContextMenu {
       '  overflow:auto; text-align:left; font-size:80%;' +
       '  padding:.4em .6em; border:1px inset; margin:1em 0px;' +
       '  max-height:20em; max-width:30em; background-color:#EEEEEE;' +
+      '  white-space:normal;' +
       '}',
     POPUP_STYLES[makeClass_('POPUP') + makeClass_('MOUSEPOST')] = '{' +
       'outline:none;' +
