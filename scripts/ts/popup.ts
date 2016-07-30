@@ -59,7 +59,6 @@ namespace ContextMenu {
      */
     getHtml() {
       let html = super.getHtml();
-      this.contentDiv.innerHTML = this.content();
       return html;
     }
 
@@ -140,6 +139,7 @@ namespace ContextMenu {
      */
     display() {
       this.menu.registerWidget(this);
+      this.contentDiv.innerHTML = this.content();
       let html = this.menu.getHtml();
       html.parentNode.removeChild(html);
       this.menu.getFrame().appendChild(this.getHtml());
