@@ -45,6 +45,9 @@ namespace ContextMenu {
       '  padding:.4em .6em; border:1px inset; margin:1em 0px;' +
       '  max-height:20em; max-width:30em; background-color:#EEEEEE;' +
       '}',
+    POPUP_STYLES[makeClass_('POPUP') + makeClass_('MOUSEPOST')] = '{' +
+      'outline:none;' +
+      '}',
     POPUP_STYLES[makeClass_('POPUP')] = '{' +
       '  position:fixed; left:50%; width:auto; text-align:center;' +
       '  border:3px outset; padding:1em 2em; background-color:#DDDDDD;' +
@@ -53,7 +56,7 @@ namespace ContextMenu {
       '  font-style:normal; text-indent:0; text-transform:none;' +
       '  line-height:normal; letter-spacing:normal; word-spacing:normal;' +
       '  word-wrap:normal; white-space:nowrap; float:none; z-index:201;'  +
-      '  border-radius: "15px;                     /* Opera 10.5 and IE9 */' +
+      '  border-radius: 15px;                     /* Opera 10.5 and IE9 */' +
       '  -webkit-border-radius:15px;               /* Safari and Chrome */' +
       '  -moz-border-radius:15px;                  /* Firefox */' +
       '  -khtml-border-radius:15px;                /* Konqueror */' +
@@ -63,9 +66,6 @@ namespace ContextMenu {
       '  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */' +
       '  filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=2,' +
       ' OffY=2, Color="gray", Positive="true"); /* IE */' +
-      '}',
-    POPUP_STYLES[makeClass_('POPUP') + makeClass_('MOUSEPOST')] = '{' +
-      'outline:none;' +
       '}';
 
     let MENU_STYLES: {[id: string]: string} = {};

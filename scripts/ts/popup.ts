@@ -98,18 +98,17 @@ namespace ContextMenu {
      * @override
      */
     post(x: number, y: number) {
-      let doc = document.documentElement;
-      let H = window.innerHeight || doc.clientHeight || doc.scrollHeight || 0;
-      let W = window.innerWidth || doc.clientWidth || doc.scrollWidth || 0;
-
+      super.post(0, 0);
       //// TODO: There is potentially a bug in IE. Look into it.
       //  Look for MENU.prototype.msieAboutBug in MathMenu.js
-
+      let doc = document.documentElement;
       let html = this.getHtml();
-      // These look a bit ad hoc. Check with all browsers.
-      x = Math.floor((W - html.offsetWidth) / 4);
+      let H = window.innerHeight || doc.clientHeight || doc.scrollHeight || 0;
+      x = Math.floor((- html.offsetWidth) / 2);
       y = Math.floor((H - html.offsetHeight) / 3);
-      super.post(x, y);
+      this.getHtml().setAttribute(
+          'style', 'margin-left: ' + x + 'px; top: ' + y + 'px;');
+      html.focus();
     }
 
     /**
@@ -147,7 +146,13 @@ namespace ContextMenu {
      */
     unpost() {
       super.unpost();
+      this.getHtml().classList.remove(HtmlClasses['MOUSEPOST']);
       this.menu.unregisterWidget(this);
+    }
+
+    mouseup(event: MouseEvent) {
+      this.getHtml().classList.add(HtmlClasses['MOUSEPOST']);
+      super.mouseup(event);
     }
 
   }
