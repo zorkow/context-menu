@@ -89,7 +89,9 @@ namespace ContextMenu {
     RTL: prefixClass_('RTL'),
     POPUP: prefixClass_('Popup'),
     POPUPCLOSE: prefixClass_('PopupClose'),
-    POPUPCONTENT: prefixClass_('PopupContent')
+    POPUPCONTENT: prefixClass_('PopupContent'),
+    POPUPSIGNATURE: prefixClass_('PopupSignature'),
+    POPUPTITLE: prefixClass_('PopupTitle')
   };
 
   // This is an awkward type construction!
@@ -98,7 +100,8 @@ namespace ContextMenu {
     'CtxtMenu_MenuClose' | 'CtxtMenu_MenuDisabled' | 'CtxtMenu_MenuItem' |
     'CtxtMenu_MenuLabel' | 'CtxtMenu_MenuRadioCheck' | 'CtxtMenu_MenuRule' |
     'CtxtMenu_MousePost' | 'CtxtMenu_RTL' | 'CtxtMenu_Attached' |
-    'CtxtMenu_Popup' | 'CtxtMenu_PopupClose' | 'CtxtMenu_PopupContent';
+    'CtxtMenu_Popup' | 'CtxtMenu_PopupClose' | 'CtxtMenu_PopupContent' |
+    'CtxtMenu_PopupSignature' | 'CtxtMenu_PopupTitle';
 
   /**
    * HTML ids.
