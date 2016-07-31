@@ -64,6 +64,18 @@ namespace ContextMenu {
       }
     }
 
+    /**
+     * Retrieves the currently active element of the overall context menu.
+     * @param {Item} item The item on which the last call was made.
+     * @return {HtmlElement} The currently active element.
+     */
+    export function getActiveElement(item: Item): HTMLElement {
+      let menu = item.getMenu();
+      let baseMenu = menu instanceof SubMenu ?
+        menu.baseMenu : <ContextMenu>menu;
+      return baseMenu.getStore().getActive();
+    }
+
     // error for debug mode.
     export function error(error: Error, msg: string): void {
       console.log('ContextMenu Error: ' + msg);

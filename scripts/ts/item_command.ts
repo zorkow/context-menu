@@ -50,7 +50,7 @@ namespace ContextMenu {
      */
     executeAction() {
       try {
-        this.command();
+        this.command(MenuUtil.getActiveElement(this));
       } catch (e) {
         MenuUtil.error(e, 'Illegal command callback.');
       }
