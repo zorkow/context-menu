@@ -197,8 +197,8 @@ namespace ContextMenu {
       } else {
         node = numberOrEvent;
       }
-      this.anchor = node;
       this.getStore().setActive(node);
+      this.anchor = this.getStore().getActive();
       if ((keydown || (!x && !y)) && node) {
         let offsetX = window.pageXOffset || document.documentElement.scrollLeft;
         let offsetY = window.pageYOffset || document.documentElement.scrollTop;
@@ -212,10 +212,12 @@ namespace ContextMenu {
       if (x + menu.offsetWidth > document.body.offsetWidth - margin) {
         x = document.body.offsetWidth - menu.offsetWidth - margin;
       }
-      
+
       // Not sure what these do!
       // 
-      // if (MENU.isMobile) {x = Math.max(5,x-Math.floor(menu.offsetWidth/2)); y -= 20}
+      // if (MENU.isMobile) {
+      //    x = Math.max(5,x-Math.floor(menu.offsetWidth/2)); y -= 20
+      // }
       // MENU.skipUp = event.isContextMenu;
 
       this.post(x, y);
