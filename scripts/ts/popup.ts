@@ -129,8 +129,11 @@ namespace ContextMenu {
       let H = window.innerHeight || doc.clientHeight || doc.scrollHeight || 0;
       x = Math.floor((- html.offsetWidth) / 2);
       y = Math.floor((H - html.offsetHeight) / 3);
-      this.getHtml().setAttribute(
-          'style', 'margin-left: ' + x + 'px; top: ' + y + 'px;');
+      html.setAttribute(
+        'style', 'margin-left: ' + x + 'px; top: ' + y + 'px;');
+      if (window.event instanceof MouseEvent) {
+        html.classList.add(HtmlClasses['MOUSEPOST']);
+      }
       html.focus();
     }
 
@@ -172,14 +175,6 @@ namespace ContextMenu {
       super.unpost();
       this.getHtml().classList.remove(HtmlClasses['MOUSEPOST']);
       this.menu.unregisterWidget(this);
-    }
-
-    /**
-     * @override
-     */
-    mouseup(event: MouseEvent) {
-      this.getHtml().classList.add(HtmlClasses['MOUSEPOST']);
-      super.mouseup(event);
     }
 
   }
