@@ -30,6 +30,15 @@ namespace ContextMenu {
   export abstract class AbstractNavigatable implements
   Navigatable, MouseNavigatable {
 
+    private bubble = false;
+
+    /**
+     * Bubble this key event.
+     */
+    bubbleKey(): void {
+      this.bubble = true;
+    }
+
     /**
      * @override
      */
@@ -57,7 +66,7 @@ namespace ContextMenu {
       default:
         return;
       }
-      return this.stop(event);
+      this.bubble ? this.bubble = false : this.stop(event);
     };
 
     /**

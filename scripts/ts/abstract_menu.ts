@@ -22,6 +22,7 @@
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
+/// <reference path="abstract_postable.ts" />
 /// <reference path="menu.ts" />
 /// <reference path="menu_element.ts" />
 /// <reference path="item.ts" />
@@ -30,14 +31,13 @@
 
 namespace ContextMenu {
 
-  export abstract class AbstractMenu extends MenuElement implements Menu {
+  export abstract class AbstractMenu extends AbstractPostable implements Menu {
 
     private items: Item[] = [];
     private focused: Item;
     protected variablePool: VariablePool<string | boolean>;
     className = HtmlClasses['CONTEXTMENU'];
     role = 'menu';
-    private posted = false;
 
     constructor() {
       super();
@@ -138,31 +138,6 @@ namespace ContextMenu {
     /**
      * @override
      */
-    isPosted() {
-      return this.posted;
-    }
-
-    /**
-     * @override
-     */
-    post(x: number, y: number) {
-      if (this.posted) {
-        return;
-      }
-      this.getHtml().setAttribute(
-          'style', 'left: ' + x + 'px; top: ' + y + 'px;');
-      this.display();
-      this.posted = true;
-    }
-
-    /**
-     * Displays the menu on screen.
-     */
-    protected abstract display(): void;
-
-    /**
-     * @override
-     */
     unpostSubmenus(): void {
       let submenus =
         <Submenu[]>this.items.filter(x => x instanceof Submenu);
@@ -178,13 +153,9 @@ namespace ContextMenu {
      * @override
      */
     unpost(): void {
-      if (!this.posted) {
-        return;
-      }
+      super.unpost();
+      this.unpostSubmenus();
       this.setFocused(null);
-      let html = this.getHtml();
-      html.parentNode.removeChild(html);
-      this.posted = false;
     }
 
     /**

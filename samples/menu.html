@@ -1,14 +1,22 @@
 <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
 <html> <head>
 <title>Testing the context menu</title>
+
 </head>
 <script src="../scripts/js/context_menu.js"></script>
 <script>
+var dialog = new ContextMenu.Popup('a', function(){
+return '<b>bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb </b><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p>';}, '<a href="http://www.mathjax.org">MathJax.org</a>');
+
 var MENU = {};
 MENU.ShowSource = function() {};
 MENU.isMac = function() {};
 MENU.Zoom = function() {};
 MENU.Id = function(x) {return x};
+MENU.About = function() {
+  dialog.post(0, 0);
+};
+
 var ll = {"menu":
  {"pool": [
      {
@@ -199,41 +207,43 @@ var ll = {"menu":
        ]
        }
       },
-
-
-
-
-
       {"type": "rule"},
       {"type": "command",
        "id": "About",
        "content": "About MathJax",
-       "command": MENU.About,
-       "disabled": true
+       "action": MENU.About,
       },
       {"type": "command",
        "id": "Help",
        "content": "MathJax Help",
-       "command": MENU.Help
+       "action": MENU.Help,
+       "disabled": true
       }
       
   ]
  }
 }
 ;
-cc = ContextMenu.parse(ll); ContextMenu.CssStyles.addMenuStyles();
-
+ContextMenu.CssStyles.addPopupStyles();
+ContextMenu.CssStyles.addMenuStyles();
+cc = ContextMenu.parse(ll);
+dialog.attachMenu(cc);
 
 // Unfold zoom menu:
 //cc.post(50,50);
 
 </script>
-
 <body>
 <h1>Testing the context menu</h1>
 
 <button onclick=cc.post(50,50)>here</button>
 
+<p><div class="test" id="t1">t1</div></p>
+<p><div class="test" id="t2">t2</div></p>
+<p><div class="test" id="t3">t3</div></p>
+<p><div class="test" id="t4">t4</div></p>
+<p><div class="test" id="t5">t5</div></p>
+<p><div class="test" id="t6">t6</div></p>
 <p><div class="test" id="t1">t1</div></p>
 <p><div class="test" id="t2">t2</div></p>
 <p><div class="test" id="t3">t3</div></p>
@@ -250,9 +260,10 @@ cc = ContextMenu.parse(ll); ContextMenu.CssStyles.addMenuStyles();
 <hr>
 <address></address>
 <!-- hhmts start -->
-Last modified: Mon Jul 25 15:00:49 CEST 2016
+Last modified: Sat Jul 30 19:32:24 CEST 2016
 <!-- hhmts end -->
 </body>
-<script>cc.getStore().insert(document.getElementsByClassName("test"));</script>
+<script>cc.getStore().insert(document.getElementsByClassName("test"));
+</script>
 
 </html>

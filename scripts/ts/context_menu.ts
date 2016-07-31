@@ -33,6 +33,12 @@ namespace ContextMenu {
   export class ContextMenu extends AbstractMenu {
 
     /**
+     * Flag to avoid redoing taborder if we are between elements.
+     * @type {boolean}
+     */
+    private moving = false;
+
+    /**
      * The div that holds the entire menu.
      * @type {HTMLElement}
      */
@@ -49,6 +55,12 @@ namespace ContextMenu {
      * @type {HTMLElement}
      */
     private anchor: HTMLElement;
+
+    /**
+     * Registry of currently open widgets.
+     * @type {Array.<Postable>}
+     */
+    private widgets: Postable[] = [];
 
     constructor() {
       super();
@@ -69,7 +81,12 @@ namespace ContextMenu {
       let innerDiv = document.createElement('div');
       innerDiv.setAttribute('style', 'position: fixed; ' + styleString);
       this.frame.appendChild(innerDiv);
-      innerDiv.addEventListener('mousedown', this.unpost.bind(this));
+      innerDiv.addEventListener('mousedown',
+                                function(event: Event) {
+                                  this.unpost();
+                                  this.unpostWidgets();
+                                  this.stop(event);
+                                }.bind(this));
     }
 
     /**
@@ -86,20 +103,23 @@ namespace ContextMenu {
      */
     escape(event: KeyboardEvent) {
       this.unpost();
-      let store = this.getStore();
-      store.insertTaborder();
-      store.getActive().focus();
+      this.unpostWidgets();
     }
 
     /**
      * @override
      */
     unpost() {
-      if (!this.isPosted()) {
+      super.unpost();
+      if (this.widgets.length > 0) {
         return;
       }
-      super.unpost();
       this.frame.parentNode.removeChild(this.frame);
+      let store = this.getStore();
+      if (!this.moving) {
+        store.insertTaborder();
+      }
+      store.getActive().focus();
     }
 
     /**
@@ -123,8 +143,10 @@ namespace ContextMenu {
      */
     move_(next: HTMLElement) {
       if (this.anchor && next !== this.anchor) {
+        this.moving = true;
         this.unpost();
         this.post(next);
+        this.moving = false;
       }
     }
 
@@ -150,7 +172,9 @@ namespace ContextMenu {
 
     post(numberOrEvent: any, isY?: number) {
       if (typeof(isY) !== 'undefined') {
-        this.getStore().removeTaborder();
+        if (!this.moving) {
+          this.getStore().removeTaborder();
+        }
         super.post(numberOrEvent, isY);
         return;
       }
@@ -196,6 +220,25 @@ namespace ContextMenu {
 
       this.post(x, y);
     }
+
+    registerWidget(widget: Postable) {
+      this.widgets.push(widget);
+    }
+
+    unregisterWidget(widget: Postable) {
+      let index = this.widgets.indexOf(widget);
+      if (index > -1) {
+        this.widgets.splice(index, 1);
+      }
+      if (this.widgets.length === 0) {
+        this.unpost();
+      }
+    }
+
+    unpostWidgets() {
+      this.widgets.forEach(x => x.unpost());
+    }
+
   }
 
 }
