@@ -17,7 +17,7 @@
 
 
 /**
- * @fileoverview Class of popup widgets.
+ * @fileoverview Class of kill buttons to close menus and widgets.
  *
  * @author v.sorge@mathjax.org (Volker Sorge)
  */

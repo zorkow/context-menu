@@ -36,20 +36,20 @@ namespace ContextMenu {
       return '.' + (HtmlClasses[name] || name);
     }
 
-    let POPUP_STYLES: {[id: string]: string} = {};
-    POPUP_STYLES[makeClass_('POPUPCLOSE')] = '{' +
+    let INFO_STYLES: {[id: string]: string} = {};
+    INFO_STYLES[makeClass_('INFOCLOSE')] = '{' +
       '  top:.2em; right:.2em;' +
       '}',
-    POPUP_STYLES[makeClass_('POPUPCONTENT')] = '{' +
+    INFO_STYLES[makeClass_('INFOCONTENT')] = '{' +
       '  overflow:auto; text-align:left; font-size:80%;' +
       '  padding:.4em .6em; border:1px inset; margin:1em 0px;' +
       '  max-height:20em; max-width:30em; background-color:#EEEEEE;' +
       '  white-space:normal;' +
       '}',
-    POPUP_STYLES[makeClass_('POPUP') + makeClass_('MOUSEPOST')] = '{' +
+    INFO_STYLES[makeClass_('INFO') + makeClass_('MOUSEPOST')] = '{' +
       'outline:none;' +
       '}',
-    POPUP_STYLES[makeClass_('POPUP')] = '{' +
+    INFO_STYLES[makeClass_('INFO')] = '{' +
       '  position:fixed; left:50%; width:auto; text-align:center;' +
       '  border:3px outset; padding:1em 2em; background-color:#DDDDDD;' +
       '  color:black;' +
@@ -179,7 +179,7 @@ namespace ContextMenu {
       '  outline:none' +
       '}';
 
-    let POPUP_ADDED = false;
+    let INFO_ADDED = false;
     let MENU_ADDED = false;
     let CLOSE_ICON_ADDED = false;
 
@@ -198,15 +198,15 @@ namespace ContextMenu {
     }
 
     /**
-     * Adds the CSS styles for popup widgets.
+     * Adds the CSS styles for info widgets.
      * @param {?HTMLDocument} opt_document The HTML document.
      */
-    export function addPopupStyles(opt_document: HTMLDocument): void {
-      if (POPUP_ADDED) {
+    export function addInfoStyles(opt_document: HTMLDocument): void {
+      if (INFO_ADDED) {
         return;
       }
-      addStyles_(POPUP_STYLES, opt_document);
-      POPUP_ADDED = true;
+      addStyles_(INFO_STYLES, opt_document);
+      INFO_ADDED = true;
       addCloseIconStyles_(opt_document);
     }
 
