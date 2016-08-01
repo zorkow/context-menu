@@ -49,7 +49,7 @@ namespace ContextMenu {
     private window: Window = null;
     mobileFlag = false;
     private active: HTMLElement = null;
-    
+
     constructor(title: string, content: Function) {
       this.title = title;
       this.content = content;

@@ -218,8 +218,9 @@ namespace ContextMenu {
       CLOSE_ICON_ADDED = true;
     }
 
-    function addStyles_(styles: {[id: string]: string}, opt_document: HTMLDocument): void {
-      let doc = opt_document || document;
+    function addStyles_(
+      styles: {[id: string]: string}, opt_document: HTMLDocument): void {
+        let doc = opt_document || document;
       let element: HTMLStyleElement = doc.createElement('style');
       element.type = 'text/css';
       let inner = '';
