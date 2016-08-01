@@ -120,15 +120,15 @@ namespace ContextMenu {
     /**
      * @override
      */
-    post(x: number, y: number) {
-      super.post(0, 0);
+    post() {
+      super.post();
       //// TODO: There is potentially a bug in IE. Look into it.
       //  Look for MENU.prototype.msieAboutBug in MathMenu.js
       let doc = document.documentElement;
       let html = this.getHtml();
       let H = window.innerHeight || doc.clientHeight || doc.scrollHeight || 0;
-      x = Math.floor((- html.offsetWidth) / 2);
-      y = Math.floor((H - html.offsetHeight) / 3);
+      let x = Math.floor((- html.offsetWidth) / 2);
+      let y = Math.floor((H - html.offsetHeight) / 3);
       html.setAttribute(
         'style', 'margin-left: ' + x + 'px; top: ' + y + 'px;');
       if (window.event instanceof MouseEvent) {

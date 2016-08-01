@@ -166,11 +166,12 @@ namespace ContextMenu {
     }
 
     // Overloading
+    post(): void;
     post(x: number, y: number): void;
     post(event: Event): void;
     post(event: HTMLElement): void;
 
-    post(numberOrEvent: any, isY?: number) {
+    post(numberOrEvent?: any, isY?: number) {
       if (typeof(isY) !== 'undefined') {
         if (!this.moving) {
           this.getStore().removeTaborder();

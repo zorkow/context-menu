@@ -34,7 +34,8 @@ namespace ContextMenu {
     /**
      * Posts the element at the given coordinates.
      */
-    post(x: number, y: number): void;
+    post(): void;
+    post(x?: number, y?: number): void;
 
     /**
      * Removes element from page.
