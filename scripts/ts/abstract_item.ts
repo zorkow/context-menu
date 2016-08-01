@@ -84,9 +84,10 @@ namespace ContextMenu {
      * Executes the additional callbacks registered with this menu item.
      */
     private executeCallbacks_() {
+      let active = MenuUtil.getActiveElement(this);
       for (let func of this.callbacks) {
         try {
-          func();
+          func(event);
         } catch (e) {
           MenuUtil.error(e, 'Callback for menu entry ' + this.getId() +
                          ' failed.');

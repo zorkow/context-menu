@@ -52,7 +52,7 @@ namespace ContextMenu {
       this.baseMenu = <ContextMenu>menu;
     }
 
-    post(x: number, y: number) {
+    post() {
       if (!this.anchor.getMenu().isPosted()) {
         return;
       }
@@ -65,7 +65,8 @@ namespace ContextMenu {
       let menu = this.getHtml();
       let base = this.baseMenu.getFrame();
       let side = 'left', mw = parent.offsetWidth;
-      x = (mobileFlag ? 30 : mw - 2); y = 0;
+      let x = (mobileFlag ? 30 : mw - 2);
+      let y = 0;
       while (parent && parent !== base) {
         x += parent.offsetLeft;
         y += parent.offsetTop;

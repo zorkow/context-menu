@@ -30,7 +30,7 @@ namespace ContextMenu {
   export class MenuStore {
 
     private store: HTMLElement[] = [];
-    private active: HTMLElement;
+    private active: HTMLElement = null;
     private menu: ContextMenu;
     private attrMap: {[name: string]: EventListener} = {};
     private counter: number = 0;
@@ -51,9 +51,13 @@ namespace ContextMenu {
      * @param {HTMLElement} element Element to be activated.
      */
     setActive(element: HTMLElement): void {
-      if (this.store.indexOf(element) !== -1) {
-        this.active = element;
-      }
+      do {
+        if (this.store.indexOf(element) !== -1) {
+          this.active = element;
+          break;
+        }
+        element = <HTMLElement>element.parentNode;
+      } while (element);
     }
 
     /**

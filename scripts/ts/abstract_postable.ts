@@ -45,12 +45,14 @@ namespace ContextMenu {
     /**
      * @override
      */
-    post(x: number, y: number) {
+    post(x?: number, y?: number) {
       if (this.posted) {
         return;
       }
-      this.getHtml().setAttribute(
+      if (typeof(x) !== 'undefined' && typeof(y) !== 'undefined') {
+        this.getHtml().setAttribute(
           'style', 'left: ' + x + 'px; top: ' + y + 'px;');
+      }
       this.display();
       this.posted = true;
     }

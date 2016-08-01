@@ -17,33 +17,56 @@
 
 
 /**
- * @fileoverview Class of popup widgets.
+ * @fileoverview Class of popup windows. Each object can actually spawn multiple
+ *      windows.
  *
  * @author v.sorge@mathjax.org (Volker Sorge)
  */
 
-/// <reference path="close_button.ts" />
 /// <reference path="context_menu.ts" />
-/// <reference path="html_classes.ts" />
+/// <reference path="menu_util.ts" />
 
 namespace ContextMenu {
 
   export class Popup extends AbstractPostable {
 
-    menu: ContextMenu;
-    title: string = '';
-    signature: string = '';
-    content: Function = function() { return ''; };
-    contentDiv: HTMLElement = this.generateContent();
-    close: CloseButton = this.generateClose();
-    className = HtmlClasses['POPUP'];
-    role = 'dialog';
+    static popupSettings: {[id: string]: (string | number)} = {
+        status: 'no',
+        toolbar: 'no',
+        locationbar: 'no',
+        menubar: 'no',
+        directories: 'no',
+        personalbar: 'no',
+        resizable: 'yes',
+        scrollbars: 'yes',
+        width: 400,
+        height: 300,
+        left: Math.round((screen.width - 400) / 2),
+        top:  Math.round((screen.height - 300) / 3)
+      };
+    private menu: ContextMenu;
+    private title: string = '';
+    private content: Function = function() { return ''; };
 
-    constructor(title: string, content: Function, signature: string) {
+    /**
+     * The last opened window.
+     * @type {Window} 
+     */
+    private window: Window = null;
+
+    /**
+     * The list of all windows opened by this object.
+     * @type {Array.<Window>} 
+     */
+    private windowList: Window[] = [];
+
+    mobileFlag = false;
+    private active: HTMLElement = null;
+
+    constructor(title: string, content: Function) {
       super();
       this.title = title;
       this.content = content;
-      this.signature = signature;
     }
 
     /**
@@ -57,129 +80,83 @@ namespace ContextMenu {
     /**
      * @override
      */
-    getHtml() {
-      let html = super.getHtml();
-      this.contentDiv.innerHTML = this.content();
-      return html;
-    }
-
-    /**
-     * @override
-     */
-    generateHtml() {
-      super.generateHtml();
-      let html = this.getHtml();
-      html.appendChild(this.generateTitle());
-      html.appendChild(this.contentDiv);
-      html.appendChild(this.generateSignature());
-      html.appendChild(this.close.getHtml());
-      html.setAttribute('tabindex', '0');
-    }
-
-    /**
-     * @return {CloseButton} The close button for the widget.
-     */
-    private generateClose(): CloseButton {
-      let close = new CloseButton(this);
-      let html = close.getHtml();
-      html.classList.add(HtmlClasses['POPUPCLOSE']);
-       html.setAttribute('aria-label', 'Close Dialog Box');
-      return close;
-    }
-
-    /**
-     * @return {HTMLElement} The title element of the widget.
-     */
-    private generateTitle(): HTMLElement {
-      let span = document.createElement('span');
-      span.innerHTML = this.title;
-      span.classList.add(HtmlClasses['POPUPTITLE']);
-      return span;
-    }
-
-    /**
-     * @return {HTMLElement} The basic content element of the widget. The actual
-     *     content is regenerated and attached during posting.
-     */
-    private generateContent(): HTMLElement {
-      let div = document.createElement('div');
-      div.classList.add(HtmlClasses['POPUPCONTENT']);
-      div.setAttribute('tabindex', '0');
-      return div;
-    }
-
-    /**
-     * @return {HTMLElement} The signature element of the widget.
-     */
-    private generateSignature(): HTMLElement {
-      let span = document.createElement('span');
-      span.innerHTML = this.signature;
-      span.classList.add(HtmlClasses['POPUPSIGNATURE']);
-      return span;
-    }
-
-    /**
-     * @override
-     */
-    post(x: number, y: number) {
-      super.post(0, 0);
-      //// TODO: There is potentially a bug in IE. Look into it.
-      //  Look for MENU.prototype.msieAboutBug in MathMenu.js
-      let doc = document.documentElement;
-      let html = this.getHtml();
-      let H = window.innerHeight || doc.clientHeight || doc.scrollHeight || 0;
-      x = Math.floor((- html.offsetWidth) / 2);
-      y = Math.floor((H - html.offsetHeight) / 3);
-      this.getHtml().setAttribute(
-          'style', 'margin-left: ' + x + 'px; top: ' + y + 'px;');
-      html.focus();
+    post() {
+      this.display();
     }
 
     /**
      * @override
      */
     display() {
-      this.menu.registerWidget(this);
-      let html = this.menu.getHtml();
-      html.parentNode.removeChild(html);
-      this.menu.getFrame().appendChild(this.getHtml());
+      this.active = this.menu.getStore().getActive();
+      let settings: string[] = [];
+      for (let setting in Popup.popupSettings) {
+        settings.push(setting + '=' + Popup.popupSettings[setting]);
+      }
+      this.window = window.open('', '_blank', settings.join(','));
+      this.windowList.push(this.window);
+      let doc = this.window.document;
+      if (this.mobileFlag) {
+        doc.open();
+        doc.write('<html><head><meta name="viewport" ' +
+                  'content="width=device-width, initial-scale=1.0" /><title>' +
+                  this.title +
+                  '</title></head><body style="font-size:85%">');
+        doc.write('<pre>' + this.generateContent() + '</pre>');
+        doc.write('<hr><input type="button" value="' +
+                  //// TODO: Localise
+                  'Close' + '" onclick="window.close()" />');
+        doc.write('</body></html>');
+        doc.close();
+      } else {
+        doc.open();
+        doc.write('<html><head><title>' + this.title +
+                  '</title></head><body style="font-size:85%">');
+        doc.write('<table><tr><td><pre>' + this.generateContent() +
+                  '</pre></td></tr></table>');
+        doc.write('</body></html>');
+        doc.close();
+        setTimeout(this.resize.bind(this), 50);
+      }
     }
 
     /**
-     * @override
+     * Generates the content of the window.
+     * @return {string} The generated content.
      */
-    click(event: MouseEvent): void { }
-
-    /**
-     * @override
-     */
-    keydown(event: KeyboardEvent) {
-      this.bubbleKey();
-      super.keydown(event);
+    generateContent(): string {
+      return this.content(this.active);
     }
 
     /**
-     * @override
+     * Resizes the window so it fits snuggly around the content.
      */
-    escape(event: KeyboardEvent): void {
-      this.unpost();
+    resize() {
+      let table = <HTMLElement>this.window.document.body.firstChild;
+      let H = (this.window.outerHeight - this.window.innerHeight) || 30;
+      let W = (this.window.outerWidth - this.window.innerWidth) || 30;
+      W = Math.max(140, Math.min(Math.floor(.5 * screen.width),
+                                 table.offsetWidth + W + 25));
+      H = Math.max(40, Math.min(Math.floor(.5 * screen.height),
+                                table.offsetHeight + H + 25));
+      this.window.resizeTo(W, H);
+      let bb = this.active.getBoundingClientRect();
+      if (bb) {
+        let x = Math.max(0, Math.min(bb.right - Math.floor(W / 2),
+                                 screen.width - W - 20));
+        let y = Math.max(0, Math.min(bb.bottom - Math.floor(H / 2),
+                                 screen.height - H - 20));
+        this.window.moveTo(x, y);
+      }
+      this.active = null;
     }
 
     /**
      * @override
      */
     unpost() {
-      super.unpost();
-      this.getHtml().classList.remove(HtmlClasses['MOUSEPOST']);
-      this.menu.unregisterWidget(this);
-    }
-
-    /**
-     * @override
-     */
-    mouseup(event: MouseEvent) {
-      this.getHtml().classList.add(HtmlClasses['MOUSEPOST']);
-      super.mouseup(event);
+      this.windowList.forEach(x => x.close());
+      this.window = null;
     }
 
   }

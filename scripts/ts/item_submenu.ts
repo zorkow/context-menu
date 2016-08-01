@@ -39,7 +39,7 @@ namespace ContextMenu {
      * The sub menu object.
      * @type {SubMenu}
      */
-    private submenu: SubMenu = null;
+    private submenu: Menu = null;
 
     /**
      * @constructor
@@ -107,7 +107,7 @@ namespace ContextMenu {
     focus() {
       super.focus();
       if (!this.submenu.isPosted() && !this.disabled) {
-        this.submenu.post(0, 0);
+        this.submenu.post();
       }
 
     }
@@ -116,7 +116,7 @@ namespace ContextMenu {
      * @override
      */
     executeAction() {
-      this.submenu.isPosted() ? this.submenu.unpost() : this.submenu.post(0, 0);
+      this.submenu.isPosted() ? this.submenu.unpost() : this.submenu.post();
     }
 
    /**
@@ -143,7 +143,7 @@ namespace ContextMenu {
 
     right(event: KeyboardEvent) {
       if (!this.getSubmenu().isPosted()) {
-        this.getSubmenu().post(0, 0);
+        this.getSubmenu().post();
       } else {
         (<AbstractMenu>this.getSubmenu()).down(event);
       }
