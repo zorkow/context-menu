@@ -23,6 +23,7 @@
  */
 
 /// <reference path="context_menu.ts" />
+/// <reference path="menu_util.ts" />
 
 
 namespace ContextMenu {
@@ -36,7 +37,7 @@ namespace ContextMenu {
     private counter: number = 0;
     private attachedClass: string = HtmlClasses['ATTACHED'] + '_' +
       MenuUtil.counter();
-
+    private taborder = true;
 
     /**
      * @constructor
@@ -131,7 +132,9 @@ namespace ContextMenu {
         return;
       }
       element.classList.add(this.attachedClass);
-      this.addTabindex(element);
+      if (this.taborder) {
+        this.addTabindex(element);
+      }
       this.addEvents(element);
     }
 
@@ -153,14 +156,32 @@ namespace ContextMenu {
         return;
       }
       element.classList.remove(this.attachedClass);
-      this.removeTabindex(element);
+      if (this.taborder) {
+        this.removeTabindex(element);
+      }
       this.removeEvents(element);
+    }
+
+    inTaborder(flag: boolean) {
+      if (this.taborder && !flag) {
+        this.removeTaborder();
+      }
+      if (!this.taborder && flag) {
+        this.insertTaborder();
+      }
+      this.taborder = flag;
     }
 
     /**
      * Inserts all elements in the store into the tab order.
      */
     insertTaborder() {
+      if (this.taborder) {
+        this.insertTaborder_();
+      }
+    }
+
+    insertTaborder_() {
       this.store.forEach(x => x.setAttribute('tabindex', '0'));
     }
 
@@ -168,6 +189,12 @@ namespace ContextMenu {
      * Removes all elements in the store from the tab order.
      */
     removeTaborder() {
+      if (this.taborder) {
+        this.removeTaborder_();
+      }
+    }
+
+    removeTaborder_() {
       this.store.forEach(x => x.setAttribute('tabindex', '-1'));
     }
 
