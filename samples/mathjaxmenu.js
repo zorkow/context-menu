@@ -1,7 +1,7 @@
 MathJax.Hub.Register.StartupHook("MathEvents Ready", function () {
 
   let contextmenu;
-  
+
   let aboutFont = function() {
     var jax = MathJax.Hub.outputJax['jax/mml'][0] || {};
     var font = {
@@ -181,288 +181,289 @@ MathJax.Hub.Register.StartupHook("MathEvents Ready", function () {
     SETTINGS.inTabOrder = value;
     contextmenu.getStore().inTaborder(value);
   };
-  
-  var cm_json = {"menu":
-            {"pool": [
-              {
-                "name": "zoom",
-                "value": SETTINGS.zoom,
-                "action": MENU.ZoomTrigger
-              },
-              {
-                "name": "zscale",
-                "value": SETTINGS.zscale,
-                "action": MENU.ZoomScale
-              },
-              {
-                "name": "texHints",
-                "value": SETTINGS.texHints,
-                "action": MENU.TexHints
-              },
-              {
-                "name": "semantics",
-                "value": SETTINGS.Semantics,
-                "action": MENU.Semantics
-              },
-              {
-                "name": "ALT",
-                "value": SETTINGS.ALT,
-                "action": MENU.ALT
-              },
-              {
-                "name": "CMD",
-                "value": SETTINGS.CMD,
-                "action": MENU.CMD
-              },
-              {
-                "name": "CTRL",
-                "value": SETTINGS.CTRL,
-                "action": MENU.CTRL
-              },
-              {
-                "name": "Shift",
-                "value": SETTINGS.Shift,
-                "action": MENU.Shift
-              },
-              { "name": "renderer",
-                "value": "HTML-CSS",
-                "action": MENU.Renderer
-              },
-              { "name": "fastPreview",
-                "value": SETTINGS.FastPreview,
-                "action": MENU.FastPreview
-              },
-              { "name": "assistiveMML",
-                "value": SETTINGS.assistiveMML,
-                "action": MENU.AssistiveMML
-              },
-              { "name": "inTabOrder",
-                "value": SETTINGS.inTabOrder,
-                "action": MENU.InTabOrder
-              }
-            ],
-             "items":
-             [
+
+  var cm_json =
+        {"menu":
+         {"pool": [
+           {
+             "name": "zoom",
+             "value": SETTINGS.zoom,
+             "action": MENU.ZoomTrigger
+           },
+           {
+             "name": "zscale",
+             "value": SETTINGS.zscale,
+             "action": MENU.ZoomScale
+           },
+           {
+             "name": "texHints",
+             "value": SETTINGS.texHints,
+             "action": MENU.TexHints
+           },
+           {
+             "name": "semantics",
+             "value": SETTINGS.Semantics,
+             "action": MENU.Semantics
+           },
+           {
+             "name": "ALT",
+             "value": SETTINGS.ALT,
+             "action": MENU.ALT
+           },
+           {
+             "name": "CMD",
+             "value": SETTINGS.CMD,
+             "action": MENU.CMD
+           },
+           {
+             "name": "CTRL",
+             "value": SETTINGS.CTRL,
+             "action": MENU.CTRL
+           },
+           {
+             "name": "Shift",
+             "value": SETTINGS.Shift,
+             "action": MENU.Shift
+           },
+           { "name": "renderer",
+             "value": "HTML-CSS",
+             "action": MENU.Renderer
+           },
+           { "name": "fastPreview",
+             "value": SETTINGS.FastPreview,
+             "action": MENU.FastPreview
+           },
+           { "name": "assistiveMML",
+             "value": SETTINGS.assistiveMML,
+             "action": MENU.AssistiveMML
+           },
+           { "name": "inTabOrder",
+             "value": SETTINGS.inTabOrder,
+             "action": MENU.InTabOrder
+           }
+         ],
+          "items":
+          [
+            {"type": "submenu",
+             "id": "Show",
+             "content": "Show Math As",
+             "menu": {
+               "items" : [
+                 {"type": "command",
+                  "id": "MathMLcode",
+                  "content": "MathML Code",
+                  "action": MENU.ShowSource
+                 },
+                 {"type": "command",
+                  "id": "Original",
+                  "content": "Original Form",
+                  "action": MENU.ShowOriginal
+                 },
+                 {"type": "submenu",
+                  "id": "Annotation",
+                  "content": "Annotation",
+                  "disabled": true,
+                  "menu": {
+                    "items": []}
+                 },
+                 {"type": "rule"},
+                 {"type": "checkbox",
+                  "id": "texHints",
+                  "content": "Show TeX hints in MathML",
+                  "variable": "texHints"
+                 },
+                 {"type": "checkbox",
+                  "id": "semantics",
+                  "content": "Add original form as annotation",
+                  "variable": "semantics"
+                 }
+               ]
+             }
+            },
+            {"type": "rule"},
+            {"type": "submenu",
+             "id": "Settings",
+             "content": "Math Settings",
+             "menu": 
+             {"items" : [
                {"type": "submenu",
-                "id": "Show",
-                "content": "Show Math As",
+                "id": "ZoomTrigger",
+                "content": "Zoom Trigger",
                 "menu": {
-                  "items" : [
-                    {"type": "command",
-                     "id": "MathMLcode",
-                     "content": "MathML Code",
-                     "action": MENU.ShowSource
+                  "items": [
+                    {"type": "radio",
+                     "id": "Hover",
+                     "content": "Hover",
+                     "variable": "zoom"
                     },
-                    {"type": "command",
-                     "id": "Original",
-                     "content": "Original Form",
-                     "action": MENU.ShowOriginal
+                    {"type": "radio",
+                     "id": "Click",
+                     "content": "Click",
+                     "variable": "zoom"
                     },
-                    {"type": "submenu",
-                     "id": "Annotation",
-                     "content": "Annotation",
-                     "disabled": true,
-                     "menu": {
-                       "items": []}
+                    {"type": "radio",
+                     "id": "DoubleClick",
+                     "content": "Double-Click",
+                     "variable": "zoom"
+                    },
+                    {"type": "radio",
+                     "id": "NoZoom",
+                     "content": "No Zoom",
+                     "variable": "zoom",
+                     "value": "None"
                     },
                     {"type": "rule"},
-                    {"type": "checkbox",
-                     "id": "texHints",
-                     "content": "Show TeX hints in MathML",
-                     "variable": "texHints"
+                    {"type": "label",
+                     "id": "TriggerRequires",
+                     "content": "Trigger Requires:"
                     },
                     {"type": "checkbox",
-                     "id": "semantics",
-                     "content": "Add original form as annotation",
-                     "variable": "semantics"
+                     "id": (MathJax.Hub.Browser.isMac ? "Option" : "Alt"),
+                     "content": (MathJax.Hub.Browser.isMac ? "Option" : "Alt"),
+                     "variable": "ALT"
+                    },
+                    {"type": "checkbox",
+                     "id": "Command",
+                     "content": "Command",
+                     "variable": "CMD",
+                     "disabled": !MENU.isMac
+                    },
+                    {"type": "checkbox",
+                     "id": "Control",
+                     "content": "Control",
+                     "variable": "CTRL",
+                     "disabled":  MENU.isMac
+                    },
+                    {"type": "checkbox",
+                     "id": "Shift",
+                     "content": "Shift",
+                     "variable": "Shift"
+                    }
+                  ]
+                }
+               },
+               {"type": "submenu",
+                "id": "ZoomFactor",
+                "content": "Zoom Factor",
+                "menu": {
+                  "items": [
+                    {"type": "radio",
+                     "content": "100%",
+                     "variable": "zscale"
+                    },
+                    {"type": "radio",
+                     "content": "125%",
+                     "variable": "zscale"
+                    },
+                    {"type": "radio",
+                     "content": "133%",
+                     "variable": "zscale"
+                    },
+                    {"type": "radio",
+                     "content": "150%",
+                     "variable": "zscale"
+                    },
+                    {"type": "radio",
+                     "content": "175%",
+                     "variable": "zscale"
+                    },
+                    {"type": "radio",
+                     "content": "200%",
+                     "variable": "zscale"
+                    },
+                    {"type": "radio",
+                     "content": "250%",
+                     "variable": "zscale"
+                    },
+                    {"type": "radio",
+                     "content": "300%",
+                     "variable": "zscale"
+                    },
+                    {"type": "radio",
+                     "content": "400%",
+                     "variable": "zscale"
                     }
                   ]
                 }
                },
                {"type": "rule"},
                {"type": "submenu",
-                "id": "Settings",
-                "content": "Math Settings",
-                "menu": 
-                {"items" : [
-                  {"type": "submenu",
-                   "id": "ZoomTrigger",
-                   "content": "Zoom Trigger",
-                   "menu": {
-                     "items": [
-                       {"type": "radio",
-                        "id": "Hover",
-                        "content": "Hover",
-                        "variable": "zoom"
-                       },
-                       {"type": "radio",
-                        "id": "Click",
-                        "content": "Click",
-                        "variable": "zoom"
-                       },
-                       {"type": "radio",
-                        "id": "DoubleClick",
-                        "content": "Double-Click",
-                        "variable": "zoom"
-                       },
-                       {"type": "radio",
-                        "id": "NoZoom",
-                        "content": "No Zoom",
-                        "variable": "zoom",
-                        "value": "None"
-                       },
-                       {"type": "rule"},
-                       {"type": "label",
-                        "id": "TriggerRequires",
-                        "content": "Trigger Requires:"
-                       },
-                       {"type": "checkbox",
-                        "id": (MathJax.Hub.Browser.isMac ? "Option" : "Alt"),
-                        "content": (MathJax.Hub.Browser.isMac ? "Option" : "Alt"),
-                        "variable": "ALT"
-                       },
-                       {"type": "checkbox",
-                        "id": "Command",
-                        "content": "Command",
-                        "variable": "CMD",
-                        "hidden": !MENU.isMac
-                       },
-                       {"type": "checkbox",
-                        "id": "Control",
-                        "content": "Control",
-                        "variable": "CTRL",
-                        "hidden":  MENU.isMac
-                       },
-                       {"type": "checkbox",
-                        "id": "Shift",
-                        "content": "Shift",
-                        "variable": "Shift"
-                       }
-                     ]
-                   }
-                  },
-                  {"type": "submenu",
-                   "id": "ZoomFactor",
-                   "content": "Zoom Factor",
-                   "menu": {
-                     "items": [
-                       {"type": "radio",
-                        "content": "100%",
-                        "variable": "zscale"
-                       },
-                       {"type": "radio",
-                        "content": "125%",
-                        "variable": "zscale"
-                       },
-                       {"type": "radio",
-                        "content": "133%",
-                        "variable": "zscale"
-                       },
-                       {"type": "radio",
-                        "content": "150%",
-                        "variable": "zscale"
-                       },
-                       {"type": "radio",
-                        "content": "175%",
-                        "variable": "zscale"
-                       },
-                       {"type": "radio",
-                        "content": "200%",
-                        "variable": "zscale"
-                       },
-                       {"type": "radio",
-                        "content": "250%",
-                        "variable": "zscale"
-                       },
-                       {"type": "radio",
-                        "content": "300%",
-                        "variable": "zscale"
-                       },
-                       {"type": "radio",
-                        "content": "400%",
-                        "variable": "zscale"
-                       }
-                     ]
-                   }
-                  },
-                  {"type": "rule"},
-                  {"type": "submenu",
-                   "id": "Renderer",
-                   "content": "Math Renderer",
-                   "menu": {
-                     "items" : [
-                       {"type": "radio",
-                      "id": "HTML-CSS",
-                      "content": "HTML-CSS",
-                      "variable": "renderer"
-                     },
-                     {"type": "radio",
-                      "id": "CommonHTML",
-                      "content": "Common HTML",
-                      "variable": "renderer"
-                     },
-                     {"type": "radio",
-                      "id": "PreviewHTML",
-                      "content": "Preview HTML",
-                      "variable": "renderer"
-                     },
-                     {"type": "radio",
-                      "id": "MathML",
-                      "content": "MathML",
-                      "variable": "renderer"
-                     },
-                     {"type": "radio",
-                      "id": "SVG",
-                      "content": "SVG",
-                      "variable": "renderer"
-                     },
-                     {"type": "radio",
-                      "id": "PlainSource",
-                      "content": "Plain Source",
-                      "variable": "renderer"
-                     },
-                     {"type": "rule"},
-                     {"type": "checkbox",
-                      "id": "FastPreview",
-                      "content": "Fast Preview",
-                      "variable": "fastPreview"
-                     },
-                     {"type": "checkbox",
-                      "id": "AssistiveMML",
-                      "content": "Assistive MathML",
-                      "variable": "assistiveMML"
-                     },
-                     {"type": "checkbox",
-                      "id": "InTabOrder",
-                      "content": "Include in Tab Order",
-                      "variable": "inTabOrder"
-                     }
-                     ]
-                   }
-                  },
-                  {"type": "command",
-                   "id": "Scale",
-                   "content": "Scale All Math ...",
-                   "action": MathJax.Menu.Scale
-                  }
-                ]
+                "id": "Renderer",
+                "content": "Math Renderer",
+                "menu": {
+                  "items" : [
+                    {"type": "radio",
+                     "id": "HTML-CSS",
+                     "content": "HTML-CSS",
+                     "variable": "renderer"
+                    },
+                    {"type": "radio",
+                     "id": "CommonHTML",
+                     "content": "Common HTML",
+                     "variable": "renderer"
+                    },
+                    {"type": "radio",
+                     "id": "PreviewHTML",
+                     "content": "Preview HTML",
+                     "variable": "renderer"
+                    },
+                    {"type": "radio",
+                     "id": "MathML",
+                     "content": "MathML",
+                     "variable": "renderer"
+                    },
+                    {"type": "radio",
+                     "id": "SVG",
+                     "content": "SVG",
+                     "variable": "renderer"
+                    },
+                    {"type": "radio",
+                     "id": "PlainSource",
+                     "content": "Plain Source",
+                     "variable": "renderer"
+                    },
+                    {"type": "rule"},
+                    {"type": "checkbox",
+                     "id": "FastPreview",
+                     "content": "Fast Preview",
+                     "variable": "fastPreview"
+                    },
+                    {"type": "checkbox",
+                     "id": "AssistiveMML",
+                     "content": "Assistive MathML",
+                     "variable": "assistiveMML"
+                    },
+                    {"type": "checkbox",
+                     "id": "InTabOrder",
+                     "content": "Include in Tab Order",
+                     "variable": "inTabOrder"
+                    }
+                  ]
                 }
                },
-               {"type": "rule"},
                {"type": "command",
-                "id": "About",
-                "content": "About MathJax",
-                "action": MENU.About
-               },
-               {"type": "command",
-                "id": "Help",
-                "content": "MathJax Help",
-                "action": MENU.Help
+                "id": "Scale",
+                "content": "Scale All Math ...",
+                "action": MathJax.Menu.Scale
                }
              ]
+             }
+            },
+            {"type": "rule"},
+            {"type": "command",
+             "id": "About",
+             "content": "About MathJax",
+             "action": MENU.About
+            },
+            {"type": "command",
+             "id": "Help",
+             "content": "MathJax Help",
+             "action": MENU.Help
             }
-           }
-  ;
+          ]
+         }
+        };
+
   ContextMenu.CssStyles.addInfoStyles();
   ContextMenu.CssStyles.addMenuStyles();
   contextmenu = ContextMenu.parse(cm_json);
@@ -470,7 +471,7 @@ MathJax.Hub.Register.StartupHook("MathEvents Ready", function () {
   help.attachMenu(contextmenu);
   mathmlSource.attachMenu(contextmenu);
   originalText.attachMenu(contextmenu);
-  
+
   MathJax.Hub.Register.MessageHook(
     'New Math', function(message) {
       var newid = message[1] + '-Frame';
