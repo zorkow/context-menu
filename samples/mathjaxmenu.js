@@ -62,10 +62,10 @@ MathJax.Hub.Register.StartupHook("MathEvents Ready", function () {
       ' Right-click or CTRL-click on any mathematics to access the menu.</p>' +
       '<div style="margin-left: 1em;">' +
       '<p><b>Show Math As</b> allows you to view the formula\'s source markup' +
-      ' for copy &amp; paste (as MathML or in its original format).</p>' + 
+      ' for copy &amp; paste (as MathML or in its original format).</p>' +
       '<p><b>Settings</b> gives you control over features of MathJax, such as' +
       ' the size of the mathematics, and the mechanism used' +
-      ' to display equations.</p>' + 
+      ' to display equations.</p>' +
       '<p><b>Language</b> lets you select the language used by MathJax for' +
       ' its menus and warning messages.</p>' +
       '</div><p><b>Math Zoom</b>: If you are having difficulty reading an' +
@@ -82,48 +82,52 @@ MathJax.Hub.Register.StartupHook("MathEvents Ready", function () {
 
 
   ////TODO: Needs to be embedded into a queuing function.
-  mathmlSource = new ContextMenu.Popup('MathJax MathML Equation', function(element) {
-    var jax = MathJax.Hub.getJaxFor(element);
-    if (!element) {
+  let mathmlSource = new ContextMenu.Popup(
+    'MathJax MathML Equation', function(element) {
+      var jax = MathJax.Hub.getJaxFor(element);
+      if (!element) {
+        return '';
+      }
+      var MML = MathJax.ElementJax.mml;
+      if (MML && typeof(MML.mbase.prototype.toMathML) !== 'undefined') {
+        // toMathML() can call MathJax.Hub.RestartAfter,
+        // so trap errors and check
+        return formatSource(jax.root.toMathML('', jax));
+      }
       return '';
-    }
-    var MML = MathJax.ElementJax.mml;
-    if (MML && typeof(MML.mbase.prototype.toMathML) !== "undefined") {
-      // toMathML() can call MathJax.Hub.RestartAfter, so trap errors and check
-      return formatSource(jax.root.toMathML('', jax));
-    }
-    return '';
-  });
+    });
 
-  originalText = new ContextMenu.Popup('MathJax Original Source', function(element) {
-    var jax = MathJax.Hub.getJaxFor(element);
-    if (!element) {
-      return '';
-    }
-    return formatSource(jax.originalText);
-  });
-  
-      // MENU.ShowSource.Text(MENU.jax.root.toMathML("",MENU.jax),event)} catch (err) {
-      //   if (!err.restart) {throw err}
-      //   CALLBACK.After([this,MENU.ShowSource,EVENT],err.restart);
-      //   }
-      // } else if (!AJAX.loadingToMathML) {
-      //   AJAX.loadingToMathML = true;
-      //   MENU.ShowSource.Window(event); // WeBKit needs to open window on click event
-      //   CALLBACK.Queue(
-      //     AJAX.Require("[MathJax]/extensions/toMathML.js"),
-      //     function () {
-      //       delete AJAX.loadingToMathML;
-      //       if (!MML.mbase.prototype.toMathML) {MML.mbase.prototype.toMathML = function () {}}
-      //     },
-      //     [this,MENU.ShowSource,EVENT]  // call this function again
-      //   );
-      //   return '';
-      // }
+  let originalText = new ContextMenu.Popup(
+    'MathJax Original Source', function(element) {
+      var jax = MathJax.Hub.getJaxFor(element);
+      if (!element) {
+        return '';
+      }
+      return formatSource(jax.originalText);
+    });
+
+  // MENU.ShowSource.Text(MENU.jax.root.toMathML("",MENU.jax),event)} catch (err) {
+  //   if (!err.restart) {throw err}
+  //   CALLBACK.After([this,MENU.ShowSource,EVENT],err.restart);
+  //   }
+  // } else if (!AJAX.loadingToMathML) {
+  //   AJAX.loadingToMathML = true;
+  //   MENU.ShowSource.Window(event); // WeBKit needs to open window on click event
+  //   CALLBACK.Queue(
+  //     AJAX.Require("[MathJax]/extensions/toMathML.js"),
+  //     function () {
+  //       delete AJAX.loadingToMathML;
+  //       if (!MML.mbase.prototype.toMathML) {MML.mbase.prototype.toMathML = function () {}}
+  //     },
+  //     [this,MENU.ShowSource,EVENT]  // call this function again
+  //   );
+  //   return '';
+  // }
 
   var formatSource = function(text) {
-    text = text.replace(/^\s*/,"").replace(/\s*$/,"");
-    text = text.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+    text = text.replace(/^\s*/, '').replace(/\s*$/, '');
+    text = text.replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
     return text;
   };
 
@@ -284,7 +288,7 @@ MathJax.Hub.Register.StartupHook("MathEvents Ready", function () {
             {"type": "submenu",
              "id": "Settings",
              "content": "Math Settings",
-             "menu": 
+             "menu":
              {"items" : [
                {"type": "submenu",
                 "id": "ZoomTrigger",
@@ -490,4 +494,3 @@ MathJax.Hub.Register.StartupHook("MathEvents Ready", function () {
 
   cc = contextmenu;
 });
-
