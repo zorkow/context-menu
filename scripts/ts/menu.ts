@@ -49,8 +49,8 @@ namespace ContextMenu {
     setFocused(item?: Item): void;
 
     /**
-     * The variable pool associated to this menu.
-     * @return {VariablePool<string | boolean>};
+     * @return {VariablePool<string | boolean>} The variable pool associated to
+     *     this menu.
      */
     getPool(): VariablePool<string | boolean>;
 
