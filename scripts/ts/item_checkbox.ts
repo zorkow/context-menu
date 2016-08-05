@@ -62,9 +62,9 @@ namespace ContextMenu {
       MenuUtil.close(this);
     }
 
-   /**
-    * @override
-    */
+    /**
+     * @override
+     */
     generateHtml() {
       super.generateHtml();
       let html = this.getHtml();
