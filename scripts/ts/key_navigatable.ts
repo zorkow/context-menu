@@ -17,7 +17,7 @@
 
 
 /**
- * @fileoverview Interface definition for navigatable menu elements.
+ * @fileoverview Interface definition for key navigatable menu elements.
  *
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
@@ -38,19 +38,8 @@ namespace ContextMenu {
     DOWN = 40
   };
 
-  /**
-   * Touch events.
-   * @enum {string} 
-   */
-  export let TOUCH = {
-    START: 'touchstart',
-    MOVE: 'touchmove',
-    END: 'touchend',
-    CANCEL: 'touchcancel'
-  };
 
-
-  export interface Navigatable {
+  export interface KeyNavigatable {
 
     /**
      * Navigation selection on keyboard events.

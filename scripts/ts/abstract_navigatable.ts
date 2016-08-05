@@ -22,13 +22,13 @@
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-/// <reference path="navigatable.ts" />
+/// <reference path="key_navigatable.ts" />
 /// <reference path="mouse_navigatable.ts" />
 
 namespace ContextMenu {
 
   export abstract class AbstractNavigatable implements
-  Navigatable, MouseNavigatable {
+  KeyNavigatable, MouseNavigatable {
 
     private bubble = false;
 
