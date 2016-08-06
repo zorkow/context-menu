@@ -55,7 +55,7 @@ namespace ContextMenu {
     }
 
     /**
-     * @param {Menu} Sets the menu.
+     * @param {Menu} menu Sets the menu.
      */
     setMenu(menu: Menu) {
       this.menu = menu;

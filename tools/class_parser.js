@@ -2,10 +2,9 @@ var ts = require('typescript');
 
 classParser = {};
 
-classParser.store = {};
-
-classParser.WITH_METHODS = false;
-
+//
+s// Some general utility files.
+//
 classParser.properties = function(expr) {
   for (var i in expr) {
     if (expr.hasOwnProperty(i)) {
@@ -13,6 +12,23 @@ classParser.properties = function(expr) {
     }
   }
 };
+
+classParser.filter = function(sources, name) {
+  var kind = ts.SyntaxKind[name];
+  return sources.filter(x => x.statements[0].body.statements[0].kind === kind);
+};
+
+classParser.findSource = function(sources, name) {
+  return sources.find(x => x.fileName.match(name));
+};
+
+//
+// Building UML Diagrams with dot
+//
+
+classParser.store = {};
+
+classParser.WITH_METHODS = false;
 
 classParser.ast = function(ast) {
   ast.statements.forEach(classParser.node, 0);
@@ -95,7 +111,6 @@ classParser.heritageClauses = function(clauses, store) {
   }
 };
 
-
 classParser.program = function(sources) {
   classParser.store = {};
   sources.forEach(x => classParser.ast(x));
@@ -160,7 +175,6 @@ classParser.outputModifiers = function(modifiers, store) {
   }
 };
 
-
 classParser.methodGraph = function(directory, output) {
   classParser.WITH_METHODS = true;
   classParser.transform(directory, output);
@@ -182,3 +196,83 @@ classParser.transform = function(directory, output) {
 
 // Current test directory.
 // var directory = '/home/sorge/git/context-menu/scripts/ts/';
+
+
+//
+// The following code rewrites a Typescript interface spec into a closure style
+// interface spec. This is useful for JSDoc generation and maybe later for
+// closure compilation.
+//
+////TODO: Insert namespace prefix.
+
+classParser.rewriteInterface = function(interface) {
+  var string = interface.text;
+  var headerComments = ts.getJsDocComments(interface.statements[0], interface);
+  var header = classParser.combinePartialContent(string, headerComments, '\n\n');
+  var base = interface.statements[0].body.statements[0];
+  var name = base.name.text;
+  var store = {};
+  classParser.heritageClauses(base.heritageClauses, store);
+
+  var interfaceStr = '';
+  interfaceStr += '/**\n * @interface\n';
+  store.extends.forEach(x => interfaceStr += ' * @extends {' + x + '}\n');
+  interfaceStr += ' */\n';
+  interfaceStr += name + ' = function() {}\n';
+  classParser.methods(base.members, store);
+  // console.log(interfaceStr);
+  // console.log(store);
+  // base.members.forEach(x => console.log(ts.getJsDocComments(x, interface)));
+  var methods = base.members.map(
+    x => classParser.interfaceMethod(x, name, string, interface));
+  return header + '\n\n\n\n' + interfaceStr + '\n\n' + methods.join('\n\n');
+};
+
+classParser.interfaceMethod = function(method, name, string, interface) {
+  var jsdoc = classParser.combinePartialContent(
+    string, ts.getJsDocComments(method, interface));
+  var methodStr = jsdoc ? jsdoc + '\n' : '';
+  methodStr += name + '.prototype.' + method.name.text;
+  methodStr += ' = function() {};\n';
+  return methodStr;
+};
+
+classParser.combinePartialContent = function(str, positions, opt_separator) {
+  var separator = (typeof opt_separator === 'undefined') ?
+        '\n' : opt_separator;
+  return positions.length ?
+    positions.map(
+      pos => classParser.getPartialContent(str, pos)).join(separator) :
+    '';
+};
+
+classParser.getPartialContent = function(str, position) {
+  return str.slice(position.pos, position.end);
+};
+
+
+//
+// Rewriting transpiled Javascript files.
+//
+classParser.readJSFile = function(filename) {
+  var source = ts.createSourceFile(filename, fs.readFileSync(filename).toString(),
+                                   ts.ScriptTarget.ES5, true);
+  return source;
+};
+
+classParser.cleanJSFile = function(js) {
+  // remove entry.statements[0].declarationList.declarations;
+  // beginning is file header comment.
+  //
+  // Fileoverview comment:
+  // classParser.getPartialContent(entry.text, entry.statements[1].jsDocComment);
+  //
+  // Get the expression alone.
+  // classParser.getPartialContent(entry.text, entry.statements[2].expression.expression);
+  // 
+  // Iterate entry.statements[2].expression.expression.expression.body.statements[0].declarationList.declarations[0].initializer.expression.expression.body.statements
+  // from position 1 to last - 1.
+  //
+  
+  
+};

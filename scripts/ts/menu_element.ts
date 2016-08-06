@@ -28,7 +28,8 @@
 
 namespace ContextMenu {
 
-  export abstract class MenuElement extends AbstractNavigatable {
+  export abstract class MenuElement extends AbstractNavigatable implements
+  Element {
 
     private html: HTMLElement;
     protected role: string;

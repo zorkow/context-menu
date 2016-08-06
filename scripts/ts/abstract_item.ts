@@ -52,14 +52,14 @@ namespace ContextMenu {
     }
 
     /**
-     * @return {string} The content of the item.
+     * @override
      */
     getContent() {
       return this.content;
     }
 
     /**
-     * @return {string} The id of the item.
+     * @override
      */
     getId() {
       return this.id;
