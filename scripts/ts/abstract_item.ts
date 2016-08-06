@@ -38,7 +38,7 @@ namespace ContextMenu {
     private content: string;
     private id: string;
     private callbacks: Function[] = [];
-    
+
     /**
      * @constructor
      * @implements {Item}

@@ -92,7 +92,7 @@ namespace ContextMenu {
     isHidden() {
       return this.hidden;
     }
-    
+
   }
 
 }
