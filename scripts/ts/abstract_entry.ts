@@ -29,8 +29,10 @@
 namespace ContextMenu {
 
   export abstract class AbstractEntry extends MenuElement implements Entry {
+
     private menu: Menu;
     private type: string = 'entry';
+    private hidden: boolean = false;
 
     className = HtmlClasses['MENUITEM'];
     role = 'menuitem';
@@ -68,6 +70,29 @@ namespace ContextMenu {
       return this.type;
     }
 
+    /**
+     * @override
+     */
+    hide() {
+      this.hidden = true;
+      this.menu.generateMenu();
+    }
+
+    /**
+     * @override
+     */
+    show() {
+      this.hidden = false;
+      this.menu.generateMenu();
+    }
+
+    /**
+     * @override
+     */
+    isHidden() {
+      return this.hidden;
+    }
+    
   }
 
 }

@@ -66,6 +66,11 @@ namespace ContextMenu {
      */
     find(id: string): Item;
 
+    /**
+     * Generates the HTML element containing the menu entries.
+     */
+    generateMenu(): void;
+
   }
 
 }

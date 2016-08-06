@@ -32,11 +32,13 @@
 namespace ContextMenu {
 
   export abstract class AbstractItem extends AbstractEntry implements Item {
+
+    protected disabled: boolean = false;
+
     private content: string;
     private id: string;
-    protected disabled: boolean = false;
     private callbacks: Function[] = [];
-
+    
     /**
      * @constructor
      * @implements {Item}
