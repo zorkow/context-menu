@@ -1,9 +1,11 @@
+var fs = require('fs');
+var path = require('path');
 var ts = require('typescript');
 
 classParser = {};
 
 //
-s// Some general utility files.
+// Some general utility files.
 //
 classParser.properties = function(expr) {
   for (var i in expr) {
@@ -28,16 +30,24 @@ classParser.findSource = function(sources, name) {
 
 classParser.store = {};
 
+classParser.sources = {};
+
 classParser.WITH_METHODS = false;
 
-classParser.ast = function(ast) {
-  ast.statements.forEach(classParser.node, 0);
+/**
+ *
+ * @param {Source} source Source file.
+ */
+classParser.source = function(source) {
+  classParser.sources[source.baseName] = [];
+  source.statements.forEach(
+    x => classParser.node(x, 0, source));
 };
 
-classParser.node = function(node, indentation) {
+classParser.node = function(node, indentation, source) {
   var indent = new Array(indentation).join(' ');
-  var store = {attrs: [], mods: []};
-  switch(node.kind) {
+  var store = {attrs: [], mods: [], node: node};
+  switch (node.kind) {
   case ts.SyntaxKind['InterfaceDeclaration']:
     store.type = 'interface';
     store.attrs.push('color=green');
@@ -50,15 +60,75 @@ classParser.node = function(node, indentation) {
     store.attrs.push('color=magenta');
     break;
   default:
+    let name = classParser.getEnumName(source, node);
+    if (name) {
+      store.type = 'enum';
+      store.attrs.push('color=magenta');
+      classParser.store[name] = store;
+      classParser.sources[source.baseName].push(store);
+      classParser.modifiers(
+        node.declarationList.declarations[0].mofifiers, store);
+      store.extends = [];
+      store.implements = [];
+      if (classParser.WITH_METHODS) {
+        classParser.methods(
+          node.declarationList.declarations[0].initializer.properties, store);
+      }
+      return;
+    }
     if (node.body) {
       node.body.statements.forEach(function(x) {
-        classParser.node(x, indentation + 1);});
+        classParser.node(x, indentation + 1, source);});
     }
     return;
   }
   classParser.block(node, store);
   classParser.store[node.name.text] = store;
+  classParser.sources[source.baseName].push(store);
 };
+
+// Begin: Getting enums
+
+classParser.getEnumName = function(source, statement) {
+  let comments = ts.getJsDocComments(statement, source);
+  if (!comments || !comments.length) {
+    return '';
+  }
+  if (comments.some(x => classParser.jsDocIsEnum(source.text, x))) {
+    return statement.declarationList.declarations[0].name.text;
+  }
+  return '';
+};
+
+classParser.getEnum = function(source, statement) {
+  let comments = ts.getJsDocComments(statement, source);
+  if (!comments || !comments.length) {
+    return '';
+  }
+  if (comments.some(x => classParser.jsDocIsEnum(source.text, x))) {
+    return classParser.assembleEnum(source.text, statement, comments);
+  }
+  return '';
+};
+
+classParser.assembleEnum = function(str, statement, comments) {
+  let comment = classParser.combinePartialContent(str, comments);
+  let decl = statement.declarationList.declarations[0];
+  let name = decl.name.text;
+  let map = classParser.getPartialContent(str, decl.initializer);
+  return comment + '\n' + name + ' = ' + map;
+};
+
+classParser.jsDocIsEnum = function(str, doc) {
+  let jsdoc = ts.parseIsolatedJSDocComment(
+    str, doc.pos, doc.end - doc.pos);
+  if (!jsdoc || !jsdoc.jsDocComment || !jsdoc.jsDocComment.tags) {
+    return;
+  }
+  return jsdoc.jsDocComment.tags.some(x => x.tagName.text === 'enum');
+};
+
+// End: Getting enums
 
 classParser.block = function(expr, store) {
   classParser.heritageClauses(expr.heritageClauses, store);
@@ -70,7 +140,8 @@ classParser.block = function(expr, store) {
 
 classParser.methods = function(members, store) {
   store.members = [];
-  var valid = ['MethodDeclaration', 'MethodSignature', 'EnumMember'].
+  var valid = ['MethodDeclaration', 'MethodSignature',
+               'EnumMember', 'PropertyAssignment'].
         map(x => ts.SyntaxKind[x]);
   for (var i = 0, member; member = members[i]; i++) {
     if (valid.indexOf(member.kind) === -1) {
@@ -113,7 +184,8 @@ classParser.heritageClauses = function(clauses, store) {
 
 classParser.program = function(sources) {
   classParser.store = {};
-  sources.forEach(x => classParser.ast(x));
+  classParser.sources = {};
+  sources.forEach(x => classParser.source(x));
 };
 
 classParser.dotFile = function(filename) {
@@ -187,9 +259,7 @@ classParser.classGraph = function(directory, output) {
 
 classParser.transform = function(directory, output) {
   var files = fs.readdirSync(directory).filter(x => x.match(/\.ts$/));
-  var sources = files.map(source => ts.createSourceFile(
-    directory + source, fs.readFileSync(directory + source).toString(),
-    ts.ScriptTarget.ES6, true));
+  var sources = files.map(x => classParser.readFile(directory + x, 'ts'));
   classParser.program(sources);
   classParser.dotFile(output);
 };
@@ -220,9 +290,6 @@ classParser.rewriteInterface = function(interface) {
   interfaceStr += ' */\n';
   interfaceStr += name + ' = function() {}\n';
   classParser.methods(base.members, store);
-  // console.log(interfaceStr);
-  // console.log(store);
-  // base.members.forEach(x => console.log(ts.getJsDocComments(x, interface)));
   var methods = base.members.map(
     x => classParser.interfaceMethod(x, name, string, interface));
   return header + '\n\n\n\n' + interfaceStr + '\n\n' + methods.join('\n\n');
@@ -252,27 +319,83 @@ classParser.getPartialContent = function(str, position) {
 
 
 //
-// Rewriting transpiled Javascript files.
+// Reading files.
 //
-classParser.readJSFile = function(filename) {
-  var source = ts.createSourceFile(filename, fs.readFileSync(filename).toString(),
-                                   ts.ScriptTarget.ES5, true);
-  return source;
+classParser.extMap = {
+  'ts': 'ES6',
+  'js': 'ES5'
 };
 
+classParser.readFile = function(filename, ext) {
+  var lang = classParser.extMap[ext];
+  var file = ts.createSourceFile(filename, fs.readFileSync(filename).toString(),
+                                 ts.ScriptTarget[lang], true);
+  file.baseName = path.basename(filename, '.' + ext);
+  return file;
+};
+
+//
+// Rewriting transpiled Javascript files.
+//
 classParser.cleanJSFile = function(js) {
-  // remove entry.statements[0].declarationList.declarations;
-  // beginning is file header comment.
-  //
-  // Fileoverview comment:
-  // classParser.getPartialContent(entry.text, entry.statements[1].jsDocComment);
-  //
-  // Get the expression alone.
-  // classParser.getPartialContent(entry.text, entry.statements[2].expression.expression);
-  // 
-  // Iterate entry.statements[2].expression.expression.expression.body.statements[0].declarationList.declarations[0].initializer.expression.expression.body.statements
-  // from position 1 to last - 1.
-  //
-  
-  
+  // Top level comment
+  let file = [];
+  let comment = ts.getJsDocComments(js.statements[0].declarationList, js);
+  file = file.concat(comment);
+  let refText = classParser.getPartialContent(js.text, js.statements[1]);
+  let overview = js.statements[1].jsDocComment;
+  file.push(overview);
+  let references = classParser.getPartialContent(
+    js.text,
+    {pos: overview.end,
+     end: js.statements[1].declarationList.declarations[0].pos});
+  let newline = references.lastIndexOf('\n');
+  if (newline !== -1) {
+    //references = references.slice(0, newline + 1);
+    file.push({pos: overview.end, end: overview.end + newline + 1});
+  }
+  let expression = js.statements[2].expression.expression.expression.
+        body.statements[0].declarationList.declarations[0].initializer.
+        expression.expression.body.statements;
+  file = file.concat(expression);
+  return classParser.combinePartialContent(js.text, file);
+};
+
+
+// Generate JSDoc with proper enums and interface handling.
+//
+// Parse .ts sources.
+// Find all interfaces and enums.
+//
+// Parse .js and rewrite sources.
+// Add
+//
+// What if we have a real typescript enum?
+// 
+// Some issues:
+//
+// - JSDoc includes the JS sources, which we want to replace by .ts source
+// files.
+// - Links into the sources will be wrong but we will ignore that for now
+//
+
+classParser.makeJSDoc = function(tsDir, jsDir, outDir) {
+  var tsFiles = fs.readdirSync(tsDir).
+        filter(x => x.match(/\.ts$/)).
+        map(x => classParser.readFile(tsDir + x, 'ts'));
+  var jsFiles = fs.readdirSync(jsDir).
+        filter(x => x.match(/\.js$/)).
+        map(x => classParser.readFile(jsDir + x, 'js'));
+  var cleanJS = {};
+  for (var i = 0, file; file = jsFiles[i]; i++) {
+    try {
+      cleanJS[file.baseName] = classParser.cleanJSFile(file);
+    } catch (e) {
+      cleanJS[file.baseName] = '';
+    }
+    var dir = outDir + file.baseName + '.js';
+    console.log(dir);
+    fs.writeFileSync(dir, cleanJS[file.baseName]);
+  }
+  //return cleanJS;
 };
