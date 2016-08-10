@@ -43,6 +43,22 @@ namespace ContextMenu {
      * @return {string} The type of the entry.
      */
     getType(): string;
+
+    /**
+     * Hide entry in the menu.
+     */
+    hide(): void;
+
+    /**
+     * Show entry in the menu.
+     */
+    show(): void;
+
+    /**
+     * @return {boolean} Indicates if item is hidden from display.
+     */
+    isHidden(): boolean;
+
   }
 
 }
