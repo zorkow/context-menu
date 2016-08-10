@@ -1,8 +1,13 @@
-var fs = require('fs');
-var path = require('path');
-var ts = require('typescript');
-
 classParser = {};
+classParser.extern = {};
+
+classParser.extern.fs = require('fs');
+classParser.extern.path = require('path');
+classParser.extern.ts = require('typescript');
+
+var ts = classParser.extern.ts;
+var fs = classParser.extern.fs;
+var path = classParser.extern.path;
 
 //
 // Some general utility files.
@@ -394,8 +399,10 @@ classParser.makeJSDoc = function(tsDir, jsDir, outDir) {
       cleanJS[file.baseName] = '';
     }
     var dir = outDir + file.baseName + '.js';
-    console.log(dir);
     fs.writeFileSync(dir, cleanJS[file.baseName]);
   }
   //return cleanJS;
 };
+
+//console.log('loaded');
+//console.log(ts)
