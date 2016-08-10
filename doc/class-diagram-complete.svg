@@ -11,12 +11,15 @@
 <polygon fill="white" stroke="none" points="-4,4 -4,-1891 2055,-1891 2055,4 -4,4"/>
 <!-- AbstractEntry -->
 <g id="node1" class="node"><title>AbstractEntry</title>
-<polygon fill="none" stroke="blue" points="260,-796.5 260,-872.5 428,-872.5 428,-796.5 260,-796.5"/>
-<text text-anchor="middle" x="344" y="-857.3" font-family="Times,serif" font-size="14.00">abstract class AbstractEntry</text>
-<polyline fill="none" stroke="blue" points="260,-849.5 428,-849.5 "/>
-<text text-anchor="middle" x="344" y="-834.3" font-family="Times,serif" font-size="14.00">getMenu</text>
-<text text-anchor="middle" x="344" y="-819.3" font-family="Times,serif" font-size="14.00">setMenu</text>
-<text text-anchor="middle" x="344" y="-804.3" font-family="Times,serif" font-size="14.00">getType</text>
+<polygon fill="none" stroke="blue" points="260,-774 260,-895 428,-895 428,-774 260,-774"/>
+<text text-anchor="middle" x="344" y="-879.8" font-family="Times,serif" font-size="14.00">abstract class AbstractEntry</text>
+<polyline fill="none" stroke="blue" points="260,-872 428,-872 "/>
+<text text-anchor="middle" x="344" y="-856.8" font-family="Times,serif" font-size="14.00">getMenu</text>
+<text text-anchor="middle" x="344" y="-841.8" font-family="Times,serif" font-size="14.00">setMenu</text>
+<text text-anchor="middle" x="344" y="-826.8" font-family="Times,serif" font-size="14.00">getType</text>
+<text text-anchor="middle" x="344" y="-811.8" font-family="Times,serif" font-size="14.00">hide</text>
+<text text-anchor="middle" x="344" y="-796.8" font-family="Times,serif" font-size="14.00">show</text>
+<text text-anchor="middle" x="344" y="-781.8" font-family="Times,serif" font-size="14.00">isHidden</text>
 </g>
 <!-- AbstractItem -->
 <g id="node4" class="node"><title>AbstractItem</title>
@@ -49,8 +52,8 @@
 </g>
 <!-- AbstractEntry&#45;&gt;AbstractItem -->
 <g id="edge3" class="edge"><title>AbstractEntry&#45;&gt;AbstractItem</title>
-<path fill="none" stroke="black" d="M346.937,-786.202C348.188,-766.054 349.736,-741.123 351.373,-714.762"/>
-<polygon fill="black" stroke="black" points="343.437,-786.087 346.311,-796.284 350.424,-786.52 343.437,-786.087"/>
+<path fill="none" stroke="black" d="M348.342,-763.572C349.28,-748.463 350.315,-731.802 351.387,-714.531"/>
+<polygon fill="black" stroke="black" points="344.835,-763.576 347.708,-773.774 351.822,-764.01 344.835,-763.576"/>
 <text text-anchor="middle" x="372" y="-736.8" font-family="Times,serif" font-size="14.00">extends</text>
 </g>
 <!-- Rule -->
@@ -63,8 +66,8 @@
 </g>
 <!-- AbstractEntry&#45;&gt;Rule -->
 <g id="edge22" class="edge"><title>AbstractEntry&#45;&gt;Rule</title>
-<path fill="none" stroke="black" d="M312.439,-787.887C298.641,-766.47 283.106,-740.163 272,-715 248.371,-661.464 231.613,-594.943 223.195,-557.244"/>
-<polygon fill="black" stroke="black" points="309.629,-789.986 318.027,-796.445 315.49,-786.158 309.629,-789.986"/>
+<path fill="none" stroke="black" d="M298.361,-765.182C288.823,-749.144 279.422,-731.817 272,-715 248.371,-661.464 231.613,-594.943 223.195,-557.244"/>
+<polygon fill="black" stroke="black" points="295.492,-767.202 303.662,-773.947 301.482,-763.579 295.492,-767.202"/>
 <text text-anchor="middle" x="309" y="-736.8" font-family="Times,serif" font-size="14.00">extends</text>
 </g>
 <!-- MenuElement -->
@@ -81,7 +84,7 @@
 </g>
 <!-- MenuElement&#45;&gt;AbstractEntry -->
 <g id="edge1" class="edge"><title>MenuElement&#45;&gt;AbstractEntry</title>
-<path fill="none" stroke="black" d="M482.737,-944.414C479.14,-936.001 474.637,-927.943 469,-921 458.47,-908.03 450.1,-911.961 436,-903 421.454,-893.755 406.17,-882.998 392.329,-872.824"/>
+<path fill="none" stroke="black" d="M482.737,-944.414C479.14,-936.001 474.637,-927.943 469,-921 458.47,-908.03 450.1,-911.961 436,-903 431.987,-900.45 427.919,-897.784 423.839,-895.048"/>
 <polygon fill="black" stroke="black" points="479.574,-945.942 486.426,-954.023 486.11,-943.433 479.574,-945.942"/>
 <text text-anchor="middle" x="499" y="-924.8" font-family="Times,serif" font-size="14.00">extends</text>
 </g>
@@ -103,17 +106,20 @@
 </g>
 <!-- Entry -->
 <g id="node3" class="node"><title>Entry</title>
-<polygon fill="none" stroke="green" points="296,-977 296,-1053 394,-1053 394,-977 296,-977"/>
-<text text-anchor="middle" x="345" y="-1037.8" font-family="Times,serif" font-size="14.00">interface Entry</text>
-<polyline fill="none" stroke="green" points="296,-1030 394,-1030 "/>
-<text text-anchor="middle" x="345" y="-1014.8" font-family="Times,serif" font-size="14.00">getMenu</text>
-<text text-anchor="middle" x="345" y="-999.8" font-family="Times,serif" font-size="14.00">setMenu</text>
-<text text-anchor="middle" x="345" y="-984.8" font-family="Times,serif" font-size="14.00">getType</text>
+<polygon fill="none" stroke="green" points="296,-954.5 296,-1075.5 394,-1075.5 394,-954.5 296,-954.5"/>
+<text text-anchor="middle" x="345" y="-1060.3" font-family="Times,serif" font-size="14.00">interface Entry</text>
+<polyline fill="none" stroke="green" points="296,-1052.5 394,-1052.5 "/>
+<text text-anchor="middle" x="345" y="-1037.3" font-family="Times,serif" font-size="14.00">getMenu</text>
+<text text-anchor="middle" x="345" y="-1022.3" font-family="Times,serif" font-size="14.00">setMenu</text>
+<text text-anchor="middle" x="345" y="-1007.3" font-family="Times,serif" font-size="14.00">getType</text>
+<text text-anchor="middle" x="345" y="-992.3" font-family="Times,serif" font-size="14.00">hide</text>
+<text text-anchor="middle" x="345" y="-977.3" font-family="Times,serif" font-size="14.00">show</text>
+<text text-anchor="middle" x="345" y="-962.3" font-family="Times,serif" font-size="14.00">isHidden</text>
 </g>
 <!-- Entry&#45;&gt;AbstractEntry -->
 <g id="edge2" class="edge"><title>Entry&#45;&gt;AbstractEntry</title>
-<path fill="none" stroke="black" d="M344.734,-966.524C344.569,-937.087 344.36,-899.821 344.208,-872.564"/>
-<polygon fill="black" stroke="black" points="341.234,-966.6 344.79,-976.581 348.234,-966.561 341.234,-966.6"/>
+<path fill="none" stroke="black" d="M344.606,-943.687C344.516,-927.672 344.422,-910.804 344.335,-895.276"/>
+<polygon fill="black" stroke="black" points="341.108,-944.085 344.664,-954.066 348.108,-944.046 341.108,-944.085"/>
 <text text-anchor="middle" x="377.5" y="-924.8" font-family="Times,serif" font-size="14.00">implements</text>
 </g>
 <!-- Item -->
@@ -131,8 +137,8 @@
 </g>
 <!-- Entry&#45;&gt;Item -->
 <g id="edge14" class="edge"><title>Entry&#45;&gt;Item</title>
-<path fill="none" stroke="black" d="M382.583,-969.041C391.583,-958.235 401.149,-946.719 410,-936 422.066,-921.388 425.015,-917.679 437,-903 439.773,-899.604 442.623,-896.112 445.497,-892.588"/>
-<polygon fill="black" stroke="black" points="379.861,-966.84 376.147,-976.762 385.238,-971.322 379.861,-966.84"/>
+<path fill="none" stroke="black" d="M400.6,-947.362C403.783,-943.521 406.935,-939.712 410,-936 422.066,-921.388 425.015,-917.679 437,-903 439.773,-899.604 442.623,-896.112 445.497,-892.588"/>
+<polygon fill="black" stroke="black" points="397.728,-945.342 394.036,-955.272 403.115,-949.812 397.728,-945.342"/>
 <text text-anchor="middle" x="444" y="-924.8" font-family="Times,serif" font-size="14.00">extends</text>
 </g>
 <!-- Checkbox -->
@@ -227,19 +233,20 @@
 </g>
 <!-- AbstractMenu -->
 <g id="node6" class="node"><title>AbstractMenu</title>
-<polygon fill="none" stroke="blue" points="897,-436 897,-617 1067,-617 1067,-436 897,-436"/>
-<text text-anchor="middle" x="982" y="-601.8" font-family="Times,serif" font-size="14.00">abstract class AbstractMenu</text>
-<polyline fill="none" stroke="blue" points="897,-594 1067,-594 "/>
-<text text-anchor="middle" x="982" y="-578.8" font-family="Times,serif" font-size="14.00">getItems</text>
-<text text-anchor="middle" x="982" y="-563.8" font-family="Times,serif" font-size="14.00">getPool</text>
-<text text-anchor="middle" x="982" y="-548.8" font-family="Times,serif" font-size="14.00">getFocused</text>
-<text text-anchor="middle" x="982" y="-533.8" font-family="Times,serif" font-size="14.00">setFocused</text>
-<text text-anchor="middle" x="982" y="-518.8" font-family="Times,serif" font-size="14.00">up</text>
-<text text-anchor="middle" x="982" y="-503.8" font-family="Times,serif" font-size="14.00">down</text>
-<text text-anchor="middle" x="982" y="-488.8" font-family="Times,serif" font-size="14.00">generateHtml</text>
-<text text-anchor="middle" x="982" y="-473.8" font-family="Times,serif" font-size="14.00">unpostSubmenus</text>
-<text text-anchor="middle" x="982" y="-458.8" font-family="Times,serif" font-size="14.00">unpost</text>
-<text text-anchor="middle" x="982" y="-443.8" font-family="Times,serif" font-size="14.00">find</text>
+<polygon fill="none" stroke="blue" points="897,-428.5 897,-624.5 1067,-624.5 1067,-428.5 897,-428.5"/>
+<text text-anchor="middle" x="982" y="-609.3" font-family="Times,serif" font-size="14.00">abstract class AbstractMenu</text>
+<polyline fill="none" stroke="blue" points="897,-601.5 1067,-601.5 "/>
+<text text-anchor="middle" x="982" y="-586.3" font-family="Times,serif" font-size="14.00">getItems</text>
+<text text-anchor="middle" x="982" y="-571.3" font-family="Times,serif" font-size="14.00">getPool</text>
+<text text-anchor="middle" x="982" y="-556.3" font-family="Times,serif" font-size="14.00">getFocused</text>
+<text text-anchor="middle" x="982" y="-541.3" font-family="Times,serif" font-size="14.00">setFocused</text>
+<text text-anchor="middle" x="982" y="-526.3" font-family="Times,serif" font-size="14.00">up</text>
+<text text-anchor="middle" x="982" y="-511.3" font-family="Times,serif" font-size="14.00">down</text>
+<text text-anchor="middle" x="982" y="-496.3" font-family="Times,serif" font-size="14.00">generateHtml</text>
+<text text-anchor="middle" x="982" y="-481.3" font-family="Times,serif" font-size="14.00">generateMenu</text>
+<text text-anchor="middle" x="982" y="-466.3" font-family="Times,serif" font-size="14.00">unpostSubmenus</text>
+<text text-anchor="middle" x="982" y="-451.3" font-family="Times,serif" font-size="14.00">unpost</text>
+<text text-anchor="middle" x="982" y="-436.3" font-family="Times,serif" font-size="14.00">find</text>
 </g>
 <!-- ContextMenu -->
 <g id="node14" class="node"><title>ContextMenu</title>
@@ -266,8 +273,8 @@
 </g>
 <!-- AbstractMenu&#45;&gt;ContextMenu -->
 <g id="edge12" class="edge"><title>AbstractMenu&#45;&gt;ContextMenu</title>
-<path fill="none" stroke="black" d="M998.776,-425.633C1005.91,-383.157 1014.36,-332.844 1022.13,-286.605"/>
-<polygon fill="black" stroke="black" points="995.291,-425.249 997.086,-435.691 1002.19,-426.409 995.291,-425.249"/>
+<path fill="none" stroke="black" d="M999.989,-418.406C1006.85,-377.571 1014.78,-330.364 1022.1,-286.766"/>
+<polygon fill="black" stroke="black" points="996.521,-417.93 998.315,-428.372 1003.42,-419.09 996.521,-417.93"/>
 <text text-anchor="middle" x="1038" y="-308.8" font-family="Times,serif" font-size="14.00">extends</text>
 </g>
 <!-- SubMenu -->
@@ -282,13 +289,13 @@
 </g>
 <!-- AbstractMenu&#45;&gt;SubMenu -->
 <g id="edge28" class="edge"><title>AbstractMenu&#45;&gt;SubMenu</title>
-<path fill="none" stroke="black" d="M964.944,-425.527C951.868,-348.881 934.446,-246.76 924.608,-189.093"/>
-<polygon fill="black" stroke="black" points="961.546,-426.422 966.678,-435.691 968.447,-425.245 961.546,-426.422"/>
+<path fill="none" stroke="black" d="M963.713,-418.309C950.793,-342.579 934.141,-244.975 924.609,-189.099"/>
+<polygon fill="black" stroke="black" points="960.298,-419.103 965.43,-428.372 967.198,-417.926 960.298,-419.103"/>
 <text text-anchor="middle" x="966" y="-308.8" font-family="Times,serif" font-size="14.00">extends</text>
 </g>
 <!-- AbstractPostable&#45;&gt;AbstractMenu -->
 <g id="edge5" class="edge"><title>AbstractPostable&#45;&gt;AbstractMenu</title>
-<path fill="none" stroke="black" d="M751.66,-799.869C797.659,-780.688 850.085,-752.811 888,-715 915.331,-687.744 936.144,-650.913 951.152,-617.109"/>
+<path fill="none" stroke="black" d="M751.66,-799.869C797.659,-780.688 850.085,-752.811 888,-715 913.268,-689.801 932.966,-656.418 947.655,-624.809"/>
 <polygon fill="black" stroke="black" points="750.187,-796.69 742.251,-803.71 752.833,-803.171 750.187,-796.69"/>
 <text text-anchor="middle" x="887" y="-736.8" font-family="Times,serif" font-size="14.00">extends</text>
 </g>
@@ -355,20 +362,21 @@
 </g>
 <!-- Menu -->
 <g id="node8" class="node"><title>Menu</title>
-<polygon fill="none" stroke="green" points="836,-774 836,-895 946,-895 946,-774 836,-774"/>
-<text text-anchor="middle" x="891" y="-879.8" font-family="Times,serif" font-size="14.00">interface Menu</text>
-<polyline fill="none" stroke="green" points="836,-872 946,-872 "/>
-<text text-anchor="middle" x="891" y="-856.8" font-family="Times,serif" font-size="14.00">getItems</text>
-<text text-anchor="middle" x="891" y="-841.8" font-family="Times,serif" font-size="14.00">getFocused</text>
-<text text-anchor="middle" x="891" y="-826.8" font-family="Times,serif" font-size="14.00">setFocused</text>
-<text text-anchor="middle" x="891" y="-811.8" font-family="Times,serif" font-size="14.00">getPool</text>
-<text text-anchor="middle" x="891" y="-796.8" font-family="Times,serif" font-size="14.00">unpostSubmenus</text>
-<text text-anchor="middle" x="891" y="-781.8" font-family="Times,serif" font-size="14.00">find</text>
+<polygon fill="none" stroke="green" points="836,-766.5 836,-902.5 946,-902.5 946,-766.5 836,-766.5"/>
+<text text-anchor="middle" x="891" y="-887.3" font-family="Times,serif" font-size="14.00">interface Menu</text>
+<polyline fill="none" stroke="green" points="836,-879.5 946,-879.5 "/>
+<text text-anchor="middle" x="891" y="-864.3" font-family="Times,serif" font-size="14.00">getItems</text>
+<text text-anchor="middle" x="891" y="-849.3" font-family="Times,serif" font-size="14.00">getFocused</text>
+<text text-anchor="middle" x="891" y="-834.3" font-family="Times,serif" font-size="14.00">setFocused</text>
+<text text-anchor="middle" x="891" y="-819.3" font-family="Times,serif" font-size="14.00">getPool</text>
+<text text-anchor="middle" x="891" y="-804.3" font-family="Times,serif" font-size="14.00">unpostSubmenus</text>
+<text text-anchor="middle" x="891" y="-789.3" font-family="Times,serif" font-size="14.00">find</text>
+<text text-anchor="middle" x="891" y="-774.3" font-family="Times,serif" font-size="14.00">generateMenu</text>
 </g>
 <!-- Menu&#45;&gt;AbstractMenu -->
 <g id="edge6" class="edge"><title>Menu&#45;&gt;AbstractMenu</title>
-<path fill="none" stroke="black" d="M929.352,-764.516C931.783,-759.007 934.037,-753.461 936,-748 951.08,-706.048 961.851,-657.733 969.161,-617.042"/>
-<polygon fill="black" stroke="black" points="926.113,-763.182 925.115,-773.73 932.473,-766.107 926.113,-763.182"/>
+<path fill="none" stroke="black" d="M932.637,-756.771C933.829,-753.835 934.956,-750.905 936,-748 950.154,-708.624 960.512,-663.643 967.775,-624.621"/>
+<polygon fill="black" stroke="black" points="929.343,-755.571 928.629,-766.142 935.779,-758.323 929.343,-755.571"/>
 <text text-anchor="middle" x="971.5" y="-736.8" font-family="Times,serif" font-size="14.00">implements</text>
 </g>
 <!-- AbstractNavigatable -->
@@ -452,7 +460,7 @@
 </g>
 <!-- Postable&#45;&gt;Menu -->
 <g id="edge24" class="edge"><title>Postable&#45;&gt;Menu</title>
-<path fill="none" stroke="black" d="M817.298,-960.793C829.416,-940.193 843.345,-916.513 855.809,-895.325"/>
+<path fill="none" stroke="black" d="M817.355,-960.697C828.055,-942.507 840.162,-921.925 851.423,-902.781"/>
 <polygon fill="black" stroke="black" points="814.279,-959.023 812.225,-969.417 820.312,-962.573 814.279,-959.023"/>
 <text text-anchor="middle" x="859" y="-924.8" font-family="Times,serif" font-size="14.00">extends</text>
 </g>
