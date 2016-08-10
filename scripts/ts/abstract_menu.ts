@@ -86,7 +86,8 @@ namespace ContextMenu {
      * @override
      */
     up(event: KeyboardEvent): void {
-      let items = this.getItems().filter(x => x instanceof AbstractItem);
+      let items = this.getItems().filter(
+        x => (x instanceof AbstractItem) && (!x.isHidden()));
       if (items.length === 0) {
         return;
       }
@@ -106,7 +107,8 @@ namespace ContextMenu {
      * @override
      */
     down(event: KeyboardEvent): void {
-      let items = this.getItems().filter(x => x instanceof AbstractItem);
+      let items = this.getItems().filter(
+        x => (x instanceof AbstractItem) && (!x.isHidden()));
       if (items.length === 0) {
         return;
       }
@@ -128,10 +130,24 @@ namespace ContextMenu {
      */
     generateHtml() {
       super.generateHtml();
+      this.generateMenu();
+    }
+
+    /**
+     * @override
+     */
+    generateMenu() {
       let html = this.getHtml();
       html.classList.add(HtmlClasses['MENU']);
       for (let i = 0, item: Item; item = this.items[i]; i++) {
-        html.appendChild(item.getHtml());
+        if (!item.isHidden()) {
+          html.appendChild(item.getHtml());
+          continue;
+        }
+        let itemHtml = item.getHtml();
+        if (itemHtml.parentNode) {
+          itemHtml.parentNode.removeChild(itemHtml);
+        }
       }
     }
 

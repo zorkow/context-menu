@@ -117,7 +117,9 @@ namespace ContextMenu {
   }
 
   function parseItems_(menu: Entry[], items: any[]) {
+    let hidden: Entry[] = [];
     for (let i = 0, item: any; item = items[i]; i++) {
+      console.log(item.content);
       let func = parseMapping_[item['type']];
       if (func) {
         let menuItem = func(item);
@@ -125,8 +127,12 @@ namespace ContextMenu {
         if (item['disabled']) {
           menuItem.disable();
         }
+        if (item['hidden']) {
+          hidden.push(menuItem);
+        }
       }
     }
+    hidden.forEach(x => x.hide());
   }
 
 }

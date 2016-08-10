@@ -185,6 +185,12 @@ MathJax.Hub.Register.StartupHook("MathEvents Ready", function () {
     SETTINGS.inTabOrder = value;
     contextmenu.getStore().inTaborder(value);
   };
+  MENU.Font = function(value) {
+    SETTINGS.font = value;
+    // Question: Does this need to be saved in the cookie as otherwise we will
+    // always get "Auto".
+    MathJax.Menu.Font();
+  };
 
   var cm_json =
         {"menu":
@@ -244,6 +250,10 @@ MathJax.Hub.Register.StartupHook("MathEvents Ready", function () {
            { "name": "inTabOrder",
              "value": SETTINGS.inTabOrder,
              "action": MENU.InTabOrder
+           },
+           { "name": "font",
+             "value": SETTINGS.font,
+             "action": MENU.Font
            }
          ],
           "items":
@@ -442,6 +452,77 @@ MathJax.Hub.Register.StartupHook("MathEvents Ready", function () {
                      "content": "Include in Tab Order",
                      "variable": "inTabOrder"
                     }
+                  ]
+                }
+               },
+               {"type": "submenu",
+                "id": "FontPrefs",
+                "content": "Font Preference",
+                "hidden": !MathJax.Hub.config.MathMenu.showFontMenu,
+                "menu": {
+                  "items": [
+                    {"type": "label",
+                     "id": "ForHTMLCSS",
+                     "content": "For HTML-CSS:"
+                    },                                        
+                    {"type": "radio",
+                     "id": "Auto",
+                     "content": "Auto",
+	             "variable": "font"
+                    },
+                    {"type": "rule"},
+                    {"type": "radio",
+                     "id": "TeXLocal",
+                     "content": "TeX (local)",   
+	             "variable": "font"
+                    },
+                    {"type": "radio",
+                     "id": "TeXWeb",
+                     "content": "TeX (web)",       
+	             "variable": "font"
+                    },
+                    {"type": "radio",
+                     "id": "TeXImage",
+                     "content": "TeX (image)",   
+	             "variable": "font"
+                    },
+                    {"type": "rule"},
+                    {"type": "radio",
+                     "id": "STIXLocal",
+                     "content": "STIX (local)", 
+	             "variable": "font"
+                    },
+                    {"type": "radio",
+                     "id": "STIXWeb",
+                     "content": "STIX (web)", 
+	             "variable": "font"
+                    },
+                    {"type": "rule"},
+                    {"type": "radio",
+                     "id": "AsanaMathWeb",
+                     "content": "Asana Math (web)", 
+	             "variable": "font"
+                    },
+                    {"type": "radio",
+                     "id": "GyrePagellaWeb",
+                     "content": "Gyre Pagella (web)", 
+	             "variable": "font"
+                    },
+                    {"type": "radio",
+                     "id": "GyreTermesWeb",
+                     "content": "Gyre Termes (web)", 
+	             "variable": "font"
+                    },
+                    {"type": "radio",
+                     "id": "LatinModernWeb",
+                     "content": "Latin Modern (web)", 
+	             "variable": "font"
+                    },
+                    {"type": "radio",
+                     "id": "NeoEulerWeb",
+                     "content": "Neo Euler (web)", 
+	             "variable": "font"
+                    },
                   ]
                 }
                },
