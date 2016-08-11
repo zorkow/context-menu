@@ -26,7 +26,7 @@ classParser.filter = function(sources, name) {
 };
 
 classParser.findSource = function(sources, name) {
-  return sources.find(x => x.fileName.match(name));
+  return sources.find(x => x.baseName === name);
 };
 
 //
@@ -263,8 +263,7 @@ classParser.classGraph = function(directory, output) {
 };
 
 classParser.transform = function(directory, output) {
-  var files = fs.readdirSync(directory).filter(x => x.match(/\.ts$/));
-  var sources = files.map(x => classParser.readFile(directory + x, 'ts'));
+  var sources = classParser.readDirectory(directory, 'ts');
   classParser.program(sources);
   classParser.dotFile(output);
 };
@@ -280,24 +279,33 @@ classParser.transform = function(directory, output) {
 //
 ////TODO: Insert namespace prefix.
 
-classParser.rewriteInterface = function(interface) {
-  var string = interface.text;
-  var headerComments = ts.getJsDocComments(interface.statements[0], interface);
-  var header = classParser.combinePartialContent(string, headerComments, '\n\n');
-  var base = interface.statements[0].body.statements[0];
-  var name = base.name.text;
+classParser.rewriteInterfaceFile = function(file) {
+  var headerComments = ts.getJsDocComments(file.statements[0], file);
+  var header = classParser.combinePartialContent(file.text, headerComments, '\n\n');
+
+  ////TODO:  Here we have to search for the correct interface first!
+  var base = file.statements[0].body.statements[0];
+  var interfaceStr = classParser.rewriteInterface(base, file);
+  return header + '\n\n\n\n' + interfaceStr;
+};
+  
+classParser.rewriteInterface = function(interface, file) {
+  var name = interface.name.text;
+  console.log(name);
   var store = {};
-  classParser.heritageClauses(base.heritageClauses, store);
+  classParser.heritageClauses(interface.heritageClauses, store);
+  console.log(store);
 
   var interfaceStr = '';
   interfaceStr += '/**\n * @interface\n';
   store.extends.forEach(x => interfaceStr += ' * @extends {' + x + '}\n');
   interfaceStr += ' */\n';
   interfaceStr += name + ' = function() {}\n';
-  classParser.methods(base.members, store);
-  var methods = base.members.map(
-    x => classParser.interfaceMethod(x, name, string, interface));
-  return header + '\n\n\n\n' + interfaceStr + '\n\n' + methods.join('\n\n');
+  classParser.methods(interface.members, store);
+  console.log(store.members);
+  var methods = interface.members.map(
+    x => classParser.interfaceMethod(x, name, file.text, file));
+  return interfaceStr + '\n\n' + methods.join('\n\n');
 };
 
 classParser.interfaceMethod = function(method, name, string, interface) {
@@ -339,10 +347,23 @@ classParser.readFile = function(filename, ext) {
   return file;
 };
 
+classParser.readDirectory = function(directory, ext) {
+  var files = fs.readdirSync(directory).
+        filter(x => x.match(RegExp('.' + ext + '$')));
+  return files.map(x => classParser.readFile(directory + x, ext));
+};
+
 //
 // Rewriting transpiled Javascript files.
+// NOTE: Needs info from store, i.e., ts files need to be parsed first!
 //
 classParser.cleanJSFile = function(js) {
+  return js.statements.length === 2 ?
+    classParser.cleanJSFile2(js) :
+    classParser.cleanJSFile3(js);
+};
+
+classParser.cleanJSFile3 = function(js) {
   // Top level comment
   let file = [];
   let comment = ts.getJsDocComments(js.statements[0].declarationList, js);
@@ -362,8 +383,53 @@ classParser.cleanJSFile = function(js) {
   let expression = js.statements[2].expression.expression.expression.
         body.statements[0].declarationList.declarations[0].initializer.
         expression.expression.body.statements;
-  file = file.concat(expression);
-  return classParser.combinePartialContent(js.text, file);
+  // The constructor computation. Can be very fragile!
+  let constructor = expression[1];
+  if (ts.getJsDocComments(constructor, js)) {
+    file = file.concat(expression);
+    return classParser.combinePartialContent(js.text, file);
+  }
+  var commentStr = '\n\n';
+  var store = classParser.store[constructor.name.text];
+  commentStr += '/**\n * @constructor\n';
+  store.extends.forEach(x => commentStr += ' * @extends {' + x + '}\n');
+  store.implements.forEach(x => commentStr += ' * @implements {' + x + '}\n');
+  commentStr += ' */\n';
+  file.push(expression[0]);
+  var start = classParser.combinePartialContent(js.text, file);
+  var end = classParser.combinePartialContent(js.text, expression.slice(1));
+  return start + commentStr + end;
+};
+
+
+classParser.cleanJSFile2 = function(js) {
+  // Top level comment
+  let file = [];
+  let comment = classParser.getPartialContent(
+    js.text, js.statements[0]);
+  let newline = comment.lastIndexOf('\n');
+  if (newline !== -1) {
+    file.push({pos: 0, end: newline + 1});
+  }
+  let expression = js.statements[1].expression.expression.expression.
+        body.statements[0].declarationList.declarations[0].initializer.
+        expression.expression.body.statements;
+  // The constructor computation. Can be very fragile!
+  let constructor = expression[0];
+  if (ts.getJsDocComments(constructor, js)) {
+    file = file.concat(expression);
+    return classParser.combinePartialContent(js.text, file);
+  }
+  var commentStr = '\n\n';
+  var store = classParser.store[constructor.name.text];
+  commentStr += '/**\n * @constructor\n';
+  store.extends.forEach(x => commentStr += ' * @extends {' + x + '}\n');
+  store.implements.forEach(x => commentStr += ' * @implements {' + x + '}\n');
+  commentStr += ' */\n';
+  //file.push(expression[0]);
+  var start = classParser.combinePartialContent(js.text, file);
+  var end = classParser.combinePartialContent(js.text, expression.slice(0));
+  return start + commentStr + end;
 };
 
 
@@ -384,25 +450,54 @@ classParser.cleanJSFile = function(js) {
 // - Links into the sources will be wrong but we will ignore that for now
 //
 
+classParser.enums;
+
 classParser.makeJSDoc = function(tsDir, jsDir, outDir) {
-  var tsFiles = fs.readdirSync(tsDir).
-        filter(x => x.match(/\.ts$/)).
-        map(x => classParser.readFile(tsDir + x, 'ts'));
-  var jsFiles = fs.readdirSync(jsDir).
-        filter(x => x.match(/\.js$/)).
-        map(x => classParser.readFile(jsDir + x, 'js'));
+  classParser.enums = '';
+  var tsFiles = classParser.readDirectory(tsDir, 'ts');
+  var jsFiles = classParser.readDirectory(jsDir, 'js');
   var cleanJS = {};
+  classParser.program(tsFiles);
   for (var i = 0, file; file = jsFiles[i]; i++) {
     try {
       cleanJS[file.baseName] = classParser.cleanJSFile(file);
     } catch (e) {
-      cleanJS[file.baseName] = '';
+      cleanJS[file.baseName] =
+        classParser.addInterfacesEnums(
+          classParser.findSource(tsFiles, file.baseName),
+          file.baseName);
     }
     var dir = outDir + file.baseName + '.js';
     fs.writeFileSync(dir, cleanJS[file.baseName]);
   }
   //return cleanJS;
 };
+
+classParser.addInterfacesEnums = function(src, name) {
+  var elements = classParser.sources[name];
+  var file = '';
+  for (var i = 0, element; element = elements[i]; i++) {
+    switch (element.type) {
+    case 'enum':
+      let enumString = classParser.getPartialContent(src.text, element.node);
+      file += element.kind === ts.SyntaxKind['EnumDeclaration'] ?
+        classParser.rewriteEnum(element.node, src) :
+        enumString;
+      break;
+    case 'interface':
+      file += classParser.rewriteInterface(element.node, src);
+      break;
+    default:
+      break;
+    }
+  }
+  return file;
+};
+
+classParser.rewriteEnum = function(node, src) {
+  return '';
+};
+
 
 //console.log('loaded');
 //console.log(ts)
