@@ -48,16 +48,6 @@ namespace ContextMenu {
   };
 
   /**
-   * Prefixes a html attribute.
-   * @param {string} name The base name.
-   * @return {HtmlId} The prefixed name.
-   * @private
-   */
-  function prefixId_(name: string): HtmlId {
-    return <HtmlId>prefix_(name);
-  };
-
-  /**
    * Prefixes a html class name.
    * @param {string} name The base name.
    * @return {HtmlAttr} The prefixed name.
@@ -81,6 +71,7 @@ namespace ContextMenu {
     MENUCHECK: prefixClass_('MenuCheck'),
     MENUCLOSE: prefixClass_('MenuClose'),
     MENUDISABLED: prefixClass_('MenuDisabled'),
+    MENUFRAME: prefixClass_('MenuFrame'),
     MENUITEM: prefixClass_('MenuItem'),
     MENULABEL: prefixClass_('MenuLabel'),
     MENURADIOCHECK: prefixClass_('MenuRadioCheck'),
@@ -101,17 +92,7 @@ namespace ContextMenu {
     'CtxtMenu_MenuLabel' | 'CtxtMenu_MenuRadioCheck' | 'CtxtMenu_MenuRule' |
     'CtxtMenu_MousePost' | 'CtxtMenu_RTL' | 'CtxtMenu_Attached' |
     'CtxtMenu_Info' | 'CtxtMenu_InfoClose' | 'CtxtMenu_InfoContent' |
-    'CtxtMenu_InfoSignature' | 'CtxtMenu_InfoTitle';
-
-  /**
-   * HTML ids.
-   * @enum {string} 
-   */
-  export let HtmlIds: {[id: string]: HtmlId} = {
-    MENUFRAME: prefixId_('MenuFrame')
-  };
-
-  export type HtmlId = 'CtxtMenu_MenuFrame' ;
+    'CtxtMenu_InfoSignature' | 'CtxtMenu_InfoTitle' | 'CtxtMenu_MenuFrame';
 
   /**
    * HTML attributes.

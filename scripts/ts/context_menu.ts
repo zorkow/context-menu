@@ -78,7 +78,7 @@ namespace ContextMenu {
     generateHtml() {
       super.generateHtml();
       this.frame = document.createElement('div');
-      this.frame.id = HtmlIds['MENUFRAME'];
+      this.frame.classList.add(HtmlClasses['MENUFRAME']);
       //// TODO: Adapt to other browsers.
       let styleString = 'left: 0px; top: 0px; z-index: 200; width: 100%; ' +
         'height: 100%; border: 0px; padding: 0px; margin: 0px;';

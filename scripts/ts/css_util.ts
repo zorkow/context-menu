@@ -28,10 +28,6 @@ namespace ContextMenu {
 
   export namespace CssStyles {
 
-    function makeId_(name: string): string {
-      return '#' + (HtmlIds[name] || name);
-    }
-
     function makeClass_(name: string): string {
       return '.' + (HtmlClasses[name] || name);
     }
