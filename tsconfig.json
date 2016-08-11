@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "commonjs",
+    "target": "ES5",
     "module": "system",
     "declaration": false,
     "noImplicitAny": true,
