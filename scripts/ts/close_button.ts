@@ -34,6 +34,12 @@ namespace ContextMenu {
     className = HtmlClasses['MENUCLOSE'];
     role = 'button';
 
+    /**
+     * @constructor
+     * @extends {AbstractPostable}
+     * @param {Postable} element The postable element the close button is
+     *     attached to.
+     */
     constructor(element: Postable) {
       super();
       this.element = element;

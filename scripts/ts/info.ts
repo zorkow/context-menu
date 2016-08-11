@@ -39,6 +39,13 @@ namespace ContextMenu {
     className = HtmlClasses['INFO'];
     role = 'dialog';
 
+    /**
+     * @constructor
+     * @extends {AbstractPostable}
+     * @param {string} title The title of the info box.
+     * @param {Function} content Function generating the content of the box.
+     * @param {string} signature The final line of the info box.
+     */
     constructor(title: string, content: Function, signature: string) {
       super();
       this.title = title;

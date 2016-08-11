@@ -39,10 +39,6 @@ namespace ContextMenu {
     className = HtmlClasses['CONTEXTMENU'];
     role = 'menu';
 
-    constructor() {
-      super();
-    }
-
     /**
      * @override
      */

@@ -32,9 +32,15 @@ namespace ContextMenu {
     isPosted(): boolean;
 
     /**
-     * Posts the element at the given coordinates.
+     * Posts the element.
      */
     post(): void;
+    
+    /**
+     * Posts the element at the given coordinates.
+     * @param {?number} x The x coordinate.
+     * @param {?number} y The y coordinate.
+     */
     post(x?: number, y?: number): void;
 
     /**

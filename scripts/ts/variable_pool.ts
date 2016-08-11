@@ -30,8 +30,6 @@ namespace ContextMenu {
 
     private pool: {[name: string]: Variable<T>} = {};
 
-    constructor() { }
-
     /**
      * Inserts a new variable into the pool.
      * @param {Variable<T>} variable The new variable.

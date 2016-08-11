@@ -35,10 +35,6 @@ namespace ContextMenu {
     protected role: string;
     protected className: HtmlClass;
 
-    constructor() {
-      super();
-    }
-
     /**
      * Adds a attributes and values to the HTML element.
      * @param {Object.<string, string>} attributes A dictionary of attributes.

@@ -40,6 +40,7 @@ namespace ContextMenu {
     /**
      * @constructor
      * @implements {Entry}
+     * @extends {MenuElement}
      * @param {Menu} menu The context menu or sub-menu the entry belongs to.
      * @param {string} type The type of the entry.
      */

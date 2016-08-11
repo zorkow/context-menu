@@ -62,6 +62,11 @@ namespace ContextMenu {
      */
     private widgets: Postable[] = [];
 
+    
+    /**
+     * @constructor
+     * @extends {AbstractMenu}
+     */
     constructor() {
       super();
       this.variablePool = new VariablePool<string | boolean>();

@@ -38,6 +38,7 @@ namespace ContextMenu {
 
     /**
      * @constructor
+     * @template T
      * @param {string} name The variable name.
      * @param {T} value It's initial value.
      * @param {function(T)} callback Function to call when value is changed.

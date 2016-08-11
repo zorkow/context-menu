@@ -63,6 +63,13 @@ namespace ContextMenu {
     mobileFlag = false;
     private active: HTMLElement = null;
 
+    
+    /**
+     * @constructor
+     * @extends {AbstractPostable}
+     * @param {string} title The title of the popup window.
+     * @param {Function} content Function generating the content.
+     */
     constructor(title: string, content: Function) {
       super();
       this.title = title;

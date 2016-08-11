@@ -32,6 +32,13 @@ namespace ContextMenu {
     private anchor: Submenu;
     public baseMenu: ContextMenu;
 
+    
+    /**
+     * @constructor
+     * @extends {AbstractMenu}
+     * @param {Submenu} anchor The item in the parent menu triggering this
+     *     submenu.
+     */
     constructor(anchor: Submenu) {
       super();
       this.anchor = anchor;
@@ -39,7 +46,7 @@ namespace ContextMenu {
       this.getBaseMenu();
     }
 
-    public getAnchor(): Submenu {
+    getAnchor(): Submenu {
       return this.anchor;
     }
 
