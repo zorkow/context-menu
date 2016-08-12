@@ -247,6 +247,30 @@ namespace ContextMenu {
       this.widgets.forEach(x => x.unpost());
     }
 
+    /**
+     * Parses a JSON respresentation of a variable pool.
+     * @param {JSON} json The JSON object to parse.
+     * @return {ContextMenu} The new context menu object.
+     */
+    static parse({menu: menu}): ContextMenu {
+      if (!menu) {
+        return;
+      }
+      // id is currently ignored!
+      let {pool: pool, items: items, id: id} = menu;
+      let ctxtMenu = new ContextMenu();
+      // TODO: Try and catch with error
+      pool.forEach(ctxtMenu.parseVariable.bind(ctxtMenu));
+      ctxtMenu.parseItems(items);
+      return ctxtMenu;
+    }
+      
+    private parseVariable({name: name,
+                           value: value,
+                           action: action}) {
+      this.getPool().insert(new Variable(name, value, action));
+    }
+
   }
 
 }

@@ -132,7 +132,9 @@ namespace ContextMenu {
       html.setAttribute('aria-haspopup', 'true');
     }
 
-
+    /**
+     * @override
+     */
     left(event: KeyboardEvent) {
       if (this.getSubmenu().isPosted()) {
         this.getSubmenu().unpost();
@@ -141,14 +143,30 @@ namespace ContextMenu {
       }
     }
 
+    /**
+     * @override
+     */
     right(event: KeyboardEvent) {
       if (!this.getSubmenu().isPosted()) {
         this.getSubmenu().post();
       } else {
         (<AbstractMenu>this.getSubmenu()).down(event);
       }
+    }
 
+    /**
+     * Parses a JSON respresentation of a submenu item.
+     * @param {JSON} json The JSON object to parse.
+     * @param {Menu} menu The menu the item is attached to.
+     * @return {Submenu} The new submenu object.
+     */
+    static parse(
+      {content: content, menu: submenu, id: id}, menu: Menu): Submenu {
+        let item = new Submenu(menu, content, id);
+        item.setSubmenu(SubMenu.parse(submenu, item));
+        return item;
     }
 
   }
+
 }

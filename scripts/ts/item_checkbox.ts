@@ -97,6 +97,17 @@ namespace ContextMenu {
       this.span.style.display = this.variable.getValue() ? '' : 'none';
     }
 
+    /**
+     * Parses a JSON respresentation of a checkbox item.
+     * @param {JSON} json The JSON object to parse.
+     * @param {Menu} menu The menu the item is attached to.
+     * @return {Checkbox} The new checkbox object.
+     */
+    static parse(
+      {content: content, variable: variable, id: id}, menu: Menu): Checkbox {
+        return new Checkbox(menu, content, variable, id);
+      }
+    
   }
 
 }

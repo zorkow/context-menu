@@ -340,13 +340,13 @@ MathJax.Hub.Register.StartupHook("MathEvents Ready", function () {
                      "id": "Command",
                      "content": "Command",
                      "variable": "CMD",
-                     "disabled": !MENU.isMac
+                     "hidden": !MENU.isMac
                     },
                     {"type": "checkbox",
                      "id": "Control",
                      "content": "Control",
                      "variable": "CTRL",
-                     "disabled":  MENU.isMac
+                     "hidden":  MENU.isMac
                     },
                     {"type": "checkbox",
                      "id": "Shift",
@@ -551,7 +551,7 @@ MathJax.Hub.Register.StartupHook("MathEvents Ready", function () {
 
   ContextMenu.CssStyles.addInfoStyles();
   ContextMenu.CssStyles.addMenuStyles();
-  contextmenu = ContextMenu.parse(cm_json);
+  contextmenu = ContextMenu.ContextMenu.parse(cm_json);
   about.attachMenu(contextmenu);
   help.attachMenu(contextmenu);
   mathmlSource.attachMenu(contextmenu);

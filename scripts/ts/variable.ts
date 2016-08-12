@@ -130,6 +130,6 @@ namespace ContextMenu {
       this.items.forEach(x => (<Radio | Checkbox>x).unregisterCallback(func));
     }
 
-
   }
+
 }

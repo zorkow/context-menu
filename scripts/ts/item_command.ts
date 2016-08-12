@@ -57,5 +57,17 @@ namespace ContextMenu {
       MenuUtil.close(this);
     }
 
+    /**
+     * Parses a JSON respresentation of a command item.
+     * @param {JSON} json The JSON object to parse.
+     * @param {Menu} menu The menu the item is attached to.
+     * @return {Command} The new command object.
+     */
+    static parse(
+      {content: content, action: action, id: id}, menu: Menu): Command {
+        return new Command(menu, content, action, id);
+      }
+
   }
+  
 }

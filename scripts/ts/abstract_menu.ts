@@ -191,5 +191,32 @@ namespace ContextMenu {
       return null;
     }
 
+    private parseMapping_ : { [id: string]: Function; } = {
+      'checkbox': Checkbox.parse,
+      'command': Command.parse,
+      'label': Label.parse,
+      'radio': Radio.parse,
+      'rule': Rule.parse,
+      'submenu': Submenu.parse
+    }
+
+    protected parseItems(items: any[]) {
+      let hidden = items.map(x => [this.parseItem.bind(this)(x), x.hidden]);
+      hidden.forEach(x => x[1] && x[0].hide());
+    }
+
+    private parseItem(item: any): Item {
+      let func = this.parseMapping_[item['type']];
+      if (func) {
+        let menuItem = func(item, this);
+        this.getItems().push(menuItem);
+        if (item['disabled']) {
+          menuItem.disable();
+        }
+        return menuItem;
+      }
+    }
+
   }
+
 }

@@ -105,5 +105,18 @@ namespace ContextMenu {
       this.baseMenu.getFrame().appendChild(this.getHtml());
     }
 
+    /**
+     * Parses a JSON respresentation of a variable pool.
+     * @param {JSON} json The JSON object to parse.
+     * @param {Submenu} anchor The anchor item the submenu is attached to.
+     * @return {SubMenu} The new submenu object.
+     */
+    static parse({items: items, id: id}, anchor: Submenu): SubMenu {
+      let submenu = new SubMenu(anchor);
+      submenu.parseItems(items);
+      return submenu;
+    }
+      
   }
+
 }

@@ -49,5 +49,17 @@ namespace ContextMenu {
       html.classList.add(HtmlClasses['MENULABEL']);
     }
 
+    /**
+     * Parses a JSON respresentation of a label item.
+     * @param {JSON} json The JSON object to parse.
+     * @param {Menu} menu The menu the item is attached to.
+     * @return {Label} The new label object.
+     */
+    static parse(
+      {content: content, id: id}, menu: Menu): Label {
+        return new Label(menu, content, id);
+      }
+
   }
+
 }

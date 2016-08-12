@@ -101,6 +101,9 @@ namespace ContextMenu {
       this.updateSpan();
     }
 
+    /**
+     * Toggles the aria checked attribute.
+     */
     private updateAria() {
       this.getHtml().setAttribute(
         'aria-checked',
@@ -108,10 +111,25 @@ namespace ContextMenu {
       );
     }
 
+    /**
+     * Toggles the checked tick.
+     */
     private updateSpan() {
       this.span.style.display =
         this.variable.getValue() === this.getId() ? '' : 'none';
     }
 
+    /**
+     * Parses a JSON respresentation of a radio item.
+     * @param {JSON} json The JSON object to parse.
+     * @param {Menu} menu The menu the item is attached to.
+     * @return {Radio} The new radio object.
+     */
+    static parse(
+      {content: content, variable: variable, id: id}, menu: Menu): Radio {
+        return new Radio(menu, content, variable, id);
+      }
+    
   }
+
 }

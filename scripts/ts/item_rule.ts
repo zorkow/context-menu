@@ -55,6 +55,16 @@ namespace ContextMenu {
      */
     addEvents(element: HTMLElement) { }
 
+    /**
+     * Parses a JSON respresentation of a rule item.
+     * @param {JSON} json The empty JSON object.
+     * @param {Menu} menu The menu the item is attached to.
+     * @return {Rule} The new rule object.
+     */
+    static parse({}, menu: Menu): Rule {
+      return new Rule(menu);
+    }
+    
   }
 
 }
