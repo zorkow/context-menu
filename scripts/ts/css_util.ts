@@ -28,6 +28,11 @@ namespace ContextMenu {
 
   export namespace CssStyles {
 
+    /**
+     * Creates CSS classname by prefixing a dot.
+     * @param {string} name The class name.
+     * @return {string} The context menu class name.
+     */
     function makeClass_(name: string): string {
       return '.' + (HtmlClasses[name] || name);
     }
@@ -206,6 +211,10 @@ namespace ContextMenu {
       addCloseIconStyles_(opt_document);
     }
 
+    /**
+     * Adds the CSS style sheets for the close button.
+     * @param {?HTMLDocument} opt_document The HTML document.
+     */
     function addCloseIconStyles_(opt_document: HTMLDocument): void {
       if (CLOSE_ICON_ADDED) {
         return;
@@ -214,6 +223,11 @@ namespace ContextMenu {
       CLOSE_ICON_ADDED = true;
     }
 
+    /**
+     * Creates style elements and adds them to the document.
+     * @param {Object.<string, string>} styles The style dictionary.
+     * @param {?HTMLDocument} opt_document The HTML document.
+     */
     function addStyles_(
       styles: {[id: string]: string}, opt_document: HTMLDocument): void {
         let doc = opt_document || document;

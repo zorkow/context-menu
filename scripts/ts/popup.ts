@@ -93,7 +93,7 @@ namespace ContextMenu {
     /**
      * @override
      */
-    public display() {
+    protected display() {
       this.active = this.menu.getStore().getActive();
       let settings: string[] = [];
       for (let setting in Popup.popupSettings) {

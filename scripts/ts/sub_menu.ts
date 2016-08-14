@@ -60,22 +60,20 @@ namespace ContextMenu {
       super();
       this.anchor = anchor;
       this.variablePool = this.anchor.getMenu().getPool();
-      this.getBaseMenu();
+      this.setBaseMenu();
     }
 
+    /**
+     * @return {Submenu} The submenu item that anchors this popdown submenu to
+     *     its parent.
+     */
     public getAnchor(): Submenu {
       return this.anchor;
     }
 
-    public getBaseMenu() {
-      //// TODO: Make this type safer!
-      let menu: any = this;
-      do {
-        menu = menu.anchor.getMenu();
-      } while (menu instanceof SubMenu);
-      this.baseMenu = <ContextMenu>menu;
-    }
-
+    /**
+     * @override
+     */
     public post() {
       if (!this.anchor.getMenu().isPosted()) {
         return;
@@ -118,8 +116,23 @@ namespace ContextMenu {
       super.post(x, y);
     }
 
-    public display() {
+    /**
+     * @override
+     */
+    protected display() {
       this.baseMenu.getFrame().appendChild(this.getHtml());
+    }
+
+    /**
+     * Computes the topmost menu this submenu belongs to.
+     */
+    private setBaseMenu() {
+      //// TODO: Make this type safer!
+      let menu: any = this;
+      do {
+        menu = menu.anchor.getMenu();
+      } while (menu instanceof SubMenu);
+      this.baseMenu = <ContextMenu>menu;
     }
 
   }

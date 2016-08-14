@@ -17,7 +17,7 @@
 
 
 /**
- * @fileoverview A store that
+ * @fileoverview A store that maps HTML elements in a document to context menus.
  *
  * @author v.sorge@mathjax.org (Volker Sorge)
  */

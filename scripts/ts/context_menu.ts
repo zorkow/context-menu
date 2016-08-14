@@ -118,7 +118,7 @@ namespace ContextMenu {
     /**
      * @override
      */
-    public display() {
+    protected display() {
       document.body.appendChild(this.frame);
       this.frame.appendChild(this.getHtml());
       this.focus();

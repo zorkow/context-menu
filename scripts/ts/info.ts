@@ -113,7 +113,7 @@ namespace ContextMenu {
     /**
      * @override
      */
-    public display() {
+    protected display() {
       this.menu.registerWidget(this);
       this.contentDiv.innerHTML = this.content();
       let html = this.menu.getHtml();
