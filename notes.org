@@ -50,3 +50,10 @@ Let's keep things simple:
 
  | sed s/[^a-zA-Z].*$//g | grep -e '^[A-Z]' | sort | uniq;\ |
  |                       |                  |      |        |
+
+* tslint
+
+  Future: "file-header": true,
+
+        "member-access": true,
+
