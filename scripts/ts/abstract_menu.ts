@@ -33,37 +33,50 @@ namespace ContextMenu {
 
   export abstract class AbstractMenu extends AbstractPostable implements Menu {
 
-    private items: Item[] = [];
-    private focused: Item;
+    /**
+     * @override
+     */
+    protected className = HtmlClasses['CONTEXTMENU'];
+
+    /**
+     * The variable pool of the context menu.
+     * @type {VarialbePool<string | boolean>}
+     */
     protected variablePool: VariablePool<string | boolean>;
-    className = HtmlClasses['CONTEXTMENU'];
-    role = 'menu';
 
     /**
      * @override
      */
-    getItems(): Item[] {
+    protected role = 'menu';
+
+    private items: Item[] = [];
+    private focused: Item;
+
+    /**
+     * @override
+     */
+    public getItems(): Item[] {
       return this.items;
     };
 
     /**
      * @override
      */
-    getPool(): VariablePool<string | boolean> {
+    public getPool(): VariablePool<string | boolean> {
       return this.variablePool;
     };
 
     /**
      * @override
      */
-    getFocused(): Item {
+    public getFocused(): Item {
       return this.focused;
     }
 
     /**
      * @override
      */
-    setFocused(item: Item) {
+    public setFocused(item: Item) {
       if (this.focused === item) {
         return;
       }
@@ -81,7 +94,7 @@ namespace ContextMenu {
     /**
      * @override
      */
-    up(event: KeyboardEvent): void {
+    public up(event: KeyboardEvent): void {
       let items = this.getItems().filter(
         x => (x instanceof AbstractItem) && (!x.isHidden()));
       if (items.length === 0) {
@@ -102,7 +115,7 @@ namespace ContextMenu {
     /**
      * @override
      */
-    down(event: KeyboardEvent): void {
+    public down(event: KeyboardEvent): void {
       let items = this.getItems().filter(
         x => (x instanceof AbstractItem) && (!x.isHidden()));
       if (items.length === 0) {
@@ -124,7 +137,7 @@ namespace ContextMenu {
     /**
      * @override
      */
-    generateHtml() {
+    public generateHtml() {
       super.generateHtml();
       this.generateMenu();
     }
@@ -132,7 +145,7 @@ namespace ContextMenu {
     /**
      * @override
      */
-    generateMenu() {
+    public generateMenu() {
       let html = this.getHtml();
       html.classList.add(HtmlClasses['MENU']);
       for (let i = 0, item: Item; item = this.items[i]; i++) {
@@ -150,7 +163,7 @@ namespace ContextMenu {
     /**
      * @override
      */
-    unpostSubmenus(): void {
+    public unpostSubmenus(): void {
       let submenus =
         <Submenu[]>this.items.filter(x => x instanceof Submenu);
       for (let i = 0, submenu: Submenu; submenu = submenus[i]; i++) {
@@ -164,7 +177,7 @@ namespace ContextMenu {
     /**
      * @override
      */
-    unpost(): void {
+    public unpost(): void {
       super.unpost();
       this.unpostSubmenus();
       this.setFocused(null);
@@ -173,7 +186,7 @@ namespace ContextMenu {
     /**
      * @override
      */
-    find(id: string): Item {
+    public find(id: string): Item {
       for (let item of this.getItems()) {
         if (item.getType() === 'rule') {
           continue;
@@ -191,22 +204,30 @@ namespace ContextMenu {
       return null;
     }
 
-    private parseMapping_ : { [id: string]: Function; } = {
-      'checkbox': Checkbox.parse,
-      'command': Command.parse,
-      'label': Label.parse,
-      'radio': Radio.parse,
-      'rule': Rule.parse,
-      'submenu': Submenu.parse
-    }
-
+    /**
+     * Parses items in JSON formats and attaches them to the menu.
+     * @param {Array.<JSON>} items List of JSON menu items.
+     */
     protected parseItems(items: any[]) {
       let hidden = items.map(x => [this.parseItem.bind(this)(x), x.hidden]);
       hidden.forEach(x => x[1] && x[0].hide());
     }
 
+    /**
+     * Parses items in JSON formats and attaches them to the menu.
+     * @param {Array.<JSON>} items List of JSON menu items.
+     * @return {}
+     */
     private parseItem(item: any): Item {
-      let func = this.parseMapping_[item['type']];
+      const parseMapping_: { [id: string]: Function; } = {
+        'checkbox': Checkbox.parse,
+        'command': Command.parse,
+        'label': Label.parse,
+        'radio': Radio.parse,
+        'rule': Rule.parse,
+        'submenu': Submenu.parse
+      };
+      let func = parseMapping_[item['type']];
       if (func) {
         let menuItem = func(item, this);
         this.getItems().push(menuItem);

@@ -51,7 +51,7 @@ namespace ContextMenu {
      * Sets the new active store element if it exists in the store.
      * @param {HTMLElement} element Element to be activated.
      */
-    setActive(element: HTMLElement): void {
+    public setActive(element: HTMLElement): void {
       do {
         if (this.store.indexOf(element) !== -1) {
           this.active = element;
@@ -64,7 +64,7 @@ namespace ContextMenu {
     /**
      * @return {HTMLElement} The currently active store element, if one exists.
      */
-    getActive(): HTMLElement {
+    public getActive(): HTMLElement {
       return this.active;
     }
 
@@ -74,7 +74,7 @@ namespace ContextMenu {
      * If active is not set returns the first element of the store.
      * @return {HTMLElement} The next element if it exists.
      */
-    next(): HTMLElement {
+    public next(): HTMLElement {
       let length = this.store.length;
       if (length === 0) {
         this.active = null;
@@ -92,7 +92,7 @@ namespace ContextMenu {
      * If active is not set returns the first element of the store.
      * @return {HTMLElement} The next element if it exists.
      */
-    previous(): HTMLElement {
+    public previous(): HTMLElement {
       let length = this.store.length;
       if (length === 0) {
         this.active = null;
@@ -105,26 +105,62 @@ namespace ContextMenu {
       return this.active;
     }
 
-    clear() {
+    public clear() {
       this.remove(this.store);
     }
 
-    private sort(): void {
-      let nodes = document.getElementsByClassName(this.attachedClass);
-      this.store = [].slice.call(nodes);
-    }
+    public insert(element: HTMLElement): void;
+    public insert(element: HTMLElement[]): void;
+    public insert(element: NodeListOf<HTMLElement>): void;
 
-    insert(element: HTMLElement): void;
-    insert(element: HTMLElement[]): void;
-    insert(element: NodeListOf<HTMLElement>): void;
-
-    insert(elementOrList: any) {
+    public insert(elementOrList: any) {
       let elements = elementOrList instanceof HTMLElement ?
         [elementOrList] : elementOrList;
       for (let i = 0, element: HTMLElement; element = elements[i]; i++) {
         this.insertElement(element);
       }
       this.sort();
+    }
+
+    public remove(element: HTMLElement): void;
+    public remove(element: HTMLElement[]): void;
+    public remove(element: NodeListOf<HTMLElement>): void;
+
+    public remove(elementOrList: any) {
+      let elements = elementOrList instanceof HTMLElement ?
+        [elementOrList] : elementOrList;
+      for (let i = 0, element: HTMLElement; element = elements[i]; i++) {
+        this.removeElement(element);
+      }
+      this.sort();
+    }
+
+    public inTaborder(flag: boolean) {
+      if (this.taborder && !flag) {
+        this.removeTaborder();
+      }
+      if (!this.taborder && flag) {
+        this.insertTaborder();
+      }
+      this.taborder = flag;
+    }
+
+    /**
+     * Inserts all elements in the store into the tab order.
+     */
+    public insertTaborder() {
+      if (this.taborder) {
+        this.insertTaborder_();
+      }
+    }
+
+    /**
+     * Removes all elements in the store from the tab order.
+     */
+    public removeTaborder() {
+      if (this.taborder) {
+        this.removeTaborder_();
+      }
     }
 
     private insertElement(element: HTMLElement) {
@@ -138,19 +174,6 @@ namespace ContextMenu {
       this.addEvents(element);
     }
 
-    remove(element: HTMLElement): void;
-    remove(element: HTMLElement[]): void;
-    remove(element: NodeListOf<HTMLElement>): void;
-
-    remove(elementOrList: any) {
-      let elements = elementOrList instanceof HTMLElement ?
-        [elementOrList] : elementOrList;
-      for (let i = 0, element: HTMLElement; element = elements[i]; i++) {
-        this.removeElement(element);
-      }
-      this.sort();
-    }
-
     private removeElement(element: HTMLElement) {
       if (!element.classList.contains(this.attachedClass)) {
         return;
@@ -162,39 +185,16 @@ namespace ContextMenu {
       this.removeEvents(element);
     }
 
-    inTaborder(flag: boolean) {
-      if (this.taborder && !flag) {
-        this.removeTaborder();
-      }
-      if (!this.taborder && flag) {
-        this.insertTaborder();
-      }
-      this.taborder = flag;
+    private sort(): void {
+      let nodes = document.getElementsByClassName(this.attachedClass);
+      this.store = [].slice.call(nodes);
     }
 
-    /**
-     * Inserts all elements in the store into the tab order.
-     */
-    insertTaborder() {
-      if (this.taborder) {
-        this.insertTaborder_();
-      }
-    }
-
-    insertTaborder_() {
+    private insertTaborder_() {
       this.store.forEach(x => x.setAttribute('tabindex', '0'));
     }
 
-    /**
-     * Removes all elements in the store from the tab order.
-     */
-    removeTaborder() {
-      if (this.taborder) {
-        this.removeTaborder_();
-      }
-    }
-
-    removeTaborder_() {
+    private removeTaborder_() {
       this.store.forEach(x => x.setAttribute('tabindex', '-1'));
     }
 
@@ -215,7 +215,6 @@ namespace ContextMenu {
         element.removeAttribute('tabindex');
       }
     }
-
 
     //// TODO: Need to add touch event.
     private addEvents(element: HTMLElement) {

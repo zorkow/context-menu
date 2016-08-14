@@ -34,7 +34,7 @@ namespace ContextMenu {
      * Inserts a new variable into the pool.
      * @param {Variable<T>} variable The new variable.
      */
-    insert(variable: Variable<T>) {
+    public insert(variable: Variable<T>) {
       this.pool[variable.getName()] = variable;
     }
 
@@ -44,7 +44,7 @@ namespace ContextMenu {
      * @param {string} name The name of the variable.
      * @return {?Variable<T>} The variable if it is in the pool.
      */
-    lookup(name: string) {
+    public lookup(name: string) {
       return this.pool[name];
     }
 
@@ -52,7 +52,7 @@ namespace ContextMenu {
      * Removes the variable from the pool.
      * @param {name} name The name of the variable.
      */
-    remove(name: string) {
+    public remove(name: string) {
       delete this.pool[name];
     }
 

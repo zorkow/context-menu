@@ -38,14 +38,14 @@ namespace ContextMenu {
     /**
      * @override
      */
-    isPosted() {
+    public isPosted() {
       return this.posted;
     }
 
     /**
      * @override
      */
-    post(x?: number, y?: number) {
+    public post(x?: number, y?: number) {
       if (this.posted) {
         return;
       }
@@ -60,7 +60,7 @@ namespace ContextMenu {
     /**
      * @override
      */
-    unpost(): void {
+    public unpost(): void {
       if (!this.posted) {
         return;
       }

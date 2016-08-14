@@ -35,7 +35,7 @@ namespace ContextMenu {
      * Posts the element.
      */
     post(): void;
-    
+
     /**
      * Posts the element at the given coordinates.
      * @param {?number} x The x coordinate.

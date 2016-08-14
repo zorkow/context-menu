@@ -52,14 +52,14 @@ namespace ContextMenu {
     /**
      * @return {string} The name of the variable.
      */
-    getName() {
+    public getName() {
       return this.name;
     };
 
     /**
      * @return {T} The value of the variable.
      */
-    getValue() {
+    public getValue() {
       return this.value;
     };
 
@@ -71,7 +71,7 @@ namespace ContextMenu {
      * callback.
      * @param {T} value New value of the variable.
      */
-    setValue(value: T) {
+    public setValue(value: T) {
       if (value === this.value) {
         return;
       }
@@ -88,7 +88,7 @@ namespace ContextMenu {
      * Registers a new item that has this variable.
      * @param {VariableItem} item The new variable item.
      */
-    register(item: VariableItem): void {
+    public register(item: VariableItem): void {
       if (this.items.indexOf(item) === -1) {
         this.items.push(item);
       }
@@ -98,7 +98,7 @@ namespace ContextMenu {
      * Unregisters an item for this variable.
      * @param {VariableItem} item The old variable item.
      */
-    unregister(item: VariableItem): void {
+    public unregister(item: VariableItem): void {
       let index = this.items.indexOf(item);
       if (index !== -1) {
         this.items.splice(index, 1);
@@ -108,7 +108,7 @@ namespace ContextMenu {
     /**
      * Updates the items belonging to the variable.
      */
-    update(): void {
+    public update(): void {
       this.items.forEach(x => x.update());
     }
 
@@ -117,7 +117,7 @@ namespace ContextMenu {
      * @param {Function} func Callback that does not take any arguments.
      * @final
      */
-    registerCallback(func: Function) {
+    public registerCallback(func: Function) {
       this.items.forEach(x => (<Radio | Checkbox>x).registerCallback(func));
     }
 
@@ -126,7 +126,7 @@ namespace ContextMenu {
      * @param {Function} func Callback that does not take any arguments.
      * @final
      */
-    unregisterCallback(func: Function) {
+    public unregisterCallback(func: Function) {
       this.items.forEach(x => (<Radio | Checkbox>x).unregisterCallback(func));
     }
 

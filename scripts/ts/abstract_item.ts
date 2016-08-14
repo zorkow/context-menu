@@ -33,6 +33,10 @@ namespace ContextMenu {
 
   export abstract class AbstractItem extends AbstractEntry implements Item {
 
+    /**
+     * Flag indicating if element is disabled.
+     * @type {boolean}
+     */
     protected disabled: boolean = false;
 
     private content: string;
@@ -57,21 +61,21 @@ namespace ContextMenu {
     /**
      * @override
      */
-    getContent() {
+    public getContent() {
       return this.content;
     }
 
     /**
      * @override
      */
-    getId() {
+    public getId() {
       return this.id;
     }
 
    /**
     * @override
     */
-    press() {
+    public press() {
       if (!this.disabled) {
         this.executeAction();
         this.executeCallbacks_();
@@ -84,26 +88,11 @@ namespace ContextMenu {
     protected executeAction() { }
 
     /**
-     * Executes the additional callbacks registered with this menu item.
-     */
-    private executeCallbacks_() {
-      let active = MenuUtil.getActiveElement(this);
-      for (let func of this.callbacks) {
-        try {
-          func(event);
-        } catch (e) {
-          MenuUtil.error(e, 'Callback for menu entry ' + this.getId() +
-                         ' failed.');
-        }
-      }
-    }
-
-    /**
      * Registers a callback function.
      * @param {Function} func Callback that does not take any arguments.
      * @final
      */
-    registerCallback(func: Function): void {
+    public registerCallback(func: Function): void {
       if (this.callbacks.indexOf(func) === -1) {
         this.callbacks.push(func);
       }
@@ -114,7 +103,7 @@ namespace ContextMenu {
      * @param {Function} func Callback that does not take any arguments.
      * @final
      */
-    unregisterCallback(func: Function): void {
+    public unregisterCallback(func: Function): void {
       let index = this.callbacks.indexOf(func);
       if (index !== -1) {
         this.callbacks.splice(index, 1);
@@ -124,7 +113,7 @@ namespace ContextMenu {
     /**
      * @override
      */
-    mousedown(event: MouseEvent) {
+    public mousedown(event: MouseEvent) {
       this.press();
       this.stop(event);
     }
@@ -132,7 +121,7 @@ namespace ContextMenu {
     /**
      * @override
      */
-    mouseover(event: MouseEvent) {
+    public mouseover(event: MouseEvent) {
       this.focus();
       this.stop(event);
     }
@@ -140,7 +129,7 @@ namespace ContextMenu {
     /**
      * @override
      */
-    mouseout(event: MouseEvent) {
+    public mouseout(event: MouseEvent) {
       this.deactivate();
       this.stop(event);
     }
@@ -148,7 +137,7 @@ namespace ContextMenu {
    /**
     * @override
     */
-    generateHtml() {
+    public generateHtml() {
       super.generateHtml();
       let html = this.getHtml();
       html.setAttribute('aria-disabled', 'false');
@@ -174,7 +163,7 @@ namespace ContextMenu {
     /**
      * @override
      */
-    focus() {
+    public focus() {
       this.getMenu().setFocused(this);
       super.focus();
       this.activate();
@@ -183,7 +172,7 @@ namespace ContextMenu {
     /**
      * @override
      */
-    unfocus() {
+    public unfocus() {
       this.deactivate();
       super.unfocus();
     }
@@ -191,21 +180,21 @@ namespace ContextMenu {
     /**
      * @override
      */
-    escape(event: KeyboardEvent) {
+    public escape(event: KeyboardEvent) {
       MenuUtil.close(this);
     }
 
     /**
      * @override
      */
-    up(event: KeyboardEvent) {
+    public up(event: KeyboardEvent) {
       (<AbstractMenu>this.getMenu()).up(event);
     }
 
     /**
      * @override
      */
-    down(event: KeyboardEvent) {
+    public down(event: KeyboardEvent) {
       (<AbstractMenu>this.getMenu()).down(event);
     }
 
@@ -213,7 +202,7 @@ namespace ContextMenu {
     /**
      * @override
      */
-    left(event: KeyboardEvent) {
+    public left(event: KeyboardEvent) {
       if (this.getMenu() instanceof ContextMenu) {
         (<ContextMenu>this.getMenu()).left(event);
         return;
@@ -226,21 +215,21 @@ namespace ContextMenu {
     /**
      * @override
      */
-    right(event: KeyboardEvent) {
+    public right(event: KeyboardEvent) {
       (<AbstractMenu>this.getMenu()).right(event);
     }
 
     /**
      * @override
      */
-    space(event: KeyboardEvent): void {
+    public space(event: KeyboardEvent) {
       this.press();
     }
 
     /**
      * @override
      */
-    disable(): void {
+    public disable() {
       this.disabled = true;
       let html = this.getHtml();
       html.classList.add(HtmlClasses['MENUDISABLED']);
@@ -250,11 +239,26 @@ namespace ContextMenu {
     /**
      * @override
      */
-    enable(): void {
+    public enable() {
       this.disabled = false;
       let html = this.getHtml();
       html.classList.remove(HtmlClasses['MENUDISABLED']);
       html.removeAttribute('aria-disabled');
+    }
+
+    /**
+     * Executes the additional callbacks registered with this menu item.
+     */
+    private executeCallbacks_() {
+      let active = MenuUtil.getActiveElement(this);
+      for (let func of this.callbacks) {
+        try {
+          func(event);
+        } catch (e) {
+          MenuUtil.error(e, 'Callback for menu entry ' + this.getId() +
+                         ' failed.');
+        }
+      }
     }
 
   }

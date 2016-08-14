@@ -42,6 +42,20 @@ namespace ContextMenu {
     private submenu: Menu = null;
 
     /**
+     * Parses a JSON respresentation of a submenu item.
+     * @param {JSON} json The JSON object to parse.
+     * @param {Menu} menu The menu the item is attached to.
+     * @return {Submenu} The new submenu object.
+     */
+    public static parse(
+      {content: content, menu: submenu, id: id}:
+      {content: string, menu: any, id: string}, menu: Menu): Submenu {
+        let item = new Submenu(menu, content, id);
+        item.setSubmenu(SubMenu.parse(submenu, item));
+        return item;
+    }
+
+    /**
      * @constructor
      * @extends {AbstractItem}
      * @param {Menu} menu The context menu or sub-menu the item belongs to.
@@ -57,7 +71,7 @@ namespace ContextMenu {
      * Sets the submenu.
      * @param {Menu} menu A menu.
      */
-    setSubmenu(menu: SubMenu) {
+    public setSubmenu(menu: SubMenu) {
       this.submenu = menu;
     }
 
@@ -65,14 +79,14 @@ namespace ContextMenu {
      * Returns the submenu element.
      * @return {Menu} The submenu.
      */
-    getSubmenu(): Menu {
+    public getSubmenu(): Menu {
       return this.submenu;
     }
 
     /**
      * @override
      */
-    mouseover(event: MouseEvent) {
+    public mouseover(event: MouseEvent) {
       this.focus();
       this.stop(event);
     }
@@ -80,14 +94,14 @@ namespace ContextMenu {
     /**
      * @override
      */
-    mouseout(event: MouseEvent) {
+    public mouseout(event: MouseEvent) {
       this.stop(event);
     }
 
     /**
      * @override
      */
-    unfocus() {
+    public unfocus() {
       if (!this.submenu.isPosted()) {
         super.unfocus();
         return;
@@ -104,7 +118,7 @@ namespace ContextMenu {
     /**
      * @override
      */
-    focus() {
+    public focus() {
       super.focus();
       if (!this.submenu.isPosted() && !this.disabled) {
         this.submenu.post();
@@ -115,14 +129,14 @@ namespace ContextMenu {
     /**
      * @override
      */
-    executeAction() {
+    public executeAction() {
       this.submenu.isPosted() ? this.submenu.unpost() : this.submenu.post();
     }
 
    /**
     * @override
     */
-    generateHtml() {
+    public generateHtml() {
       super.generateHtml();
       let html = this.getHtml();
       this.span = document.createElement('span');
@@ -135,7 +149,7 @@ namespace ContextMenu {
     /**
      * @override
      */
-    left(event: KeyboardEvent) {
+    public left(event: KeyboardEvent) {
       if (this.getSubmenu().isPosted()) {
         this.getSubmenu().unpost();
       } else {
@@ -146,25 +160,12 @@ namespace ContextMenu {
     /**
      * @override
      */
-    right(event: KeyboardEvent) {
+    public right(event: KeyboardEvent) {
       if (!this.getSubmenu().isPosted()) {
         this.getSubmenu().post();
       } else {
         (<AbstractMenu>this.getSubmenu()).down(event);
       }
-    }
-
-    /**
-     * Parses a JSON respresentation of a submenu item.
-     * @param {JSON} json The JSON object to parse.
-     * @param {Menu} menu The menu the item is attached to.
-     * @return {Submenu} The new submenu object.
-     */
-    static parse(
-      {content: content, menu: submenu, id: id}, menu: Menu): Submenu {
-        let item = new Submenu(menu, content, id);
-        item.setSubmenu(SubMenu.parse(submenu, item));
-        return item;
     }
 
   }

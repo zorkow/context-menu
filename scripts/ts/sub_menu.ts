@@ -29,10 +29,27 @@ namespace ContextMenu {
 
   export class SubMenu extends AbstractMenu {
 
-    private anchor: Submenu;
+    /**
+     * @type {ContextMenu}
+     */
     public baseMenu: ContextMenu;
 
-    
+    private anchor: Submenu;
+
+    /**
+     * Parses a JSON respresentation of a variable pool.
+     * @param {JSON} json The JSON object to parse.
+     * @param {Submenu} anchor The anchor item the submenu is attached to.
+     * @return {SubMenu} The new submenu object.
+     */
+    public static parse(
+      {items: items, id: id}: {items: any[], id: string},
+      anchor: Submenu): SubMenu {
+        let submenu = new SubMenu(anchor);
+        submenu.parseItems(items);
+        return submenu;
+      }
+
     /**
      * @constructor
      * @extends {AbstractMenu}
@@ -46,11 +63,11 @@ namespace ContextMenu {
       this.getBaseMenu();
     }
 
-    getAnchor(): Submenu {
+    public getAnchor(): Submenu {
       return this.anchor;
     }
 
-    getBaseMenu() {
+    public getBaseMenu() {
       //// TODO: Make this type safer!
       let menu: any = this;
       do {
@@ -59,7 +76,7 @@ namespace ContextMenu {
       this.baseMenu = <ContextMenu>menu;
     }
 
-    post() {
+    public post() {
       if (!this.anchor.getMenu().isPosted()) {
         return;
       }
@@ -90,33 +107,21 @@ namespace ContextMenu {
 
       // Is the following useful?
       //
-      // if (!isPC) {
-      //   // in case these ever get implemented
-      //   menu.style["borderRadiusTop"+side] = 0;       // Opera 10.5
-      //   menu.style["WebkitBorderRadiusTop"+side] = 0; // Safari and Chrome
-      //   menu.style["MozBorderRadiusTop"+side] = 0;    // Firefox
-      //   menu.style["KhtmlBorderRadiusTop"+side] = 0;  // Konqueror
-      // }
+      // // if (!isPC) {
+      // //   // in case these ever get implemented
+      // //   menu.style["borderRadiusTop"+side] = 0;       // Opera 10.5
+      // //   menu.style["WebkitBorderRadiusTop"+side] = 0; // Safari and Chrome
+      // //   menu.style["MozBorderRadiusTop"+side] = 0;    // Firefox
+      // //   menu.style["KhtmlBorderRadiusTop"+side] = 0;  // Konqueror
+      // // }
 
       super.post(x, y);
     }
 
-    display() {
+    public display() {
       this.baseMenu.getFrame().appendChild(this.getHtml());
     }
 
-    /**
-     * Parses a JSON respresentation of a variable pool.
-     * @param {JSON} json The JSON object to parse.
-     * @param {Submenu} anchor The anchor item the submenu is attached to.
-     * @return {SubMenu} The new submenu object.
-     */
-    static parse({items: items, id: id}, anchor: Submenu): SubMenu {
-      let submenu = new SubMenu(anchor);
-      submenu.parseItems(items);
-      return submenu;
-    }
-      
   }
 
 }

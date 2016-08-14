@@ -30,7 +30,7 @@ namespace ContextMenu {
 
   export class Popup extends AbstractPostable {
 
-    static popupSettings: {[id: string]: (string | number)} = {
+    private static popupSettings: {[id: string]: (string | number)} = {
         status: 'no',
         toolbar: 'no',
         locationbar: 'no',
@@ -46,7 +46,7 @@ namespace ContextMenu {
       };
     private menu: ContextMenu;
     private title: string = '';
-    private content: Function = function() { return ''; };
+    private content: Function;
 
     /**
      * The last opened window.
@@ -60,10 +60,9 @@ namespace ContextMenu {
      */
     private windowList: Window[] = [];
 
-    mobileFlag = false;
+    private mobileFlag = false;
     private active: HTMLElement = null;
 
-    
     /**
      * @constructor
      * @extends {AbstractPostable}
@@ -73,28 +72,28 @@ namespace ContextMenu {
     constructor(title: string, content: Function) {
       super();
       this.title = title;
-      this.content = content;
+      this.content = content || function() { return ''; };
     }
 
     /**
      * Attaches the widget to a context menu.
      * @param {ContextMenu} menu The parent menu.
      */
-    attachMenu(menu: ContextMenu): void {
+    public attachMenu(menu: ContextMenu): void {
       this.menu = menu;
     }
 
     /**
      * @override
      */
-    post() {
+    public post() {
       this.display();
     }
 
     /**
      * @override
      */
-    display() {
+    public display() {
       this.active = this.menu.getStore().getActive();
       let settings: string[] = [];
       for (let setting in Popup.popupSettings) {
@@ -128,17 +127,26 @@ namespace ContextMenu {
     }
 
     /**
+     * @override
+     */
+    public unpost() {
+      this.windowList.forEach(x => x.close());
+      this.window = null;
+    }
+
+    /**
      * Generates the content of the window.
      * @return {string} The generated content.
      */
-    generateContent(): string {
+    private generateContent(): string {
       return this.content(this.active);
     }
 
     /**
      * Resizes the window so it fits snuggly around the content.
+     * @private
      */
-    resize() {
+    private resize(): void {
       let table = <HTMLElement>this.window.document.body.firstChild;
       let H = (this.window.outerHeight - this.window.innerHeight) || 30;
       let W = (this.window.outerWidth - this.window.innerWidth) || 30;
@@ -156,14 +164,6 @@ namespace ContextMenu {
         this.window.moveTo(x, y);
       }
       this.active = null;
-    }
-
-    /**
-     * @override
-     */
-    unpost() {
-      this.windowList.forEach(x => x.close());
-      this.window = null;
     }
 
   }

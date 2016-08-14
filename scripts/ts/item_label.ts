@@ -30,6 +30,18 @@ namespace ContextMenu {
   export class Label extends AbstractItem {
 
     /**
+     * Parses a JSON respresentation of a label item.
+     * @param {JSON} json The JSON object to parse.
+     * @param {Menu} menu The menu the item is attached to.
+     * @return {Label} The new label object.
+     */
+    public static parse(
+      {content: content, id: id}: {content: string, id: string},
+      menu: Menu): Label {
+        return new Label(menu, content, id);
+      }
+
+    /**
      * @constructor
      * @extends {AbstractItem}
      * @param {Menu} menu The context menu or sub-menu the item belongs to.
@@ -43,22 +55,11 @@ namespace ContextMenu {
    /**
     * @override
     */
-    generateHtml() {
+    public generateHtml() {
       super.generateHtml();
       let html = this.getHtml();
       html.classList.add(HtmlClasses['MENULABEL']);
     }
-
-    /**
-     * Parses a JSON respresentation of a label item.
-     * @param {JSON} json The JSON object to parse.
-     * @param {Menu} menu The menu the item is attached to.
-     * @return {Label} The new label object.
-     */
-    static parse(
-      {content: content, id: id}, menu: Menu): Label {
-        return new Label(menu, content, id);
-      }
 
   }
 

@@ -30,12 +30,22 @@ namespace ContextMenu {
 
   export abstract class AbstractEntry extends MenuElement implements Entry {
 
+
+    /**
+     * Class name.
+     * @type {HtmlClass}
+     */
+    protected className = HtmlClasses['MENUITEM'];
+
+    /**
+     * Aria role element.
+     * @type {string}
+     */
+    protected role = 'menuitem';
+
     private menu: Menu;
     private type: string = 'entry';
     private hidden: boolean = false;
-
-    className = HtmlClasses['MENUITEM'];
-    role = 'menuitem';
 
     /**
      * @constructor
@@ -53,28 +63,28 @@ namespace ContextMenu {
     /**
      * @return {Menu} The context menu or sub-menu the entry belongs to.
      */
-    getMenu() {
+    public getMenu() {
       return this.menu;
     }
 
     /**
      * @param {Menu} menu Sets the menu.
      */
-    setMenu(menu: Menu) {
+    public setMenu(menu: Menu) {
       this.menu = menu;
     }
 
     /**
      * @return {string} The type of the menu entry, used for jsonification.
      */
-    getType() {
+    public getType() {
       return this.type;
     }
 
     /**
      * @override
      */
-    hide() {
+    public hide() {
       this.hidden = true;
       this.menu.generateMenu();
     }
@@ -82,7 +92,7 @@ namespace ContextMenu {
     /**
      * @override
      */
-    show() {
+    public show() {
       this.hidden = false;
       this.menu.generateMenu();
     }
@@ -90,7 +100,7 @@ namespace ContextMenu {
     /**
      * @override
      */
-    isHidden() {
+    public isHidden() {
       return this.hidden;
     }
 

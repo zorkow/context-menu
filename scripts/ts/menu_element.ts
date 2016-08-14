@@ -31,15 +31,23 @@ namespace ContextMenu {
   export abstract class MenuElement extends AbstractNavigatable implements
   Element {
 
-    private html: HTMLElement;
+    /**
+     * @override
+     */
     protected role: string;
+
+    /**
+     * @override
+     */
     protected className: HtmlClass;
+
+    private html: HTMLElement;
 
     /**
      * Adds a attributes and values to the HTML element.
      * @param {Object.<string, string>} attributes A dictionary of attributes.
      */
-    addAttributes(attributes: {[attr: string]: string}): void {
+    public addAttributes(attributes: {[attr: string]: string}): void {
       for (let attr in attributes) {
         this.html.setAttribute(attr, attributes[attr]);
       }
@@ -48,7 +56,7 @@ namespace ContextMenu {
     /**
      * @override
      */
-    getHtml() {
+    public getHtml() {
       if (!this.html) {
         this.generateHtml();
       }
@@ -58,7 +66,7 @@ namespace ContextMenu {
     /**
      * @override
      */
-    setHtml(html: HTMLElement) {
+    public setHtml(html: HTMLElement) {
       this.html = html;
       this.addEvents(html);
     }
@@ -66,7 +74,7 @@ namespace ContextMenu {
     /**
      * @override
      */
-    generateHtml() {
+    public generateHtml() {
       //// TODO: Make this DOM independent!
       let html = document.createElement('div');
       html.classList.add(this.className);
@@ -77,7 +85,7 @@ namespace ContextMenu {
     /**
      * @override
      */
-    focus() {
+    public focus() {
       let html = this.getHtml();
       html.setAttribute('tabindex', '0');
       html.focus();
@@ -86,7 +94,7 @@ namespace ContextMenu {
     /**
      * @override
      */
-    unfocus() {
+    public unfocus() {
       let html = this.getHtml();
       if (html.hasAttribute('tabindex')) {
         html.setAttribute('tabindex', '-1');

@@ -31,7 +31,10 @@ namespace ContextMenu {
 
   export class Radio extends AbstractItem implements VariableItem {
 
-    role = 'menuitemradio';
+    /**
+     * @override
+     */
+    protected role = 'menuitemradio';
 
     /**
      * The state variable. Initially set false.
@@ -39,6 +42,18 @@ namespace ContextMenu {
      */
     private variable: Variable<string>;
     private span: HTMLElement;
+
+    /**
+     * Parses a JSON respresentation of a radio item.
+     * @param {JSON} json The JSON object to parse.
+     * @param {Menu} menu The menu the item is attached to.
+     * @return {Radio} The new radio object.
+     */
+    public static parse(
+      {content: content, variable: variable, id: id}:
+      {content: string, variable: string, id: string}, menu: Menu): Radio {
+        return new Radio(menu, content, variable, id);
+      }
 
     /**
      * @constructor
@@ -57,7 +72,7 @@ namespace ContextMenu {
     /**
      * @override
      */
-    executeAction() {
+    public executeAction() {
       let oldValue = this.variable.getValue();
       if (oldValue === this.getId()) {
         return;
@@ -69,7 +84,7 @@ namespace ContextMenu {
    /**
     * @override
     */
-    generateHtml() {
+    public generateHtml() {
       super.generateHtml();
       let html = this.getHtml();
       this.span = document.createElement('span');
@@ -82,21 +97,21 @@ namespace ContextMenu {
     /**
      * @override
      */
-    register() {
+    public register() {
       this.variable.register(this);
     }
 
     /**
      * @override
      */
-    unregister() {
+    public unregister() {
       this.variable.unregister(this);
     }
 
     /**
      * @override
      */
-    update() {
+    public update() {
       this.updateAria();
       this.updateSpan();
     }
@@ -119,17 +134,6 @@ namespace ContextMenu {
         this.variable.getValue() === this.getId() ? '' : 'none';
     }
 
-    /**
-     * Parses a JSON respresentation of a radio item.
-     * @param {JSON} json The JSON object to parse.
-     * @param {Menu} menu The menu the item is attached to.
-     * @return {Radio} The new radio object.
-     */
-    static parse(
-      {content: content, variable: variable, id: id}, menu: Menu): Radio {
-        return new Radio(menu, content, variable, id);
-      }
-    
   }
 
 }

@@ -33,25 +33,6 @@ namespace ContextMenu {
   export namespace MenuUtil {
 
     /**
-     * Makes menu from a JSON representation. 
-     * @param {Object} json The JSON object.
-     * @return {?Menu} The menu if it could be constructed.
-     */
-    export function parse(json: Object): Menu {
-      let menu = new ContextMenu();
-      return menu;
-    }
-
-    /**
-     * Translates a menu into JSON representation.
-     * @param {Menu} menu A menu object.
-     * @return {Object} A JSON version of the menu.
-     */
-    export function jsonify(menu: Menu): Object {
-      return {};
-    }
-
-    /**
      * Closes the entire context menu.
      * @param {Item} item The item on which the menu close is called.
      */
@@ -76,15 +57,23 @@ namespace ContextMenu {
       return baseMenu.getStore().getActive();
     }
 
-    // error for debug mode.
+    /**
+     * Error function for controlled exceptions.
+     * @param {Error} error The thrown error, containing the stack trace.
+     * @param {string} msg The message to be signalled.
+     */
     export function error(error: Error, msg: string): void {
       console.log('ContextMenu Error: ' + msg);
     }
 
-    let count = 0;
+    /**
+     * @return {number} A global, increasing unique counter.
+     */
     export function counter(): number {
       return count++;
     }
+    let count = 0;
 
   }
+
 }

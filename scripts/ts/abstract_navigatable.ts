@@ -35,14 +35,14 @@ namespace ContextMenu {
     /**
      * Bubble this key event.
      */
-    bubbleKey(): void {
+    public bubbleKey(): void {
       this.bubble = true;
     }
 
     /**
      * @override
      */
-    keydown(event: KeyboardEvent): void {
+    public keydown(event: KeyboardEvent): void {
       switch (event.keyCode) {
       case KEY.ESCAPE:
         this.escape(event);
@@ -72,32 +72,32 @@ namespace ContextMenu {
     /**
      * @override
      */
-    escape(event: KeyboardEvent): void {};
+    public escape(event: KeyboardEvent): void {};
 
     /**
      * @override
      */
-    space(event: KeyboardEvent): void {};
+    public space(event: KeyboardEvent): void {};
 
     /**
      * @override
      */
-    left(event: KeyboardEvent): void {};
+    public left(event: KeyboardEvent): void {};
 
     /**
      * @override
      */
-    right(event: KeyboardEvent): void {};
+    public right(event: KeyboardEvent): void {};
 
     /**
      * @override
      */
-    up(event: KeyboardEvent): void {};
+    public up(event: KeyboardEvent): void {};
 
     /**
      * @override
      */
-    down(event: KeyboardEvent): void {};
+    public down(event: KeyboardEvent): void {};
 
     /**
      * Stops event propagation and bubbling.
@@ -114,38 +114,42 @@ namespace ContextMenu {
     /**
      * @override
      */
-    mousedown(event: MouseEvent): void {
+    public mousedown(event: MouseEvent): void {
       return this.stop(event);
     }
 
     /**
      * @override
      */
-    mouseup(event: MouseEvent): void {
+    public mouseup(event: MouseEvent): void {
       return this.stop(event);
     }
 
     /**
      * @override
      */
-    mouseover(event: MouseEvent): void {
+    public mouseover(event: MouseEvent): void {
       return this.stop(event);
     }
 
     /**
      * @override
      */
-    mouseout(event: MouseEvent): void {
+    public mouseout(event: MouseEvent): void {
       return this.stop(event);
     }
 
     /**
      * @override
      */
-    click(event: MouseEvent): void {
+    public click(event: MouseEvent): void {
       return this.stop(event);
     }
 
+    /**
+     * Adds navigation events to an HTML element.
+     * @param {HTMLElement} element The HTML element for navigation.
+     */
     public addEvents(element: HTMLElement): void {
       element.addEventListener(MOUSE.DOWN, this.mousedown.bind(this));
       element.addEventListener(MOUSE.UP, this.mouseup.bind(this));

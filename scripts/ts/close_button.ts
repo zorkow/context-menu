@@ -30,9 +30,17 @@ namespace ContextMenu {
 
   export class CloseButton extends AbstractPostable {
 
+    /**
+     * @override
+     */
+    protected className = HtmlClasses['MENUCLOSE'];
+
+    /**
+     * @override
+     */
+    protected role = 'button';
+
     private element: Postable;
-    className = HtmlClasses['MENUCLOSE'];
-    role = 'button';
 
     /**
      * @constructor
@@ -48,7 +56,7 @@ namespace ContextMenu {
     /**
      * @override
      */
-    generateHtml() {
+    public generateHtml() {
       let html = document.createElement('span');
       html.classList.add(this.className);
       html.setAttribute('role', this.role);
@@ -62,12 +70,12 @@ namespace ContextMenu {
     /**
      * @override
      */
-    display() { };
+    public display() { };
 
     /**
      * @override
      */
-    unpost() {
+    public unpost() {
       super.unpost();
       this.element.unpost();
     }
@@ -75,7 +83,7 @@ namespace ContextMenu {
     /**
      * @override
      */
-    keydown(event: KeyboardEvent) {
+    public keydown(event: KeyboardEvent) {
       this.bubbleKey();
       super.keydown(event);
     }
@@ -83,7 +91,7 @@ namespace ContextMenu {
     /**
      * @override
      */
-    space(event: KeyboardEvent) {
+    public space(event: KeyboardEvent) {
       this.unpost();
       this.stop(event);
     }
@@ -91,7 +99,7 @@ namespace ContextMenu {
     /**
      * @override
      */
-    mousedown(event: MouseEvent) {
+    public mousedown(event: MouseEvent) {
       this.unpost();
       this.stop(event);
     }

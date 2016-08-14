@@ -30,14 +30,22 @@ namespace ContextMenu {
 
   export class Info extends AbstractPostable {
 
-    menu: ContextMenu;
-    title: string = '';
-    signature: string = '';
-    content: Function = function() { return ''; };
-    contentDiv: HTMLElement = this.generateContent();
-    close: CloseButton = this.generateClose();
-    className = HtmlClasses['INFO'];
-    role = 'dialog';
+    /**
+     * @override
+     */
+    protected className = HtmlClasses['INFO'];
+
+    /**
+     * @override
+     */
+    protected role = 'dialog';
+
+    private menu: ContextMenu;
+    private title: string = '';
+    private signature: string = '';
+    private contentDiv: HTMLElement = this.generateContent();
+    private close: CloseButton = this.generateClose();
+    private content: Function;
 
     /**
      * @constructor
@@ -49,7 +57,7 @@ namespace ContextMenu {
     constructor(title: string, content: Function, signature: string) {
       super();
       this.title = title;
-      this.content = content;
+      this.content = content || function() { return ''; };
       this.signature = signature;
     }
 
@@ -57,14 +65,14 @@ namespace ContextMenu {
      * Attaches the widget to a context menu.
      * @param {ContextMenu} menu The parent menu.
      */
-    attachMenu(menu: ContextMenu): void {
+    public attachMenu(menu: ContextMenu): void {
       this.menu = menu;
     }
 
     /**
      * @override
      */
-    getHtml() {
+    public getHtml() {
       let html = super.getHtml();
       return html;
     }
@@ -72,7 +80,7 @@ namespace ContextMenu {
     /**
      * @override
      */
-    generateHtml() {
+    public generateHtml() {
       super.generateHtml();
       let html = this.getHtml();
       html.appendChild(this.generateTitle());
@@ -80,6 +88,66 @@ namespace ContextMenu {
       html.appendChild(this.generateSignature());
       html.appendChild(this.close.getHtml());
       html.setAttribute('tabindex', '0');
+    }
+
+    /**
+     * @override
+     */
+    public post() {
+      super.post();
+      //// TODO: There is potentially a bug in IE. Look into it.
+      //  Look for MENU.prototype.msieAboutBug in MathMenu.js
+      let doc = document.documentElement;
+      let html = this.getHtml();
+      let H = window.innerHeight || doc.clientHeight || doc.scrollHeight || 0;
+      let x = Math.floor((- html.offsetWidth) / 2);
+      let y = Math.floor((H - html.offsetHeight) / 3);
+      html.setAttribute(
+        'style', 'margin-left: ' + x + 'px; top: ' + y + 'px;');
+      if (window.event instanceof MouseEvent) {
+        html.classList.add(HtmlClasses['MOUSEPOST']);
+      }
+      html.focus();
+    }
+
+    /**
+     * @override
+     */
+    public display() {
+      this.menu.registerWidget(this);
+      this.contentDiv.innerHTML = this.content();
+      let html = this.menu.getHtml();
+      html.parentNode.removeChild(html);
+      this.menu.getFrame().appendChild(this.getHtml());
+    }
+
+    /**
+     * @override
+     */
+    public click(event: MouseEvent): void { }
+
+    /**
+     * @override
+     */
+    public keydown(event: KeyboardEvent) {
+      this.bubbleKey();
+      super.keydown(event);
+    }
+
+    /**
+     * @override
+     */
+    public escape(event: KeyboardEvent): void {
+      this.unpost();
+    }
+
+    /**
+     * @override
+     */
+    public unpost() {
+      super.unpost();
+      this.getHtml().classList.remove(HtmlClasses['MOUSEPOST']);
+      this.menu.unregisterWidget(this);
     }
 
     /**
@@ -122,66 +190,6 @@ namespace ContextMenu {
       span.innerHTML = this.signature;
       span.classList.add(HtmlClasses['INFOSIGNATURE']);
       return span;
-    }
-
-    /**
-     * @override
-     */
-    post() {
-      super.post();
-      //// TODO: There is potentially a bug in IE. Look into it.
-      //  Look for MENU.prototype.msieAboutBug in MathMenu.js
-      let doc = document.documentElement;
-      let html = this.getHtml();
-      let H = window.innerHeight || doc.clientHeight || doc.scrollHeight || 0;
-      let x = Math.floor((- html.offsetWidth) / 2);
-      let y = Math.floor((H - html.offsetHeight) / 3);
-      html.setAttribute(
-        'style', 'margin-left: ' + x + 'px; top: ' + y + 'px;');
-      if (window.event instanceof MouseEvent) {
-        html.classList.add(HtmlClasses['MOUSEPOST']);
-      }
-      html.focus();
-    }
-
-    /**
-     * @override
-     */
-    display() {
-      this.menu.registerWidget(this);
-      this.contentDiv.innerHTML = this.content();
-      let html = this.menu.getHtml();
-      html.parentNode.removeChild(html);
-      this.menu.getFrame().appendChild(this.getHtml());
-    }
-
-    /**
-     * @override
-     */
-    click(event: MouseEvent): void { }
-
-    /**
-     * @override
-     */
-    keydown(event: KeyboardEvent) {
-      this.bubbleKey();
-      super.keydown(event);
-    }
-
-    /**
-     * @override
-     */
-    escape(event: KeyboardEvent): void {
-      this.unpost();
-    }
-
-    /**
-     * @override
-     */
-    unpost() {
-      super.unpost();
-      this.getHtml().classList.remove(HtmlClasses['MOUSEPOST']);
-      this.menu.unregisterWidget(this);
     }
 
   }

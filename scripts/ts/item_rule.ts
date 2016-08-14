@@ -28,8 +28,25 @@ namespace ContextMenu {
 
   export class Rule extends AbstractEntry {
 
-    className = HtmlClasses['MENUITEM'];
-    role = 'separator';
+    /**
+     * @override
+     */
+    protected className = HtmlClasses['MENUITEM'];
+
+    /**
+     * @override
+     */
+    protected role = 'separator';
+
+    /**
+     * Parses a JSON respresentation of a rule item.
+     * @param {JSON} json The empty JSON object.
+     * @param {Menu} menu The menu the item is attached to.
+     * @return {Rule} The new rule object.
+     */
+    public static parse({}: {}, menu: Menu): Rule {
+      return new Rule(menu);
+    }
 
     /**
      * @constructor
@@ -43,7 +60,7 @@ namespace ContextMenu {
     /**
      * @override
      */
-    generateHtml() {
+    public generateHtml() {
       super.generateHtml();
       let html = this.getHtml();
       html.classList.add(HtmlClasses['MENURULE']);
@@ -53,18 +70,8 @@ namespace ContextMenu {
     /**
      * @override
      */
-    addEvents(element: HTMLElement) { }
+    public addEvents(element: HTMLElement) { }
 
-    /**
-     * Parses a JSON respresentation of a rule item.
-     * @param {JSON} json The empty JSON object.
-     * @param {Menu} menu The menu the item is attached to.
-     * @return {Rule} The new rule object.
-     */
-    static parse({}, menu: Menu): Rule {
-      return new Rule(menu);
-    }
-    
   }
 
 }
