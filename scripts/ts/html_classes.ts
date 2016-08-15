@@ -62,7 +62,7 @@ namespace ContextMenu {
    * HTML classes.
    * @enum {string} 
    */
-  export let HtmlClasses: {[id: string]: HtmlClass} = {
+  export const HtmlClasses: {[id: string]: HtmlClass} = {
     ATTACHED: prefixClass_('Attached'),
     CONTEXTMENU: prefixClass_('ContextMenu'),
     MENU: prefixClass_('Menu'),
@@ -98,7 +98,7 @@ namespace ContextMenu {
    * HTML attributes.
    * @enum {string}
    */
-  export let HtmlAttrs: {[id: string]: HtmlAttr} = {
+  export const HtmlAttrs: {[id: string]: HtmlAttr} = {
     COUNTER: prefixAttr_('Counter'),
     KEYDOWNFUNC: prefixAttr_('keydownFunc'),
     CONTEXTMENUFUNC: prefixAttr_('contextmenuFunc'),

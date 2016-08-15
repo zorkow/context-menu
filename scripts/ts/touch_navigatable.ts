@@ -28,7 +28,7 @@ namespace ContextMenu {
    * Touch events.
    * @enum {string} 
    */
-  export let TOUCH = {
+  export const TOUCH = {
     START: 'touchstart',
     MOVE: 'touchmove',
     END: 'touchend',

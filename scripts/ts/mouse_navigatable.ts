@@ -28,7 +28,7 @@ namespace ContextMenu {
    * Mouse events.
    * @enum {string}
    */
-  export let MOUSE = {
+  export const MOUSE = {
     CLICK: 'click',
     DBLCLICK: 'dblclick',
     DOWN: 'mousedown',
