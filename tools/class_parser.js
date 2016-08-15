@@ -64,6 +64,12 @@ classParser.node = function(node, indentation, source) {
     store.type = 'enum';
     store.attrs.push('color=magenta');
     break;
+  case ts.SyntaxKind['ModuleDeclaration']:
+    if (node.parent.kind !== ts.SyntaxKind['SourceFile']) {
+      store.type = 'namespace';
+      store.attrs.push('color=cyan');
+      break;
+    }
   default:
     let name = classParser.getEnumName(source, node);
     if (name) {
@@ -105,24 +111,24 @@ classParser.getEnumName = function(source, statement) {
   return '';
 };
 
-classParser.getEnum = function(source, statement) {
-  let comments = ts.getJsDocComments(statement, source);
-  if (!comments || !comments.length) {
-    return '';
-  }
-  if (comments.some(x => classParser.jsDocIsEnum(source.text, x))) {
-    return classParser.assembleEnum(source.text, statement, comments);
-  }
-  return '';
-};
+// classParser.getEnum = function(source, statement) {
+//   let comments = ts.getJsDocComments(statement, source);
+//   if (!comments || !comments.length) {
+//     return '';
+//   }
+//   if (comments.some(x => classParser.jsDocIsEnum(source.text, x))) {
+//     return classParser.assembleEnum(source.text, statement, comments);
+//   }
+//   return '';
+// };
 
-classParser.assembleEnum = function(str, statement, comments) {
-  let comment = classParser.combinePartialContent(str, comments);
-  let decl = statement.declarationList.declarations[0];
-  let name = decl.name.text;
-  let map = classParser.getPartialContent(str, decl.initializer);
-  return comment + '\n' + name + ' = ' + map;
-};
+// classParser.assembleEnum = function(str, statement, comments) {
+//   let comment = classParser.combinePartialContent(str, comments);
+//   let decl = statement.declarationList.declarations[0];
+//   let name = decl.name.text;
+//   let map = classParser.getPartialContent(str, decl.initializer);
+//   return comment + '\n' + name + ' = ' + map;
+// };
 
 classParser.jsDocIsEnum = function(str, doc) {
   let jsdoc = ts.parseIsolatedJSDocComment(
@@ -139,14 +145,15 @@ classParser.block = function(expr, store) {
   classParser.heritageClauses(expr.heritageClauses, store);
   classParser.modifiers(expr.modifiers, store);
   if (classParser.WITH_METHODS) {
-    classParser.methods(expr.members, store);
+    console.log(expr.kind);
+    classParser.methods(expr.members || (expr.body && expr.body.statements), store);
   }
 };
 
 classParser.methods = function(members, store) {
   store.members = [];
   var valid = ['MethodDeclaration', 'MethodSignature',
-               'EnumMember', 'PropertyAssignment'].
+               'EnumMember', 'PropertyAssignment', 'FunctionDeclaration'].
         map(x => ts.SyntaxKind[x]);
   for (var i = 0, member; member = members[i]; i++) {
     if (valid.indexOf(member.kind) === -1) {
@@ -291,10 +298,8 @@ classParser.rewriteInterfaceFile = function(file) {
   
 classParser.rewriteInterface = function(interface, file) {
   var name = interface.name.text;
-  console.log(name);
   var store = {};
   classParser.heritageClauses(interface.heritageClauses, store);
-  console.log(store);
 
   var interfaceStr = '';
   interfaceStr += '/**\n * @interface\n';
@@ -302,10 +307,9 @@ classParser.rewriteInterface = function(interface, file) {
   interfaceStr += ' */\n';
   interfaceStr += name + ' = function() {}\n';
   classParser.methods(interface.members, store);
-  console.log(store.members);
   var methods = interface.members.map(
     x => classParser.interfaceMethod(x, name, file.text, file));
-  return interfaceStr + '\n\n' + methods.join('\n\n');
+  return interfaceStr + '\n' + methods.join('\n');
 };
 
 classParser.interfaceMethod = function(method, name, string, interface) {
@@ -336,7 +340,7 @@ classParser.getPartialContent = function(str, position) {
 //
 classParser.extMap = {
   'ts': 'ES6',
-  'js': 'ES5'
+  'js': 'ES2015'
 };
 
 classParser.readFile = function(filename, ext) {
@@ -357,54 +361,12 @@ classParser.readDirectory = function(directory, ext) {
 // Rewriting transpiled Javascript files.
 // NOTE: Needs info from store, i.e., ts files need to be parsed first!
 //
-classParser.cleanJSFile = function(js) {
-  return js.statements.length === 2 ?
-    classParser.cleanJSFile2(js) :
-    classParser.cleanJSFile3(js);
-};
-
-classParser.cleanJSFile3 = function(js) {
-  // Top level comment
-  let file = [];
-  let comment = ts.getJsDocComments(js.statements[0].declarationList, js);
-  file = file.concat(comment);
-  let refText = classParser.getPartialContent(js.text, js.statements[1]);
-  let overview = js.statements[1].jsDocComment;
-  file.push(overview);
-  let references = classParser.getPartialContent(
-    js.text,
-    {pos: overview.end,
-     end: js.statements[1].declarationList.declarations[0].pos});
-  let newline = references.lastIndexOf('\n');
-  if (newline !== -1) {
-    //references = references.slice(0, newline + 1);
-    file.push({pos: overview.end, end: overview.end + newline + 1});
+classParser.cleanJSFile2015 = function(js) {
+  if (js.statements.length !== 2) {
+    throw 'Not a class definition';
   }
-  let expression = js.statements[2].expression.expression.expression.
-        body.statements[0].declarationList.declarations[0].initializer.
-        expression.expression.body.statements;
-  // The constructor computation. Can be very fragile!
-  let constructor = expression[1];
-  if (ts.getJsDocComments(constructor, js)) {
-    file = file.concat(expression);
-    return classParser.combinePartialContent(js.text, file);
-  }
-  var commentStr = '\n\n';
-  var store = classParser.store[constructor.name.text];
-  commentStr += '/**\n * @constructor\n';
-  store.extends.forEach(x => commentStr += ' * @extends {' + x + '}\n');
-  store.implements.forEach(x => commentStr += ' * @implements {' + x + '}\n');
-  commentStr += ' */\n';
-  file.push(expression[0]);
-  var start = classParser.combinePartialContent(js.text, file);
-  var end = classParser.combinePartialContent(js.text, expression.slice(1));
-  return start + commentStr + end;
-};
-
-
-classParser.cleanJSFile2 = function(js) {
   // Top level comment
-  let file = [];
+  let file = [classParser.getComment(js)];
   let comment = classParser.getPartialContent(
     js.text, js.statements[0]);
   let newline = comment.lastIndexOf('\n');
@@ -412,23 +374,36 @@ classParser.cleanJSFile2 = function(js) {
     file.push({pos: 0, end: newline + 1});
   }
   let expression = js.statements[1].expression.expression.expression.
-        body.statements[0].declarationList.declarations[0].initializer.
-        expression.expression.body.statements;
+        body.statements[0];
+  if (expression.kind !== ts.SyntaxKind['ClassDeclaration']) {
+    throw 'Not a class definition';
+  }
   // The constructor computation. Can be very fragile!
-  let constructor = expression[0];
-  if (ts.getJsDocComments(constructor, js)) {
+  let classExpr = expression.members;
+  let constructor = classExpr[0];
+  let isConst = constructor.kind === ts.SyntaxKind['Constructor'];
+  if (isConst && ts.getJsDocComments(constructor, js)) {
     file = file.concat(expression);
     return classParser.combinePartialContent(js.text, file);
   }
-  var commentStr = '\n\n';
-  var store = classParser.store[constructor.name.text];
-  commentStr += '/**\n * @constructor\n';
-  store.extends.forEach(x => commentStr += ' * @extends {' + x + '}\n');
-  store.implements.forEach(x => commentStr += ' * @implements {' + x + '}\n');
-  commentStr += ' */\n';
-  //file.push(expression[0]);
-  var start = classParser.combinePartialContent(js.text, file);
-  var end = classParser.combinePartialContent(js.text, expression.slice(0));
+  
+  var conStr = classParser.getPartialContent(js.text, constructor);
+  var ws = conStr.match(/^\s+/)[0] || '\n';
+  var commentStr = '';
+  var store = classParser.store[expression.name.text];
+  commentStr += ws + '/**' + ws + ' * @constructor';
+  store.extends.forEach(x => commentStr += ws + ' * @extends {' + x + '}');
+  store.implements.forEach(x => commentStr += ws + ' * @implements {' + x + '}');
+  commentStr += ws + ' */';
+
+  if (!isConst) {
+    commentStr += ws + 'constructor(...args) {';
+    commentStr += ws + '    super(...args);';
+    commentStr += ws + '}';
+  }
+  var pos = constructor.pos;
+  var start = classParser.getPartialContent(js.text, {pos: 0, end: pos});
+  var end = classParser.getPartialContent(js.text, {pos: pos, end: js.end});
   return start + commentStr + end;
 };
 
@@ -450,42 +425,41 @@ classParser.cleanJSFile2 = function(js) {
 // - Links into the sources will be wrong but we will ignore that for now
 //
 
-classParser.enums;
-
 classParser.makeJSDoc = function(tsDir, jsDir, outDir) {
-  classParser.enums = '';
   var tsFiles = classParser.readDirectory(tsDir, 'ts');
   var jsFiles = classParser.readDirectory(jsDir, 'js');
   var cleanJS = {};
   classParser.program(tsFiles);
   for (var i = 0, file; file = jsFiles[i]; i++) {
     try {
-      cleanJS[file.baseName] = classParser.cleanJSFile(file);
+      cleanJS[file.baseName] = classParser.cleanJSFile2015(file);
     } catch (e) {
       cleanJS[file.baseName] =
         classParser.addInterfacesEnums(
           classParser.findSource(tsFiles, file.baseName),
-          file.baseName);
+          file.baseName, file);
     }
     var dir = outDir + file.baseName + '.js';
-    fs.writeFileSync(dir, cleanJS[file.baseName]);
+    if (cleanJS[file.baseName]) {
+      fs.writeFileSync(dir, cleanJS[file.baseName]);
+    }
   }
-  //return cleanJS;
 };
 
-classParser.addInterfacesEnums = function(src, name) {
+classParser.addInterfacesEnums = function(src, name, js) {
   var elements = classParser.sources[name];
   var file = '';
   for (var i = 0, element; element = elements[i]; i++) {
     switch (element.type) {
     case 'enum':
-      let enumString = classParser.getPartialContent(src.text, element.node);
-      file += element.kind === ts.SyntaxKind['EnumDeclaration'] ?
-        classParser.rewriteEnum(element.node, src) :
-        enumString;
+      file += classParser.rewriteEnum(element.node, src);
       break;
     case 'interface':
       file += classParser.rewriteInterface(element.node, src);
+      break;
+    case 'namespace':
+      console.log(element.node.name.text);
+      file += classParser.rewriteNamespace(element.node, js);
       break;
     default:
       break;
@@ -495,9 +469,76 @@ classParser.addInterfacesEnums = function(src, name) {
 };
 
 classParser.rewriteEnum = function(node, src) {
-  return '';
+  var commentNode = ts.getJsDocComments(node, src);
+  var comment = classParser.combinePartialContent(src.text, commentNode);
+  if (node.kind === ts.SyntaxKind['EnumDeclaration']) {
+    var members = classParser.getPartialContent(src.text, node.members);
+    return comment + '\nconst ' + node.name.text + ' = {' +
+      members.replace(/ = /, ' : ') + '\n}\n\n';
+  }
+  var declaration = node.declarationList.declarations[0];
+  var body = classParser.getPartialContent(src.text, declaration.initializer);
+  return comment + '\n' + declaration.name.text + ' = ' + body + '\n\n';
 };
 
 
-//console.log('loaded');
-//console.log(ts)
+classParser.getComment = function(js) {
+  let comment = classParser.getPartialContent(
+    js.text, js.statements[0]);
+  let newline = comment.lastIndexOf('\n');
+  return {pos: 0, end: newline + 1};
+};
+
+/**
+ * Rewrites an ordinary utility function namespace.
+ */
+classParser.rewriteNamespace = function(node, js) {
+  if (js.statements.length !== 2) {
+    throw 'Not a namespace definition';
+  }
+  // Top level comment
+  let file = [classParser.getComment(js)];
+  let expression = js.statements[1].expression.expression.expression.
+        body.statements[0];
+  let body = js.statements[1].expression.expression.expression.
+        body.statements[1];
+  if (body.kind !== ts.SyntaxKind['ExpressionStatement']) {
+    throw 'Not a namespace definition';
+  }
+  file.push(expression);
+  let namespaceExpr = expression.declarationList.declarations[0].name.text;
+  let functions = body.expression.expression.expression.body.statements;
+  file.push({pos: body.pos, end: functions[0] ? functions[0].pos : body.end});
+  let output = '';
+  for (var i = 0, expr; expr = functions[i]; i++) {
+    var equation = functions[i + 1];
+    if (expr.kind === ts.SyntaxKind['FunctionDeclaration'] &&
+        equation && equation.kind === ts.SyntaxKind['ExpressionStatement'] &&
+        equation.expression.kind === ts.SyntaxKind['BinaryExpression'] &&
+        equation.expression.left.name.text === expr.name.text) {
+      output += classParser.swapExpressions(js, expr, equation);
+      i++;
+    } else {
+      output += classParser.getPartialContent(js.text, expr);
+    }
+  }
+  var end = functions.length ?
+        classParser.getPartialContent(
+          js.text, {pos: functions[functions.length - 1].end, end: body.end}) :
+      '';
+  return classParser.combinePartialContent(js.text, file) + output + end;
+};
+
+
+classParser.swapExpressions = function(js, func, equ) {
+  console.log('swapping');
+  var commentNode = ts.getJsDocComments(func, js);
+  var min = commentNode.map(x => x.pos).reduce(Math.min) || func.pos;
+  var max = commentNode.map(x => x.end).reduce(Math.max) || func.pos;
+  var start = classParser.getPartialContent(js.text, {pos: func.pos, end: min});
+  var comment = classParser.combinePartialContent(js.text, commentNode);
+  var funcBody = classParser.getPartialContent(
+    js.text, {pos: max + 1, end: func.end});
+  var equString = classParser.getPartialContent(js.text, equ);
+  return start + comment + equString + '\n' + funcBody;
+};
