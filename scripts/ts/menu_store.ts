@@ -105,6 +105,9 @@ namespace ContextMenu {
       return this.active;
     }
 
+    /**
+     * Removes all elements in the store.
+     */
     public clear() {
       this.remove(this.store);
     }

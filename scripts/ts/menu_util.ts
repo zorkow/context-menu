@@ -30,6 +30,9 @@
 
 namespace ContextMenu {
 
+  /**
+   * @namespace
+   */
   export namespace MenuUtil {
 
     /**

@@ -190,11 +190,12 @@ namespace ContextMenu {
      */
     public post(event: Event): void;
     /**
-     * @param {Event} event The event that triggered posting the element.
+     * @param {HTMLElement} element The element for which the menu is posted.
      */
-    public post(event: HTMLElement): void;
+    public post(element: HTMLElement): void;
     /**
-     * @param {*} numberOrEvent The overloaded first argument.
+     * @param {Event|number|HTMLElement} numberOrEvent The overloaded first
+     *     argument.
      * @param {number} isY The y coordinate.
      */
     public post(numberOrEvent?: any, isY?: number) {
