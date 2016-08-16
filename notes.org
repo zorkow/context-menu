@@ -65,4 +65,8 @@ Let's keep things simple:
 ** URL's relative for ts and map files.
 
 ** Absolute: mapRoot and sourceRoot
+   tsconfig.json insertion:
+    // "sourceRoot": "http://zorkow.github.io/context-menu/scripts/ts/",
+    // "mapRoot": "http://82.47.250.18/context-menu/scripts/js/",
+    // "outDir": "scripts/js"
 
