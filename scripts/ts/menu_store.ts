@@ -33,11 +33,11 @@ namespace ContextMenu {
     private store: HTMLElement[] = [];
     private active: HTMLElement = null;
     private menu: ContextMenu;
-    private attrMap: {[name: string]: EventListener} = {};
     private counter: number = 0;
     private attachedClass: string = HtmlClasses['ATTACHED'] + '_' +
       MenuUtil.counter();
     private taborder = true;
+    private attrMap: {[name: string]: EventListener} = {};
 
     /**
      * @constructor
@@ -87,10 +87,10 @@ namespace ContextMenu {
     }
 
     /**
-     * Returns next active element.
+     * Returns previous active element.
      * If store is empty returns null and also unsets active element.
-     * If active is not set returns the first element of the store.
-     * @return {HTMLElement} The next element if it exists.
+     * If active is not set returns the last element of the store.
+     * @return {HTMLElement} The previous element if it exists.
      */
     public previous(): HTMLElement {
       let length = this.store.length;
@@ -112,10 +112,26 @@ namespace ContextMenu {
       this.remove(this.store);
     }
 
+    /**
+     * @param {HTMLElement} element Single element to insert.
+     */
     public insert(element: HTMLElement): void;
-    public insert(element: HTMLElement[]): void;
-    public insert(element: NodeListOf<HTMLElement>): void;
 
+    /**
+     * @param {Array.<HTMLElement>} elements List of elements to insert.
+     */
+    public insert(elements: HTMLElement[]): void;
+
+    /**
+     * @param {NodeList} elements List of elements to insert.
+     */
+    public insert(elements: NodeListOf<HTMLElement>): void;
+
+    /**
+     * Inserts DOM elements into the store.
+     * @param {HTMLElement|Array.<HTMLElement>|NodeList} elementOrList Elements
+     *     to insert.
+     */
     public insert(elementOrList: any) {
       let elements = elementOrList instanceof HTMLElement ?
         [elementOrList] : elementOrList;
@@ -125,10 +141,26 @@ namespace ContextMenu {
       this.sort();
     }
 
+    /**
+     * @param {HTMLElement} element Single element to remove.
+     */
     public remove(element: HTMLElement): void;
+
+    /**
+     * @param {Array.<HTMLElement>} elements List of elements to remove.
+     */
     public remove(element: HTMLElement[]): void;
+
+    /**
+     * @param {NodeList} elements List of elements to remove.
+     */
     public remove(element: NodeListOf<HTMLElement>): void;
 
+    /**
+     * Removes DOM elements from the store.
+     * @param {HTMLElement|Array.<HTMLElement>|NodeList} elementOrList Elements
+     *     to remove.
+     */
     public remove(elementOrList: any) {
       let elements = elementOrList instanceof HTMLElement ?
         [elementOrList] : elementOrList;
@@ -138,6 +170,10 @@ namespace ContextMenu {
       this.sort();
     }
 
+    /**
+     * Sets if elements of the store are included in the taborder or not.
+     * @param {boolean} flag If true elements are in taborder, o/w not.
+     */
     public inTaborder(flag: boolean) {
       if (this.taborder && !flag) {
         this.removeTaborder();
@@ -166,6 +202,10 @@ namespace ContextMenu {
       }
     }
 
+    /**
+     * Adds a DOM element to the store.
+     * @param {HTMLElement} element The DOM element.
+     */
     private insertElement(element: HTMLElement) {
       if (element.classList.contains(this.attachedClass)) {
         return;
@@ -177,6 +217,11 @@ namespace ContextMenu {
       this.addEvents(element);
     }
 
+
+    /**
+     * Removes a DOM element from the store.
+     * @param {HTMLElement} element The DOM element.
+     */
     private removeElement(element: HTMLElement) {
       if (!element.classList.contains(this.attachedClass)) {
         return;
@@ -188,19 +233,32 @@ namespace ContextMenu {
       this.removeEvents(element);
     }
 
+    /**
+     * Sorts the elements in the store in DOM order.
+     */
     private sort(): void {
       let nodes = document.getElementsByClassName(this.attachedClass);
       this.store = [].slice.call(nodes);
     }
 
+    /**
+     * Inserts all elements in the store into the tab order.
+     */
     private insertTaborder_() {
       this.store.forEach(x => x.setAttribute('tabindex', '0'));
     }
 
+    /**
+     * Removes all elements in the store from the tab order.
+     */
     private removeTaborder_() {
       this.store.forEach(x => x.setAttribute('tabindex', '-1'));
     }
 
+    /**
+     * Adds tabindex to an element and possibly safes an existing one.
+     * @param {HTMLElement} element The DOM element.
+     */
     private addTabindex(element: HTMLElement) {
       if (element.hasAttribute('tabindex')) {
         element.setAttribute(HtmlAttrs['OLDTAB'],
@@ -209,6 +267,10 @@ namespace ContextMenu {
       element.setAttribute('tabindex', '0');
     }
 
+    /**
+     * Removes tabindex from element or restores an old one.
+     * @param {HTMLElement} element The DOM element.
+     */
     private removeTabindex(element: HTMLElement) {
       if (element.hasAttribute(HtmlAttrs['OLDTAB'])) {
         element.setAttribute('tabindex',
@@ -220,6 +282,17 @@ namespace ContextMenu {
     }
 
     //// TODO: Need to add touch event.
+    /**
+     * Adds event listeners to activate the context menu to an element.
+     * 
+     * To be able to remove event listeners we have to remember exactly which
+     * listeners we have added. We safe them in the attribute mapping attrMap,
+     * as a combination of event handler name and counter, which is unique for
+     * each HTML element. The counter is stored on the HTML element in an
+     * attribute.
+     * 
+     * @param {HTMLElement} element The DOM element.
+     */
     private addEvents(element: HTMLElement) {
       if (element.hasAttribute(HtmlAttrs['COUNTER'])) {
         return;
@@ -230,12 +303,22 @@ namespace ContextMenu {
       this.counter++;
     }
 
+    /**
+     * Adds a single event listeners and stores them in the attribute mapping.
+     * @param {HTMLElement} element The DOM element.
+     * @param {string} name The name of the event handler.
+     * @param {EventListener} func The event listener.
+     */
     private addEvent(element: HTMLElement, name: string, func: EventListener) {
       let attrName = HtmlAttrs[name.toUpperCase() + 'FUNC'];
       this.attrMap[attrName + this.counter] = func;
       element.addEventListener(name, func);
     }
 
+    /**
+     * Removes event listeners that activate the context menu from an element.
+     * @param {HTMLElement} element The DOM element.
+     */
     private removeEvents(element: HTMLElement) {
       if (!element.hasAttribute(HtmlAttrs['COUNTER'])) {
         return;
@@ -246,12 +329,23 @@ namespace ContextMenu {
       element.removeAttribute(HtmlAttrs['COUNTER']);
     }
 
+    /**
+     * Removes a single event listeners from an HTML element.
+     * @param {HTMLElement} element The DOM element.
+     * @param {string} name The name of the event handler.
+     * @param {string} counter The unique counter to identify the handler in the
+     *     attribute mappings.
+     */
     private removeEvent(element: HTMLElement, name: string, counter: string) {
       let attrName = HtmlAttrs[name.toUpperCase() + 'FUNC'];
       let menuFunc = this.attrMap[attrName + counter];
       element.removeEventListener(name, menuFunc);
     }
 
+    /**
+     * Deals with key down keyboard events.
+     * @param {KeyboardEvent} event The keyboard event.
+     */
     private keydown(event: KeyboardEvent) {
       if (event.keyCode === KEY.SPACE) {
         this.menu.post(event);
