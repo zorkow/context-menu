@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: popup.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: popup.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/*************************************************************
+ *
+ *  Copyright (c) 2015-2016 The MathJax Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+/**
+ * @fileoverview Class of popup windows. Each object can actually spawn multiple
+ *      windows.
+ *
+ * @author v.sorge@mathjax.org (Volker Sorge)
+ */
+/// &lt;reference path="context_menu.ts" />
+/// &lt;reference path="menu_util.ts" />
+var ContextMenu;
+(function (ContextMenu) {
+    class Popup extends ContextMenu.AbstractPostable {
+        /**
+         * @constructor
+         * @extends {AbstractPostable}
+         * @param {string} title The title of the popup window.
+         * @param {Function} content Function generating the content.
+         */
+        constructor(title, content) {
+            super();
+            this.title = '';
+            /**
+             * The last opened window.
+             * @type {Window}
+             */
+            this.window = null;
+            /**
+             * The list of all windows opened by this object.
+             * @type {Array.&lt;Window>}
+             */
+            this.windowList = [];
+            this.mobileFlag = false;
+            this.active = null;
+            this.title = title;
+            this.content = content || function () { return ''; };
+        }
+        /**
+         * Attaches the widget to a context menu.
+         * @param {ContextMenu} menu The parent menu.
+         */
+        attachMenu(menu) {
+            this.menu = menu;
+        }
+        /**
+         * @override
+         */
+        post() {
+            this.display();
+        }
+        /**
+         * @override
+         */
+        display() {
+            this.active = this.menu.getStore().getActive();
+            let settings = [];
+            for (let setting in Popup.popupSettings) {
+                settings.push(setting + '=' + Popup.popupSettings[setting]);
+            }
+            this.window = window.open('', '_blank', settings.join(','));
+            this.windowList.push(this.window);
+            let doc = this.window.document;
+            if (this.mobileFlag) {
+                doc.open();
+                doc.write('&lt;html>&lt;head>&lt;meta name="viewport" ' +
+                    'content="width=device-width, initial-scale=1.0" />&lt;title>' +
+                    this.title +
+                    '&lt;/title>&lt;/head>&lt;body style="font-size:85%">');
+                doc.write('&lt;pre>' + this.generateContent() + '&lt;/pre>');
+                doc.write('&lt;hr>&lt;input type="button" value="' +
+                    //// TODO: Localise
+                    'Close' + '" onclick="window.close()" />');
+                doc.write('&lt;/body>&lt;/html>');
+                doc.close();
+            }
+            else {
+                doc.open();
+                doc.write('&lt;html>&lt;head>&lt;title>' + this.title +
+                    '&lt;/title>&lt;/head>&lt;body style="font-size:85%">');
+                doc.write('&lt;table>&lt;tr>&lt;td>&lt;pre>' + this.generateContent() +
+                    '&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>');
+                doc.write('&lt;/body>&lt;/html>');
+                doc.close();
+                setTimeout(this.resize.bind(this), 50);
+            }
+        }
+        /**
+         * @override
+         */
+        unpost() {
+            this.windowList.forEach(x => x.close());
+            this.window = null;
+        }
+        /**
+         * Generates the content of the window.
+         * @return {string} The generated content.
+         */
+        generateContent() {
+            return this.content(this.active);
+        }
+        /**
+         * Resizes the window so it fits snuggly around the content.
+         * @private
+         */
+        resize() {
+            let table = this.window.document.body.firstChild;
+            let H = (this.window.outerHeight - this.window.innerHeight) || 30;
+            let W = (this.window.outerWidth - this.window.innerWidth) || 30;
+            W = Math.max(140, Math.min(Math.floor(.5 * screen.width), table.offsetWidth + W + 25));
+            H = Math.max(40, Math.min(Math.floor(.5 * screen.height), table.offsetHeight + H + 25));
+            this.window.resizeTo(W, H);
+            let bb = this.active.getBoundingClientRect();
+            if (bb) {
+                let x = Math.max(0, Math.min(bb.right - Math.floor(W / 2), screen.width - W - 20));
+                let y = Math.max(0, Math.min(bb.bottom - Math.floor(H / 2), screen.height - H - 20));
+                this.window.moveTo(x, y);
+            }
+            this.active = null;
+        }
+    }
+    Popup.popupSettings = {
+        status: 'no',
+        toolbar: 'no',
+        locationbar: 'no',
+        menubar: 'no',
+        directories: 'no',
+        personalbar: 'no',
+        resizable: 'yes',
+        scrollbars: 'yes',
+        width: 400,
+        height: 300,
+        left: Math.round((screen.width - 400) / 2),
+        top: Math.round((screen.height - 300) / 3)
+    };
+    ContextMenu.Popup = Popup;
+})(ContextMenu || (ContextMenu = {}));
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AbstractEntry.html">AbstractEntry</a></li><li><a href="AbstractItem.html">AbstractItem</a></li><li><a href="AbstractMenu.html">AbstractMenu</a></li><li><a href="AbstractNavigatable.html">AbstractNavigatable</a></li><li><a href="AbstractPostable.html">AbstractPostable</a></li><li><a href="Checkbox.html">Checkbox</a></li><li><a href="CloseButton.html">CloseButton</a></li><li><a href="Command.html">Command</a></li><li><a href="ContextMenu.html">ContextMenu</a></li><li><a href="Info.html">Info</a></li><li><a href="Label.html">Label</a></li><li><a href="MenuElement.html">MenuElement</a></li><li><a href="MenuStore.html">MenuStore</a></li><li><a href="Popup.html">Popup</a></li><li><a href="Radio.html">Radio</a></li><li><a href="Rule.html">Rule</a></li><li><a href="SubMenu.html">SubMenu</a></li><li><a href="Submenu_.html">Submenu</a></li><li><a href="Variable.html">Variable</a></li><li><a href="VariablePool.html">VariablePool</a></li></ul><h3>Namespaces</h3><ul><li><a href="CssStyles.html">CssStyles</a></li><li><a href="MenuUtil.html">MenuUtil</a></li></ul><h3>Interfaces</h3><ul><li><a href="Element.html">Element</a></li><li><a href="Entry.html">Entry</a></li><li><a href="Item.html">Item</a></li><li><a href="KeyNavigatable.html">KeyNavigatable</a></li><li><a href="Menu.html">Menu</a></li><li><a href="MouseNavigatable.html">MouseNavigatable</a></li><li><a href="Postable.html">Postable</a></li><li><a href="TouchNavigatable.html">TouchNavigatable</a></li><li><a href="VariableItem.html">VariableItem</a></li></ul><h3>Global</h3><ul><li><a href="global.html#HtmlAttrs">HtmlAttrs</a></li><li><a href="global.html#HtmlClasses">HtmlClasses</a></li><li><a href="global.html#KEY">KEY</a></li><li><a href="global.html#MOUSE">MOUSE</a></li><li><a href="global.html#TOUCH">TOUCH</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Tue Aug 16 2016 02:17:01 GMT+0100 (BST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

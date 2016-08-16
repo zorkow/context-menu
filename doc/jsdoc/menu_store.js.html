@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: menu_store.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: menu_store.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/*************************************************************
+ *
+ *  Copyright (c) 2015-2016 The MathJax Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+/**
+ * @fileoverview A store that maps HTML elements in a document to context menus.
+ *
+ * @author v.sorge@mathjax.org (Volker Sorge)
+ */
+/// &lt;reference path="context_menu.ts" />
+/// &lt;reference path="menu_util.ts" />
+var ContextMenu;
+(function (ContextMenu) {
+    class MenuStore {
+        /**
+         * @constructor
+         * @param {ContextMenu} menu The context menu the store belongs to.
+         */
+        constructor(menu) {
+            this.store = [];
+            this.active = null;
+            this.counter = 0;
+            this.attachedClass = ContextMenu.HtmlClasses['ATTACHED'] + '_' +
+                ContextMenu.MenuUtil.counter();
+            this.taborder = true;
+            this.attrMap = {};
+            this.menu = menu;
+        }
+        /**
+         * Sets the new active store element if it exists in the store.
+         * @param {HTMLElement} element Element to be activated.
+         */
+        setActive(element) {
+            do {
+                if (this.store.indexOf(element) !== -1) {
+                    this.active = element;
+                    break;
+                }
+                element = element.parentNode;
+            } while (element);
+        }
+        /**
+         * @return {HTMLElement} The currently active store element, if one exists.
+         */
+        getActive() {
+            return this.active;
+        }
+        /**
+         * Returns next active element.
+         * If store is empty returns null and also unsets active element.
+         * If active is not set returns the first element of the store.
+         * @return {HTMLElement} The next element if it exists.
+         */
+        next() {
+            let length = this.store.length;
+            if (length === 0) {
+                this.active = null;
+                return null;
+            }
+            let index = this.store.indexOf(this.active);
+            index = index === -1 ? 0 : (index &lt; length - 1 ? index + 1 : 0);
+            this.active = this.store[index];
+            return this.active;
+        }
+        /**
+         * Returns previous active element.
+         * If store is empty returns null and also unsets active element.
+         * If active is not set returns the last element of the store.
+         * @return {HTMLElement} The previous element if it exists.
+         */
+        previous() {
+            let length = this.store.length;
+            if (length === 0) {
+                this.active = null;
+                return null;
+            }
+            let last = length - 1;
+            let index = this.store.indexOf(this.active);
+            index = index === -1 ? last : (index === 0 ? last : index - 1);
+            this.active = this.store[index];
+            return this.active;
+        }
+        /**
+         * Removes all elements in the store.
+         */
+        clear() {
+            this.remove(this.store);
+        }
+        /**
+         * Inserts DOM elements into the store.
+         * @param {HTMLElement|Array.&lt;HTMLElement>|NodeList} elementOrList Elements
+         *     to insert.
+         */
+        insert(elementOrList) {
+            let elements = elementOrList instanceof HTMLElement ?
+                [elementOrList] : elementOrList;
+            for (let i = 0, element; element = elements[i]; i++) {
+                this.insertElement(element);
+            }
+            this.sort();
+        }
+        /**
+         * Removes DOM elements from the store.
+         * @param {HTMLElement|Array.&lt;HTMLElement>|NodeList} elementOrList Elements
+         *     to remove.
+         */
+        remove(elementOrList) {
+            let elements = elementOrList instanceof HTMLElement ?
+                [elementOrList] : elementOrList;
+            for (let i = 0, element; element = elements[i]; i++) {
+                this.removeElement(element);
+            }
+            this.sort();
+        }
+        /**
+         * Sets if elements of the store are included in the taborder or not.
+         * @param {boolean} flag If true elements are in taborder, o/w not.
+         */
+        inTaborder(flag) {
+            if (this.taborder &amp;&amp; !flag) {
+                this.removeTaborder();
+            }
+            if (!this.taborder &amp;&amp; flag) {
+                this.insertTaborder();
+            }
+            this.taborder = flag;
+        }
+        /**
+         * Inserts all elements in the store into the tab order.
+         */
+        insertTaborder() {
+            if (this.taborder) {
+                this.insertTaborder_();
+            }
+        }
+        /**
+         * Removes all elements in the store from the tab order.
+         */
+        removeTaborder() {
+            if (this.taborder) {
+                this.removeTaborder_();
+            }
+        }
+        /**
+         * Adds a DOM element to the store.
+         * @param {HTMLElement} element The DOM element.
+         */
+        insertElement(element) {
+            if (element.classList.contains(this.attachedClass)) {
+                return;
+            }
+            element.classList.add(this.attachedClass);
+            if (this.taborder) {
+                this.addTabindex(element);
+            }
+            this.addEvents(element);
+        }
+        /**
+         * Removes a DOM element from the store.
+         * @param {HTMLElement} element The DOM element.
+         */
+        removeElement(element) {
+            if (!element.classList.contains(this.attachedClass)) {
+                return;
+            }
+            element.classList.remove(this.attachedClass);
+            if (this.taborder) {
+                this.removeTabindex(element);
+            }
+            this.removeEvents(element);
+        }
+        /**
+         * Sorts the elements in the store in DOM order.
+         */
+        sort() {
+            let nodes = document.getElementsByClassName(this.attachedClass);
+            this.store = [].slice.call(nodes);
+        }
+        /**
+         * Inserts all elements in the store into the tab order.
+         */
+        insertTaborder_() {
+            this.store.forEach(x => x.setAttribute('tabindex', '0'));
+        }
+        /**
+         * Removes all elements in the store from the tab order.
+         */
+        removeTaborder_() {
+            this.store.forEach(x => x.setAttribute('tabindex', '-1'));
+        }
+        /**
+         * Adds tabindex to an element and possibly safes an existing one.
+         * @param {HTMLElement} element The DOM element.
+         */
+        addTabindex(element) {
+            if (element.hasAttribute('tabindex')) {
+                element.setAttribute(ContextMenu.HtmlAttrs['OLDTAB'], element.getAttribute('tabindex'));
+            }
+            element.setAttribute('tabindex', '0');
+        }
+        /**
+         * Removes tabindex from element or restores an old one.
+         * @param {HTMLElement} element The DOM element.
+         */
+        removeTabindex(element) {
+            if (element.hasAttribute(ContextMenu.HtmlAttrs['OLDTAB'])) {
+                element.setAttribute('tabindex', element.getAttribute(ContextMenu.HtmlAttrs['OLDTAB']));
+                element.removeAttribute(ContextMenu.HtmlAttrs['OLDTAB']);
+            }
+            else {
+                element.removeAttribute('tabindex');
+            }
+        }
+        //// TODO: Need to add touch event.
+        /**
+         * Adds event listeners to activate the context menu to an element.
+         *
+         * To be able to remove event listeners we have to remember exactly which
+         * listeners we have added. We safe them in the attribute mapping attrMap,
+         * as a combination of event handler name and counter, which is unique for
+         * each HTML element. The counter is stored on the HTML element in an
+         * attribute.
+         *
+         * @param {HTMLElement} element The DOM element.
+         */
+        addEvents(element) {
+            if (element.hasAttribute(ContextMenu.HtmlAttrs['COUNTER'])) {
+                return;
+            }
+            this.addEvent(element, 'contextmenu', this.menu.post.bind(this.menu));
+            this.addEvent(element, 'keydown', this.keydown.bind(this));
+            element.setAttribute(ContextMenu.HtmlAttrs['COUNTER'], this.counter.toString());
+            this.counter++;
+        }
+        /**
+         * Adds a single event listeners and stores them in the attribute mapping.
+         * @param {HTMLElement} element The DOM element.
+         * @param {string} name The name of the event handler.
+         * @param {EventListener} func The event listener.
+         */
+        addEvent(element, name, func) {
+            let attrName = ContextMenu.HtmlAttrs[name.toUpperCase() + 'FUNC'];
+            this.attrMap[attrName + this.counter] = func;
+            element.addEventListener(name, func);
+        }
+        /**
+         * Removes event listeners that activate the context menu from an element.
+         * @param {HTMLElement} element The DOM element.
+         */
+        removeEvents(element) {
+            if (!element.hasAttribute(ContextMenu.HtmlAttrs['COUNTER'])) {
+                return;
+            }
+            let counter = element.getAttribute(ContextMenu.HtmlAttrs['COUNTER']);
+            this.removeEvent(element, 'contextmenu', counter);
+            this.removeEvent(element, 'keydown', counter);
+            element.removeAttribute(ContextMenu.HtmlAttrs['COUNTER']);
+        }
+        /**
+         * Removes a single event listeners from an HTML element.
+         * @param {HTMLElement} element The DOM element.
+         * @param {string} name The name of the event handler.
+         * @param {string} counter The unique counter to identify the handler in the
+         *     attribute mappings.
+         */
+        removeEvent(element, name, counter) {
+            let attrName = ContextMenu.HtmlAttrs[name.toUpperCase() + 'FUNC'];
+            let menuFunc = this.attrMap[attrName + counter];
+            element.removeEventListener(name, menuFunc);
+        }
+        /**
+         * Deals with key down keyboard events.
+         * @param {KeyboardEvent} event The keyboard event.
+         */
+        keydown(event) {
+            if (event.keyCode === ContextMenu.KEY.SPACE) {
+                this.menu.post(event);
+            }
+        }
+    }
+    ContextMenu.MenuStore = MenuStore;
+})(ContextMenu || (ContextMenu = {}));
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AbstractEntry.html">AbstractEntry</a></li><li><a href="AbstractItem.html">AbstractItem</a></li><li><a href="AbstractMenu.html">AbstractMenu</a></li><li><a href="AbstractNavigatable.html">AbstractNavigatable</a></li><li><a href="AbstractPostable.html">AbstractPostable</a></li><li><a href="Checkbox.html">Checkbox</a></li><li><a href="CloseButton.html">CloseButton</a></li><li><a href="Command.html">Command</a></li><li><a href="ContextMenu.html">ContextMenu</a></li><li><a href="Info.html">Info</a></li><li><a href="Label.html">Label</a></li><li><a href="MenuElement.html">MenuElement</a></li><li><a href="MenuStore.html">MenuStore</a></li><li><a href="Popup.html">Popup</a></li><li><a href="Radio.html">Radio</a></li><li><a href="Rule.html">Rule</a></li><li><a href="SubMenu.html">SubMenu</a></li><li><a href="Submenu_.html">Submenu</a></li><li><a href="Variable.html">Variable</a></li><li><a href="VariablePool.html">VariablePool</a></li></ul><h3>Namespaces</h3><ul><li><a href="CssStyles.html">CssStyles</a></li><li><a href="MenuUtil.html">MenuUtil</a></li></ul><h3>Interfaces</h3><ul><li><a href="Element.html">Element</a></li><li><a href="Entry.html">Entry</a></li><li><a href="Item.html">Item</a></li><li><a href="KeyNavigatable.html">KeyNavigatable</a></li><li><a href="Menu.html">Menu</a></li><li><a href="MouseNavigatable.html">MouseNavigatable</a></li><li><a href="Postable.html">Postable</a></li><li><a href="TouchNavigatable.html">TouchNavigatable</a></li><li><a href="VariableItem.html">VariableItem</a></li></ul><h3>Global</h3><ul><li><a href="global.html#HtmlAttrs">HtmlAttrs</a></li><li><a href="global.html#HtmlClasses">HtmlClasses</a></li><li><a href="global.html#KEY">KEY</a></li><li><a href="global.html#MOUSE">MOUSE</a></li><li><a href="global.html#TOUCH">TOUCH</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Tue Aug 16 2016 02:17:01 GMT+0100 (BST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

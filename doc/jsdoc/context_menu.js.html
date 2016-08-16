@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: context_menu.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: context_menu.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/*************************************************************
+ *
+ *  Copyright (c) 2015-2016 The MathJax Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+/**
+ * @fileoverview Class of context menus.
+ *
+ * @author volker.sorge@gmail.com (Volker Sorge)
+ */
+/// &lt;reference path="abstract_menu.ts" />
+/// &lt;reference path="html_classes.ts" />
+/// &lt;reference path="item.ts" />
+/// &lt;reference path="menu_store.ts" />
+var ContextMenu;
+(function (ContextMenu_1) {
+    class ContextMenu extends ContextMenu_1.AbstractMenu {
+        /**
+         * @constructor
+         * @extends {AbstractMenu}
+         */
+        constructor() {
+            super();
+            /**
+             * Flag to avoid redoing taborder if we are between elements.
+             * @type {boolean}
+             */
+            this.moving = false;
+            /**
+             * A store the menu belongs to.
+             * @type {MenuStore}
+             */
+            this.store_ = new ContextMenu_1.MenuStore(this);
+            /**
+             * Registry of currently open widgets.
+             * @type {Array.&lt;Postable>}
+             */
+            this.widgets = [];
+            this.variablePool = new ContextMenu_1.VariablePool();
+        }
+        /**
+         * Parses a JSON respresentation of a variable pool.
+         * @param {JSON} json The JSON object to parse.
+         * @return {ContextMenu} The new context menu object.
+         */
+        static parse({ menu: menu }) {
+            if (!menu) {
+                ContextMenu_1.MenuUtil.error(null, 'Wrong JSON format for menu.');
+                return;
+            }
+            // The variable id is currently ignored!
+            let { pool: pool, items: items, id: id } = menu;
+            let ctxtMenu = new ContextMenu();
+            // TODO: Try and catch with error
+            pool.forEach(ctxtMenu.parseVariable.bind(ctxtMenu));
+            ctxtMenu.parseItems(items);
+            return ctxtMenu;
+        }
+        /**
+         * @override
+         */
+        generateHtml() {
+            super.generateHtml();
+            this.frame = document.createElement('div');
+            this.frame.classList.add(ContextMenu_1.HtmlClasses['MENUFRAME']);
+            //// TODO: Adapt to other browsers.
+            let styleString = 'left: 0px; top: 0px; z-index: 200; width: 100%; ' +
+                'height: 100%; border: 0px; padding: 0px; margin: 0px;';
+            this.frame.setAttribute('style', 'position: absolute; ' + styleString);
+            let innerDiv = document.createElement('div');
+            innerDiv.setAttribute('style', 'position: fixed; ' + styleString);
+            this.frame.appendChild(innerDiv);
+            innerDiv.addEventListener('mousedown', function (event) {
+                this.unpost();
+                this.unpostWidgets();
+                this.stop(event);
+            }.bind(this));
+        }
+        /**
+         * @override
+         */
+        display() {
+            document.body.appendChild(this.frame);
+            this.frame.appendChild(this.getHtml());
+            this.focus();
+        }
+        /**
+         * @override
+         */
+        escape(event) {
+            this.unpost();
+            this.unpostWidgets();
+        }
+        /**
+         * @override
+         */
+        unpost() {
+            super.unpost();
+            if (this.widgets.length > 0) {
+                return;
+            }
+            this.frame.parentNode.removeChild(this.frame);
+            let store = this.getStore();
+            if (!this.moving) {
+                store.insertTaborder();
+            }
+            store.getActive().focus();
+        }
+        /**
+         * @override
+         */
+        left(event) {
+            this.move_(this.store_.previous());
+        }
+        /**
+         * @override
+         */
+        right(event) {
+            this.move_(this.store_.next());
+        }
+        /**
+         * @return {HTMLElement} The frame element wrapping all the elements of the
+         *     menu.
+         */
+        getFrame() {
+            return this.frame;
+        }
+        /**
+         * @return {MenuStore} The store of this menu.
+         */
+        getStore() {
+            return this.store_;
+        }
+        /**
+         * @param {Event|number|HTMLElement} numberOrEvent The overloaded first
+         *     argument.
+         * @param {number} isY The y coordinate.
+         */
+        post(numberOrEvent, isY) {
+            if (typeof (isY) !== 'undefined') {
+                if (!this.moving) {
+                    this.getStore().removeTaborder();
+                }
+                super.post(numberOrEvent, isY);
+                return;
+            }
+            let node;
+            let x;
+            let y;
+            let keydown = false;
+            if (numberOrEvent instanceof Event) {
+                let event = numberOrEvent;
+                x = event['pageX'], y = event['pageY'];
+                if (!x &amp;&amp; !y &amp;&amp; event['clientX']) {
+                    x = event.clientX + document.body.scrollLeft +
+                        document.documentElement.scrollLeft;
+                    y = event.clientY + document.body.scrollTop +
+                        document.documentElement.scrollTop;
+                }
+                node = event.target;
+                keydown = event.type === 'keydown';
+                this.stop(event);
+            }
+            else {
+                node = numberOrEvent;
+            }
+            this.getStore().setActive(node);
+            this.anchor = this.getStore().getActive();
+            if ((keydown || (!x &amp;&amp; !y)) &amp;&amp; node) {
+                let offsetX = window.pageXOffset || document.documentElement.scrollLeft;
+                let offsetY = window.pageYOffset || document.documentElement.scrollTop;
+                let rect = node.getBoundingClientRect();
+                x = (rect.right + rect.left) / 2 + offsetX;
+                y = (rect.bottom + rect.top) / 2 + offsetY;
+            }
+            let rect = node.getBoundingClientRect();
+            let menu = this.getHtml();
+            let margin = 5;
+            if (x + menu.offsetWidth > document.body.offsetWidth - margin) {
+                x = document.body.offsetWidth - menu.offsetWidth - margin;
+            }
+            // Not sure what these do!
+            //
+            // // if (MENU.isMobile) {
+            // //    x = Math.max(5,x-Math.floor(menu.offsetWidth/2)); y -= 20
+            // // }
+            // // MENU.skipUp = event.isContextMenu;
+            this.post(x, y);
+        }
+        /**
+         * Registers widgets that are opened by the menu.
+         * @param {Postable} widget The open widget.
+         */
+        registerWidget(widget) {
+            this.widgets.push(widget);
+        }
+        /**
+         * Removes an opened widgets.
+         * @param {Postable} widget The closed widget.
+         */
+        unregisterWidget(widget) {
+            let index = this.widgets.indexOf(widget);
+            if (index > -1) {
+                this.widgets.splice(index, 1);
+            }
+            if (this.widgets.length === 0) {
+                this.unpost();
+            }
+        }
+        /**
+         * Closes all widgets that were opened from this menu.
+         */
+        unpostWidgets() {
+            this.widgets.forEach(x => x.unpost());
+        }
+        /**
+         * Moves to the given next element.
+         * @param {HTMLELement} next The next element in the sequence.
+         * @private
+         */
+        move_(next) {
+            if (this.anchor &amp;&amp; next !== this.anchor) {
+                this.moving = true;
+                this.unpost();
+                this.post(next);
+                this.moving = false;
+            }
+        }
+        /**
+         * Parses a JSON respresentation of a variable and inserts it into the
+         * variable pool of the context menu.
+         * @param {JSON} json The JSON object to parse.
+         */
+        parseVariable({ name: name, value: value, action: action }) {
+            this.getPool().insert(new ContextMenu_1.Variable(name, value, action));
+        }
+    }
+    ContextMenu_1.ContextMenu = ContextMenu;
+})(ContextMenu || (ContextMenu = {}));
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AbstractEntry.html">AbstractEntry</a></li><li><a href="AbstractItem.html">AbstractItem</a></li><li><a href="AbstractMenu.html">AbstractMenu</a></li><li><a href="AbstractNavigatable.html">AbstractNavigatable</a></li><li><a href="AbstractPostable.html">AbstractPostable</a></li><li><a href="Checkbox.html">Checkbox</a></li><li><a href="CloseButton.html">CloseButton</a></li><li><a href="Command.html">Command</a></li><li><a href="ContextMenu.html">ContextMenu</a></li><li><a href="Info.html">Info</a></li><li><a href="Label.html">Label</a></li><li><a href="MenuElement.html">MenuElement</a></li><li><a href="MenuStore.html">MenuStore</a></li><li><a href="Popup.html">Popup</a></li><li><a href="Radio.html">Radio</a></li><li><a href="Rule.html">Rule</a></li><li><a href="SubMenu.html">SubMenu</a></li><li><a href="Submenu_.html">Submenu</a></li><li><a href="Variable.html">Variable</a></li><li><a href="VariablePool.html">VariablePool</a></li></ul><h3>Namespaces</h3><ul><li><a href="CssStyles.html">CssStyles</a></li><li><a href="MenuUtil.html">MenuUtil</a></li></ul><h3>Interfaces</h3><ul><li><a href="Element.html">Element</a></li><li><a href="Entry.html">Entry</a></li><li><a href="Item.html">Item</a></li><li><a href="KeyNavigatable.html">KeyNavigatable</a></li><li><a href="Menu.html">Menu</a></li><li><a href="MouseNavigatable.html">MouseNavigatable</a></li><li><a href="Postable.html">Postable</a></li><li><a href="TouchNavigatable.html">TouchNavigatable</a></li><li><a href="VariableItem.html">VariableItem</a></li></ul><h3>Global</h3><ul><li><a href="global.html#HtmlAttrs">HtmlAttrs</a></li><li><a href="global.html#HtmlClasses">HtmlClasses</a></li><li><a href="global.html#KEY">KEY</a></li><li><a href="global.html#MOUSE">MOUSE</a></li><li><a href="global.html#TOUCH">TOUCH</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Tue Aug 16 2016 02:17:01 GMT+0100 (BST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
