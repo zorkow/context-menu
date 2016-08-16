@@ -111,25 +111,6 @@ classParser.getEnumName = function(source, statement) {
   return '';
 };
 
-// classParser.getEnum = function(source, statement) {
-//   let comments = ts.getJsDocComments(statement, source);
-//   if (!comments || !comments.length) {
-//     return '';
-//   }
-//   if (comments.some(x => classParser.jsDocIsEnum(source.text, x))) {
-//     return classParser.assembleEnum(source.text, statement, comments);
-//   }
-//   return '';
-// };
-
-// classParser.assembleEnum = function(str, statement, comments) {
-//   let comment = classParser.combinePartialContent(str, comments);
-//   let decl = statement.declarationList.declarations[0];
-//   let name = decl.name.text;
-//   let map = classParser.getPartialContent(str, decl.initializer);
-//   return comment + '\n' + name + ' = ' + map;
-// };
-
 classParser.jsDocIsEnum = function(str, doc) {
   let jsdoc = ts.parseIsolatedJSDocComment(
     str, doc.pos, doc.end - doc.pos);
@@ -145,8 +126,8 @@ classParser.block = function(expr, store) {
   classParser.heritageClauses(expr.heritageClauses, store);
   classParser.modifiers(expr.modifiers, store);
   if (classParser.WITH_METHODS) {
-    console.log(expr.kind);
-    classParser.methods(expr.members || (expr.body && expr.body.statements), store);
+    classParser.methods(expr.members ||
+                        (expr.body && expr.body.statements), store);
   }
 };
 
@@ -365,14 +346,7 @@ classParser.cleanJSFile2015 = function(js) {
   if (js.statements.length !== 2) {
     throw 'Not a class definition';
   }
-  // Top level comment
-  let file = [classParser.getComment(js)];
-  let comment = classParser.getPartialContent(
-    js.text, js.statements[0]);
-  let newline = comment.lastIndexOf('\n');
-  if (newline !== -1) {
-    file.push({pos: 0, end: newline + 1});
-  }
+  let file = [];
   let expression = js.statements[1].expression.expression.expression.
         body.statements[0];
   if (expression.kind !== ts.SyntaxKind['ClassDeclaration']) {
@@ -384,9 +358,8 @@ classParser.cleanJSFile2015 = function(js) {
   let isConst = constructor.kind === ts.SyntaxKind['Constructor'];
   if (isConst && ts.getJsDocComments(constructor, js)) {
     file = file.concat(expression);
-    return classParser.combinePartialContent(js.text, file);
+    return js.text;
   }
-  
   var conStr = classParser.getPartialContent(js.text, constructor);
   var ws = conStr.match(/^\s+/)[0] || '\n';
   var commentStr = '';
@@ -402,7 +375,8 @@ classParser.cleanJSFile2015 = function(js) {
     commentStr += ws + '}';
   }
   var pos = constructor.pos;
-  var start = classParser.getPartialContent(js.text, {pos: 0, end: pos});
+  var start = classParser.getPartialContent(
+    js.text, {pos: 0, end: pos});
   var end = classParser.getPartialContent(js.text, {pos: pos, end: js.end});
   return start + commentStr + end;
 };
@@ -446,8 +420,10 @@ classParser.makeJSDoc = function(tsDir, jsDir, outDir) {
   }
 };
 
+// test multiple namespaces!
 classParser.addInterfacesEnums = function(src, name, js) {
   var elements = classParser.sources[name];
+  var comment = classParser.getComment(js, src);
   var file = '';
   for (var i = 0, element; element = elements[i]; i++) {
     switch (element.type) {
@@ -458,14 +434,13 @@ classParser.addInterfacesEnums = function(src, name, js) {
       file += classParser.rewriteInterface(element.node, src);
       break;
     case 'namespace':
-      console.log(element.node.name.text);
       file += classParser.rewriteNamespace(element.node, js);
       break;
     default:
       break;
     }
   }
-  return file;
+  return comment + '\n' + file;
 };
 
 classParser.rewriteEnum = function(node, src) {
@@ -482,11 +457,15 @@ classParser.rewriteEnum = function(node, src) {
 };
 
 
-classParser.getComment = function(js) {
+classParser.getComment = function(jsFile, tsFile) {
+  if (!jsFile.statements.length) {
+    return classParser.combinePartialContent(
+      tsFile.text, ts.getJsDocComments(tsFile.statements[0], tsFile));
+  }
   let comment = classParser.getPartialContent(
-    js.text, js.statements[0]);
+    jsFile.text, jsFile.statements[0]);
   let newline = comment.lastIndexOf('\n');
-  return {pos: 0, end: newline + 1};
+  return classParser.getPartialContent(jsFile.text, {pos: 0, end: newline + 1});
 };
 
 /**
@@ -497,7 +476,7 @@ classParser.rewriteNamespace = function(node, js) {
     throw 'Not a namespace definition';
   }
   // Top level comment
-  let file = [classParser.getComment(js)];
+  let file = [];
   let expression = js.statements[1].expression.expression.expression.
         body.statements[0];
   let body = js.statements[1].expression.expression.expression.
@@ -531,7 +510,6 @@ classParser.rewriteNamespace = function(node, js) {
 
 
 classParser.swapExpressions = function(js, func, equ) {
-  console.log('swapping');
   var commentNode = ts.getJsDocComments(func, js);
   var min = commentNode.map(x => x.pos).reduce(Math.min) || func.pos;
   var max = commentNode.map(x => x.end).reduce(Math.max) || func.pos;
