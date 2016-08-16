@@ -57,3 +57,12 @@ Let's keep things simple:
 
         "member-access": true,
 
+
+* Soure maps
+
+** Compile with --sourceMap flag or sourceMap: true in config file.
+
+** URL's relative for ts and map files.
+
+** Absolute: mapRoot and sourceRoot
+
