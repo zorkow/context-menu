@@ -14,8 +14,9 @@ rm -rf $JSDOC
 mkdir -p $DESTSRC
 mkdir -p $DESTDOC
 mkdir -p $JSDOC
-tsc $SRC/*.ts --outDir $DESTSRC
+tsc $SRC/*.ts --target ES2015 --outDir $DESTSRC
 
+# cp $DESTSRC/*.js $DESTDOC
 node -e "require('$BASE/tools/class_parser.js'); classParser.makeJSDoc('$SRC/', '$DESTSRC/', '$DESTDOC/');"
 
 jsdoc $DESTDOC/*.js -d $JSDOC
