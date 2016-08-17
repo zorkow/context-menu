@@ -1697,4 +1697,4 @@ var ContextMenu;
         CANCEL: 'touchcancel'
     };
 })(ContextMenu || (ContextMenu = {}));
-//# sourceMappingURL=http://cdn.rawgit.com/zorkow/context-menu/make-samples/samples/scripts/context_menu.js.map
+//# sourceMappingURL=http://cdn.rawgit.com/zorkow/context-menu/0.1/samples/scripts/context_menu.js.map
