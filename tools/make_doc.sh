@@ -7,6 +7,7 @@ DOCTMP=$BASE/doc/tmp
 DESTSRC=$DOCTMP/js
 DESTDOC=$DOCTMP/src
 JSDOC=$BASE/doc/jsdoc
+TYPEDOC=$BASE/doc/typedoc
 
 rm -rf $DESTSRC
 rm -rf $DESTDOC
@@ -21,3 +22,4 @@ node -e "require('$BASE/tools/class_parser.js'); classParser.makeJSDoc('$SRC/', 
 
 jsdoc $DESTDOC/*.js -d $JSDOC
 
+typedoc --mode modules --out $TYPEDOC $SRC
