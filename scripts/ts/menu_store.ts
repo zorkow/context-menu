@@ -135,7 +135,7 @@ namespace ContextMenu {
     public insert(elementOrList: any) {
       let elements = elementOrList instanceof HTMLElement ?
         [elementOrList] : elementOrList;
-      for (let i = 0, element: HTMLElement; element = elements[i]; i++) {
+      for (let element of elements) {
         this.insertElement(element);
       }
       this.sort();
@@ -164,7 +164,7 @@ namespace ContextMenu {
     public remove(elementOrList: any) {
       let elements = elementOrList instanceof HTMLElement ?
         [elementOrList] : elementOrList;
-      for (let i = 0, element: HTMLElement; element = elements[i]; i++) {
+      for (let element of elements) {
         this.removeElement(element);
       }
       this.sort();
