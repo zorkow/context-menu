@@ -206,41 +206,40 @@ namespace ContextMenu {
         super.post(numberOrEvent, isY);
         return;
       }
-      let node: HTMLElement;
+      let event = numberOrEvent;
+      let node;
+      if (event instanceof Event) {
+        node = event.target;
+        this.stop(event);
+      } else {
+        node = event;
+      }
       let x: number;
       let y: number;
       let keydown: boolean = false;
-      if (numberOrEvent instanceof Event) {
-        let event = numberOrEvent;
-        x = event['pageX'], y = event['pageY'];
-        if (!x && !y && event['clientX']) {
+      if (event instanceof MouseEvent) {
+        x = event.pageX, y = event.pageY;
+        if (!x && !y && event.clientX) {
           x = event.clientX + document.body.scrollLeft +
             document.documentElement.scrollLeft;
           y = event.clientY + document.body.scrollTop  +
             document.documentElement.scrollTop;
         }
-        node = event.target;
-        keydown = event.type === 'keydown';
-        this.stop(event);
-      } else {
-        node = numberOrEvent;
       }
-      this.getStore().setActive(node);
-      this.anchor = this.getStore().getActive();
-      if ((keydown || (!x && !y)) && node) {
+      if (!x && !y && node) {
         let offsetX = window.pageXOffset || document.documentElement.scrollLeft;
         let offsetY = window.pageYOffset || document.documentElement.scrollTop;
         let rect = node.getBoundingClientRect();
         x = (rect.right + rect.left) / 2 + offsetX;
         y = (rect.bottom + rect.top) / 2 + offsetY;
       }
-      let rect = node.getBoundingClientRect();
+      this.getStore().setActive(node);
+      this.anchor = this.getStore().getActive();
       let menu = this.getHtml();
       let margin = 5;
       if (x + menu.offsetWidth > document.body.offsetWidth - margin) {
         x = document.body.offsetWidth - menu.offsetWidth - margin;
       }
-
       // Not sure what these do!
       //
       // // if (MENU.isMobile) {
