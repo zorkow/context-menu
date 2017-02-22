@@ -12,6 +12,7 @@
   },
   "exclude": [
     "scripts/js",
-    "samples"
+    "samples",
+    "node_modules"
   ]
 }
