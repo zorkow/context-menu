@@ -7,7 +7,8 @@
     "noImplicitAny": true,
     "removeComments": true,
     "noLib": false,
-    "sourceMap": true,
+    "alwaysStrict": false,
+    "sourceMap": false,
     "outFile": "scripts/js/context_menu.js"
   },
   "exclude": [

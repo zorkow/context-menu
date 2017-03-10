@@ -41,8 +41,6 @@ namespace ContextMenu {
         scrollbars: 'yes',
         width: 400,
         height: 300,
-        left: Math.round((screen.width - 400) / 2),
-        top:  Math.round((screen.height - 300) / 3)
       };
     private menu: ContextMenu;
     private title: string = '';
@@ -54,6 +52,11 @@ namespace ContextMenu {
      */
     private window: Window = null;
 
+    private localSettings: {[id: string]: (string | number)} = {
+      left: Math.round((screen.width - 400) / 2),
+      top:  Math.round((screen.height - 300) / 3)
+    };
+    
     /**
      * The list of all windows opened by this object.
      * @type {Array.<Window>} 
@@ -98,6 +101,9 @@ namespace ContextMenu {
       let settings: string[] = [];
       for (let setting in Popup.popupSettings) {
         settings.push(setting + '=' + Popup.popupSettings[setting]);
+      }
+      for (let setting in this.localSettings) {
+        settings.push(setting + '=' + this.localSettings[setting]);
       }
       this.window = window.open('', '_blank', settings.join(','));
       this.windowList.push(this.window);
@@ -150,17 +156,17 @@ namespace ContextMenu {
       let table = <HTMLElement>this.window.document.body.firstChild;
       let H = (this.window.outerHeight - this.window.innerHeight) || 30;
       let W = (this.window.outerWidth - this.window.innerWidth) || 30;
-      W = Math.max(140, Math.min(Math.floor(.5 * screen.width),
+      W = Math.max(140, Math.min(Math.floor(.5 * this.window.screen.width),
                                  table.offsetWidth + W + 25));
-      H = Math.max(40, Math.min(Math.floor(.5 * screen.height),
+      H = Math.max(40, Math.min(Math.floor(.5 * this.window.screen.height),
                                 table.offsetHeight + H + 25));
       this.window.resizeTo(W, H);
       let bb = this.active.getBoundingClientRect();
       if (bb) {
         let x = Math.max(0, Math.min(bb.right - Math.floor(W / 2),
-                                 screen.width - W - 20));
+                                 this.window.screen.width - W - 20));
         let y = Math.max(0, Math.min(bb.bottom - Math.floor(H / 2),
-                                 screen.height - H - 20));
+                                 this.window.screen.height - H - 20));
         this.window.moveTo(x, y);
       }
       this.active = null;
