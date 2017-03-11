@@ -116,6 +116,16 @@ namespace ContextMenu {
     MENU_STYLES[makeClass_('MENURADIOCHECK') + makeClass_('RTL')] = '{' +
       '  right: .7em; left:auto' +
       '}',
+    MENU_STYLES[makeClass_('MENUINPUTBOX')] = '{' +
+      '  position:absolute; right:.5em; color:#666666;' +
+      '  font-family: null; font-size: 1em' +
+      '}',
+    MENU_STYLES[makeClass_('MENUINPUTBOX') + makeClass_('RTL')] = '{' +
+      '  left: .1em;' +
+      '}',
+    MENU_STYLES[makeClass_('MENUCOMBOBOX')] = '{' +
+      '  left:.1em; padding-bottom:.5em;' +
+      '}',
     MENU_STYLES[makeClass_('MENULABEL')] = '{' +
       '  padding: 1px 2em 3px 1.33em;' +
       '  font-style:italic' +

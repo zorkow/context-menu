@@ -70,11 +70,13 @@ namespace ContextMenu {
     MENUACTIVE: prefixClass_('MenuActive'),
     MENUCHECK: prefixClass_('MenuCheck'),
     MENUCLOSE: prefixClass_('MenuClose'),
+    MENUCOMBOBOX: prefixClass_('MenuComboBox'),
     MENUDISABLED: prefixClass_('MenuDisabled'),
     MENUFRAME: prefixClass_('MenuFrame'),
     MENUITEM: prefixClass_('MenuItem'),
     MENULABEL: prefixClass_('MenuLabel'),
     MENURADIOCHECK: prefixClass_('MenuRadioCheck'),
+    MENUINPUTBOX: prefixClass_('MenuInputBox'),
     MENURULE: prefixClass_('MenuRule'),
     MOUSEPOST: prefixClass_('MousePost'),
     RTL: prefixClass_('RTL'),
@@ -92,7 +94,8 @@ namespace ContextMenu {
     'CtxtMenu_MenuLabel' | 'CtxtMenu_MenuRadioCheck' | 'CtxtMenu_MenuRule' |
     'CtxtMenu_MousePost' | 'CtxtMenu_RTL' | 'CtxtMenu_Attached' |
     'CtxtMenu_Info' | 'CtxtMenu_InfoClose' | 'CtxtMenu_InfoContent' |
-    'CtxtMenu_InfoSignature' | 'CtxtMenu_InfoTitle' | 'CtxtMenu_MenuFrame';
+    'CtxtMenu_InfoSignature' | 'CtxtMenu_InfoTitle' | 'CtxtMenu_MenuFrame' |
+    'CtxtMenu_MenuInputBox' ;
 
   /**
    * HTML attributes.
