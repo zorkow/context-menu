@@ -299,10 +299,10 @@ namespace ContextMenu {
      * @param {JSON} json The JSON object to parse.
      */
     private parseVariable(
-      {name: name, value: value, action: action}:
-      {name: string, value: string | boolean,
-       action: (x: (string | boolean)) => void}): void {
-         this.getPool().insert(new Variable(name, value, action));
+      {name: name, getter: getter, setter: setter}:
+      {name: string, getter: () => string | boolean,
+       setter: (x: (string | boolean)) => void}): void {
+         this.getPool().insert(new Variable(name, getter, setter));
        }
 
   }

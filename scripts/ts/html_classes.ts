@@ -60,7 +60,7 @@ namespace ContextMenu {
   // This is in lieu of a proper enum type.
   /**
    * HTML classes.
-   * @enum {string} 
+   * @enum {string}
    */
   export const HtmlClasses: {[id: string]: HtmlClass} = {
     ATTACHED: prefixClass_('Attached'),
