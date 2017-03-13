@@ -69,7 +69,6 @@
         "variable-declaration": "nospace"
       }
     ],
-    "use-strict": true,
     "variable-name": [
       true,
       "ban-keywords"
