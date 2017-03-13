@@ -30,10 +30,9 @@ namespace ContextMenu {
 
   export class Variable<T> {
 
-    private _value: T;
     private items: VariableItem[] = [];
 
-
+    
     /**
      * @constructor
      * @template T
@@ -49,20 +48,6 @@ namespace ContextMenu {
      */
     public getName() {
       return this.name;
-    };
-
-    /**
-     * @return {T} The value of the variable.
-     */
-    public get value() {
-      return this._value;
-    };
-
-    /**
-     * @return {T} The value of the variable.
-     */
-    public set value(value: T) {
-      this._value = value;
     };
 
     /**
