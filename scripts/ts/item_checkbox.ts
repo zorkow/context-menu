@@ -22,22 +22,16 @@
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-/// <reference path="abstract_item.ts" />
-/// <reference path="menu_util.ts" />
-/// <reference path="variable.ts" />
-/// <reference path="variable_item.ts" />
+/// <reference path="abstract_variable_item.ts" />
 
 namespace ContextMenu {
 
-  export class Checkbox extends AbstractItem implements VariableItem {
+  export class Checkbox extends AbstractVariableItem<boolean> {
 
     /**
      * @override
      */
     protected role = 'menuitemcheckbox';
-
-    private variable: Variable<boolean>;
-    private span: HTMLElement;
 
     /**
      * Parses a JSON respresentation of a checkbox item.
@@ -76,37 +70,28 @@ namespace ContextMenu {
     /**
      * @override
      */
-    public generateHtml() {
-      super.generateHtml();
-      let html = this.getHtml();
+    public generateSpan() {
       this.span = document.createElement('span');
       this.span.textContent = '\u2713';
       this.span.classList.add(HtmlClasses['MENUCHECK']);
-      html.appendChild(this.span);
-      this.update();
+    }
+
+    /**
+     * @override
+     * Toggles the aria checked attribute.
+     */
+    protected updateAria() {
+      this.getHtml().setAttribute(
+        'aria-checked',
+        this.variable.getValue() ? 'true' : 'false'
+      );
     }
 
     /**
      * @override
      */
-    public register() {
-      this.variable.register(this);
-    }
-
-    /**
-     * @override
-     */
-    public unregister() {
-      this.variable.unregister(this);
-    }
-
-    /**
-     * @override
-     */
-    public update() {
-      if (this.span) {
-        this.span.style.display = this.variable.getValue() ? '' : 'none';
-      }
+    public updateSpan() {
+      this.span.style.display = this.variable.getValue() ? '' : 'none';
     }
 
   }

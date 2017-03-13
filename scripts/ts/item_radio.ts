@@ -23,25 +23,16 @@
  */
 
 
-/// <reference path="abstract_item.ts" />
-/// <reference path="menu_util.ts" />
-/// <reference path="variable_item.ts" />
+/// <reference path="abstract_variable_item.ts" />
 
 namespace ContextMenu {
 
-  export class Radio extends AbstractItem implements VariableItem {
+  export class Radio extends AbstractVariableItem<string> {
 
     /**
      * @override
      */
     protected role = 'menuitemradio';
-
-    /**
-     * The state variable. Initially set false.
-     * @type {Variable}
-     */
-    private variable: Variable<string>;
-    private span: HTMLElement;
 
     /**
      * Parses a JSON respresentation of a radio item.
@@ -57,7 +48,7 @@ namespace ContextMenu {
 
     /**
      * @constructor
-     * @extends {AbstractItem}
+     * @extends {AbstractVariableItem}
      * @param {Menu} menu The context menu or sub-menu the item belongs to.
      * @param {string} content The content of the menu item.
      * @param {string} variable The variable that is changed.
@@ -80,42 +71,17 @@ namespace ContextMenu {
    /**
     * @override
     */
-    public generateHtml() {
-      super.generateHtml();
-      let html = this.getHtml();
+    public generateSpan() {
       this.span = document.createElement('span');
       this.span.textContent = '\u2713';
       this.span.classList.add(HtmlClasses['MENURADIOCHECK']);
-      html.appendChild(this.span);
-      this.update();
     }
 
     /**
      * @override
-     */
-    public register() {
-      this.variable.register(this);
-    }
-
-    /**
-     * @override
-     */
-    public unregister() {
-      this.variable.unregister(this);
-    }
-
-    /**
-     * @override
-     */
-    public update() {
-      this.updateAria();
-      this.updateSpan();
-    }
-
-    /**
      * Toggles the aria checked attribute.
      */
-    private updateAria() {
+    protected updateAria() {
       this.getHtml().setAttribute(
         'aria-checked',
         this.variable.getValue() === this.getId() ? 'true' : 'false'
@@ -123,13 +89,12 @@ namespace ContextMenu {
     }
 
     /**
+     * @override
      * Toggles the checked tick.
      */
-    private updateSpan() {
-      if (this.span) {
-        this.span.style.display =
-          this.variable.getValue() === this.getId() ? '' : 'none';
-      }
+    protected updateSpan() {
+      this.span.style.display =
+        this.variable.getValue() === this.getId() ? '' : 'none';
     }
 
   }
