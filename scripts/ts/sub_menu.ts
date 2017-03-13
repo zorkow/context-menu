@@ -37,7 +37,7 @@ namespace ContextMenu {
     private anchor: Submenu;
 
     /**
-     * Parses a JSON respresentation of a variable pool.
+     * Parses a JSON respresentation of a submenu.
      * @param {JSON} json The JSON object to parse.
      * @param {Submenu} anchor The anchor item the submenu is attached to.
      * @return {SubMenu} The new submenu object.
