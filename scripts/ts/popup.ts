@@ -48,7 +48,7 @@ namespace ContextMenu {
 
     /**
      * The last opened window.
-     * @type {Window} 
+     * @type {Window}
      */
     private window: Window = null;
 
@@ -56,10 +56,10 @@ namespace ContextMenu {
       left: Math.round((screen.width - 400) / 2),
       top:  Math.round((screen.height - 300) / 3)
     };
-    
+
     /**
      * The list of all windows opened by this object.
-     * @type {Array.<Window>} 
+     * @type {Array.<Window>}
      */
     private windowList: Window[] = [];
 

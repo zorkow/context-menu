@@ -45,6 +45,7 @@ namespace ContextMenu {
         return new Checkbox(menu, content, variable, id);
       }
 
+
     /**
      * @constructor
      * @extends {AbstractItem}

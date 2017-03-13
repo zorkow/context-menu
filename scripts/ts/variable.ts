@@ -1,13 +1,13 @@
 /*************************************************************
  *
  *  Copyright (c) 2015-2016 The MathJax Consortium
- * 
+ *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -32,7 +32,7 @@ namespace ContextMenu {
 
     private items: VariableItem[] = [];
 
-    
+
     /**
      * @constructor
      * @template T
@@ -61,7 +61,7 @@ namespace ContextMenu {
         MenuUtil.error(e, 'Command of variable ' + this.name + ' failed.');
       }
     }
-    
+
     //// TODO: Add accessors for callback.
     // Possibly put in some messaging service for menu item selected.
     /**

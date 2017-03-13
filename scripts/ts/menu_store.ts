@@ -284,13 +284,13 @@ namespace ContextMenu {
     //// TODO: Need to add touch event.
     /**
      * Adds event listeners to activate the context menu to an element.
-     * 
+     *
      * To be able to remove event listeners we have to remember exactly which
      * listeners we have added. We safe them in the attribute mapping attrMap,
      * as a combination of event handler name and counter, which is unique for
      * each HTML element. The counter is stored on the HTML element in an
      * attribute.
-     * 
+     *
      * @param {HTMLElement} element The DOM element.
      */
     private addEvents(element: HTMLElement) {

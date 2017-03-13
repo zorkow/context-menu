@@ -167,7 +167,7 @@ namespace ContextMenu {
       this.variablePool.update();
       super.post(x, y);
     }
-    
+
     /**
      * @override
      */
