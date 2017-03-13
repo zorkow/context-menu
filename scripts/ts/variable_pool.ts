@@ -56,6 +56,15 @@ namespace ContextMenu {
       delete this.pool[name];
     }
 
+    /**
+     * Executes update method for all variables in the pool.
+     */
+    public update() {
+      for (let variable in this.pool) {
+        this.pool[variable].update();
+      }
+    }
+
   }
 
 }

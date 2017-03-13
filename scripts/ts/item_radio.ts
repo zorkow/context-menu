@@ -73,10 +73,6 @@ namespace ContextMenu {
      * @override
      */
     public executeAction() {
-      let oldValue = this.variable.getValue();
-      if (oldValue === this.getId()) {
-        return;
-      }
       this.variable.setValue(this.getId());
       MenuUtil.close(this);
     }
@@ -130,8 +126,10 @@ namespace ContextMenu {
      * Toggles the checked tick.
      */
     private updateSpan() {
-      this.span.style.display =
-        this.variable.getValue() === this.getId() ? '' : 'none';
+      if (this.span) {
+        this.span.style.display =
+          this.variable.getValue() === this.getId() ? '' : 'none';
+      }
     }
 
   }

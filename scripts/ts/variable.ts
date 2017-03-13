@@ -30,9 +30,7 @@ namespace ContextMenu {
 
   export class Variable<T> {
 
-    private name: string = '';
-    private value: T;
-    private callback: (x: T) => void;
+    private _value: T;
     private items: VariableItem[] = [];
 
 
@@ -40,14 +38,11 @@ namespace ContextMenu {
      * @constructor
      * @template T
      * @param {string} name The variable name.
-     * @param {T} value It's initial value.
+     * @param {function(T)} getter It's initial value.
      * @param {function(T)} callback Function to call when value is changed.
      */
-    constructor(name: string, value: T, callback: (x: T) => void) {
-      this.name = name;
-      this.value = value;
-      this.callback = callback;
-    }
+    constructor(private name: string, private getter: () => T,
+                private setter: (x: T) => void) { }
 
     /**
      * @return {string} The name of the variable.
@@ -59,11 +54,29 @@ namespace ContextMenu {
     /**
      * @return {T} The value of the variable.
      */
-    public getValue() {
-      return this.value;
+    public get value() {
+      return this._value;
     };
 
+    /**
+     * @return {T} The value of the variable.
+     */
+    public set value(value: T) {
+      this._value = value;
+    };
 
+    /**
+     * Execute getter callback to retrieve the current value of the variable.
+     * @return {T} The value of the variable.
+     */
+    public getValue() {
+      try {
+        return this.getter();
+      } catch (e) {
+        MenuUtil.error(e, 'Command of variable ' + this.name + ' failed.');
+      }
+    }
+    
     //// TODO: Add accessors for callback.
     // Possibly put in some messaging service for menu item selected.
     /**
@@ -72,12 +85,8 @@ namespace ContextMenu {
      * @param {T} value New value of the variable.
      */
     public setValue(value: T) {
-      if (value === this.value) {
-        return;
-      }
-      this.value = value;
       try {
-        this.callback(value);
+        this.setter(value);
       } catch (e) {
         MenuUtil.error(e, 'Command of variable ' + this.name + ' failed.');
       }

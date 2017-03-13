@@ -134,18 +134,6 @@ MathJax.Hub.Register.StartupHook("MathEvents Ready", function () {
   var MENU = {};
   var SETTINGS = MathJax.Hub.config.menuSettings;
   MENU.id = function(value) { };
-  MENU.ALT = function(value) {
-    SETTINGS.ALT = value;
-  };
-  MENU.CTRL = function(value) {
-    SETTINGS.CTRL = value;
-  };
-  MENU.CMD = function(value) {
-    SETTINGS.CMD = value;
-  };
-  MENU.Shift = function(value) {
-    SETTINGS.Shift = value;
-  };
   MENU.About = function() {
     about.post(0, 0);
   };
@@ -158,34 +146,85 @@ MathJax.Hub.Register.StartupHook("MathEvents Ready", function () {
   MENU.ShowOriginal = function() {
     originalText.post();
   };
-  MENU.ZoomTrigger = function(value) {
+  MENU.getALT = function() {
+    return SETTINGS.ALT;
+  };
+  MENU.setALT = function(value) {
+    SETTINGS.ALT = value;
+  };
+  MENU.getCTRL = function() {
+    return SETTINGS.CTRL;
+  };
+  MENU.setCTRL = function(value) {
+    SETTINGS.CTRL = value;
+  };
+  MENU.getCMD = function() {
+    return SETTINGS.CMD;
+  };
+  MENU.setCMD = function(value) {
+    SETTINGS.CMD = value;
+  };
+  MENU.getShift = function() {
+    return SETTINGS.Shift;
+  };
+  MENU.setShift = function(value) {
+    SETTINGS.Shift = value;
+  };
+  MENU.setZoomTrigger = function(value) {
     SETTINGS.zoom = value;
   };
-  MENU.ZoomScale = function(value) {
+  MENU.getZoomTrigger = function(value) {
+    return SETTINGS.zoom;
+  };
+  MENU.getZoomScale = function() {
+    return SETTINGS.zscale;
+  };
+  MENU.setZoomScale = function(value) {
     SETTINGS.zscale = value;
   };
-  MENU.TexHints = function(value) {
+  MENU.getTexHints = function() {
+    return SETTINGS.texHints;
+  };
+  MENU.setTexHints = function(value) {
     SETTINGS.texHints = value;
   };
-  MENU.Semantics = function(value) {
+  MENU.getSemantics = function() {
+    return SETTINGS.semantics;
+  };
+  MENU.setSemantics = function(value) {
     SETTINGS.semantics = value;
   };
-  MENU.Renderer = function(value) {
+  MENU.getRenderer = function() {
+    return SETTINGS.renderer;
+  };
+  MENU.setRenderer = function(value) {
     SETTINGS.renderer = value;
     MathJax.Menu.Renderer();
   };
-  MENU.AssistiveMML = function(value) {
+  MENU.getAssistiveMML = function() {
+    return SETTINGS.assistiveMML;
+  };
+  MENU.setAssistiveMML = function(value) {
     SETTINGS.assistiveMML = value;
     MathJax.Menu.AssistiveMML();
   };
-  MENU.FastPreview = function(value) {
+  MENU.getFastPreview = function() {
+    return SETTINGS.FastPreview;
+  };
+  MENU.setFastPreview = function(value) {
     SETTINGS.FastPreview = value;
   };
-  MENU.InTabOrder = function(value) {
+  MENU.getInTabOrder = function() {
+    return SETTINGS.inTabOrder;
+  };
+  MENU.setInTabOrder = function(value) {
     SETTINGS.inTabOrder = value;
     contextmenu.getStore().inTaborder(value);
   };
-  MENU.Font = function(value) {
+  MENU.getFont = function() {
+    return SETTINGS.font;
+  };
+  MENU.setFont = function(value) {
     SETTINGS.font = value;
     // Question: Does this need to be saved in the cookie as otherwise we will
     // always get "Auto".
@@ -197,63 +236,63 @@ MathJax.Hub.Register.StartupHook("MathEvents Ready", function () {
          {"pool": [
            {
              "name": "zoom",
-             "value": SETTINGS.zoom,
-             "action": MENU.ZoomTrigger
+             "getter": MENU.getZoomTrigger,
+             "setter": MENU.setZoomTrigger
            },
            {
              "name": "zscale",
-             "value": SETTINGS.zscale,
-             "action": MENU.ZoomScale
+             "getter": MENU.getZoomScale,
+             "setter": MENU.setZoomScale
            },
            {
              "name": "texHints",
-             "value": SETTINGS.texHints,
-             "action": MENU.TexHints
+             "getter": MENU.getTexHints,
+             "setter": MENU.setTexHints
            },
            {
              "name": "semantics",
-             "value": SETTINGS.Semantics,
-             "action": MENU.Semantics
+             "getter": MENU.getSemantics,
+             "setter": MENU.setSemantics
            },
            {
              "name": "ALT",
-             "value": SETTINGS.ALT,
-             "action": MENU.ALT
+             "getter": MENU.getALT,
+             "setter": MENU.setALT
            },
            {
              "name": "CMD",
-             "value": SETTINGS.CMD,
-             "action": MENU.CMD
+             "getter": MENU.getCMD,
+             "setter": MENU.setCMD
            },
            {
              "name": "CTRL",
-             "value": SETTINGS.CTRL,
-             "action": MENU.CTRL
+             "getter": MENU.getCTRL,
+             "setter": MENU.setCTRL
            },
            {
              "name": "Shift",
-             "value": SETTINGS.Shift,
-             "action": MENU.Shift
+             "getter": MENU.getShift,
+             "setter": MENU.setShift
            },
            { "name": "renderer",
-             "value": "HTML-CSS",
-             "action": MENU.Renderer
+             "getter": MENU.getRenderer,
+             "setter": MENU.setRenderer
            },
            { "name": "fastPreview",
-             "value": SETTINGS.FastPreview,
-             "action": MENU.FastPreview
+             "getter": MENU.getFastPreview,
+             "setter": MENU.setFastPreview
            },
            { "name": "assistiveMML",
-             "value": SETTINGS.assistiveMML,
-             "action": MENU.AssistiveMML
+             "getter": MENU.getAssistiveMML,
+             "setter": MENU.setAssistiveMML
            },
            { "name": "inTabOrder",
-             "value": SETTINGS.inTabOrder,
-             "action": MENU.InTabOrder
+             "getter": MENU.getInTabOrder,
+             "setter": MENU.setInTabOrder
            },
            { "name": "font",
-             "value": SETTINGS.font,
-             "action": MENU.Font
+             "getter": MENU.getFont,
+             "setter": MENU.setFont
            }
          ],
           "items":

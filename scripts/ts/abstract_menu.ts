@@ -163,6 +163,14 @@ namespace ContextMenu {
     /**
      * @override
      */
+    public post(x?: number, y?: number) {
+      this.variablePool.update();
+      super.post(x, y);
+    }
+    
+    /**
+     * @override
+     */
     public unpostSubmenus(): void {
       let submenus =
         <Submenu[]>this.items.filter(x => x instanceof Submenu);
