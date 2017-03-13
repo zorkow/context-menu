@@ -148,7 +148,7 @@ namespace ContextMenu {
     public generateMenu() {
       let html = this.getHtml();
       html.classList.add(HtmlClasses['MENU']);
-      for (let i = 0, item: Item; item = this.items[i]; i++) {
+      for (let item of this.items) {
         if (!item.isHidden()) {
           html.appendChild(item.getHtml());
           continue;
@@ -166,7 +166,7 @@ namespace ContextMenu {
     public unpostSubmenus(): void {
       let submenus =
         <Submenu[]>this.items.filter(x => x instanceof Submenu);
-      for (let i = 0, submenu: Submenu; submenu = submenus[i]; i++) {
+      for (let submenu of submenus) {
         submenu.getSubmenu().unpost();
         if (<Item>submenu !== this.getFocused()) {
           submenu.unfocus();
