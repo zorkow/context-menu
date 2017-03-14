@@ -230,10 +230,7 @@ MathJax.Hub.Register.StartupHook("MathEvents Ready", function () {
     // always get "Auto".
     MathJax.Menu.Font();
   };
-  MENU.InitType = function(node) {
-    return node.getAttribute('data-semantic-type');
-  };
-  
+
   var cm_json =
         {"menu":
          {"pool": [
@@ -299,11 +296,7 @@ MathJax.Hub.Register.StartupHook("MathEvents Ready", function () {
            }
          ],
           "items":
-          [ {"type": "combo",
-             "id": "type",
-             "content": "type",
-             "initial": MENU.InitType
-            },
+          [
             {"type": "submenu",
              "id": "Show",
              "content": "Show Math As",
@@ -607,17 +600,10 @@ MathJax.Hub.Register.StartupHook("MathEvents Ready", function () {
     'New Math', function(message) {
       var newid = message[1] + '-Frame';
       var math = document.getElementById(newid);
-      var spans = math.querySelectorAll('[data-semantic-type]');
-      console.log(spans);
-      // if (math) {
-      //   // remove already set tabindex.
-      //   math.removeAttribute('tabindex');
-      //   contextmenu.getStore().insert(math);
-      // }
-      for (var span of spans) {
+      if (math) {
         // remove already set tabindex.
-        span.removeAttribute('tabindex');
-        contextmenu.getStore().insert(span);
+        math.removeAttribute('tabindex');
+        contextmenu.getStore().insert(math);
       }
     });
   // Unfold zoom menu:
