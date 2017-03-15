@@ -117,8 +117,8 @@ namespace ContextMenu {
       '  right: .7em; left:auto' +
       '}',
     MENU_STYLES[makeClass_('MENUINPUTBOX')] = '{' +
-      '  position:absolute; right:.5em; color:#666666;' +
-      '  font-family: null; font-size: 1em' +
+      '  padding-left: 1em; right:.5em; color:#666666;' +
+      '  font-family: null;' +
       '}',
     MENU_STYLES[makeClass_('MENUINPUTBOX') + makeClass_('RTL')] = '{' +
       '  left: .1em;' +

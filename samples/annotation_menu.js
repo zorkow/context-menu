@@ -1,4 +1,5 @@
 MathJax.Hub.Register.StartupHook('Sre Ready', function() {
+  console.log('loading');
 
   let aboutContent = function() {
     return 'using<br>MathJax v' + MathJax.version +
@@ -25,8 +26,20 @@ MathJax.Hub.Register.StartupHook('Sre Ready', function() {
   Annotation.getSemanticType = function(node) {
     return node.getAttribute('data-semantic-type');
   };
-  Annotation.setSemanticType = function(node, value) {
+  Annotation.setSemanticType = function(value, node) {
     node.setAttribute('data-semantic-type', value);
+  };
+  Annotation.getSemanticRole = function(node) {
+    return node.getAttribute('data-semantic-role');
+  };
+  Annotation.setSemanticRole = function(value, node) {
+    node.setAttribute('data-semantic-role', value);
+  };
+  Annotation.getSemanticFont = function(node) {
+    return node.getAttribute('data-semantic-font');
+  };
+  Annotation.setSemanticFont = function(value, node) {
+    node.setAttribute('data-semantic-font', value);
   };
 
   var cm_json =
@@ -35,6 +48,14 @@ MathJax.Hub.Register.StartupHook('Sre Ready', function() {
            { "name": "type",
              "getter": Annotation.getSemanticType,
              "setter": Annotation.setSemanticType
+           },
+           { "name": "role",
+             "getter": Annotation.getSemanticRole,
+             "setter": Annotation.setSemanticRole
+           },
+           { "name": "font",
+             "getter": Annotation.getSemanticFont,
+             "setter": Annotation.setSemanticFont
            }
          ],
           "items":
@@ -44,10 +65,20 @@ MathJax.Hub.Register.StartupHook('Sre Ready', function() {
             "content": "Type",
             "variable": "type"
             },
+            {"type": "combo",
+             "id": "role",
+            "content": "Role",
+            "variable": "role"
+            },
+            {"type": "combo",
+             "id": "font",
+            "content": "Font",
+            "variable": "font"
+            },
             {"type": "rule"},
             {"type": "command",
              "id": "About",
-             "content": "About MathJax Annotation",
+             "content": "About",
              "action": Annotation.aboutPost
             },
           ]

@@ -23,26 +23,25 @@
  */
 
 
-/// <reference path="abstract_item.ts" />
-/// <reference path="menu_util.ts" />
-/// <reference path="variable_item.ts" />
+/// <reference path="abstract_variable_item.ts" />
 
 namespace ContextMenu {
 
-  export class Combo extends AbstractItem implements VariableItem {
+  export class Combo extends AbstractVariableItem<string> {
 
     /**
      * @override
      */
     protected role = 'combobox';
-
+    
     /**
      * The state variable. Initially set false.
      * @type {Variable}
      */
     private initial: Function;
-    private span: HTMLElement;
 
+    private input: HTMLInputElement;
+    
     /**
      * Parses a JSON respresentation of a combo item.
      * @param {JSON} json The JSON object to parse.
@@ -50,9 +49,9 @@ namespace ContextMenu {
      * @return {Combo} The new combo object.
      */
     public static parse(
-      {content: content, initial: initial, id: id}:
-      {content: string, initial: Function, id: string}, menu: Menu): Combo {
-        return new Combo(menu, content, initial, id);
+      {content: content, variable: variable, id: id}:
+      {content: string, variable: string, id: string}, menu: Menu): Combo {
+        return new Combo(menu, content, variable, id);
       }
 
     /**
@@ -63,80 +62,90 @@ namespace ContextMenu {
      * @param {string} variable The variable that is changed.
      * @param {string=} id Optionally the id of the menu item.
      */
-    constructor(menu: Menu, content: string, initial: Function, id?: string) {
-      super(menu, 'combo', content, id);
-      this.initial = initial;
-      // this.register();
+    constructor(menu: Menu, content: string, variable: string, id?: string) {
+      super(menu, 'radio', content, id);
+      this.variable = <Variable<string>>menu.getPool().lookup(variable);
+      this.register();
     }
 
     /**
      * @override
      */
     public executeAction() {
-      // let oldValue = this.variable.getValue();
-      // if (oldValue === this.getId()) {
-      //   return;
-      // }
-      // this.variable.setValue(this.getId());
-      console.log('here');
-      MenuUtil.close(this);
+      this.variable.setValue(
+        this.input.value, MenuUtil.getActiveElement(this));
+      this.getHtml().focus();
+      this.down(null);
     }
 
-   /**
-    * @override
-    */
+    /**
+     * @override
+     */
+    public focus() {
+      this.input.focus();
+    }
+
+    /**
+     * @override
+     */
     public generateHtml() {
       super.generateHtml();
       let html = this.getHtml();
       html.classList.add(HtmlClasses['MENUCOMBOBOX']); // ???
-      this.span = document.createElement('input');
-      this.span.setAttribute('type', 'text');
-      this.span.setAttribute('size', '10em');
-      this.span.classList.add(HtmlClasses['MENUINPUTBOX']); // ???
-      html.appendChild(this.span);
-      this.update();
     }
 
     /**
-     * @override
-     */
-    public register() { }
+    * @override
+    */
+    public generateSpan() {
+      this.span = document.createElement('span');
+      this.span.classList.add(HtmlClasses['MENUINPUTBOX']); // ???
+      this.input = document.createElement('input');
+      this.input.setAttribute('size', '10em');
+      this.input.setAttribute('type', 'text');
+      this.span.appendChild(this.input);
+    }
+
+    // /**
+    //  * @override
+    //  */
+    // public register() { }
+
+    // /**
+    //  * @override
+    //  */
+    // public unregister() { }
 
     /**
      * @override
      */
-    public unregister() { }
+    // public update() {
+    //   let initValue;
+    //   try {
+    //     initValue = this.initial(MenuUtil.getActiveElement(this));
+    //   } catch (e) {
+    //     initValue = '';
+    //   };
+    //   this.span.setAttribute('value', initValue);
+    // }
 
     /**
-     * @override
+     * Toggles the aria checked attribute.
      */
-    public update() {
+    protected updateAria() { }
+
+    /**
+     * Toggles the checked tick.
+     */
+    protected updateSpan() {
       let initValue;
       try {
-        initValue = this.initial(MenuUtil.getActiveElement(this));
+        initValue = this.variable.getValue(MenuUtil.getActiveElement(this));
       } catch (e) {
         initValue = '';
       };
-      this.span.setAttribute('value', initValue);
+      this.input.value = initValue;
     }
-
-    // /**
-    //  * Toggles the aria checked attribute.
-    //  */
-    // private updateAria() {
-    //   this.getHtml().setAttribute(
-    //     'aria-checked',
-    //     this.variable.getValue() === this.getId() ? 'true' : 'false'
-    //   );
-    // }
-
-    // /**
-    //  * Toggles the checked tick.
-    //  */
-    // private updateSpan() {
-    //   this.span.style.display =
-    //     this.variable.getValue() === this.getId() ? '' : 'none';
-    // }
 
   }
 

@@ -116,6 +116,7 @@ namespace ContextMenu {
      * @override
      */
     public down(event: KeyboardEvent): void {
+      console.log('going down');
       let items = this.getItems().filter(
         x => (x instanceof AbstractItem) && (!x.isHidden()));
       if (items.length === 0) {
