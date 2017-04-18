@@ -41,6 +41,8 @@ namespace ContextMenu {
     private initial: Function;
 
     private input: HTMLInputElement;
+
+    private inputEvent: boolean = false;
     
     /**
      * Parses a JSON respresentation of a combo item.
@@ -74,7 +76,13 @@ namespace ContextMenu {
     public executeAction() {
       this.variable.setValue(
         this.input.value, MenuUtil.getActiveElement(this));
-      this.getHtml().focus();
+    }
+
+    /**
+     * @override
+     */
+    public space(event: KeyboardEvent) {
+      super.space(event);
       this.down(null);
     }
 
@@ -82,6 +90,7 @@ namespace ContextMenu {
      * @override
      */
     public focus() {
+      super.focus();
       this.input.focus();
     }
 
@@ -101,33 +110,29 @@ namespace ContextMenu {
       this.span = document.createElement('span');
       this.span.classList.add(HtmlClasses['MENUINPUTBOX']); // ???
       this.input = document.createElement('input');
+      this.input.addEventListener('keydown', this.inputKey.bind(this));
       this.input.setAttribute('size', '10em');
       this.input.setAttribute('type', 'text');
+      this.input.setAttribute('tabindex', '-1');
       this.span.appendChild(this.input);
     }
 
-    // /**
-    //  * @override
-    //  */
-    // public register() { }
+    public inputKey(event: KeyboardEvent) {
+      this.bubbleKey();
+      this.inputEvent = true;
+    }
 
-    // /**
-    //  * @override
-    //  */
-    // public unregister() { }
-
-    /**
-     * @override
-     */
-    // public update() {
-    //   let initValue;
-    //   try {
-    //     initValue = this.initial(MenuUtil.getActiveElement(this));
-    //   } catch (e) {
-    //     initValue = '';
-    //   };
-    //   this.span.setAttribute('value', initValue);
-    // }
+    public keydown(event: KeyboardEvent) {
+      if (this.inputEvent &&
+          event.keyCode !== KEY.ESCAPE &&
+          event.keyCode !== KEY.RETURN) {
+        this.inputEvent = false;
+        event.stopPropagation();
+        return;
+      }
+      super.keydown(event);
+      event.stopPropagation();
+    }
 
     /**
      * Toggles the aria checked attribute.
