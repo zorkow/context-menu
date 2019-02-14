@@ -30,7 +30,13 @@ namespace ContextMenu {
 
   export class MenuStore {
 
-    private store: HTMLElement[] = [];
+
+    /**
+     * The store of elements the menu belongs to.
+     * @type {HTMLElement[]}
+     */
+    protected store: HTMLElement[] = [];
+
     private active: HTMLElement = null;
     private menu: ContextMenu;
     private counter: number = 0;
