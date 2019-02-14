@@ -40,8 +40,9 @@ namespace ContextMenu {
      * @param {function(T)} getter It's initial value.
      * @param {function(T)} callback Function to call when value is changed.
      */
-    constructor(private name: string, private getter: () => T,
-                private setter: (x: T) => void) { }
+    constructor(private name: string,
+                private getter: (node?: HTMLElement) => T,
+                private setter: (x: T, node?: HTMLElement) => void) { }
 
     /**
      * @return {string} The name of the variable.
@@ -54,9 +55,9 @@ namespace ContextMenu {
      * Execute getter callback to retrieve the current value of the variable.
      * @return {T} The value of the variable.
      */
-    public getValue() {
+    public getValue(node?: HTMLElement) {
       try {
-        return this.getter();
+        return this.getter(node);
       } catch (e) {
         MenuUtil.error(e, 'Command of variable ' + this.name + ' failed.');
       }
@@ -69,9 +70,9 @@ namespace ContextMenu {
      * callback.
      * @param {T} value New value of the variable.
      */
-    public setValue(value: T) {
+    public setValue(value: T, node?: HTMLElement) {
       try {
-        this.setter(value);
+        this.setter(value, node);
       } catch (e) {
         MenuUtil.error(e, 'Command of variable ' + this.name + ' failed.');
       }

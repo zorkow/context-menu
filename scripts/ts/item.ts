@@ -33,7 +33,7 @@ namespace ContextMenu {
     /**
      * @return {string} The content message of this item.
      */
-    getContent(): string;
+    content: string;
 
     /**
      * @return {string} The id of this item.

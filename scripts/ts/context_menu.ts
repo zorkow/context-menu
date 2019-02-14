@@ -97,6 +97,9 @@ namespace ContextMenu {
      * @override
      */
     public generateHtml() {
+      if (this.isPosted()) {  // In case we are updating.
+        this.unpost();
+      }
       super.generateHtml();
       this.frame = document.createElement('div');
       this.frame.classList.add(HtmlClasses['MENUFRAME']);

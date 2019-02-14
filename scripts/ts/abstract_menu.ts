@@ -229,6 +229,7 @@ namespace ContextMenu {
     private parseItem(item: any): Item {
       const parseMapping_: { [id: string]: Function; } = {
         'checkbox': Checkbox.parse,
+        'combo': Combo.parse,
         'command': Command.parse,
         'label': Label.parse,
         'radio': Radio.parse,

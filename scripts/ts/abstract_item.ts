@@ -39,8 +39,6 @@ namespace ContextMenu {
      */
     protected disabled: boolean = false;
 
-    private content: string;
-    private id: string;
     private callbacks: Function[] = [];
 
     /**
@@ -49,20 +47,30 @@ namespace ContextMenu {
      * @extends {AbstractEntry}
      * @param {Menu} menu The context menu or sub-menu the item belongs to.
      * @param {string} type The type of the entry.
-     * @param {string} content The content of the menu item.
+     * @param {string} _content The content of the menu item.
      * @param {string=} id Optionally the id of the menu item.
      */
-    constructor(menu: Menu, type: string, content: string, id?: string) {
+    constructor(menu: Menu, type: string, private _content: string, private id?: string) {
       super(menu, type);
-      this.content = content;
-      this.id = id ? id : content;
+      this.id = id ? id : _content;
     }
 
     /**
      * @override
      */
-    public getContent() {
-      return this.content;
+    public get content() {
+      return this._content;
+    }
+
+    /**
+     * @override
+     */
+    public set content(content: string) {
+      this._content = content;
+      this.generateHtml();
+      if (this.getMenu()) {
+        (this.getMenu() as AbstractMenu).generateHtml();
+      }
     }
 
     /**
