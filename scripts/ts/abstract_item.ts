@@ -39,6 +39,7 @@ namespace ContextMenu {
      */
     protected disabled: boolean = false;
 
+    private id: string;
     private callbacks: Function[] = [];
 
     /**
@@ -50,7 +51,8 @@ namespace ContextMenu {
      * @param {string} _content The content of the menu item.
      * @param {string=} id Optionally the id of the menu item.
      */
-    constructor(menu: Menu, type: string, private _content: string, private id?: string) {
+    constructor(menu: Menu, type: string,
+                private _content: string, id?: string) {
       super(menu, type);
       this.id = id ? id : _content;
     }

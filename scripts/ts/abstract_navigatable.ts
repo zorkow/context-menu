@@ -67,37 +67,37 @@ namespace ContextMenu {
         return;
       }
       this.bubble ? this.bubble = false : this.stop(event);
-    };
+    }
 
     /**
      * @override
      */
-    public escape(event: KeyboardEvent): void {};
+    public escape(event: KeyboardEvent): void {}
 
     /**
      * @override
      */
-    public space(event: KeyboardEvent): void {};
+    public space(event: KeyboardEvent): void {}
 
     /**
      * @override
      */
-    public left(event: KeyboardEvent): void {};
+    public left(event: KeyboardEvent): void {}
 
     /**
      * @override
      */
-    public right(event: KeyboardEvent): void {};
+    public right(event: KeyboardEvent): void {}
 
     /**
      * @override
      */
-    public up(event: KeyboardEvent): void {};
+    public up(event: KeyboardEvent): void {}
 
     /**
      * @override
      */
-    public down(event: KeyboardEvent): void {};
+    public down(event: KeyboardEvent): void {}
 
     /**
      * Stops event propagation and bubbling.
@@ -109,7 +109,7 @@ namespace ContextMenu {
         event.preventDefault();
         event.cancelBubble = true;
       }
-    };
+    }
 
     /**
      * @override

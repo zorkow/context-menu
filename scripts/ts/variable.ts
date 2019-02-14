@@ -49,7 +49,7 @@ namespace ContextMenu {
      */
     public getName() {
       return this.name;
-    };
+    }
 
     /**
      * Execute getter callback to retrieve the current value of the variable.
