@@ -70,7 +70,7 @@ namespace ContextMenu {
     /**
      * @override
      */
-    protected display() { };
+    protected display() { }
 
     /**
      * @override

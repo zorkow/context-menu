@@ -24,7 +24,7 @@
   "homepage": "https://github.com/zorkow/context-menu",
   "dependencies": {},
   "devDependencies": {
-    "tslint": "^4.4.2",
+    "tslint": "^5.*",
     "tslint-jsdoc-rules": "*",
     "tslint-unix-formatter": "*",
     "typescript": "^3.*",

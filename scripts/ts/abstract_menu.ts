@@ -57,14 +57,14 @@ namespace ContextMenu {
      */
     public getItems(): Item[] {
       return this.items;
-    };
+    }
 
     /**
      * @override
      */
     public getPool(): VariablePool<string | boolean> {
       return this.variablePool;
-    };
+    }
 
     /**
      * @override

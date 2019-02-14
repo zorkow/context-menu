@@ -35,7 +35,7 @@ namespace ContextMenu {
    */
   function prefix_(name: string): string {
     return <string>(PREFIX + '_' + name);
-  };
+  }
 
   /**
    * Prefixes a html id.
@@ -45,7 +45,7 @@ namespace ContextMenu {
    */
   function prefixClass_(name: string): HtmlClass {
     return <HtmlClass>prefix_(name);
-  };
+  }
 
   /**
    * Prefixes a html class name.
@@ -55,7 +55,7 @@ namespace ContextMenu {
    */
   function prefixAttr_(name: string): HtmlAttr {
     return <HtmlAttr>prefix_(name);
-  };
+  }
 
   // This is in lieu of a proper enum type.
   /**

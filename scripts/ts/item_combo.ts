@@ -158,7 +158,7 @@ namespace ContextMenu {
         initValue = this.variable.getValue(MenuUtil.getActiveElement(this));
       } catch (e) {
         initValue = '';
-      };
+      }
       this.input.value = initValue;
     }
 
