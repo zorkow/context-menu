@@ -1,6 +1,6 @@
 {
   "rulesDirectory": [
-    "/home/sorge/node_modules/tslint-jsdoc-rules/lib"
+    "node_modules/tslint-jsdoc-rules/lib"
   ],
   "rules": {
     "class-name": true,
