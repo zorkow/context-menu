@@ -67,13 +67,9 @@ namespace ContextMenu {
      */
     public set content(content: string) {
       this._content = content;
-      if (!this.getHtml()) {
-        return;
-      }
       this.generateHtml();
-      let menu = this.getMenu() as AbstractMenu;
-      if (menu) {
-        menu.generateHtml();
+      if (this.getMenu()) {
+        (this.getMenu() as AbstractMenu).generateHtml();
       }
     }
 
