@@ -355,6 +355,8 @@ namespace ContextMenu {
     private keydown(event: KeyboardEvent) {
       if (event.keyCode === KEY.SPACE) {
         this.menu.post(event);
+        event.preventDefault();
+        event.stopImmediatePropagation();
       }
     }
 

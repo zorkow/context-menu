@@ -263,7 +263,7 @@ namespace ContextMenu {
       let active = MenuUtil.getActiveElement(this);
       for (let func of this.callbacks) {
         try {
-          func(event);
+          func(this);
         } catch (e) {
           MenuUtil.error(e, 'Callback for menu entry ' + this.getId() +
                          ' failed.');

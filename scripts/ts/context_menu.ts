@@ -311,3 +311,5 @@ namespace ContextMenu {
   }
 
 }
+
+(window as any).ContextMenu = ContextMenu;
