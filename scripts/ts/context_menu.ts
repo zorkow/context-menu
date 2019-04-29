@@ -77,7 +77,7 @@ namespace ContextMenu {
       }
       // The variable id is currently ignored!
       let {pool: pool, items: items, id: id} = menu;
-      let ctxtMenu = new ContextMenu();
+      let ctxtMenu = new this();
       // TODO: Try and catch with error
       pool.forEach(ctxtMenu.parseVariable.bind(ctxtMenu));
       ctxtMenu.parseItems(items);
