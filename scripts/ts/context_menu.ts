@@ -27,7 +27,6 @@
 /// <reference path="item.ts" />
 /// <reference path="menu_store.ts" />
 
-
 namespace ContextMenu {
 
   export class ContextMenu extends AbstractMenu {
@@ -312,10 +311,6 @@ namespace ContextMenu {
 
 }
 
-declare const global: any;
-
 if (typeof window !== 'undefined') {
     (window as any).ContextMenu = ContextMenu;
-} else if (typeof global !== 'undefined') {
-    (global as any).ContextMenu = ContextMenu;
 }
