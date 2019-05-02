@@ -11,6 +11,7 @@
     "sourceMap": false,
     "outFile": "scripts/js/context_menu.js"
   },
+  "include": ["scripts/ts/*"],
   "exclude": [
     "scripts/js",
     "samples",

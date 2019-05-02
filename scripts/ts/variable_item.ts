@@ -23,25 +23,23 @@
  */
 
 
-namespace ContextMenu {
 
-  export interface VariableItem {
+export interface VariableItem {
 
-    //// TODO: Add level of abstraction for items with variable dependency.
-    /**
-     * Registers item with variable.
-     */
-    register(): void;
+  //// TODO: Add level of abstraction for items with variable dependency.
+  /**
+   * Registers item with variable.
+   */
+  register(): void;
 
-    /**
-     * Unregisters item from variable.
-     */
-    unregister(): void;
+  /**
+   * Unregisters item from variable.
+   */
+  unregister(): void;
 
-    /**
-     * Updates the item on variable change.
-     */
-    update(): void;
-  }
-
+  /**
+   * Updates the item on variable change.
+   */
+  update(): void;
 }
+

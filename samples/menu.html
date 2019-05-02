@@ -3,9 +3,10 @@
 <title>Testing the context menu</title>
 
 </head>
+<script src="./system.js"></script>
 <script src="../scripts/js/context_menu.js"></script>
 <script>
-var dialog = new ContextMenu.Info('a', function(){
+var dialog = new Info('a', function(){
 return '<b>bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb </b><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p>';}, '<a href="http://www.mathjax.org">MathJax.org</a>');
 
 var MENU = {};
@@ -224,9 +225,9 @@ var ll = {"menu":
  }
 }
 ;
-ContextMenu.CssStyles.addInfoStyles();
-ContextMenu.CssStyles.addMenuStyles();
-cc = ContextMenu.ContextMenu.parse(ll);
+CssStyles.addInfoStyles();
+CssStyles.addMenuStyles();
+cc = ContextMenu.parse(ll);
 dialog.attachMenu(cc);
 
 // Unfold zoom menu:
@@ -260,7 +261,7 @@ dialog.attachMenu(cc);
 <hr>
 <address></address>
 <!-- hhmts start -->
-Last modified: Tue Feb 21 21:22:15 PST 2017
+Last modified: Thu May  2 18:17:43 BST 2019
 <!-- hhmts end -->
 </body>
 <script>cc.getStore().insert(document.getElementsByClassName("test"));

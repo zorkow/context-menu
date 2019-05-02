@@ -23,94 +23,92 @@
  */
 
 
-namespace ContextMenu {
 
-  let PREFIX: string = 'CtxtMenu';
+const PREFIX: string = 'CtxtMenu';
 
-  /**
-   * Prefixes a html class name.
-   * @param {string} name The base name.
-   * @return {string} The prefixed name.
-   * @private
-   */
-  function prefix_(name: string): string {
-    return <string>(PREFIX + '_' + name);
-  }
-
-  /**
-   * Prefixes a html id.
-   * @param {string} name The base name.
-   * @return {HtmlClass} The prefixed name.
-   * @private
-   */
-  function prefixClass_(name: string): HtmlClass {
-    return <HtmlClass>prefix_(name);
-  }
-
-  /**
-   * Prefixes a html class name.
-   * @param {string} name The base name.
-   * @return {HtmlAttr} The prefixed name.
-   * @private
-   */
-  function prefixAttr_(name: string): HtmlAttr {
-    return <HtmlAttr>prefix_(name);
-  }
-
-  // This is in lieu of a proper enum type.
-  /**
-   * HTML classes.
-   * @enum {string}
-   */
-  export const HtmlClasses: {[id: string]: HtmlClass} = {
-    ATTACHED: prefixClass_('Attached'),
-    CONTEXTMENU: prefixClass_('ContextMenu'),
-    MENU: prefixClass_('Menu'),
-    MENUARROW: prefixClass_('MenuArrow'),
-    MENUACTIVE: prefixClass_('MenuActive'),
-    MENUCHECK: prefixClass_('MenuCheck'),
-    MENUCLOSE: prefixClass_('MenuClose'),
-    MENUCOMBOBOX: prefixClass_('MenuComboBox'),
-    MENUDISABLED: prefixClass_('MenuDisabled'),
-    MENUFRAME: prefixClass_('MenuFrame'),
-    MENUITEM: prefixClass_('MenuItem'),
-    MENULABEL: prefixClass_('MenuLabel'),
-    MENURADIOCHECK: prefixClass_('MenuRadioCheck'),
-    MENUINPUTBOX: prefixClass_('MenuInputBox'),
-    MENURULE: prefixClass_('MenuRule'),
-    MOUSEPOST: prefixClass_('MousePost'),
-    RTL: prefixClass_('RTL'),
-    INFO: prefixClass_('Info'),
-    INFOCLOSE: prefixClass_('InfoClose'),
-    INFOCONTENT: prefixClass_('InfoContent'),
-    INFOSIGNATURE: prefixClass_('InfoSignature'),
-    INFOTITLE: prefixClass_('InfoTitle')
-  };
-
-  // This is an awkward type construction!
-  export type HtmlClass = 'CtxtMenu_ContextMenu' | 'CtxtMenu_Menu' |
-    'CtxtMenu_MenuArrow' | 'CtxtMenu_MenuActive' | 'CtxtMenu_MenuCheck' |
-    'CtxtMenu_MenuClose' | 'CtxtMenu_MenuDisabled' | 'CtxtMenu_MenuItem' |
-    'CtxtMenu_MenuLabel' | 'CtxtMenu_MenuRadioCheck' | 'CtxtMenu_MenuRule' |
-    'CtxtMenu_MousePost' | 'CtxtMenu_RTL' | 'CtxtMenu_Attached' |
-    'CtxtMenu_Info' | 'CtxtMenu_InfoClose' | 'CtxtMenu_InfoContent' |
-    'CtxtMenu_InfoSignature' | 'CtxtMenu_InfoTitle' | 'CtxtMenu_MenuFrame' |
-    'CtxtMenu_MenuInputBox' ;
-
-  /**
-   * HTML attributes.
-   * @enum {string}
-   */
-  export const HtmlAttrs: {[id: string]: HtmlAttr} = {
-    COUNTER: prefixAttr_('Counter'),
-    KEYDOWNFUNC: prefixAttr_('keydownFunc'),
-    CONTEXTMENUFUNC: prefixAttr_('contextmenuFunc'),
-    OLDTAB: prefixAttr_('Oldtabindex'),
-    TOUCHFUNC: prefixAttr_('TouchFunc'),
-  };
-
-  export type HtmlAttr = 'CtxtMenu_Counter' | 'CtxtMenu_keydownFunc' |
-    'CtxtMenu_contextmenuFunc' | 'CtxtMenu_touchstartFunc' |
-    'CtxtMenu_Oldtabindex';
-
+/**
+ * Prefixes a html class name.
+ * @param {string} name The base name.
+ * @return {string} The prefixed name.
+ * @private
+ */
+function prefix_(name: string): string {
+  return <string>(PREFIX + '_' + name);
 }
+
+/**
+ * Prefixes a html id.
+ * @param {string} name The base name.
+ * @return {HtmlClass} The prefixed name.
+ * @private
+ */
+function prefixClass_(name: string): HtmlClass {
+  return <HtmlClass>prefix_(name);
+}
+
+/**
+ * Prefixes a html class name.
+ * @param {string} name The base name.
+ * @return {HtmlAttr} The prefixed name.
+ * @private
+ */
+function prefixAttr_(name: string): HtmlAttr {
+  return <HtmlAttr>prefix_(name);
+}
+
+// This is in lieu of a proper enum type.
+/**
+ * HTML classes.
+ * @enum {string}
+ */
+export const HtmlClasses: {[id: string]: HtmlClass} = {
+  ATTACHED: prefixClass_('Attached'),
+  CONTEXTMENU: prefixClass_('ContextMenu'),
+  MENU: prefixClass_('Menu'),
+  MENUARROW: prefixClass_('MenuArrow'),
+  MENUACTIVE: prefixClass_('MenuActive'),
+  MENUCHECK: prefixClass_('MenuCheck'),
+  MENUCLOSE: prefixClass_('MenuClose'),
+  MENUCOMBOBOX: prefixClass_('MenuComboBox'),
+  MENUDISABLED: prefixClass_('MenuDisabled'),
+  MENUFRAME: prefixClass_('MenuFrame'),
+  MENUITEM: prefixClass_('MenuItem'),
+  MENULABEL: prefixClass_('MenuLabel'),
+  MENURADIOCHECK: prefixClass_('MenuRadioCheck'),
+  MENUINPUTBOX: prefixClass_('MenuInputBox'),
+  MENURULE: prefixClass_('MenuRule'),
+  MOUSEPOST: prefixClass_('MousePost'),
+  RTL: prefixClass_('RTL'),
+  INFO: prefixClass_('Info'),
+  INFOCLOSE: prefixClass_('InfoClose'),
+  INFOCONTENT: prefixClass_('InfoContent'),
+  INFOSIGNATURE: prefixClass_('InfoSignature'),
+  INFOTITLE: prefixClass_('InfoTitle')
+};
+
+// This is an awkward type construction!
+export type HtmlClass = 'CtxtMenu_ContextMenu' | 'CtxtMenu_Menu' |
+  'CtxtMenu_MenuArrow' | 'CtxtMenu_MenuActive' | 'CtxtMenu_MenuCheck' |
+  'CtxtMenu_MenuClose' | 'CtxtMenu_MenuDisabled' | 'CtxtMenu_MenuItem' |
+  'CtxtMenu_MenuLabel' | 'CtxtMenu_MenuRadioCheck' | 'CtxtMenu_MenuRule' |
+  'CtxtMenu_MousePost' | 'CtxtMenu_RTL' | 'CtxtMenu_Attached' |
+  'CtxtMenu_Info' | 'CtxtMenu_InfoClose' | 'CtxtMenu_InfoContent' |
+  'CtxtMenu_InfoSignature' | 'CtxtMenu_InfoTitle' | 'CtxtMenu_MenuFrame' |
+  'CtxtMenu_MenuInputBox' ;
+
+/**
+ * HTML attributes.
+ * @enum {string}
+ */
+export const HtmlAttrs: {[id: string]: HtmlAttr} = {
+  COUNTER: prefixAttr_('Counter'),
+  KEYDOWNFUNC: prefixAttr_('keydownFunc'),
+  CONTEXTMENUFUNC: prefixAttr_('contextmenuFunc'),
+  OLDTAB: prefixAttr_('Oldtabindex'),
+  TOUCHFUNC: prefixAttr_('TouchFunc'),
+};
+
+export type HtmlAttr = 'CtxtMenu_Counter' | 'CtxtMenu_keydownFunc' |
+  'CtxtMenu_contextmenuFunc' | 'CtxtMenu_touchstartFunc' |
+  'CtxtMenu_Oldtabindex';
+

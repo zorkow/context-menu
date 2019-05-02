@@ -24,11 +24,10 @@
   "homepage": "https://github.com/zorkow/context-menu",
   "dependencies": {},
   "devDependencies": {
-    "tslint": "^5.*",
-    "tslint-jsdoc-rules": "*",
-    "tslint-unix-formatter": "*",
-    "typescript": "^3.*",
-    "gulp": "^4.0.0"
+    "tslint": "^5.12.1",
+    "tslint-jsdoc-rules": "^0.2.0",
+    "tslint-unix-formatter": "^0.2.0",
+    "typescript": "^3.*"
   },
   "files": [
     "LICENSE",

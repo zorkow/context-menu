@@ -22,88 +22,88 @@
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-/// <reference path="entry.ts" />
-/// <reference path="menu_element.ts" />
+import {Entry} from './entry';
+import {MenuElement} from './menu_element';
+import {Menu} from './menu';
+import {HtmlClasses} from './html_classes';
 
 
-namespace ContextMenu {
 
-  export abstract class AbstractEntry extends MenuElement implements Entry {
+export abstract class AbstractEntry extends MenuElement implements Entry {
 
 
-    /**
-     * Class name.
-     * @type {HtmlClass}
-     */
-    protected className = HtmlClasses['MENUITEM'];
+  /**
+   * Class name.
+   * @type {HtmlClass}
+   */
+  protected className = HtmlClasses['MENUITEM'];
 
-    /**
-     * Aria role element.
-     * @type {string}
-     */
-    protected role = 'menuitem';
+  /**
+   * Aria role element.
+   * @type {string}
+   */
+  protected role = 'menuitem';
 
-    private menu: Menu;
-    private type: string = 'entry';
-    private hidden: boolean = false;
+  private menu: Menu;
+  private type: string = 'entry';
+  private hidden: boolean = false;
 
-    /**
-     * @constructor
-     * @implements {Entry}
-     * @extends {MenuElement}
-     * @param {Menu} menu The context menu or sub-menu the entry belongs to.
-     * @param {string} type The type of the entry.
-     */
-    constructor(menu: Menu, type: string) {
-      super();
-      this.menu = menu;
-      this.type = type;
-    }
+  /**
+   * @constructor
+   * @implements {Entry}
+   * @extends {MenuElement}
+   * @param {Menu} menu The context menu or sub-menu the entry belongs to.
+   * @param {string} type The type of the entry.
+   */
+  constructor(menu: Menu, type: string) {
+    super();
+    this.menu = menu;
+    this.type = type;
+  }
 
-    /**
-     * @return {Menu} The context menu or sub-menu the entry belongs to.
-     */
-    public getMenu() {
-      return this.menu;
-    }
+  /**
+   * @return {Menu} The context menu or sub-menu the entry belongs to.
+   */
+  public getMenu() {
+    return this.menu;
+  }
 
-    /**
-     * @param {Menu} menu Sets the menu.
-     */
-    public setMenu(menu: Menu) {
-      this.menu = menu;
-    }
+  /**
+   * @param {Menu} menu Sets the menu.
+   */
+  public setMenu(menu: Menu) {
+    this.menu = menu;
+  }
 
-    /**
-     * @return {string} The type of the menu entry, used for jsonification.
-     */
-    public getType() {
-      return this.type;
-    }
+  /**
+   * @return {string} The type of the menu entry, used for jsonification.
+   */
+  public getType() {
+    return this.type;
+  }
 
-    /**
-     * @override
-     */
-    public hide() {
-      this.hidden = true;
-      this.menu.generateMenu();
-    }
+  /**
+   * @override
+   */
+  public hide() {
+    this.hidden = true;
+    this.menu.generateMenu();
+  }
 
-    /**
-     * @override
-     */
-    public show() {
-      this.hidden = false;
-      this.menu.generateMenu();
-    }
+  /**
+   * @override
+   */
+  public show() {
+    this.hidden = false;
+    this.menu.generateMenu();
+  }
 
-    /**
-     * @override
-     */
-    public isHidden() {
-      return this.hidden;
-    }
-
+  /**
+   * @override
+   */
+  public isHidden() {
+    return this.hidden;
   }
 
 }
+

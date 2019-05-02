@@ -22,88 +22,88 @@
  * @author v.sorge@mathjax.org (Volker Sorge)
  */
 
-/// <reference path="abstract_postable.ts" />
-/// <reference path="css_util.ts" />
-/// <reference path="menu_element.ts" />
+import {AbstractPostable} from './abstract_postable';
+// import {CssUtil} from './css_util';
+import {MenuElement} from './menu_element';
+import {HtmlClasses} from './html_classes';
+import {Postable} from './postable';
 
-namespace ContextMenu {
 
-  export class CloseButton extends AbstractPostable {
+export class CloseButton extends AbstractPostable {
 
-    /**
-     * @override
-     */
-    protected className = HtmlClasses['MENUCLOSE'];
+  /**
+   * @override
+   */
+  protected className = HtmlClasses['MENUCLOSE'];
 
-    /**
-     * @override
-     */
-    protected role = 'button';
+  /**
+   * @override
+   */
+  protected role = 'button';
 
-    private element: Postable;
+  private element: Postable;
 
-    /**
-     * @constructor
-     * @extends {AbstractPostable}
-     * @param {Postable} element The postable element the close button is
-     *     attached to.
-     */
-    constructor(element: Postable) {
-      super();
-      this.element = element;
-    }
+  /**
+   * @constructor
+   * @extends {AbstractPostable}
+   * @param {Postable} element The postable element the close button is
+   *     attached to.
+   */
+  constructor(element: Postable) {
+    super();
+    this.element = element;
+  }
 
-    /**
-     * @override
-     */
-    public generateHtml() {
-      let html = document.createElement('span');
-      html.classList.add(this.className);
-      html.setAttribute('role', this.role);
-      html.setAttribute('tabindex', '0');
-      let content = document.createElement('span');
-      content.textContent = '\u00D7';
-      html.appendChild(content);
-      this.setHtml(html);
-    }
+  /**
+   * @override
+   */
+  public generateHtml() {
+    let html = document.createElement('span');
+    html.classList.add(this.className);
+    html.setAttribute('role', this.role);
+    html.setAttribute('tabindex', '0');
+    let content = document.createElement('span');
+    content.textContent = '\u00D7';
+    html.appendChild(content);
+    this.setHtml(html);
+  }
 
-    /**
-     * @override
-     */
-    protected display() { }
+  /**
+   * @override
+   */
+  protected display() { }
 
-    /**
-     * @override
-     */
-    public unpost() {
-      super.unpost();
-      this.element.unpost();
-    }
+  /**
+   * @override
+   */
+  public unpost() {
+    super.unpost();
+    this.element.unpost();
+  }
 
-    /**
-     * @override
-     */
-    public keydown(event: KeyboardEvent) {
-      this.bubbleKey();
-      super.keydown(event);
-    }
+  /**
+   * @override
+   */
+  public keydown(event: KeyboardEvent) {
+    this.bubbleKey();
+    super.keydown(event);
+  }
 
-    /**
-     * @override
-     */
-    public space(event: KeyboardEvent) {
-      this.unpost();
-      this.stop(event);
-    }
+  /**
+   * @override
+   */
+  public space(event: KeyboardEvent) {
+    this.unpost();
+    this.stop(event);
+  }
 
-    /**
-     * @override
-     */
-    public mousedown(event: MouseEvent) {
-      this.unpost();
-      this.stop(event);
-    }
-
+  /**
+   * @override
+   */
+  public mousedown(event: MouseEvent) {
+    this.unpost();
+    this.stop(event);
   }
 
 }
+

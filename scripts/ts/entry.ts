@@ -22,43 +22,41 @@
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-/// <reference path="menu.ts" />
+import {Menu} from './menu';
 
-namespace ContextMenu {
 
-  export interface Entry {
+export interface Entry {
 
-    /**
-     * @return {Menu} The menu the entry belongs to.
-     */
-    getMenu(): Menu;
+  /**
+   * @return {Menu} The menu the entry belongs to.
+   */
+  getMenu(): Menu;
 
-    /**
-     * Sets the parent menu for this entry.
-     * @param {Menu} menu The menu the entry is attached to.
-     */
-    setMenu(menu: Menu): void;
+  /**
+   * Sets the parent menu for this entry.
+   * @param {Menu} menu The menu the entry is attached to.
+   */
+  setMenu(menu: Menu): void;
 
-    /**
-     * @return {string} The type of the entry.
-     */
-    getType(): string;
+  /**
+   * @return {string} The type of the entry.
+   */
+  getType(): string;
 
-    /**
-     * Hide entry in the menu.
-     */
-    hide(): void;
+  /**
+   * Hide entry in the menu.
+   */
+  hide(): void;
 
-    /**
-     * Show entry in the menu.
-     */
-    show(): void;
+  /**
+   * Show entry in the menu.
+   */
+  show(): void;
 
-    /**
-     * @return {boolean} Indicates if item is hidden from display.
-     */
-    isHidden(): boolean;
-
-  }
+  /**
+   * @return {boolean} Indicates if item is hidden from display.
+   */
+  isHidden(): boolean;
 
 }
+

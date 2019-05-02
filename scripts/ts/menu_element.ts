@@ -22,86 +22,85 @@
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-/// <reference path="abstract_navigatable.ts" />
-/// <reference path="html_classes.ts" />
+import {AbstractNavigatable} from './abstract_navigatable';
+import {HtmlClass} from './html_classes';
+import {Element} from './element';
 
 
-namespace ContextMenu {
 
-  export abstract class MenuElement extends AbstractNavigatable implements
-  Element {
+export abstract class MenuElement extends AbstractNavigatable implements
+Element {
 
-    /**
-     * @override
-     */
-    protected role: string;
+  /**
+   * @override
+   */
+  protected role: string;
 
-    /**
-     * @override
-     */
-    protected className: HtmlClass;
+  /**
+   * @override
+   */
+  protected className: HtmlClass;
 
-    private html: HTMLElement;
+  private html: HTMLElement;
 
-    /**
-     * Adds a attributes and values to the HTML element.
-     * @param {Object.<string, string>} attributes A dictionary of attributes.
-     */
-    public addAttributes(attributes: {[attr: string]: string}): void {
-      for (let attr in attributes) {
-        this.html.setAttribute(attr, attributes[attr]);
-      }
+  /**
+   * Adds a attributes and values to the HTML element.
+   * @param {Object.<string, string>} attributes A dictionary of attributes.
+   */
+  public addAttributes(attributes: {[attr: string]: string}): void {
+    for (let attr in attributes) {
+      this.html.setAttribute(attr, attributes[attr]);
     }
+  }
 
-    /**
-     * @override
-     */
-    public getHtml() {
-      if (!this.html) {
-        this.generateHtml();
-      }
-      return this.html;
+  /**
+   * @override
+   */
+  public getHtml() {
+    if (!this.html) {
+      this.generateHtml();
     }
+    return this.html;
+  }
 
-    /**
-     * @override
-     */
-    public setHtml(html: HTMLElement) {
-      this.html = html;
-      this.addEvents(html);
+  /**
+   * @override
+   */
+  public setHtml(html: HTMLElement) {
+    this.html = html;
+    this.addEvents(html);
+  }
+
+  /**
+   * @override
+   */
+  public generateHtml() {
+    //// TODO: Make this DOM independent!
+    let html = document.createElement('div');
+    html.classList.add(this.className);
+    html.setAttribute('role', this.role);
+    this.setHtml(html);
+  }
+
+  /**
+   * @override
+   */
+  public focus() {
+    let html = this.getHtml();
+    html.setAttribute('tabindex', '0');
+    html.focus();
+  }
+
+  /**
+   * @override
+   */
+  public unfocus() {
+    let html = this.getHtml();
+    if (html.hasAttribute('tabindex')) {
+      html.setAttribute('tabindex', '-1');
     }
-
-    /**
-     * @override
-     */
-    public generateHtml() {
-      //// TODO: Make this DOM independent!
-      let html = document.createElement('div');
-      html.classList.add(this.className);
-      html.setAttribute('role', this.role);
-      this.setHtml(html);
-    }
-
-    /**
-     * @override
-     */
-    public focus() {
-      let html = this.getHtml();
-      html.setAttribute('tabindex', '0');
-      html.focus();
-    }
-
-    /**
-     * @override
-     */
-    public unfocus() {
-      let html = this.getHtml();
-      if (html.hasAttribute('tabindex')) {
-        html.setAttribute('tabindex', '-1');
-      }
-      html.blur();
-    }
-
+    html.blur();
   }
 
 }
+

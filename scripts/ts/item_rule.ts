@@ -22,56 +22,56 @@
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-/// <reference path="abstract_entry.ts" />
+import {AbstractEntry} from './abstract_entry';
+import {Menu} from './menu';
+import {HtmlClasses} from './html_classes';
 
-namespace ContextMenu {
 
-  export class Rule extends AbstractEntry {
+export class Rule extends AbstractEntry {
 
-    /**
-     * @override
-     */
-    protected className = HtmlClasses['MENUITEM'];
+  /**
+   * @override
+   */
+  protected className = HtmlClasses['MENUITEM'];
 
-    /**
-     * @override
-     */
-    protected role = 'separator';
+  /**
+   * @override
+   */
+  protected role = 'separator';
 
-    /**
-     * Parses a JSON respresentation of a rule item.
-     * @param {JSON} json The empty JSON object.
-     * @param {Menu} menu The menu the item is attached to.
-     * @return {Rule} The new rule object.
-     */
-    public static parse({}: {}, menu: Menu): Rule {
-      return new Rule(menu);
-    }
-
-    /**
-     * @constructor
-     * @extends {AbstractItem}
-     * @param {Menu} menu The context menu or sub-menu the item belongs to.
-     */
-    constructor(menu: Menu) {
-      super(menu, 'rule');
-    }
-
-    /**
-     * @override
-     */
-    public generateHtml() {
-      super.generateHtml();
-      let html = this.getHtml();
-      html.classList.add(HtmlClasses['MENURULE']);
-      html.setAttribute('aria-orientation', 'vertical');
-    }
-
-    /**
-     * @override
-     */
-    public addEvents(element: HTMLElement) { }
-
+  /**
+   * Parses a JSON respresentation of a rule item.
+   * @param {JSON} json The empty JSON object.
+   * @param {Menu} menu The menu the item is attached to.
+   * @return {Rule} The new rule object.
+   */
+  public static parse({}: {}, menu: Menu): Rule {
+    return new Rule(menu);
   }
 
+  /**
+   * @constructor
+   * @extends {AbstractItem}
+   * @param {Menu} menu The context menu or sub-menu the item belongs to.
+   */
+  constructor(menu: Menu) {
+    super(menu, 'rule');
+  }
+
+  /**
+   * @override
+   */
+  public generateHtml() {
+    super.generateHtml();
+    let html = this.getHtml();
+    html.classList.add(HtmlClasses['MENURULE']);
+    html.setAttribute('aria-orientation', 'vertical');
+  }
+
+  /**
+   * @override
+   */
+  public addEvents(element: HTMLElement) { }
+
 }
+

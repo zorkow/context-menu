@@ -22,231 +22,239 @@
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-/// <reference path="abstract_postable.ts" />
-/// <reference path="menu.ts" />
-/// <reference path="menu_element.ts" />
-/// <reference path="item.ts" />
-/// <reference path="variable_pool.ts" />
+import {AbstractPostable} from './abstract_postable';
+import {AbstractItem} from './abstract_item';
+import {Menu} from './menu';
+import {SubMenu} from './sub_menu';
+import {MenuElement} from './menu_element';
+import {Item} from './item';
+import {VariablePool} from './variable_pool';
+import {HtmlClasses} from './html_classes';
+
+import {Checkbox} from './item_checkbox';
+import {Combo} from './item_combo';
+import {Command} from './item_command';
+import {Label} from './item_label';
+import {Radio} from './item_radio';
+import {Rule} from './item_rule';
+import {Submenu} from './item_submenu';
 
 
-namespace ContextMenu {
+export abstract class AbstractMenu extends AbstractPostable implements Menu {
 
-  export abstract class AbstractMenu extends AbstractPostable implements Menu {
+  /**
+   * @override
+   */
+  protected className = HtmlClasses['CONTEXTMENU'];
 
-    /**
-     * @override
-     */
-    protected className = HtmlClasses['CONTEXTMENU'];
+  /**
+   * The variable pool of the context menu.
+   * @type {VarialbePool<string | boolean>}
+   */
+  protected variablePool: VariablePool<string | boolean>;
 
-    /**
-     * The variable pool of the context menu.
-     * @type {VarialbePool<string | boolean>}
-     */
-    protected variablePool: VariablePool<string | boolean>;
+  /**
+   * @override
+   */
+  protected role = 'menu';
 
-    /**
-     * @override
-     */
-    protected role = 'menu';
+  private items: Item[] = [];
+  private focused: Item;
 
-    private items: Item[] = [];
-    private focused: Item;
+  /**
+   * @override
+   */
+  public getItems(): Item[] {
+    return this.items;
+  }
 
-    /**
-     * @override
-     */
-    public getItems(): Item[] {
-      return this.items;
+  /**
+   * @override
+   */
+  public getPool(): VariablePool<string | boolean> {
+    return this.variablePool;
+  }
+
+  /**
+   * @override
+   */
+  public getFocused(): Item {
+    return this.focused;
+  }
+
+  /**
+   * @override
+   */
+  public setFocused(item: Item) {
+    if (this.focused === item) {
+      return;
     }
-
-    /**
-     * @override
-     */
-    public getPool(): VariablePool<string | boolean> {
-      return this.variablePool;
+    if (!this.focused) {
+      this.unfocus();
     }
-
-    /**
-     * @override
-     */
-    public getFocused(): Item {
-      return this.focused;
+    // Order here is important for test in submenu.unfocus.
+    let old = this.focused;
+    this.focused = item;
+    if (old) {
+      old.unfocus();
     }
+  }
 
-    /**
-     * @override
-     */
-    public setFocused(item: Item) {
-      if (this.focused === item) {
-        return;
+  /**
+   * @override
+   */
+  public up(event: KeyboardEvent): void {
+    let items = this.getItems().filter(
+      x => (x instanceof AbstractItem) && (!x.isHidden()));
+    if (items.length === 0) {
+      return;
+    }
+    if (!this.focused) {
+      items[items.length - 1].focus();
+      return;
+    }
+    let index = items.indexOf(this.focused);
+    if (index === -1) {
+      return;
+    }
+    index = index ? --index : items.length - 1;
+    items[index].focus();
+  }
+
+  /**
+   * @override
+   */
+  public down(event: KeyboardEvent): void {
+    let items = this.getItems().filter(
+      x => (x instanceof AbstractItem) && (!x.isHidden()));
+    if (items.length === 0) {
+      return;
+    }
+    if (!this.focused) {
+      items[0].focus();
+      return;
+    }
+    let index = items.indexOf(this.focused);
+    if (index === -1) {
+      return;
+    }
+    index++;
+    index = (index === items.length) ? 0 : index;
+    items[index].focus();
+  }
+
+  /**
+   * @override
+   */
+  public generateHtml() {
+    super.generateHtml();
+    this.generateMenu();
+  }
+
+  /**
+   * @override
+   */
+  public generateMenu() {
+    let html = this.getHtml();
+    html.classList.add(HtmlClasses['MENU']);
+    for (let item of this.items) {
+      if (!item.isHidden()) {
+        html.appendChild(item.getHtml());
+        continue;
       }
-      if (!this.focused) {
-        this.unfocus();
-      }
-      // Order here is important for test in submenu.unfocus.
-      let old = this.focused;
-      this.focused = item;
-      if (old) {
-        old.unfocus();
+      let itemHtml = item.getHtml();
+      if (itemHtml.parentNode) {
+        itemHtml.parentNode.removeChild(itemHtml);
       }
     }
+  }
 
-    /**
-     * @override
-     */
-    public up(event: KeyboardEvent): void {
-      let items = this.getItems().filter(
-        x => (x instanceof AbstractItem) && (!x.isHidden()));
-      if (items.length === 0) {
-        return;
+  /**
+   * @override
+   */
+  public post(x?: number, y?: number) {
+    this.variablePool.update();
+    super.post(x, y);
+  }
+
+  /**
+   * @override
+   */
+  public unpostSubmenus(): void {
+    let submenus =
+      <Submenu[]>this.items.filter(x => x instanceof Submenu);
+    for (let submenu of submenus) {
+      submenu.getSubmenu().unpost();
+      if (<Item>submenu !== this.getFocused()) {
+        submenu.unfocus();
       }
-      if (!this.focused) {
-        items[items.length - 1].focus();
-        return;
-      }
-      let index = items.indexOf(this.focused);
-      if (index === -1) {
-        return;
-      }
-      index = index ? --index : items.length - 1;
-      items[index].focus();
     }
+  }
 
-    /**
-     * @override
-     */
-    public down(event: KeyboardEvent): void {
-      let items = this.getItems().filter(
-        x => (x instanceof AbstractItem) && (!x.isHidden()));
-      if (items.length === 0) {
-        return;
-      }
-      if (!this.focused) {
-        items[0].focus();
-        return;
-      }
-      let index = items.indexOf(this.focused);
-      if (index === -1) {
-        return;
-      }
-      index++;
-      index = (index === items.length) ? 0 : index;
-      items[index].focus();
-    }
+  /**
+   * @override
+   */
+  public unpost(): void {
+    super.unpost();
+    this.unpostSubmenus();
+    this.setFocused(null);
+  }
 
-    /**
-     * @override
-     */
-    public generateHtml() {
-      super.generateHtml();
-      this.generateMenu();
-    }
-
-    /**
-     * @override
-     */
-    public generateMenu() {
-      let html = this.getHtml();
-      html.classList.add(HtmlClasses['MENU']);
-      for (let item of this.items) {
-        if (!item.isHidden()) {
-          html.appendChild(item.getHtml());
-          continue;
+  /**
+   * @override
+   */
+  public find(id: string): Item {
+    for (let item of this.getItems()) {
+      if (item.getType() === 'rule') {
+        continue;
+      }
+      if (item.getId() === id) {
+        return item;
+      }
+      if (item.getType() === 'submenu') {
+        let result = (<Submenu>item).getSubmenu().find(id);
+        if (result) {
+          return result;
         }
-        let itemHtml = item.getHtml();
-        if (itemHtml.parentNode) {
-          itemHtml.parentNode.removeChild(itemHtml);
-        }
       }
     }
+    return null;
+  }
 
-    /**
-     * @override
-     */
-    public post(x?: number, y?: number) {
-      this.variablePool.update();
-      super.post(x, y);
-    }
+  /**
+   * Parses items in JSON formats and attaches them to the menu.
+   * @param {Array.<JSON>} items List of JSON menu items.
+   */
+  protected parseItems(items: any[]) {
+    let hidden = items.map(x => [this.parseItem.bind(this)(x), x.hidden]);
+    hidden.forEach(x => x[1] && x[0].hide());
+  }
 
-    /**
-     * @override
-     */
-    public unpostSubmenus(): void {
-      let submenus =
-        <Submenu[]>this.items.filter(x => x instanceof Submenu);
-      for (let submenu of submenus) {
-        submenu.getSubmenu().unpost();
-        if (<Item>submenu !== this.getFocused()) {
-          submenu.unfocus();
-        }
+  /**
+   * Parses items in JSON formats and attaches them to the menu.
+   * @param {Array.<JSON>} items List of JSON menu items.
+   * @return {}
+   */
+  private parseItem(item: any): Item {
+    const parseMapping_: { [id: string]: Function; } = {
+      'checkbox': Checkbox.parse,
+      'combo': Combo.parse,
+      'command': Command.parse,
+      'label': Label.parse,
+      'radio': Radio.parse,
+      'rule': Rule.parse,
+      'submenu': Submenu.parse
+    };
+    let func = parseMapping_[item['type']];
+    if (func) {
+      let menuItem = func(item, this);
+      this.getItems().push(menuItem);
+      if (item['disabled']) {
+        menuItem.disable();
       }
+      return menuItem;
     }
-
-    /**
-     * @override
-     */
-    public unpost(): void {
-      super.unpost();
-      this.unpostSubmenus();
-      this.setFocused(null);
-    }
-
-    /**
-     * @override
-     */
-    public find(id: string): Item {
-      for (let item of this.getItems()) {
-        if (item.getType() === 'rule') {
-          continue;
-        }
-        if (item.getId() === id) {
-          return item;
-        }
-        if (item.getType() === 'submenu') {
-          let result = (<Submenu>item).getSubmenu().find(id);
-          if (result) {
-            return result;
-          }
-        }
-      }
-      return null;
-    }
-
-    /**
-     * Parses items in JSON formats and attaches them to the menu.
-     * @param {Array.<JSON>} items List of JSON menu items.
-     */
-    protected parseItems(items: any[]) {
-      let hidden = items.map(x => [this.parseItem.bind(this)(x), x.hidden]);
-      hidden.forEach(x => x[1] && x[0].hide());
-    }
-
-    /**
-     * Parses items in JSON formats and attaches them to the menu.
-     * @param {Array.<JSON>} items List of JSON menu items.
-     * @return {}
-     */
-    private parseItem(item: any): Item {
-      const parseMapping_: { [id: string]: Function; } = {
-        'checkbox': Checkbox.parse,
-        'combo': Combo.parse,
-        'command': Command.parse,
-        'label': Label.parse,
-        'radio': Radio.parse,
-        'rule': Rule.parse,
-        'submenu': Submenu.parse
-      };
-      let func = parseMapping_[item['type']];
-      if (func) {
-        let menuItem = func(item, this);
-        this.getItems().push(menuItem);
-        if (item['disabled']) {
-          menuItem.disable();
-        }
-        return menuItem;
-      }
-    }
-
   }
 
 }
+

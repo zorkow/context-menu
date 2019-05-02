@@ -22,60 +22,59 @@
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-/// <reference path="menu.ts" />
-/// <reference path="menu_element.ts" />
-/// <reference path="item.ts" />
-/// <reference path="variable_pool.ts" />
+import {Menu} from './menu';
+import {MenuElement} from './menu_element';
+import {Item} from './item';
+import {VariablePool} from './variable_pool';
+import {Postable} from './postable';
 
 
-namespace ContextMenu {
 
-  export abstract class AbstractPostable extends MenuElement
-  implements Postable {
+export abstract class AbstractPostable extends MenuElement
+implements Postable {
 
-    private posted = false;
+  private posted = false;
 
-    /**
-     * @override
-     */
-    public isPosted() {
-      return this.posted;
-    }
-
-    /**
-     * @override
-     */
-    public post(x?: number, y?: number) {
-      if (this.posted) {
-        return;
-      }
-      if (typeof(x) !== 'undefined' && typeof(y) !== 'undefined') {
-        this.getHtml().setAttribute(
-          'style', 'left: ' + x + 'px; top: ' + y + 'px;');
-      }
-      this.display();
-      this.posted = true;
-    }
-
-    /**
-     * @override
-     */
-    public unpost(): void {
-      if (!this.posted) {
-        return;
-      }
-      let html = this.getHtml();
-      if (html.parentNode) {
-        html.parentNode.removeChild(html);
-      }
-      this.posted = false;
-    }
-
-    /**
-     * Displays the element on screen.
-     */
-    protected abstract display(): void;
-
+  /**
+   * @override
+   */
+  public isPosted() {
+    return this.posted;
   }
 
+  /**
+   * @override
+   */
+  public post(x?: number, y?: number) {
+    if (this.posted) {
+      return;
+    }
+    if (typeof(x) !== 'undefined' && typeof(y) !== 'undefined') {
+      this.getHtml().setAttribute(
+        'style', 'left: ' + x + 'px; top: ' + y + 'px;');
+    }
+    this.display();
+    this.posted = true;
+  }
+
+  /**
+   * @override
+   */
+  public unpost(): void {
+    if (!this.posted) {
+      return;
+    }
+    let html = this.getHtml();
+    if (html.parentNode) {
+      html.parentNode.removeChild(html);
+    }
+    this.posted = false;
+  }
+
+  /**
+   * Displays the element on screen.
+   */
+  protected abstract display(): void;
+
 }
+

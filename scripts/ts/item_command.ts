@@ -22,53 +22,52 @@
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-/// <reference path="abstract_item.ts" />
-/// <reference path="menu_util.ts" />
+import {AbstractItem} from './abstract_item';
+import {MenuUtil} from './menu_util';
+import {Menu} from './menu';
 
-namespace ContextMenu {
 
-  export class Command extends AbstractItem {
+export class Command extends AbstractItem {
 
-    private command: Function = null;
+  private command: Function = null;
 
-    /**
-     * Parses a JSON respresentation of a command item.
-     * @param {JSON} json The JSON object to parse.
-     * @param {Menu} menu The menu the item is attached to.
-     * @return {Command} The new command object.
-     */
-    public static parse(
-      {content: content, action: action, id: id}:
-      {content: string, action: Function, id: string}, menu: Menu): Command {
-        return new Command(menu, content, action, id);
-      }
+  /**
+   * Parses a JSON respresentation of a command item.
+   * @param {JSON} json The JSON object to parse.
+   * @param {Menu} menu The menu the item is attached to.
+   * @return {Command} The new command object.
+   */
+  public static parse(
+    {content: content, action: action, id: id}:
+    {content: string, action: Function, id: string}, menu: Menu): Command {
+    return new Command(menu, content, action, id);
+  }
 
-    /**
-     * @constructor
-     * @extends {AbstractItem}
-     * @param {Menu} menu The context menu or sub-menu the item belongs to.
-     * @param {string} content The content of the menu item.
-     * @param {Function} command The command to be executed on
-     *     triggering the menu item.
-     * @param {string=} id Optionally the id of the menu item.
-     */
-    constructor(menu: Menu, content: string, command: Function, id?: string) {
-      super(menu, 'command', content, id);
-      this.command = command;
+  /**
+   * @constructor
+   * @extends {AbstractItem}
+   * @param {Menu} menu The context menu or sub-menu the item belongs to.
+   * @param {string} content The content of the menu item.
+   * @param {Function} command The command to be executed on
+   *     triggering the menu item.
+   * @param {string=} id Optionally the id of the menu item.
+   */
+  constructor(menu: Menu, content: string, command: Function, id?: string) {
+    super(menu, 'command', content, id);
+    this.command = command;
+  }
+
+  /**
+   * @override
+   */
+  public executeAction() {
+    try {
+      this.command(MenuUtil.getActiveElement(this));
+    } catch (e) {
+      MenuUtil.error(e, 'Illegal command callback.');
     }
-
-    /**
-     * @override
-     */
-    public executeAction() {
-      try {
-        this.command(MenuUtil.getActiveElement(this));
-      } catch (e) {
-        MenuUtil.error(e, 'Illegal command callback.');
-      }
-      MenuUtil.close(this);
-    }
-
+    MenuUtil.close(this);
   }
 
 }
+

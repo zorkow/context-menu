@@ -22,14 +22,12 @@
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-/// <reference path="item.ts" />
-/// <reference path="postable.ts" />
-/// <reference path="variable_pool.ts" />
+import {Item} from './item';
+import {Postable} from './postable';
+import {VariablePool} from './variable_pool';
 
-namespace ContextMenu {
-
-  export interface Menu extends Postable {
-
+export interface Menu extends Postable {
+  
     /**
      * Returns the items in that menu.
      * @return {Array.<Item>} The array of items.
@@ -73,4 +71,3 @@ namespace ContextMenu {
 
   }
 
-}

@@ -22,61 +22,59 @@
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-/// <reference path="context_menu.ts" />
-/// <reference path="item.ts" />
-/// <reference path="menu.ts" />
-/// <reference path="sub_menu.ts" />
+import {ContextMenu} from './context_menu';
+import {Item} from './item';
+import {Menu} from './menu';
+import {SubMenu} from './sub_menu';
 
 
-namespace ContextMenu {
+
+/**
+ * @namespace
+ */
+export namespace MenuUtil {
 
   /**
-   * @namespace
+   * Closes the entire context menu.
+   * @param {Item} item The item on which the menu close is called.
    */
-  export namespace MenuUtil {
-
-    /**
-     * Closes the entire context menu.
-     * @param {Item} item The item on which the menu close is called.
-     */
-    export function close(item: Item): void {
-      let menu = item.getMenu();
-      if (menu instanceof SubMenu) {
-        menu.baseMenu.unpost();
-      } else {
-        menu.unpost();
-      }
+  export function close(item: Item): void {
+    let menu = item.getMenu();
+    if (menu instanceof SubMenu) {
+      menu.baseMenu.unpost();
+    } else {
+      menu.unpost();
     }
-
-    /**
-     * Retrieves the currently active element of the overall context menu.
-     * @param {Item} item The item on which the last call was made.
-     * @return {HtmlElement} The currently active element.
-     */
-    export function getActiveElement(item: Item): HTMLElement {
-      let menu = item.getMenu();
-      let baseMenu = menu instanceof SubMenu ?
-        menu.baseMenu : <ContextMenu>menu;
-      return baseMenu.getStore().getActive();
-    }
-
-    /**
-     * Error function for controlled exceptions.
-     * @param {Error} error The thrown error, containing the stack trace.
-     * @param {string} msg The message to be signalled.
-     */
-    export function error(error: Error, msg: string): void {
-      console.log('ContextMenu Error: ' + msg);
-    }
-
-    /**
-     * @return {number} A global, increasing unique counter.
-     */
-    export function counter(): number {
-      return count++;
-    }
-    let count = 0;
-
   }
 
+  /**
+   * Retrieves the currently active element of the overall context menu.
+   * @param {Item} item The item on which the last call was made.
+   * @return {HtmlElement} The currently active element.
+   */
+  export function getActiveElement(item: Item): HTMLElement {
+    let menu = item.getMenu();
+    let baseMenu = menu instanceof SubMenu ?
+      menu.baseMenu : <ContextMenu>menu;
+    return baseMenu.getStore().getActive();
+  }
+
+  /**
+   * Error function for controlled exceptions.
+   * @param {Error} error The thrown error, containing the stack trace.
+   * @param {string} msg The message to be signalled.
+   */
+  export function error(error: Error, msg: string): void {
+    console.log('ContextMenu Error: ' + msg);
+  }
+
+  /**
+   * @return {number} A global, increasing unique counter.
+   */
+  export function counter(): number {
+    return count++;
+  }
+  let count = 0;
+
 }
+

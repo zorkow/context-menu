@@ -24,107 +24,108 @@
  */
 
 
-/// <reference path="variable_item.ts" />
-
-namespace ContextMenu {
-
-  export class Variable<T> {
-
-    private items: VariableItem[] = [];
+import {VariableItem} from './variable_item';
+import {MenuUtil} from './menu_util';
+import {Checkbox} from './item_checkbox';
+import {Radio} from './item_radio';
 
 
-    /**
-     * @constructor
-     * @template T
-     * @param {string} name The variable name.
-     * @param {function(T)} getter It's initial value.
-     * @param {function(T)} callback Function to call when value is changed.
-     */
-    constructor(private name: string,
-                private getter: (node?: HTMLElement) => T,
-                private setter: (x: T, node?: HTMLElement) => void) { }
+export class Variable<T> {
 
-    /**
-     * @return {string} The name of the variable.
-     */
-    public getName() {
-      return this.name;
+  private items: VariableItem[] = [];
+
+
+  /**
+   * @constructor
+   * @template T
+   * @param {string} name The variable name.
+   * @param {function(T)} getter It's initial value.
+   * @param {function(T)} callback Function to call when value is changed.
+   */
+  constructor(private name: string,
+              private getter: (node?: HTMLElement) => T,
+              private setter: (x: T, node?: HTMLElement) => void) { }
+
+  /**
+   * @return {string} The name of the variable.
+   */
+  public getName() {
+    return this.name;
+  }
+
+  /**
+   * Execute getter callback to retrieve the current value of the variable.
+   * @return {T} The value of the variable.
+   */
+  public getValue(node?: HTMLElement) {
+    try {
+      return this.getter(node);
+    } catch (e) {
+      MenuUtil.error(e, 'Command of variable ' + this.name + ' failed.');
     }
+  }
 
-    /**
-     * Execute getter callback to retrieve the current value of the variable.
-     * @return {T} The value of the variable.
-     */
-    public getValue(node?: HTMLElement) {
-      try {
-        return this.getter(node);
-      } catch (e) {
-        MenuUtil.error(e, 'Command of variable ' + this.name + ' failed.');
-      }
+  //// TODO: Add accessors for callback.
+  // Possibly put in some messaging service for menu item selected.
+  /**
+   * Sets new variable value. If different from old one it will execute the
+   * callback.
+   * @param {T} value New value of the variable.
+   */
+  public setValue(value: T, node?: HTMLElement) {
+    try {
+      this.setter(value, node);
+    } catch (e) {
+      MenuUtil.error(e, 'Command of variable ' + this.name + ' failed.');
     }
+    this.update();
+  }
 
-    //// TODO: Add accessors for callback.
-    // Possibly put in some messaging service for menu item selected.
-    /**
-     * Sets new variable value. If different from old one it will execute the
-     * callback.
-     * @param {T} value New value of the variable.
-     */
-    public setValue(value: T, node?: HTMLElement) {
-      try {
-        this.setter(value, node);
-      } catch (e) {
-        MenuUtil.error(e, 'Command of variable ' + this.name + ' failed.');
-      }
-      this.update();
+  /**
+   * Registers a new item that has this variable.
+   * @param {VariableItem} item The new variable item.
+   */
+  public register(item: VariableItem): void {
+    if (this.items.indexOf(item) === -1) {
+      this.items.push(item);
     }
+  }
 
-    /**
-     * Registers a new item that has this variable.
-     * @param {VariableItem} item The new variable item.
-     */
-    public register(item: VariableItem): void {
-      if (this.items.indexOf(item) === -1) {
-        this.items.push(item);
-      }
+  /**
+   * Unregisters an item for this variable.
+   * @param {VariableItem} item The old variable item.
+   */
+  public unregister(item: VariableItem): void {
+    let index = this.items.indexOf(item);
+    if (index !== -1) {
+      this.items.splice(index, 1);
     }
+  }
 
-    /**
-     * Unregisters an item for this variable.
-     * @param {VariableItem} item The old variable item.
-     */
-    public unregister(item: VariableItem): void {
-      let index = this.items.indexOf(item);
-      if (index !== -1) {
-        this.items.splice(index, 1);
-      }
-    }
+  /**
+   * Updates the items belonging to the variable.
+   */
+  public update(): void {
+    this.items.forEach(x => x.update());
+  }
 
-    /**
-     * Updates the items belonging to the variable.
-     */
-    public update(): void {
-      this.items.forEach(x => x.update());
-    }
+  /**
+   * Registers a callback function with all items associated to this variable.
+   * @param {Function} func Callback that does not take any arguments.
+   * @final
+   */
+  public registerCallback(func: Function) {
+    this.items.forEach(x => (<Radio | Checkbox>x).registerCallback(func));
+  }
 
-    /**
-     * Registers a callback function with all items associated to this variable.
-     * @param {Function} func Callback that does not take any arguments.
-     * @final
-     */
-    public registerCallback(func: Function) {
-      this.items.forEach(x => (<Radio | Checkbox>x).registerCallback(func));
-    }
-
-    /**
-     * Removes a callback function from all items associated to this variable.
-     * @param {Function} func Callback that does not take any arguments.
-     * @final
-     */
-    public unregisterCallback(func: Function) {
-      this.items.forEach(x => (<Radio | Checkbox>x).unregisterCallback(func));
-    }
-
+  /**
+   * Removes a callback function from all items associated to this variable.
+   * @param {Function} func Callback that does not take any arguments.
+   * @final
+   */
+  public unregisterCallback(func: Function) {
+    this.items.forEach(x => (<Radio | Checkbox>x).unregisterCallback(func));
   }
 
 }
+

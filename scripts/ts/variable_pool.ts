@@ -22,49 +22,47 @@
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-/// <reference path="variable.ts" />
+import {Variable} from './variable';
 
-namespace ContextMenu {
 
-  export class VariablePool<T> {
+export class VariablePool<T> {
 
-    private pool: {[name: string]: Variable<T>} = {};
+  private pool: {[name: string]: Variable<T>} = {};
 
-    /**
-     * Inserts a new variable into the pool.
-     * @param {Variable<T>} variable The new variable.
-     */
-    public insert(variable: Variable<T>) {
-      this.pool[variable.getName()] = variable;
+  /**
+   * Inserts a new variable into the pool.
+   * @param {Variable<T>} variable The new variable.
+   */
+  public insert(variable: Variable<T>) {
+    this.pool[variable.getName()] = variable;
+  }
+
+  /**
+   * Lookup a variable in the pool. Returns undefined if the variable does not
+   * exist.
+   * @param {string} name The name of the variable.
+   * @return {?Variable<T>} The variable if it is in the pool.
+   */
+  public lookup(name: string) {
+    return this.pool[name];
+  }
+
+  /**
+   * Removes the variable from the pool.
+   * @param {name} name The name of the variable.
+   */
+  public remove(name: string) {
+    delete this.pool[name];
+  }
+
+  /**
+   * Executes update method for all variables in the pool.
+   */
+  public update() {
+    for (let variable in this.pool) {
+      this.pool[variable].update();
     }
-
-    /**
-     * Lookup a variable in the pool. Returns undefined if the variable does not
-     * exist.
-     * @param {string} name The name of the variable.
-     * @return {?Variable<T>} The variable if it is in the pool.
-     */
-    public lookup(name: string) {
-      return this.pool[name];
-    }
-
-    /**
-     * Removes the variable from the pool.
-     * @param {name} name The name of the variable.
-     */
-    public remove(name: string) {
-      delete this.pool[name];
-    }
-
-    /**
-     * Executes update method for all variables in the pool.
-     */
-    public update() {
-      for (let variable in this.pool) {
-        this.pool[variable].update();
-      }
-    }
-
   }
 
 }
+

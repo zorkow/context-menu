@@ -22,45 +22,44 @@
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-/// <reference path="abstract_item.ts" />
-/// <reference path="menu.ts" />
+import {AbstractItem} from './abstract_item';
+import {Menu} from './menu';
+import {HtmlClasses} from './html_classes';
 
-namespace ContextMenu {
 
-  export class Label extends AbstractItem {
+export class Label extends AbstractItem {
 
-    /**
-     * Parses a JSON respresentation of a label item.
-     * @param {JSON} json The JSON object to parse.
-     * @param {Menu} menu The menu the item is attached to.
-     * @return {Label} The new label object.
-     */
-    public static parse(
-      {content: content, id: id}: {content: string, id: string},
-      menu: Menu): Label {
-        return new Label(menu, content, id);
-      }
+  /**
+   * Parses a JSON respresentation of a label item.
+   * @param {JSON} json The JSON object to parse.
+   * @param {Menu} menu The menu the item is attached to.
+   * @return {Label} The new label object.
+   */
+  public static parse(
+    {content: content, id: id}: {content: string, id: string},
+    menu: Menu): Label {
+    return new Label(menu, content, id);
+  }
 
-    /**
-     * @constructor
-     * @extends {AbstractItem}
-     * @param {Menu} menu The context menu or sub-menu the item belongs to.
-     * @param {string} content The content of the menu item.
-     * @param {string=} id Optionally the id of the menu item.
-     */
-    constructor(menu: Menu, content: string, id?: string) {
-      super(menu, 'label', content, id);
-    }
+  /**
+   * @constructor
+   * @extends {AbstractItem}
+   * @param {Menu} menu The context menu or sub-menu the item belongs to.
+   * @param {string} content The content of the menu item.
+   * @param {string=} id Optionally the id of the menu item.
+   */
+  constructor(menu: Menu, content: string, id?: string) {
+    super(menu, 'label', content, id);
+  }
 
-   /**
-    * @override
-    */
-    public generateHtml() {
-      super.generateHtml();
-      let html = this.getHtml();
-      html.classList.add(HtmlClasses['MENULABEL']);
-    }
-
+  /**
+   * @override
+   */
+  public generateHtml() {
+    super.generateHtml();
+    let html = this.getHtml();
+    html.classList.add(HtmlClasses['MENULABEL']);
   }
 
 }
+

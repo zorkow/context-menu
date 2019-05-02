@@ -23,155 +23,154 @@
  * @author v.sorge@mathjax.org (Volker Sorge)
  */
 
-/// <reference path="context_menu.ts" />
-/// <reference path="menu_util.ts" />
+import {ContextMenu} from './context_menu';
+import {MenuUtil} from './menu_util';
+import {AbstractPostable} from './abstract_postable';
 
-namespace ContextMenu {
 
-  export class Popup extends AbstractPostable {
+export class Popup extends AbstractPostable {
 
-    private static popupSettings: {[id: string]: (string | number)} = {
-        status: 'no',
-        toolbar: 'no',
-        locationbar: 'no',
-        menubar: 'no',
-        directories: 'no',
-        personalbar: 'no',
-        resizable: 'yes',
-        scrollbars: 'yes',
-        width: 400,
-        height: 300,
-      };
-    private menu: ContextMenu;
-    private title: string = '';
-    private content: Function;
+  private static popupSettings: {[id: string]: (string | number)} = {
+    status: 'no',
+    toolbar: 'no',
+    locationbar: 'no',
+    menubar: 'no',
+    directories: 'no',
+    personalbar: 'no',
+    resizable: 'yes',
+    scrollbars: 'yes',
+    width: 400,
+    height: 300,
+  };
+  private menu: ContextMenu;
+  private title: string = '';
+  private content: Function;
 
-    /**
-     * The last opened window.
-     * @type {Window}
-     */
-    private window: Window = null;
+  /**
+   * The last opened window.
+   * @type {Window}
+   */
+  private window: Window = null;
 
-    private localSettings: {[id: string]: (string | number)} = {
-      left: Math.round((screen.width - 400) / 2),
-      top:  Math.round((screen.height - 300) / 3)
-    };
+  private localSettings: {[id: string]: (string | number)} = {
+    left: Math.round((screen.width - 400) / 2),
+    top:  Math.round((screen.height - 300) / 3)
+  };
 
-    /**
-     * The list of all windows opened by this object.
-     * @type {Array.<Window>}
-     */
-    private windowList: Window[] = [];
+  /**
+   * The list of all windows opened by this object.
+   * @type {Array.<Window>}
+   */
+  private windowList: Window[] = [];
 
-    private mobileFlag = false;
-    private active: HTMLElement = null;
+  private mobileFlag = false;
+  private active: HTMLElement = null;
 
-    /**
-     * @constructor
-     * @extends {AbstractPostable}
-     * @param {string} title The title of the popup window.
-     * @param {Function} content Function generating the content.
-     */
-    constructor(title: string, content: Function) {
-      super();
-      this.title = title;
-      this.content = content || function() { return ''; };
+  /**
+   * @constructor
+   * @extends {AbstractPostable}
+   * @param {string} title The title of the popup window.
+   * @param {Function} content Function generating the content.
+   */
+  constructor(title: string, content: Function) {
+    super();
+    this.title = title;
+    this.content = content || function() { return ''; };
+  }
+
+  /**
+   * Attaches the widget to a context menu.
+   * @param {ContextMenu} menu The parent menu.
+   */
+  public attachMenu(menu: ContextMenu): void {
+    this.menu = menu;
+  }
+
+  /**
+   * @override
+   */
+  public post() {
+    this.display();
+  }
+
+  /**
+   * @override
+   */
+  protected display() {
+    this.active = this.menu.getStore().getActive();
+    let settings: string[] = [];
+    for (let setting in Popup.popupSettings) {
+      settings.push(setting + '=' + Popup.popupSettings[setting]);
     }
-
-    /**
-     * Attaches the widget to a context menu.
-     * @param {ContextMenu} menu The parent menu.
-     */
-    public attachMenu(menu: ContextMenu): void {
-      this.menu = menu;
+    for (let setting in this.localSettings) {
+      settings.push(setting + '=' + this.localSettings[setting]);
     }
-
-    /**
-     * @override
-     */
-    public post() {
-      this.display();
+    this.window = window.open('', '_blank', settings.join(','));
+    this.windowList.push(this.window);
+    let doc = this.window.document;
+    if (this.mobileFlag) {
+      doc.open();
+      doc.write('<html><head><meta name="viewport" ' +
+                'content="width=device-width, initial-scale=1.0" /><title>' +
+                this.title +
+                '</title></head><body style="font-size:85%">');
+      doc.write('<pre>' + this.generateContent() + '</pre>');
+      doc.write('<hr><input type="button" value="' +
+                //// TODO: Localise
+                'Close' + '" onclick="window.close()" />');
+      doc.write('</body></html>');
+      doc.close();
+    } else {
+      doc.open();
+      doc.write('<html><head><title>' + this.title +
+                '</title></head><body style="font-size:85%">');
+      doc.write('<table><tr><td><pre>' + this.generateContent() +
+                '</pre></td></tr></table>');
+      doc.write('</body></html>');
+      doc.close();
+      setTimeout(this.resize.bind(this), 50);
     }
+  }
 
-    /**
-     * @override
-     */
-    protected display() {
-      this.active = this.menu.getStore().getActive();
-      let settings: string[] = [];
-      for (let setting in Popup.popupSettings) {
-        settings.push(setting + '=' + Popup.popupSettings[setting]);
-      }
-      for (let setting in this.localSettings) {
-        settings.push(setting + '=' + this.localSettings[setting]);
-      }
-      this.window = window.open('', '_blank', settings.join(','));
-      this.windowList.push(this.window);
-      let doc = this.window.document;
-      if (this.mobileFlag) {
-        doc.open();
-        doc.write('<html><head><meta name="viewport" ' +
-                  'content="width=device-width, initial-scale=1.0" /><title>' +
-                  this.title +
-                  '</title></head><body style="font-size:85%">');
-        doc.write('<pre>' + this.generateContent() + '</pre>');
-        doc.write('<hr><input type="button" value="' +
-                  //// TODO: Localise
-                  'Close' + '" onclick="window.close()" />');
-        doc.write('</body></html>');
-        doc.close();
-      } else {
-        doc.open();
-        doc.write('<html><head><title>' + this.title +
-                  '</title></head><body style="font-size:85%">');
-        doc.write('<table><tr><td><pre>' + this.generateContent() +
-                  '</pre></td></tr></table>');
-        doc.write('</body></html>');
-        doc.close();
-        setTimeout(this.resize.bind(this), 50);
-      }
+  /**
+   * @override
+   */
+  public unpost() {
+    this.windowList.forEach(x => x.close());
+    this.window = null;
+  }
+
+  /**
+   * Generates the content of the window.
+   * @return {string} The generated content.
+   */
+  private generateContent(): string {
+    return this.content(this.active);
+  }
+
+  /**
+   * Resizes the window so it fits snuggly around the content.
+   * @private
+   */
+  private resize(): void {
+    let table = <HTMLElement>this.window.document.body.firstChild;
+    let H = (this.window.outerHeight - this.window.innerHeight) || 30;
+    let W = (this.window.outerWidth - this.window.innerWidth) || 30;
+    W = Math.max(140, Math.min(Math.floor(.5 * this.window.screen.width),
+                               table.offsetWidth + W + 25));
+    H = Math.max(40, Math.min(Math.floor(.5 * this.window.screen.height),
+                              table.offsetHeight + H + 25));
+    this.window.resizeTo(W, H);
+    let bb = this.active.getBoundingClientRect();
+    if (bb) {
+      let x = Math.max(0, Math.min(bb.right - Math.floor(W / 2),
+                                   this.window.screen.width - W - 20));
+      let y = Math.max(0, Math.min(bb.bottom - Math.floor(H / 2),
+                                   this.window.screen.height - H - 20));
+      this.window.moveTo(x, y);
     }
-
-    /**
-     * @override
-     */
-    public unpost() {
-      this.windowList.forEach(x => x.close());
-      this.window = null;
-    }
-
-    /**
-     * Generates the content of the window.
-     * @return {string} The generated content.
-     */
-    private generateContent(): string {
-      return this.content(this.active);
-    }
-
-    /**
-     * Resizes the window so it fits snuggly around the content.
-     * @private
-     */
-    private resize(): void {
-      let table = <HTMLElement>this.window.document.body.firstChild;
-      let H = (this.window.outerHeight - this.window.innerHeight) || 30;
-      let W = (this.window.outerWidth - this.window.innerWidth) || 30;
-      W = Math.max(140, Math.min(Math.floor(.5 * this.window.screen.width),
-                                 table.offsetWidth + W + 25));
-      H = Math.max(40, Math.min(Math.floor(.5 * this.window.screen.height),
-                                table.offsetHeight + H + 25));
-      this.window.resizeTo(W, H);
-      let bb = this.active.getBoundingClientRect();
-      if (bb) {
-        let x = Math.max(0, Math.min(bb.right - Math.floor(W / 2),
-                                 this.window.screen.width - W - 20));
-        let y = Math.max(0, Math.min(bb.bottom - Math.floor(H / 2),
-                                 this.window.screen.height - H - 20));
-        this.window.moveTo(x, y);
-      }
-      this.active = null;
-    }
-
+    this.active = null;
   }
 
 }
+

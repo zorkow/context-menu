@@ -23,80 +23,82 @@
  */
 
 
-/// <reference path="abstract_variable_item.ts" />
+import {AbstractVariableItem} from './abstract_variable_item';
+import {Menu} from './menu';
+import {Variable} from './variable';
+import {MenuUtil} from './menu_util';
+import {HtmlClasses} from './html_classes';
 
-namespace ContextMenu {
 
-  export class Radio extends AbstractVariableItem<string> {
+export class Radio extends AbstractVariableItem<string> {
 
-    /**
-     * @override
-     */
-    protected role = 'menuitemradio';
+  /**
+   * @override
+   */
+  protected role = 'menuitemradio';
 
-    /**
-     * Parses a JSON respresentation of a radio item.
-     * @param {JSON} json The JSON object to parse.
-     * @param {Menu} menu The menu the item is attached to.
-     * @return {Radio} The new radio object.
-     */
-    public static parse(
-      {content: content, variable: variable, id: id}:
-      {content: string, variable: string, id: string}, menu: Menu): Radio {
-        return new Radio(menu, content, variable, id);
-      }
+  /**
+   * Parses a JSON respresentation of a radio item.
+   * @param {JSON} json The JSON object to parse.
+   * @param {Menu} menu The menu the item is attached to.
+   * @return {Radio} The new radio object.
+   */
+  public static parse(
+    {content: content, variable: variable, id: id}:
+    {content: string, variable: string, id: string}, menu: Menu): Radio {
+    return new Radio(menu, content, variable, id);
+  }
 
-    /**
-     * @constructor
-     * @extends {AbstractVariableItem}
-     * @param {Menu} menu The context menu or sub-menu the item belongs to.
-     * @param {string} content The content of the menu item.
-     * @param {string} variable The variable that is changed.
-     * @param {string=} id Optionally the id of the menu item.
-     */
-    constructor(menu: Menu, content: string, variable: string, id?: string) {
-      super(menu, 'radio', content, id);
-      this.variable = <Variable<string>>menu.getPool().lookup(variable);
-      this.register();
-    }
+  /**
+   * @constructor
+   * @extends {AbstractVariableItem}
+   * @param {Menu} menu The context menu or sub-menu the item belongs to.
+   * @param {string} content The content of the menu item.
+   * @param {string} variable The variable that is changed.
+   * @param {string=} id Optionally the id of the menu item.
+   */
+  constructor(menu: Menu, content: string, variable: string, id?: string) {
+    super(menu, 'radio', content, id);
+    this.variable = <Variable<string>>menu.getPool().lookup(variable);
+    this.register();
+  }
 
-    /**
-     * @override
-     */
-    public executeAction() {
-      this.variable.setValue(this.getId());
-      MenuUtil.close(this);
-    }
+  /**
+   * @override
+   */
+  public executeAction() {
+    this.variable.setValue(this.getId());
+    MenuUtil.close(this);
+  }
 
-   /**
-    * @override
-    */
-    public generateSpan() {
-      this.span = document.createElement('span');
-      this.span.textContent = '\u2713';
-      this.span.classList.add(HtmlClasses['MENURADIOCHECK']);
-    }
+  /**
+   * @override
+   */
+  public generateSpan() {
+    this.span = document.createElement('span');
+    this.span.textContent = '\u2713';
+    this.span.classList.add(HtmlClasses['MENURADIOCHECK']);
+  }
 
-    /**
-     * @override
-     * Toggles the aria checked attribute.
-     */
-    protected updateAria() {
-      this.getHtml().setAttribute(
-        'aria-checked',
-        this.variable.getValue() === this.getId() ? 'true' : 'false'
-      );
-    }
+  /**
+   * @override
+   * Toggles the aria checked attribute.
+   */
+  protected updateAria() {
+    this.getHtml().setAttribute(
+      'aria-checked',
+      this.variable.getValue() === this.getId() ? 'true' : 'false'
+    );
+  }
 
-    /**
-     * @override
-     * Toggles the checked tick.
-     */
-    protected updateSpan() {
-      this.span.style.display =
-        this.variable.getValue() === this.getId() ? '' : 'none';
-    }
-
+  /**
+   * @override
+   * Toggles the checked tick.
+   */
+  protected updateSpan() {
+    this.span.style.display =
+      this.variable.getValue() === this.getId() ? '' : 'none';
   }
 
 }
+

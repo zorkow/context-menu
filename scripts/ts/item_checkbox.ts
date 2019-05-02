@@ -22,79 +22,81 @@
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-/// <reference path="abstract_variable_item.ts" />
-
-namespace ContextMenu {
-
-  export class Checkbox extends AbstractVariableItem<boolean> {
-
-    /**
-     * @override
-     */
-    protected role = 'menuitemcheckbox';
-
-    /**
-     * Parses a JSON respresentation of a checkbox item.
-     * @param {JSON} json The JSON object to parse.
-     * @param {Menu} menu The menu the item is attached to.
-     * @return {Checkbox} The new checkbox object.
-     */
-    public static parse(
-      {content: content, variable: variable, id: id}:
-      {content: string, variable: string, id: string}, menu: Menu): Checkbox {
-        return new Checkbox(menu, content, variable, id);
-      }
+import {AbstractVariableItem} from './abstract_variable_item';
+import {Menu} from './menu';
+import {MenuUtil} from './menu_util';
+import {Variable} from './variable';
+import {HtmlClasses} from './html_classes';
 
 
-    /**
-     * @constructor
-     * @extends {AbstractItem}
-     * @param {Menu} menu The context menu or sub-menu the item belongs to.
-     * @param {string} content The content of the menu item.
-     * @param {string} variable The variable that is changed.
-     * @param {string=} id Optionally the id of the menu item.
-     */
-    constructor(menu: Menu, content: string, variable: string, id?: string) {
-      super(menu, 'checkbox', content, id);
-      this.variable = <Variable<boolean>>menu.getPool().lookup(variable);
-      this.register();
-    }
+export class Checkbox extends AbstractVariableItem<boolean> {
 
-    /**
-     * @override
-     */
-    public executeAction() {
-      this.variable.setValue(!this.variable.getValue());
-      MenuUtil.close(this);
-    }
+  /**
+   * @override
+   */
+  protected role = 'menuitemcheckbox';
 
-    /**
-     * @override
-     */
-    public generateSpan() {
-      this.span = document.createElement('span');
-      this.span.textContent = '\u2713';
-      this.span.classList.add(HtmlClasses['MENUCHECK']);
-    }
+  /**
+   * Parses a JSON respresentation of a checkbox item.
+   * @param {JSON} json The JSON object to parse.
+   * @param {Menu} menu The menu the item is attached to.
+   * @return {Checkbox} The new checkbox object.
+   */
+  public static parse(
+    {content: content, variable: variable, id: id}:
+    {content: string, variable: string, id: string}, menu: Menu): Checkbox {
+    return new Checkbox(menu, content, variable, id);
+  }
 
-    /**
-     * @override
-     * Toggles the aria checked attribute.
-     */
-    protected updateAria() {
-      this.getHtml().setAttribute(
-        'aria-checked',
-        this.variable.getValue() ? 'true' : 'false'
-      );
-    }
 
-    /**
-     * @override
-     */
-    public updateSpan() {
-      this.span.style.display = this.variable.getValue() ? '' : 'none';
-    }
+  /**
+   * @constructor
+   * @extends {AbstractItem}
+   * @param {Menu} menu The context menu or sub-menu the item belongs to.
+   * @param {string} content The content of the menu item.
+   * @param {string} variable The variable that is changed.
+   * @param {string=} id Optionally the id of the menu item.
+   */
+  constructor(menu: Menu, content: string, variable: string, id?: string) {
+    super(menu, 'checkbox', content, id);
+    this.variable = <Variable<boolean>>menu.getPool().lookup(variable);
+    this.register();
+  }
 
+  /**
+   * @override
+   */
+  public executeAction() {
+    this.variable.setValue(!this.variable.getValue());
+    MenuUtil.close(this);
+  }
+
+  /**
+   * @override
+   */
+  public generateSpan() {
+    this.span = document.createElement('span');
+    this.span.textContent = '\u2713';
+    this.span.classList.add(HtmlClasses['MENUCHECK']);
+  }
+
+  /**
+   * @override
+   * Toggles the aria checked attribute.
+   */
+  protected updateAria() {
+    this.getHtml().setAttribute(
+      'aria-checked',
+      this.variable.getValue() ? 'true' : 'false'
+    );
+  }
+
+  /**
+   * @override
+   */
+  public updateSpan() {
+    this.span.style.display = this.variable.getValue() ? '' : 'none';
   }
 
 }
+

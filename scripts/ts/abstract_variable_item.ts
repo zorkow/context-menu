@@ -23,79 +23,78 @@
  */
 
 
-/// <reference path="abstract_item.ts" />
-/// <reference path="menu_util.ts" />
-/// <reference path="variable_item.ts" />
+import {AbstractItem} from './abstract_item';
+import {MenuUtil} from './menu_util';
+import {VariableItem} from './variable_item';
+import {Variable} from './variable';
 
-namespace ContextMenu {
 
-  export abstract class AbstractVariableItem<T> extends AbstractItem
-  implements VariableItem {
+export abstract class AbstractVariableItem<T> extends AbstractItem
+implements VariableItem {
 
-    /**
-     * Additional span element.
-     * @type {Node}
-     */
-    protected span: HTMLElement;
+  /**
+   * Additional span element.
+   * @type {Node}
+   */
+  protected span: HTMLElement;
 
-    /**
-     * The state variable. Initially set false.
-     * @type {Variable}
-     */
-    protected variable: Variable<T>;
+  /**
+   * The state variable. Initially set false.
+   * @type {Variable}
+   */
+  protected variable: Variable<T>;
 
-   /**
-    * @override
-    */
-    protected abstract generateSpan(): void;
+  /**
+   * @override
+   */
+  protected abstract generateSpan(): void;
 
-   /**
-    * @override
-    */
-    public generateHtml() {
-      super.generateHtml();
-      let html = this.getHtml();
-      if (!this.span) {
-        this.generateSpan();
-      }
-      html.appendChild(this.span);
-      this.update();
+  /**
+   * @override
+   */
+  public generateHtml() {
+    super.generateHtml();
+    let html = this.getHtml();
+    if (!this.span) {
+      this.generateSpan();
     }
-
-    /**
-     * @override
-     */
-    public register() {
-      this.variable.register(this);
-    }
-
-    /**
-     * @override
-     */
-    public unregister() {
-      this.variable.unregister(this);
-    }
-
-    /**
-     * @override
-     */
-    public update() {
-      this.updateAria();
-      if (this.span) {
-        this.updateSpan();
-      }
-    }
-
-    /**
-     * Toggles the aria checked attribute.
-     */
-    protected abstract updateAria(): void;
-
-    /**
-     * Toggles the checked tick.
-     */
-    protected abstract updateSpan(): void;
-
+    html.appendChild(this.span);
+    this.update();
   }
 
+  /**
+   * @override
+   */
+  public register() {
+    this.variable.register(this);
+  }
+
+  /**
+   * @override
+   */
+  public unregister() {
+    this.variable.unregister(this);
+  }
+
+  /**
+   * @override
+   */
+  public update() {
+    this.updateAria();
+    if (this.span) {
+      this.updateSpan();
+    }
+  }
+
+  /**
+   * Toggles the aria checked attribute.
+   */
+  protected abstract updateAria(): void;
+
+  /**
+   * Toggles the checked tick.
+   */
+  protected abstract updateSpan(): void;
+
 }
+

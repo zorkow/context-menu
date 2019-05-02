@@ -22,57 +22,56 @@
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-namespace ContextMenu {
+
+/**
+ * Mouse events.
+ * @enum {string}
+ * @param {}: {[name: string]: string} TODO: REmove!
+ */
+export const MOUSE = {
+  CLICK: 'click',
+  DBLCLICK: 'dblclick',
+  DOWN: 'mousedown',
+  UP: 'mouseup',
+  OVER: 'mouseover',
+  OUT: 'mouseout',
+  MOVE: 'mousemove',
+  SELECTSTART: 'selectstart', // IE, Safari, Chrome
+  SELECTEND: 'selectend', // IE, Safari, Chrome
+};
+
+
+export interface MouseNavigatable {
 
   /**
-   * Mouse events.
-   * @enum {string}
+   * Navigation selection on mouse down events.
+   * @param {MouseEvent} event The mouse event that fired.
    */
-  export const MOUSE = {
-    CLICK: 'click',
-    DBLCLICK: 'dblclick',
-    DOWN: 'mousedown',
-    UP: 'mouseup',
-    OVER: 'mouseover',
-    OUT: 'mouseout',
-    MOVE: 'mousemove',
-    SELECTSTART: 'selectstart', // IE, Safari, Chrome
-    SELECTEND: 'selectend', // IE, Safari, Chrome
-  };
+  mousedown(event: MouseEvent): void;
 
+  /**
+   * Navigation selection on mouse up events.
+   * @param {MouseEvent} event The mouse event that fired.
+   */
+  mouseup(event: MouseEvent): void;
 
-  export interface MouseNavigatable {
+  /**
+   * Navigation selection on mouse over events.
+   * @param {MouseEvent} event The mouse event that fired.
+   */
+  mouseover(event: MouseEvent): void;
 
-    /**
-     * Navigation selection on mouse down events.
-     * @param {MouseEvent} event The mouse event that fired.
-     */
-    mousedown(event: MouseEvent): void;
+  /**
+   * Navigation selection on mouse out events.
+   * @param {MouseEvent} event The mouse event that fired.
+   */
+  mouseout(event: MouseEvent): void;
 
-    /**
-     * Navigation selection on mouse up events.
-     * @param {MouseEvent} event The mouse event that fired.
-     */
-    mouseup(event: MouseEvent): void;
-
-    /**
-     * Navigation selection on mouse over events.
-     * @param {MouseEvent} event The mouse event that fired.
-     */
-    mouseover(event: MouseEvent): void;
-
-    /**
-     * Navigation selection on mouse out events.
-     * @param {MouseEvent} event The mouse event that fired.
-     */
-    mouseout(event: MouseEvent): void;
-
-    /**
-     * Navigation on mouse click events.
-     * @param {MouseEvent} event The mouse event that fired.
-     */
-    click(event: MouseEvent): void;
-
-  }
+  /**
+   * Navigation on mouse click events.
+   * @param {MouseEvent} event The mouse event that fired.
+   */
+  click(event: MouseEvent): void;
 
 }
+

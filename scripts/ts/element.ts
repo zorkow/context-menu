@@ -23,26 +23,24 @@
  */
 
 
-namespace ContextMenu {
 
-  export interface Element  {
+export interface Element  {
 
-    /**
-     * Generates the DOM element if it does not yet exists and returns it.
-     * @return {HTMLElement} The HTML element associated with this entry.
-     */
-    getHtml(): HTMLElement;
+  /**
+   * Generates the DOM element if it does not yet exists and returns it.
+   * @return {HTMLElement} The HTML element associated with this entry.
+   */
+  getHtml(): HTMLElement;
 
-    /**
-     * @param {HTMLElement} element Sets the HTML Element.
-     */
-    setHtml(element: HTMLElement): void;
+  /**
+   * @param {HTMLElement} element Sets the HTML Element.
+   */
+  setHtml(element: HTMLElement): void;
 
-    /**
-     * Forces generation of the actual DOM element.
-     */
-    generateHtml(): void;
-
-  }
+  /**
+   * Forces generation of the actual DOM element.
+   */
+  generateHtml(): void;
 
 }
+

@@ -22,46 +22,44 @@
  * @author v.sorge@mathjax.org (Volker Sorge)
  */
 
-namespace ContextMenu {
+
+/**
+ * Touch events.
+ * @enum {string}
+ */
+export const TOUCH = {
+  START: 'touchstart',
+  MOVE: 'touchmove',
+  END: 'touchend',
+  CANCEL: 'touchcancel'
+};
+
+
+export interface TouchNavigatable {
 
   /**
-   * Touch events.
-   * @enum {string}
+   * Navigation selection on keyboard events.
+   * @param {TouchEvent} event The keyboard event that fired.
    */
-  export const TOUCH = {
-    START: 'touchstart',
-    MOVE: 'touchmove',
-    END: 'touchend',
-    CANCEL: 'touchcancel'
-  };
+  touchstart(event: TouchEvent): void;
 
+  /**
+   * Navigation on escape key pressed.
+   * @param {TouchEvent} event The keyboard event that fired.
+   */
+  touchmove(event: TouchEvent): void;
 
-  export interface TouchNavigatable {
+  /**
+   * Navigation on space key pressed.
+   * @param {TouchEvent} event The keyboard event that fired.
+   */
+  touchend(event: TouchEvent): void;
 
-    /**
-     * Navigation selection on keyboard events.
-     * @param {TouchEvent} event The keyboard event that fired.
-     */
-    touchstart(event: TouchEvent): void;
-
-    /**
-     * Navigation on escape key pressed.
-     * @param {TouchEvent} event The keyboard event that fired.
-     */
-    touchmove(event: TouchEvent): void;
-
-    /**
-     * Navigation on space key pressed.
-     * @param {TouchEvent} event The keyboard event that fired.
-     */
-    touchend(event: TouchEvent): void;
-
-    /**
-     * Navigation on left arrow key pressed.
-     * @param {TouchEvent} event The keyboard event that fired.
-     */
-    touchcancel(event: TouchEvent): void;
-
-  }
+  /**
+   * Navigation on left arrow key pressed.
+   * @param {TouchEvent} event The keyboard event that fired.
+   */
+  touchcancel(event: TouchEvent): void;
 
 }
+

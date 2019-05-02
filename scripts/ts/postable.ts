@@ -22,32 +22,28 @@
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-namespace ContextMenu {
+export interface Postable {
 
-  export interface Postable {
+  /**
+   * @return {boolean} True if element is posted in the page.
+   */
+  isPosted(): boolean;
 
-    /**
-     * @return {boolean} True if element is posted in the page.
-     */
-    isPosted(): boolean;
+  /**
+   * Posts the element.
+   */
+  post(): void;
 
-    /**
-     * Posts the element.
-     */
-    post(): void;
+  /**
+   * Posts the element at the given coordinates.
+   * @param {?number} x The x coordinate.
+   * @param {?number} y The y coordinate.
+   */
+  post(x?: number, y?: number): void;
 
-    /**
-     * Posts the element at the given coordinates.
-     * @param {?number} x The x coordinate.
-     * @param {?number} y The y coordinate.
-     */
-    post(x?: number, y?: number): void;
-
-    /**
-     * Removes element from page.
-     */
-    unpost(): void;
-
-  }
+  /**
+   * Removes element from page.
+   */
+  unpost(): void;
 
 }

@@ -22,176 +22,175 @@
  * @author v.sorge@mathjax.org (Volker Sorge)
  */
 
-/// <reference path="close_button.ts" />
-/// <reference path="context_menu.ts" />
-/// <reference path="html_classes.ts" />
+import {CloseButton} from './close_button';
+import {ContextMenu} from './context_menu';
+import {HtmlClasses} from './html_classes';
+import {AbstractPostable} from './abstract_postable';
 
-namespace ContextMenu {
 
-  export class Info extends AbstractPostable {
+export class Info extends AbstractPostable {
 
-    /**
-     * @override
-     */
-    protected className = HtmlClasses['INFO'];
+  /**
+   * @override
+   */
+  protected className = HtmlClasses['INFO'];
 
-    /**
-     * @override
-     */
-    protected role = 'dialog';
+  /**
+   * @override
+   */
+  protected role = 'dialog';
 
-    private menu: ContextMenu;
-    private title: string = '';
-    private signature: string = '';
-    private contentDiv: HTMLElement = this.generateContent();
-    private close: CloseButton = this.generateClose();
-    private content: Function;
+  private menu: ContextMenu;
+  private title: string = '';
+  private signature: string = '';
+  private contentDiv: HTMLElement = this.generateContent();
+  private close: CloseButton = this.generateClose();
+  private content: Function;
 
-    /**
-     * @constructor
-     * @extends {AbstractPostable}
-     * @param {string} title The title of the info box.
-     * @param {Function} content Function generating the content of the box.
-     * @param {string} signature The final line of the info box.
-     */
-    constructor(title: string, content: Function, signature: string) {
-      super();
-      this.title = title;
-      this.content = content || function() { return ''; };
-      this.signature = signature;
+  /**
+   * @constructor
+   * @extends {AbstractPostable}
+   * @param {string} title The title of the info box.
+   * @param {Function} content Function generating the content of the box.
+   * @param {string} signature The final line of the info box.
+   */
+  constructor(title: string, content: Function, signature: string) {
+    super();
+    this.title = title;
+    this.content = content || function() { return ''; };
+    this.signature = signature;
+  }
+
+  /**
+   * Attaches the widget to a context menu.
+   * @param {ContextMenu} menu The parent menu.
+   */
+  public attachMenu(menu: ContextMenu): void {
+    this.menu = menu;
+  }
+
+  /**
+   * @override
+   */
+  public getHtml() {
+    let html = super.getHtml();
+    return html;
+  }
+
+  /**
+   * @override
+   */
+  public generateHtml() {
+    super.generateHtml();
+    let html = this.getHtml();
+    html.appendChild(this.generateTitle());
+    html.appendChild(this.contentDiv);
+    html.appendChild(this.generateSignature());
+    html.appendChild(this.close.getHtml());
+    html.setAttribute('tabindex', '0');
+  }
+
+  /**
+   * @override
+   */
+  public post() {
+    super.post();
+    //// TODO: There is potentially a bug in IE. Look into it.
+    //  Look for MENU.prototype.msieAboutBug in MathMenu.js
+    let doc = document.documentElement;
+    let html = this.getHtml();
+    let H = window.innerHeight || doc.clientHeight || doc.scrollHeight || 0;
+    let x = Math.floor((- html.offsetWidth) / 2);
+    let y = Math.floor((H - html.offsetHeight) / 3);
+    html.setAttribute(
+      'style', 'margin-left: ' + x + 'px; top: ' + y + 'px;');
+    if (window.event instanceof MouseEvent) {
+      html.classList.add(HtmlClasses['MOUSEPOST']);
     }
+    html.focus();
+  }
 
-    /**
-     * Attaches the widget to a context menu.
-     * @param {ContextMenu} menu The parent menu.
-     */
-    public attachMenu(menu: ContextMenu): void {
-      this.menu = menu;
-    }
+  /**
+   * @override
+   */
+  protected display() {
+    this.menu.registerWidget(this);
+    this.contentDiv.innerHTML = this.content();
+    let html = this.menu.getHtml();
+    html.parentNode.removeChild(html);
+    this.menu.getFrame().appendChild(this.getHtml());
+  }
 
-    /**
-     * @override
-     */
-    public getHtml() {
-      let html = super.getHtml();
-      return html;
-    }
+  /**
+   * @override
+   */
+  public click(event: MouseEvent): void { }
 
-    /**
-     * @override
-     */
-    public generateHtml() {
-      super.generateHtml();
-      let html = this.getHtml();
-      html.appendChild(this.generateTitle());
-      html.appendChild(this.contentDiv);
-      html.appendChild(this.generateSignature());
-      html.appendChild(this.close.getHtml());
-      html.setAttribute('tabindex', '0');
-    }
+  /**
+   * @override
+   */
+  public keydown(event: KeyboardEvent) {
+    this.bubbleKey();
+    super.keydown(event);
+  }
 
-    /**
-     * @override
-     */
-    public post() {
-      super.post();
-      //// TODO: There is potentially a bug in IE. Look into it.
-      //  Look for MENU.prototype.msieAboutBug in MathMenu.js
-      let doc = document.documentElement;
-      let html = this.getHtml();
-      let H = window.innerHeight || doc.clientHeight || doc.scrollHeight || 0;
-      let x = Math.floor((- html.offsetWidth) / 2);
-      let y = Math.floor((H - html.offsetHeight) / 3);
-      html.setAttribute(
-        'style', 'margin-left: ' + x + 'px; top: ' + y + 'px;');
-      if (window.event instanceof MouseEvent) {
-        html.classList.add(HtmlClasses['MOUSEPOST']);
-      }
-      html.focus();
-    }
+  /**
+   * @override
+   */
+  public escape(event: KeyboardEvent): void {
+    this.unpost();
+  }
 
-    /**
-     * @override
-     */
-    protected display() {
-      this.menu.registerWidget(this);
-      this.contentDiv.innerHTML = this.content();
-      let html = this.menu.getHtml();
-      html.parentNode.removeChild(html);
-      this.menu.getFrame().appendChild(this.getHtml());
-    }
+  /**
+   * @override
+   */
+  public unpost() {
+    super.unpost();
+    this.getHtml().classList.remove(HtmlClasses['MOUSEPOST']);
+    this.menu.unregisterWidget(this);
+  }
 
-    /**
-     * @override
-     */
-    public click(event: MouseEvent): void { }
+  /**
+   * @return {CloseButton} The close button for the widget.
+   */
+  private generateClose(): CloseButton {
+    let close = new CloseButton(this);
+    let html = close.getHtml();
+    html.classList.add(HtmlClasses['INFOCLOSE']);
+    html.setAttribute('aria-label', 'Close Dialog Box');
+    return close;
+  }
 
-    /**
-     * @override
-     */
-    public keydown(event: KeyboardEvent) {
-      this.bubbleKey();
-      super.keydown(event);
-    }
+  /**
+   * @return {HTMLElement} The title element of the widget.
+   */
+  private generateTitle(): HTMLElement {
+    let span = document.createElement('span');
+    span.innerHTML = this.title;
+    span.classList.add(HtmlClasses['INFOTITLE']);
+    return span;
+  }
 
-    /**
-     * @override
-     */
-    public escape(event: KeyboardEvent): void {
-      this.unpost();
-    }
+  /**
+   * @return {HTMLElement} The basic content element of the widget. The actual
+   *     content is regenerated and attached during posting.
+   */
+  private generateContent(): HTMLElement {
+    let div = document.createElement('div');
+    div.classList.add(HtmlClasses['INFOCONTENT']);
+    div.setAttribute('tabindex', '0');
+    return div;
+  }
 
-    /**
-     * @override
-     */
-    public unpost() {
-      super.unpost();
-      this.getHtml().classList.remove(HtmlClasses['MOUSEPOST']);
-      this.menu.unregisterWidget(this);
-    }
-
-    /**
-     * @return {CloseButton} The close button for the widget.
-     */
-    private generateClose(): CloseButton {
-      let close = new CloseButton(this);
-      let html = close.getHtml();
-      html.classList.add(HtmlClasses['INFOCLOSE']);
-       html.setAttribute('aria-label', 'Close Dialog Box');
-      return close;
-    }
-
-    /**
-     * @return {HTMLElement} The title element of the widget.
-     */
-    private generateTitle(): HTMLElement {
-      let span = document.createElement('span');
-      span.innerHTML = this.title;
-      span.classList.add(HtmlClasses['INFOTITLE']);
-      return span;
-    }
-
-    /**
-     * @return {HTMLElement} The basic content element of the widget. The actual
-     *     content is regenerated and attached during posting.
-     */
-    private generateContent(): HTMLElement {
-      let div = document.createElement('div');
-      div.classList.add(HtmlClasses['INFOCONTENT']);
-      div.setAttribute('tabindex', '0');
-      return div;
-    }
-
-    /**
-     * @return {HTMLElement} The signature element of the widget.
-     */
-    private generateSignature(): HTMLElement {
-      let span = document.createElement('span');
-      span.innerHTML = this.signature;
-      span.classList.add(HtmlClasses['INFOSIGNATURE']);
-      return span;
-    }
-
+  /**
+   * @return {HTMLElement} The signature element of the widget.
+   */
+  private generateSignature(): HTMLElement {
+    let span = document.createElement('span');
+    span.innerHTML = this.signature;
+    span.classList.add(HtmlClasses['INFOSIGNATURE']);
+    return span;
   }
 
 }
+
