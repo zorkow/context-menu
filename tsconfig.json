@@ -9,10 +9,12 @@
     "noLib": false,
     "alwaysStrict": false,
     "sourceMap": false,
-    "outFile": "scripts/js/context_menu.js"
+    "lib": ["es6", "dom"],
+    "outFile": "dist/context_menu.js"
   },
+  "include": ["scripts/ts/**/*"],
   "exclude": [
-    "scripts/js",
+    "dist",
     "samples",
     "node_modules"
   ]
