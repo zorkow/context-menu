@@ -5,7 +5,8 @@
   "main": "dist/context_menu.js",
   "types": "dist/context_menu.d.ts",
   "scripts": {
-    "build": "./node_modules/.bin/tsc"
+    "build": "./node_modules/.bin/tsc",
+    "publish": "./node_modules/.bin/tsc"
   },
   "maintainers": [
     "Volker Sorge <v.sorge@mathjax.org>"
