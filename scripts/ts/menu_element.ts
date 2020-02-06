@@ -99,7 +99,11 @@ namespace ContextMenu {
       if (html.hasAttribute('tabindex')) {
         html.setAttribute('tabindex', '-1');
       }
-      html.blur();
+      try {
+        html.blur();
+      } catch(e) {
+        // This is for IE 11.
+      }
     }
 
   }
