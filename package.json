@@ -1,11 +1,13 @@
 {
-  "name": "context-menu",
-  "version": "0.1.0",
+  "name": "mj-context-menu",
+  "version": "0.2.2",
   "description": "A generic context menu",
-  "directories": {
-    "test": "tests"
+  "main": "dist/context_menu.js",
+  "types": "dist/context_menu.d.ts",
+  "scripts": {
+    "build": "./node_modules/.bin/tsc",
+    "prepare": "./node_modules/.bin/tsc"
   },
-  "scripts": {},
   "maintainers": [
     "Volker Sorge <v.sorge@mathjax.org>"
   ],
@@ -31,6 +33,7 @@
   },
   "files": [
     "LICENSE",
-    "README.md"
+    "README.md",
+    "dist"
   ]
 }

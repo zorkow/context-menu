@@ -99,6 +99,11 @@ Element {
     if (html.hasAttribute('tabindex')) {
       html.setAttribute('tabindex', '-1');
     }
+    try {
+      html.blur();
+    } catch (e) {
+      // This is for IE 11.
+    }
     html.blur();
   }
 
