@@ -311,9 +311,3 @@ export class ContextMenu extends AbstractMenu {
   }
 
 }
-
-
-if (typeof window !== 'undefined') {
-  console.log('HERE???');
-    (window as any).ContextMenu = ContextMenu;
-}

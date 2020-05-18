@@ -27,7 +27,7 @@ import {Postable} from './postable';
 import {VariablePool} from './variable_pool';
 
 export interface Menu extends Postable {
-  
+
     /**
      * Returns the items in that menu.
      * @return {Array.<Item>} The array of items.

@@ -133,7 +133,7 @@ export class SubMenu extends AbstractMenu {
     do {
       menu = menu.anchor.getMenu();
     } while (menu instanceof SubMenu);
-    this.baseMenu = <ContextMenu>menu;
+    this.baseMenu = menu as ContextMenu;
   }
 
 }

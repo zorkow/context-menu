@@ -219,7 +219,7 @@ export abstract class AbstractItem extends AbstractEntry implements Item {
       (<ContextMenu>this.getMenu()).left(event);
       return;
     }
-    let menu = <SubMenu>this.getMenu();
+    let menu = this.getMenu() as SubMenu;
     menu.setFocused(null);
     menu.getAnchor().focus();
   }

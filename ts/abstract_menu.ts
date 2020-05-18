@@ -25,7 +25,6 @@
 import {AbstractPostable} from './abstract_postable';
 import {AbstractItem} from './abstract_item';
 import {Menu} from './menu';
-import {SubMenu} from './sub_menu';
 import {MenuElement} from './menu_element';
 import {Item} from './item';
 import {VariablePool} from './variable_pool';
