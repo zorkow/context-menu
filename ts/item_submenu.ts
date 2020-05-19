@@ -23,7 +23,6 @@
  */
 
 import {AbstractItem} from './abstract_item';
-import {SubMenu} from './sub_menu';
 import {Menu} from './menu';
 import {HtmlClasses} from './html_classes';
 
@@ -40,7 +39,7 @@ export class Submenu extends AbstractItem {
    * The sub menu object.
    * @type {SubMenu}
    */
-  private submenu: Menu = null;
+  private _submenu: Menu = null;
 
   /**
    * @constructor
@@ -58,16 +57,16 @@ export class Submenu extends AbstractItem {
    * Sets the submenu.
    * @param {Menu} menu A menu.
    */
-  public setSubmenu(menu: SubMenu) {
-    this.submenu = menu;
+  public set submenu(menu: Menu) {
+    this._submenu = menu;
   }
 
   /**
    * Returns the submenu element.
    * @return {Menu} The submenu.
    */
-  public getSubmenu(): Menu {
-    return this.submenu;
+  public get submenu(): Menu {
+    return this._submenu;
   }
 
   /**
@@ -137,8 +136,8 @@ export class Submenu extends AbstractItem {
    * @override
    */
   public left(event: KeyboardEvent) {
-    if (this.getSubmenu().isPosted()) {
-      this.getSubmenu().unpost();
+    if (this.submenu.isPosted()) {
+      this.submenu.unpost();
     } else {
       super.left(event);
     }
@@ -148,10 +147,10 @@ export class Submenu extends AbstractItem {
    * @override
    */
   public right(event: KeyboardEvent) {
-    if (!this.getSubmenu().isPosted()) {
-      this.getSubmenu().post();
+    if (!this.submenu.isPosted()) {
+      this.submenu.post();
     } else {
-      this.getSubmenu().down(event);
+      this.submenu.down(event);
     }
   }
 

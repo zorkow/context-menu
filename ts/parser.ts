@@ -121,7 +121,7 @@ namespace Parser {
     {content: string, menu: any, id: string}, menu: Menu): Submenu {
     const item = new Submenu(menu, content, id);
     const subMenu = parseSubMenu(submenu, item);
-    item.setSubmenu(subMenu);
+    item.submenu = subMenu;
     return item;
   };
 
