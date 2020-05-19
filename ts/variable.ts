@@ -115,7 +115,7 @@ export class Variable<T> {
    * @final
    */
   public registerCallback(func: Function) {
-    this.items.forEach(x => (<Radio | Checkbox>x).registerCallback(func));
+    this.items.forEach(x => (x as Radio|Checkbox).registerCallback(func));
   }
 
   /**
@@ -124,7 +124,7 @@ export class Variable<T> {
    * @final
    */
   public unregisterCallback(func: Function) {
-    this.items.forEach(x => (<Radio | Checkbox>x).unregisterCallback(func));
+    this.items.forEach(x => (x as Radio|Checkbox).unregisterCallback(func));
   }
 
 }

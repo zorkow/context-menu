@@ -73,7 +73,7 @@ export abstract class AbstractItem extends AbstractEntry implements Item {
     this._content = content;
     this.generateHtml();
     if (this.getMenu()) {
-      (this.getMenu() as AbstractMenu).generateHtml();
+      this.getMenu().generateHtml();
     }
   }
 
@@ -216,7 +216,7 @@ export abstract class AbstractItem extends AbstractEntry implements Item {
    */
   public left(event: KeyboardEvent) {
     if (this.getMenu() instanceof ContextMenu) {
-      (<ContextMenu>this.getMenu()).left(event);
+      this.getMenu().left(event);
       return;
     }
     let menu = this.getMenu() as SubMenu;

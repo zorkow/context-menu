@@ -23,7 +23,6 @@
  */
 
 import {AbstractItem} from './abstract_item';
-import {AbstractMenu} from './abstract_menu';
 import {SubMenu} from './sub_menu';
 import {Menu} from './menu';
 import {HtmlClasses} from './html_classes';
@@ -152,7 +151,7 @@ export class Submenu extends AbstractItem {
     if (!this.getSubmenu().isPosted()) {
       this.getSubmenu().post();
     } else {
-      (<AbstractMenu>this.getSubmenu()).down(event);
+      this.getSubmenu().down(event);
     }
   }
 

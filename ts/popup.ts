@@ -153,7 +153,7 @@ export class Popup extends AbstractPostable {
    * @private
    */
   private resize(): void {
-    let table = <HTMLElement>this.window.document.body.firstChild;
+    let table = this.window.document.body.firstChild as HTMLElement;
     let H = (this.window.outerHeight - this.window.innerHeight) || 30;
     let W = (this.window.outerWidth - this.window.innerWidth) || 30;
     W = Math.max(140, Math.min(Math.floor(.5 * this.window.screen.width),

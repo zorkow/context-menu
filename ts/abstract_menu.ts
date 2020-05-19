@@ -195,10 +195,10 @@ export abstract class AbstractMenu extends AbstractPostable implements Menu {
    */
   public unpostSubmenus(): void {
     let submenus =
-      <Submenu[]>this.items.filter(x => x instanceof Submenu);
+      this.items.filter(x => x instanceof Submenu) as Submenu[];
     for (let submenu of submenus) {
       submenu.getSubmenu().unpost();
-      if (<Item>submenu !== this.getFocused()) {
+      if (submenu !== this.getFocused()) {
         submenu.unfocus();
       }
     }
@@ -225,7 +225,7 @@ export abstract class AbstractMenu extends AbstractPostable implements Menu {
         return item;
       }
       if (item.getType() === 'submenu') {
-        let result = (<Submenu>item).getSubmenu().find(id);
+        let result = (item as Submenu).getSubmenu().find(id);
         if (result) {
           return result;
         }

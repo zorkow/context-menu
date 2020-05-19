@@ -46,7 +46,7 @@ export class Checkbox extends AbstractVariableItem<boolean> {
    */
   constructor(menu: Menu, content: string, variable: string, id?: string) {
     super(menu, 'checkbox', content, id);
-    this.variable = <Variable<boolean>>menu.getPool().lookup(variable);
+    this.variable = menu.getPool().lookup(variable) as Variable<boolean>;
     this.register();
   }
 

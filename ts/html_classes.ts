@@ -33,7 +33,7 @@ const PREFIX: string = 'CtxtMenu';
  * @private
  */
 function prefix_(name: string): string {
-  return <string>(PREFIX + '_' + name);
+  return PREFIX + '_' + name;
 }
 
 /**
@@ -43,7 +43,7 @@ function prefix_(name: string): string {
  * @private
  */
 function prefixClass_(name: string): HtmlClass {
-  return <HtmlClass>prefix_(name);
+  return prefix_(name) as HtmlClass;
 }
 
 /**
@@ -53,7 +53,7 @@ function prefixClass_(name: string): HtmlClass {
  * @private
  */
 function prefixAttr_(name: string): HtmlAttr {
-  return <HtmlAttr>prefix_(name);
+  return prefix_(name) as HtmlAttr;
 }
 
 // This is in lieu of a proper enum type.

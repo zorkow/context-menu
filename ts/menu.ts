@@ -25,8 +25,10 @@
 import {Item} from './item';
 import {Postable} from './postable';
 import {VariablePool} from './variable_pool';
+import {KeyNavigatable} from './key_navigatable';
+import {MouseNavigatable} from './mouse_navigatable';
 
-export interface Menu extends Postable {
+export interface Menu extends Postable, KeyNavigatable, MouseNavigatable  {
 
   /**
    * The base menu structure this menu belongs to.
