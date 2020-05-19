@@ -69,5 +69,7 @@ export interface Menu extends Postable {
    */
   generateMenu(): void;
 
+  baseMenu: Menu;
+
 }
 

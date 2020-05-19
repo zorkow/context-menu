@@ -41,6 +41,16 @@ import {Submenu} from './item_submenu';
 
 export abstract class AbstractMenu extends AbstractPostable implements Menu {
 
+  private _baseMenu: Menu = null;
+
+  public set baseMenu(menu: Menu) {
+    this._baseMenu = menu;
+  }
+
+  public get baseMenu(): Menu {
+    return this._baseMenu;
+  }
+
   /**
    * @override
    */

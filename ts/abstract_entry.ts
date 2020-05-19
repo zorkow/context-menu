@@ -25,6 +25,7 @@
 import {Entry} from './entry';
 import {MenuElement} from './menu_element';
 import {Menu} from './menu';
+import {AbstractMenu} from './abstract_menu';
 import {HtmlClasses} from './html_classes';
 
 
@@ -64,8 +65,8 @@ export abstract class AbstractEntry extends MenuElement implements Entry {
   /**
    * @return {Menu} The context menu or sub-menu the entry belongs to.
    */
-  public getMenu() {
-    return this.menu;
+  public getMenu(): AbstractMenu {
+    return this.menu as AbstractMenu;
   }
 
   /**

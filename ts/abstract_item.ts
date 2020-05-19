@@ -200,14 +200,14 @@ export abstract class AbstractItem extends AbstractEntry implements Item {
    * @override
    */
   public up(event: KeyboardEvent) {
-    (<AbstractMenu>this.getMenu()).up(event);
+    this.getMenu().up(event);
   }
 
   /**
    * @override
    */
   public down(event: KeyboardEvent) {
-    (<AbstractMenu>this.getMenu()).down(event);
+    this.getMenu().down(event);
   }
 
   //// TODO: RTL change of direction.
@@ -228,7 +228,7 @@ export abstract class AbstractItem extends AbstractEntry implements Item {
    * @override
    */
   public right(event: KeyboardEvent) {
-    (<AbstractMenu>this.getMenu()).right(event);
+    this.getMenu().right(event);
   }
 
   /**

@@ -25,7 +25,6 @@
 import {ContextMenu} from './context_menu';
 import {Item} from './item';
 import {Menu} from './menu';
-import {SubMenu} from './sub_menu';
 
 
 
@@ -40,7 +39,8 @@ export namespace MenuUtil {
    */
   export function close(item: Item): void {
     let menu = item.getMenu();
-    if (menu instanceof SubMenu) {
+    // TODO: Have baseMenu point to itself and simplify unposting.
+    if (menu.baseMenu) {
       menu.baseMenu.unpost();
     } else {
       menu.unpost();
@@ -54,8 +54,7 @@ export namespace MenuUtil {
    */
   export function getActiveElement(item: Item): HTMLElement {
     let menu = item.getMenu();
-    let baseMenu = menu instanceof SubMenu ?
-      menu.baseMenu : <ContextMenu>menu;
+    let baseMenu = (menu.baseMenu ? menu.baseMenu : menu) as ContextMenu;
     return baseMenu.getStore().getActive();
   }
 

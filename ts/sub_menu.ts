@@ -30,11 +30,6 @@ import {Submenu} from './item_submenu';
 
 export class SubMenu extends AbstractMenu {
 
-  /**
-   * @type {ContextMenu}
-   */
-  public baseMenu: ContextMenu;
-
   private anchor: Submenu;
 
   /**
@@ -86,7 +81,7 @@ export class SubMenu extends AbstractMenu {
     let margin = 5;
     let parent = this.anchor.getHtml();
     let menu = this.getHtml();
-    let base = this.baseMenu.getFrame();
+    let base = (this.baseMenu as ContextMenu).getFrame();
     let side = 'left', mw = parent.offsetWidth;
     let x = (mobileFlag ? 30 : mw - 2);
     let y = 0;
@@ -121,7 +116,7 @@ export class SubMenu extends AbstractMenu {
    * @override
    */
   protected display() {
-    this.baseMenu.getFrame().appendChild(this.getHtml());
+    (this.baseMenu as ContextMenu).getFrame().appendChild(this.getHtml());
   }
 
   /**
@@ -133,7 +128,7 @@ export class SubMenu extends AbstractMenu {
     do {
       menu = menu.anchor.getMenu();
     } while (menu instanceof SubMenu);
-    this.baseMenu = menu as ContextMenu;
+    this.baseMenu = menu;
   }
 
 }
