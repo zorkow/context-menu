@@ -25,31 +25,13 @@
 import {AbstractPostable} from './abstract_postable';
 import {AbstractItem} from './abstract_item';
 import {Menu} from './menu';
-import {MenuElement} from './menu_element';
 import {Item} from './item';
 import {VariablePool} from './variable_pool';
 import {HtmlClasses} from './html_classes';
-
-import {Checkbox} from './item_checkbox';
-import {Combo} from './item_combo';
-import {Command} from './item_command';
-import {Label} from './item_label';
-import {Radio} from './item_radio';
-import {Rule} from './item_rule';
 import {Submenu} from './item_submenu';
 
 
 export abstract class AbstractMenu extends AbstractPostable implements Menu {
-
-  private _baseMenu: Menu = null;
-
-  public set baseMenu(menu: Menu) {
-    this._baseMenu = menu;
-  }
-
-  public get baseMenu(): Menu {
-    return this._baseMenu;
-  }
 
   /**
    * @override
@@ -67,21 +49,36 @@ export abstract class AbstractMenu extends AbstractPostable implements Menu {
    */
   protected role = 'menu';
 
-  private items: Item[] = [];
+  private _baseMenu: Menu = null;
+  private _items: Item[] = [];
   private focused: Item;
 
   /**
    * @override
    */
-  public getItems(): Item[] {
-    return this.items;
+  public set baseMenu(menu: Menu) {
+    this._baseMenu = menu;
   }
 
   /**
    * @override
    */
-  public setItems(items: Item[]) {
-    return this.items = items;
+  public get baseMenu(): Menu {
+    return this._baseMenu;
+  }
+
+  /**
+   * @override
+   */
+  public get items(): Item[] {
+    return this._items;
+  }
+
+  /**
+   * @override
+   */
+  public set items(items: Item[]) {
+    this._items = items;
   }
 
   /**
@@ -120,7 +117,7 @@ export abstract class AbstractMenu extends AbstractPostable implements Menu {
    * @override
    */
   public up(event: KeyboardEvent): void {
-    let items = this.getItems().filter(
+    let items = this.items.filter(
       x => (x instanceof AbstractItem) && (!x.isHidden()));
     if (items.length === 0) {
       return;
@@ -141,7 +138,7 @@ export abstract class AbstractMenu extends AbstractPostable implements Menu {
    * @override
    */
   public down(event: KeyboardEvent): void {
-    let items = this.getItems().filter(
+    let items = this.items.filter(
       x => (x instanceof AbstractItem) && (!x.isHidden()));
     if (items.length === 0) {
       return;
@@ -220,7 +217,7 @@ export abstract class AbstractMenu extends AbstractPostable implements Menu {
    * @override
    */
   public find(id: string): Item {
-    for (let item of this.getItems()) {
+    for (let item of this.items) {
       if (item.getType() === 'rule') {
         continue;
       }

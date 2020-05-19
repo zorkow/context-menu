@@ -64,7 +64,6 @@ namespace Parser {
     return new Checkbox(menu, content, variable, id);
   };
 
-
   /**
    * Parses a JSON respresentation of a combo item.
    * @param {JSON} json The JSON object to parse.
@@ -76,7 +75,6 @@ namespace Parser {
     {content: string, variable: string, id: string}, menu: Menu): Combo {
     return new Combo(menu, content, variable, id);
   };
-
 
   /**
    * Parses a JSON respresentation of a label item.
@@ -90,7 +88,6 @@ namespace Parser {
     return new Label(menu, content, id);
   };
 
-
   /**
    * Parses a JSON respresentation of a radio item.
    * @param {JSON} json The JSON object to parse.
@@ -103,7 +100,6 @@ namespace Parser {
     return new Radio(menu, content, variable, id);
   };
 
-
   /**
    * Parses a JSON respresentation of a rule item.
    * @param {JSON} json The empty JSON object.
@@ -113,7 +109,6 @@ namespace Parser {
   const parseRule = function({}: {}, menu: Menu): Rule {
     return new Rule(menu);
   };
-
 
   /**
    * Parses a JSON respresentation of a submenu item.
@@ -129,7 +124,6 @@ namespace Parser {
     item.setSubmenu(subMenu);
     return item;
   };
-
 
   /**
    * Parses a JSON respresentation of a variable pool.
@@ -147,14 +141,12 @@ namespace Parser {
     // The variable id is currently ignored!
     let {pool: pool, items: items, id: id} = menu;
     const ctxtMenu = new ContextMenu();
-    const variables = pool.map(x => parseVariable(x as any, ctxtMenu.getPool()));
+    const variables = pool.map(
+      x => parseVariable(x as any, ctxtMenu.getPool()));
     const itemList = parseItems(items, ctxtMenu);
-    // TODO: Try and catch with error
-    // ctxtMenu.parseItems(items);
-    ctxtMenu.setItems(itemList);
+    ctxtMenu.items = itemList;
     return ctxtMenu;
   };
-
 
   /**
    * Parses a JSON respresentation of a submenu.
@@ -167,10 +159,9 @@ namespace Parser {
     anchor: Submenu): SubMenu {
     const submenu = new SubMenu(anchor);
     const itemList = parseItems(items, submenu);
-    submenu.setItems(itemList);
+    submenu.items = itemList;
     return submenu;
   };
-
 
   /**
    * Parses a JSON respresentation of a variable and inserts it into the
@@ -180,11 +171,11 @@ namespace Parser {
   const parseVariable = function(
     {name: name, getter: getter, setter: setter}:
     {name: string, getter: () => string | boolean,
-     setter: (x: (string | boolean)) => void}, pool: VariablePool<string|boolean>) {
+     setter: (x: (string | boolean)) => void},
+    pool: VariablePool<string|boolean>) {
     const variable = new Variable(name, getter, setter);
     pool.insert(variable);
   };
-
 
   /**
    * Parses items in JSON formats and attaches them to the menu.
@@ -199,13 +190,14 @@ namespace Parser {
   /**
    * Parses items in JSON formats and attaches them to the menu.
    * @param {Array.<JSON>} items List of JSON menu items.
-   * @return {}
+   * @param {Menu} ctxt The context menu for the items.
+   * @return {Item} The list of parsed items.
    */
   const parseItem = function(item: any, ctxt: Menu): Item {
-    const func = parseMapping_[item['type']];
+    const func = parseMapping[item['type']];
     if (func) {
       const menuItem = func(item, ctxt);
-      ctxt.getItems().push(menuItem);
+      ctxt.items.push(menuItem);
       if (item['disabled']) {
         menuItem.disable();
       }
@@ -213,7 +205,10 @@ namespace Parser {
     }
   };
 
-  const parseMapping_: { [id: string]: Function; } = {
+  /**
+   * @type{Object.<Function>}
+   */
+  const parseMapping: { [id: string]: Function } = {
     'checkbox': parseCheckbox,
     'combo': parseCombo,
     'command': parseCommand,

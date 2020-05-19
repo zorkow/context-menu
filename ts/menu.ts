@@ -29,11 +29,16 @@ import {VariablePool} from './variable_pool';
 export interface Menu extends Postable {
 
   /**
-   * Returns the items in that menu.
-   * @return {Array.<Item>} The array of items.
+   * The base menu structure this menu belongs to.
+   * @type {Menu}
    */
-  getItems(): Item[];
-  setItems(items: Item[]): void;
+  baseMenu: Menu;
+
+  /**
+   * The items in that menu.
+   * @type {Item[]}
+   */
+  items: Item[];
 
   /**
    * Returns the currently focused Item.
@@ -69,8 +74,6 @@ export interface Menu extends Postable {
    * Generates the HTML element containing the menu entries.
    */
   generateMenu(): void;
-
-  baseMenu: Menu;
 
 }
 
