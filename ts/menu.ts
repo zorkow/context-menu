@@ -28,46 +28,46 @@ import {VariablePool} from './variable_pool';
 
 export interface Menu extends Postable {
 
-    /**
-     * Returns the items in that menu.
-     * @return {Array.<Item>} The array of items.
-     */
-    getItems(): Item[];
+  /**
+   * Returns the items in that menu.
+   * @return {Array.<Item>} The array of items.
+   */
+  getItems(): Item[];
 
-    /**
-     * Returns the currently focused Item.
-     * @return {Item} The focused Item.
-     */
-    getFocused(): Item;
+  /**
+   * Returns the currently focused Item.
+   * @return {Item} The focused Item.
+   */
+  getFocused(): Item;
 
-    /**
-     * Sets the currently focused Item.
-     * @param {Item} item The new focused Item.
-     */
-    setFocused(item?: Item): void;
+  /**
+   * Sets the currently focused Item.
+   * @param {Item} item The new focused Item.
+   */
+  setFocused(item?: Item): void;
 
-    /**
-     * @return {VariablePool<string | boolean>} The variable pool associated to
-     *     this menu.
-     */
-    getPool(): VariablePool<string | boolean>;
+  /**
+   * @return {VariablePool<string | boolean>} The variable pool associated to
+   *     this menu.
+   */
+  getPool(): VariablePool<string | boolean>;
 
-    /**
-     * Unposts all submenus of this menu.
-     */
-    unpostSubmenus(): void;
+  /**
+   * Unposts all submenus of this menu.
+   */
+  unpostSubmenus(): void;
 
-    /**
-     * Retrieves a menu item via its id by depth-first search.
-     * @param {string} id The item id.
-     * @return {?Item} The item if it exists.
-     */
-    find(id: string): Item;
+  /**
+   * Retrieves a menu item via its id by depth-first search.
+   * @param {string} id The item id.
+   * @return {?Item} The item if it exists.
+   */
+  find(id: string): Item;
 
-    /**
-     * Generates the HTML element containing the menu entries.
-     */
-    generateMenu(): void;
+  /**
+   * Generates the HTML element containing the menu entries.
+   */
+  generateMenu(): void;
 
-  }
+}
 
