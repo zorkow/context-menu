@@ -49,18 +49,6 @@ export class Combo extends AbstractVariableItem<string> {
   private inputEvent: boolean = false;
 
   /**
-   * Parses a JSON respresentation of a combo item.
-   * @param {JSON} json The JSON object to parse.
-   * @param {Menu} menu The menu the item is attached to.
-   * @return {Combo} The new combo object.
-   */
-  public static parse(
-    {content: content, variable: variable, id: id}:
-    {content: string, variable: string, id: string}, menu: Menu): Combo {
-    return new Combo(menu, content, variable, id);
-  }
-
-  /**
    * @constructor
    * @extends {AbstractItem}
    * @param {Menu} menu The context menu or sub-menu the item belongs to.

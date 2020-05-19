@@ -33,6 +33,7 @@ export interface Menu extends Postable {
    * @return {Array.<Item>} The array of items.
    */
   getItems(): Item[];
+  setItems(items: Item[]): void;
 
   /**
    * Returns the currently focused Item.

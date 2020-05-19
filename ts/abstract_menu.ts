@@ -80,6 +80,13 @@ export abstract class AbstractMenu extends AbstractPostable implements Menu {
   /**
    * @override
    */
+  public setItems(items: Item[]) {
+    return this.items = items;
+  }
+
+  /**
+   * @override
+   */
   public getPool(): VariablePool<string | boolean> {
     return this.variablePool;
   }
@@ -228,41 +235,6 @@ export abstract class AbstractMenu extends AbstractPostable implements Menu {
       }
     }
     return null;
-  }
-
-  /**
-   * Parses items in JSON formats and attaches them to the menu.
-   * @param {Array.<JSON>} items List of JSON menu items.
-   */
-  protected parseItems(items: any[]) {
-    let hidden = items.map(x => [this.parseItem.bind(this)(x), x.hidden]);
-    hidden.forEach(x => x[1] && x[0].hide());
-  }
-
-  /**
-   * Parses items in JSON formats and attaches them to the menu.
-   * @param {Array.<JSON>} items List of JSON menu items.
-   * @return {}
-   */
-  private parseItem(item: any): Item {
-    const parseMapping_: { [id: string]: Function; } = {
-      'checkbox': Checkbox.parse,
-      'combo': Combo.parse,
-      'command': Command.parse,
-      'label': Label.parse,
-      'radio': Radio.parse,
-      'rule': Rule.parse,
-      'submenu': Submenu.parse
-    };
-    let func = parseMapping_[item['type']];
-    if (func) {
-      let menuItem = func(item, this);
-      this.getItems().push(menuItem);
-      if (item['disabled']) {
-        menuItem.disable();
-      }
-      return menuItem;
-    }
   }
 
 }

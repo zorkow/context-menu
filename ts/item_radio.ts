@@ -38,18 +38,6 @@ export class Radio extends AbstractVariableItem<string> {
   protected role = 'menuitemradio';
 
   /**
-   * Parses a JSON respresentation of a radio item.
-   * @param {JSON} json The JSON object to parse.
-   * @param {Menu} menu The menu the item is attached to.
-   * @return {Radio} The new radio object.
-   */
-  public static parse(
-    {content: content, variable: variable, id: id}:
-    {content: string, variable: string, id: string}, menu: Menu): Radio {
-    return new Radio(menu, content, variable, id);
-  }
-
-  /**
    * @constructor
    * @extends {AbstractVariableItem}
    * @param {Menu} menu The context menu or sub-menu the item belongs to.

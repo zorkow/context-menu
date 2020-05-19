@@ -40,16 +40,6 @@ export class Rule extends AbstractEntry {
   protected role = 'separator';
 
   /**
-   * Parses a JSON respresentation of a rule item.
-   * @param {JSON} json The empty JSON object.
-   * @param {Menu} menu The menu the item is attached to.
-   * @return {Rule} The new rule object.
-   */
-  public static parse({}: {}, menu: Menu): Rule {
-    return new Rule(menu);
-  }
-
-  /**
    * @constructor
    * @extends {AbstractItem}
    * @param {Menu} menu The context menu or sub-menu the item belongs to.

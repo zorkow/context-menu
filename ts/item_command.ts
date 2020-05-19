@@ -32,18 +32,6 @@ export class Command extends AbstractItem {
   private command: Function = null;
 
   /**
-   * Parses a JSON respresentation of a command item.
-   * @param {JSON} json The JSON object to parse.
-   * @param {Menu} menu The menu the item is attached to.
-   * @return {Command} The new command object.
-   */
-  public static parse(
-    {content: content, action: action, id: id}:
-    {content: string, action: Function, id: string}, menu: Menu): Command {
-    return new Command(menu, content, action, id);
-  }
-
-  /**
    * @constructor
    * @extends {AbstractItem}
    * @param {Menu} menu The context menu or sub-menu the item belongs to.

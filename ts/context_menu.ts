@@ -66,27 +66,6 @@ export class ContextMenu extends AbstractMenu {
 
 
   /**
-   * Parses a JSON respresentation of a variable pool.
-   * @param {JSON} json The JSON object to parse.
-   * @return {ContextMenu} The new context menu object.
-   */
-  public static parse({menu: menu}: {menu: {pool: Array<Object>,
-                                            items: Array<Object>,
-                                            id: string}}): ContextMenu {
-    if (!menu) {
-      MenuUtil.error(null, 'Wrong JSON format for menu.');
-      return;
-    }
-    // The variable id is currently ignored!
-    let {pool: pool, items: items, id: id} = menu;
-    let ctxtMenu = new this();
-    // TODO: Try and catch with error
-    pool.forEach(ctxtMenu.parseVariable.bind(ctxtMenu));
-    ctxtMenu.parseItems(items);
-    return ctxtMenu;
-  }
-
-  /**
    * @constructor
    * @extends {AbstractMenu}
    */
@@ -296,18 +275,6 @@ export class ContextMenu extends AbstractMenu {
       this.post(next);
       this.moving = false;
     }
-  }
-
-  /**
-   * Parses a JSON respresentation of a variable and inserts it into the
-   * variable pool of the context menu.
-   * @param {JSON} json The JSON object to parse.
-   */
-  private parseVariable(
-    {name: name, getter: getter, setter: setter}:
-    {name: string, getter: () => string | boolean,
-     setter: (x: (string | boolean)) => void}): void {
-    this.getPool().insert(new Variable(name, getter, setter));
   }
 
 }

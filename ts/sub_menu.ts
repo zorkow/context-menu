@@ -33,20 +33,6 @@ export class SubMenu extends AbstractMenu {
   private anchor: Submenu;
 
   /**
-   * Parses a JSON respresentation of a submenu.
-   * @param {JSON} json The JSON object to parse.
-   * @param {Submenu} anchor The anchor item the submenu is attached to.
-   * @return {SubMenu} The new submenu object.
-   */
-  public static parse(
-    {items: items, id: id}: {items: any[], id: string},
-    anchor: Submenu): SubMenu {
-    let submenu = new SubMenu(anchor);
-    submenu.parseItems(items);
-    return submenu;
-  }
-
-  /**
    * @constructor
    * @extends {AbstractMenu}
    * @param {Submenu} anchor The item in the parent menu triggering this

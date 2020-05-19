@@ -64,7 +64,7 @@ export namespace MenuUtil {
    * @param {string} msg The message to be signalled.
    */
   export function error(error: Error, msg: string): void {
-    console.log('ContextMenu Error: ' + msg);
+    console.error('ContextMenu Error: ' + msg);
   }
 
   /**

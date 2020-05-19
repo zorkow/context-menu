@@ -44,20 +44,6 @@ export class Submenu extends AbstractItem {
   private submenu: Menu = null;
 
   /**
-   * Parses a JSON respresentation of a submenu item.
-   * @param {JSON} json The JSON object to parse.
-   * @param {Menu} menu The menu the item is attached to.
-   * @return {Submenu} The new submenu object.
-   */
-  public static parse(
-    {content: content, menu: submenu, id: id}:
-    {content: string, menu: any, id: string}, menu: Menu): Submenu {
-    let item = new Submenu(menu, content, id);
-    item.setSubmenu(SubMenu.parse(submenu, item));
-    return item;
-  }
-
-  /**
    * @constructor
    * @extends {AbstractItem}
    * @param {Menu} menu The context menu or sub-menu the item belongs to.

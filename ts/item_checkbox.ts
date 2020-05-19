@@ -37,19 +37,6 @@ export class Checkbox extends AbstractVariableItem<boolean> {
   protected role = 'menuitemcheckbox';
 
   /**
-   * Parses a JSON respresentation of a checkbox item.
-   * @param {JSON} json The JSON object to parse.
-   * @param {Menu} menu The menu the item is attached to.
-   * @return {Checkbox} The new checkbox object.
-   */
-  public static parse(
-    {content: content, variable: variable, id: id}:
-    {content: string, variable: string, id: string}, menu: Menu): Checkbox {
-    return new Checkbox(menu, content, variable, id);
-  }
-
-
-  /**
    * @constructor
    * @extends {AbstractItem}
    * @param {Menu} menu The context menu or sub-menu the item belongs to.
