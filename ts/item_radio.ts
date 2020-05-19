@@ -55,7 +55,7 @@ export class Radio extends AbstractVariableItem<string> {
    * @override
    */
   public executeAction() {
-    this.variable.setValue(this.getId());
+    this.variable.setValue(this.id);
     MenuUtil.close(this);
   }
 
@@ -75,7 +75,7 @@ export class Radio extends AbstractVariableItem<string> {
   protected updateAria() {
     this.getHtml().setAttribute(
       'aria-checked',
-      this.variable.getValue() === this.getId() ? 'true' : 'false'
+      this.variable.getValue() === this.id ? 'true' : 'false'
     );
   }
 
@@ -85,7 +85,7 @@ export class Radio extends AbstractVariableItem<string> {
    */
   protected updateSpan() {
     this.span.style.display =
-      this.variable.getValue() === this.getId() ? '' : 'none';
+      this.variable.getValue() === this.id ? '' : 'none';
   }
 
 }

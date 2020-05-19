@@ -221,7 +221,7 @@ export abstract class AbstractMenu extends AbstractPostable implements Menu {
       if (item.getType() === 'rule') {
         continue;
       }
-      if (item.getId() === id) {
+      if (item.id === id) {
         return item;
       }
       if (item.getType() === 'submenu') {

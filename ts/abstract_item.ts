@@ -40,7 +40,7 @@ export abstract class AbstractItem extends AbstractEntry implements Item {
    */
   protected disabled: boolean = false;
 
-  private id: string;
+  private _id: string;
   private callbacks: Function[] = [];
 
   /**
@@ -55,7 +55,7 @@ export abstract class AbstractItem extends AbstractEntry implements Item {
   constructor(menu: Menu, type: string,
               private _content: string, id?: string) {
     super(menu, type);
-    this.id = id ? id : _content;
+    this._id = id ? id : _content;
   }
 
   /**
@@ -79,8 +79,8 @@ export abstract class AbstractItem extends AbstractEntry implements Item {
   /**
    * @override
    */
-  public getId() {
-    return this.id;
+  public get id() {
+    return this._id;
   }
 
   /**
@@ -265,7 +265,7 @@ export abstract class AbstractItem extends AbstractEntry implements Item {
       try {
         func(this);
       } catch (e) {
-        MenuUtil.error(e, 'Callback for menu entry ' + this.getId() +
+        MenuUtil.error(e, 'Callback for menu entry ' + this.id +
                        ' failed.');
       }
     }

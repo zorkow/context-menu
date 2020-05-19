@@ -37,7 +37,7 @@ export interface Item extends Entry, Element {
   /**
    * @return {string} The id of this item.
    */
-  getId(): string;
+  id: string;
 
   /**
    * Pressing the menu item.
