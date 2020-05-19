@@ -101,7 +101,7 @@ export class ContextMenu extends AbstractMenu {
    */
   protected display() {
     document.body.appendChild(this.frame);
-    this.frame.appendChild(this.getHtml());
+    this.frame.appendChild(this.html);
     this.focus();
   }
 
@@ -215,7 +215,7 @@ export class ContextMenu extends AbstractMenu {
     }
     this.getStore().setActive(node);
     this.anchor = this.getStore().getActive();
-    let menu = this.getHtml();
+    let menu = this.html;
     let margin = 5;
     if (x + menu.offsetWidth > document.body.offsetWidth - margin) {
       x = document.body.offsetWidth - menu.offsetWidth - margin;

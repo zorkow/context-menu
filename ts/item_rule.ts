@@ -53,7 +53,7 @@ export class Rule extends AbstractEntry {
    */
   public generateHtml() {
     super.generateHtml();
-    let html = this.getHtml();
+    let html = this.html;
     html.classList.add(HtmlClasses['MENURULE']);
     html.setAttribute('aria-orientation', 'vertical');
   }

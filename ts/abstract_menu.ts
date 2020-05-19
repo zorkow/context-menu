@@ -168,14 +168,14 @@ export abstract class AbstractMenu extends AbstractPostable implements Menu {
    * @override
    */
   public generateMenu() {
-    let html = this.getHtml();
+    let html = this.html;
     html.classList.add(HtmlClasses['MENU']);
     for (let item of this.items) {
       if (!item.isHidden()) {
-        html.appendChild(item.getHtml());
+        html.appendChild(item.html);
         continue;
       }
-      let itemHtml = item.getHtml();
+      let itemHtml = item.html;
       if (itemHtml.parentNode) {
         itemHtml.parentNode.removeChild(itemHtml);
       }

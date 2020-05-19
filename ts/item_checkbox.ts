@@ -72,7 +72,7 @@ export class Checkbox extends AbstractVariableItem<boolean> {
    * Toggles the aria checked attribute.
    */
   protected updateAria() {
-    this.getHtml().setAttribute(
+    this.html.setAttribute(
       'aria-checked',
       this.variable.getValue() ? 'true' : 'false'
     );

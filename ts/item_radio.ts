@@ -73,7 +73,7 @@ export class Radio extends AbstractVariableItem<string> {
    * Toggles the aria checked attribute.
    */
   protected updateAria() {
-    this.getHtml().setAttribute(
+    this.html.setAttribute(
       'aria-checked',
       this.variable.getValue() === this.id ? 'true' : 'false'
     );

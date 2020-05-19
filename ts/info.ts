@@ -72,21 +72,13 @@ export class Info extends AbstractPostable {
   /**
    * @override
    */
-  public getHtml() {
-    let html = super.getHtml();
-    return html;
-  }
-
-  /**
-   * @override
-   */
   public generateHtml() {
     super.generateHtml();
-    let html = this.getHtml();
+    let html = this.html;
     html.appendChild(this.generateTitle());
     html.appendChild(this.contentDiv);
     html.appendChild(this.generateSignature());
-    html.appendChild(this.close.getHtml());
+    html.appendChild(this.close.html);
     html.setAttribute('tabindex', '0');
   }
 
@@ -98,7 +90,7 @@ export class Info extends AbstractPostable {
     //// TODO: There is potentially a bug in IE. Look into it.
     //  Look for MENU.prototype.msieAboutBug in MathMenu.js
     let doc = document.documentElement;
-    let html = this.getHtml();
+    let html = this.html;
     let H = window.innerHeight || doc.clientHeight || doc.scrollHeight || 0;
     let x = Math.floor((- html.offsetWidth) / 2);
     let y = Math.floor((H - html.offsetHeight) / 3);
@@ -116,9 +108,9 @@ export class Info extends AbstractPostable {
   protected display() {
     this.menu.registerWidget(this);
     this.contentDiv.innerHTML = this.content();
-    let html = this.menu.getHtml();
+    let html = this.menu.html;
     html.parentNode.removeChild(html);
-    this.menu.getFrame().appendChild(this.getHtml());
+    this.menu.getFrame().appendChild(this.html);
   }
 
   /**
@@ -146,7 +138,7 @@ export class Info extends AbstractPostable {
    */
   public unpost() {
     super.unpost();
-    this.getHtml().classList.remove(HtmlClasses['MOUSEPOST']);
+    this.html.classList.remove(HtmlClasses['MOUSEPOST']);
     this.menu.unregisterWidget(this);
   }
 
@@ -155,7 +147,7 @@ export class Info extends AbstractPostable {
    */
   private generateClose(): CloseButton {
     let close = new CloseButton(this);
-    let html = close.getHtml();
+    let html = close.html;
     html.classList.add(HtmlClasses['INFOCLOSE']);
     html.setAttribute('aria-label', 'Close Dialog Box');
     return close;

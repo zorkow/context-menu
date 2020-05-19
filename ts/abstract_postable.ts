@@ -47,7 +47,7 @@ implements Postable {
       return;
     }
     if (typeof(x) !== 'undefined' && typeof(y) !== 'undefined') {
-      this.getHtml().setAttribute(
+      this.html.setAttribute(
         'style', 'left: ' + x + 'px; top: ' + y + 'px;');
     }
     this.display();
@@ -61,7 +61,7 @@ implements Postable {
     if (!this.posted) {
       return;
     }
-    let html = this.getHtml();
+    let html = this.html;
     if (html.parentNode) {
       html.parentNode.removeChild(html);
     }

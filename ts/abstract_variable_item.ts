@@ -53,7 +53,7 @@ implements VariableItem {
    */
   public generateHtml() {
     super.generateHtml();
-    let html = this.getHtml();
+    let html = this.html;
     if (!this.span) {
       this.generateSpan();
     }

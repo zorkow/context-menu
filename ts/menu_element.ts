@@ -41,7 +41,7 @@ Element {
    */
   protected className: HtmlClass;
 
-  private html: HTMLElement;
+  private _html: HTMLElement;
 
   /**
    * Adds a attributes and values to the HTML element.
@@ -56,18 +56,18 @@ Element {
   /**
    * @override
    */
-  public getHtml() {
-    if (!this.html) {
+  public get html() {
+    if (!this._html) {
       this.generateHtml();
     }
-    return this.html;
+    return this._html;
   }
 
   /**
    * @override
    */
-  public setHtml(html: HTMLElement) {
-    this.html = html;
+  public set html(html: HTMLElement) {
+    this._html = html;
     this.addEvents(html);
   }
 
@@ -79,14 +79,14 @@ Element {
     let html = document.createElement('div');
     html.classList.add(this.className);
     html.setAttribute('role', this.role);
-    this.setHtml(html);
+    this.html = html;
   }
 
   /**
    * @override
    */
   public focus() {
-    let html = this.getHtml();
+    let html = this.html;
     html.setAttribute('tabindex', '0');
     html.focus();
   }
@@ -95,7 +95,7 @@ Element {
    * @override
    */
   public unfocus() {
-    let html = this.getHtml();
+    let html = this.html;
     if (html.hasAttribute('tabindex')) {
       html.setAttribute('tabindex', '-1');
     }

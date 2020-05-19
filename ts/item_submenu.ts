@@ -97,8 +97,8 @@ export class Submenu extends AbstractItem {
       this.getMenu().unpostSubmenus();
       return;
     }
-    this.getHtml().setAttribute('tabindex', '-1');
-    this.getHtml().blur();
+    this.html.setAttribute('tabindex', '-1');
+    this.html.blur();
   }
 
   /**
@@ -124,7 +124,7 @@ export class Submenu extends AbstractItem {
    */
   public generateHtml() {
     super.generateHtml();
-    let html = this.getHtml();
+    let html = this.html;
     this.span = document.createElement('span');
     this.span.textContent = '\u25BA';
     this.span.classList.add(HtmlClasses['MENUARROW']);

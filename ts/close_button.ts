@@ -63,7 +63,7 @@ export class CloseButton extends AbstractPostable {
     let content = document.createElement('span');
     content.textContent = '\u00D7';
     html.appendChild(content);
-    this.setHtml(html);
+    this.html = html;
   }
 
   /**

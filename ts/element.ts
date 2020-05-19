@@ -27,15 +27,10 @@
 export interface Element  {
 
   /**
-   * Generates the DOM element if it does not yet exists and returns it.
-   * @return {HTMLElement} The HTML element associated with this entry.
+   * @type {HTMLElement} The HTML element associated with this entry.
+   * The getter generates the DOM element if it does not yet exist.
    */
-  getHtml(): HTMLElement;
-
-  /**
-   * @param {HTMLElement} element Sets the HTML Element.
-   */
-  setHtml(element: HTMLElement): void;
+  html: HTMLElement;
 
   /**
    * Forces generation of the actual DOM element.

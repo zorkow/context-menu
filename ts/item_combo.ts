@@ -85,7 +85,7 @@ export class Combo extends AbstractVariableItem<string> {
    */
   public generateHtml() {
     super.generateHtml();
-    let html = this.getHtml();
+    let html = this.html;
     html.classList.add(HtmlClasses['MENUCOMBOBOX']); // ???
   }
 

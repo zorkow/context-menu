@@ -150,7 +150,7 @@ export abstract class AbstractItem extends AbstractEntry implements Item {
    */
   public generateHtml() {
     super.generateHtml();
-    let html = this.getHtml();
+    let html = this.html;
     html.setAttribute('aria-disabled', 'false');
     html.textContent = this.content;
   }
@@ -160,7 +160,7 @@ export abstract class AbstractItem extends AbstractEntry implements Item {
    */
   protected activate() {
     if (!this.disabled) {
-      this.getHtml().classList.add(HtmlClasses['MENUACTIVE']);
+      this.html.classList.add(HtmlClasses['MENUACTIVE']);
     }
   }
 
@@ -168,7 +168,7 @@ export abstract class AbstractItem extends AbstractEntry implements Item {
    * Removes active style from item.
    */
   protected deactivate() {
-    this.getHtml().classList.remove(HtmlClasses['MENUACTIVE']);
+    this.html.classList.remove(HtmlClasses['MENUACTIVE']);
   }
 
   /**
@@ -242,7 +242,7 @@ export abstract class AbstractItem extends AbstractEntry implements Item {
    */
   public disable() {
     this.disabled = true;
-    let html = this.getHtml();
+    let html = this.html;
     html.classList.add(HtmlClasses['MENUDISABLED']);
     html.setAttribute('aria-disabled', 'true');
   }
@@ -252,7 +252,7 @@ export abstract class AbstractItem extends AbstractEntry implements Item {
    */
   public enable() {
     this.disabled = false;
-    let html = this.getHtml();
+    let html = this.html;
     html.classList.remove(HtmlClasses['MENUDISABLED']);
     html.removeAttribute('aria-disabled');
   }
