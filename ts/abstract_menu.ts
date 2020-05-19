@@ -84,7 +84,7 @@ export abstract class AbstractMenu extends AbstractPostable implements Menu {
   /**
    * @override
    */
-  public getPool(): VariablePool<string | boolean> {
+  public get pool(): VariablePool<string | boolean> {
     return this.variablePool;
   }
 

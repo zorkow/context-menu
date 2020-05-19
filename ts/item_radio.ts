@@ -47,7 +47,7 @@ export class Radio extends AbstractVariableItem<string> {
    */
   constructor(menu: Menu, content: string, variable: string, id?: string) {
     super(menu, 'radio', content, id);
-    this.variable = menu.getPool().lookup(variable) as Variable<string>;
+    this.variable = menu.pool.lookup(variable) as Variable<string>;
     this.register();
   }
 

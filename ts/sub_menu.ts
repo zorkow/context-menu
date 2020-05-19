@@ -41,7 +41,7 @@ export class SubMenu extends AbstractMenu {
   constructor(anchor: Submenu) {
     super();
     this.anchor = anchor;
-    this.variablePool = this.anchor.getMenu().getPool();
+    this.variablePool = this.anchor.getMenu().pool;
     this.setBaseMenu();
   }
 

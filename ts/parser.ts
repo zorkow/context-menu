@@ -141,7 +141,7 @@ namespace Parser {
     // The variable id is currently ignored!
     let {pool: pool, items: items} = menu;
     const ctxtMenu = new ContextMenu();
-    pool.forEach(x => parseVariable(x as any, ctxtMenu.getPool()));
+    pool.forEach(x => parseVariable(x as any, ctxtMenu.pool));
     const itemList = parseItems(items, ctxtMenu);
     ctxtMenu.items = itemList;
     return ctxtMenu;
