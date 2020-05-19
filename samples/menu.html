@@ -3,15 +3,15 @@
 <title>Testing the context menu</title>
 
 </head>
-<script src="../dist/ContextMenu.js" async></script>
+<script src="../dist/ContextMenu.js"></script>
 <script>
-var dialog = new Info('a', function(){
+var dialog = new ContextMenu.Info('a', function(){
 return '<b>bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb </b><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p>';}, '<a href="http://www.mathjax.org">MathJax.org</a>');
 
 var MENU = {};
 MENU.ShowSource = function() {};
 MENU.isMac = function() {};
-MENU.Zoom = function() {};
+MENU.Zoom = function() {console.log("Trying!")};
 MENU.Id = function(x) {return x};
 MENU.About = function() {
   dialog.post(0, 0);
@@ -22,42 +22,50 @@ var ll = {"menu":
      {
          "name": "zoom",
          "value": "NoZoom",
-         "action": MENU.Zoom
+         "getter": MENU.Zoom,
+         "setter": MENU.Zoom
      },
      {
          "name": "zscale",
          "value": "100%",
-         "action": MENU.Zoom
+         "getter": MENU.Zoom,
+         "setter": MENU.Zoom
      },
      {
          "name": "texHints",
          "value": false,
-         "action": MENU.Id
+         "getter": MENU.Id,
+         "setter": MENU.Id
      },
      {
          "name": "semantics",
          "value": false,
-         "action": MENU.Id
+         "getter": MENU.Id,
+         "setter": MENU.Id
      },
      {
          "name": "ALT",
          "value": false,
-         "action": MENU.Id
+         "getter": MENU.Id,
+         "setter": MENU.Id
      },
      {
          "name": "CMD",
          "value": false,
-         "action": MENU.Id
+         "getter": MENU.Id,
+         "setter": MENU.Id
      },
      {
          "name": "CTRL",
          "value": false,
-         "action": MENU.Id
+         "getter": MENU.Id,
+         "setter": MENU.Id
      },
      {
          "name": "Shift",
          "value": false,
-         "action": MENU.Id
+         "getter": MENU.Id,
+         "setter": MENU.Id
      }
  ],
   "items":
@@ -222,11 +230,12 @@ var ll = {"menu":
       
   ]
  }
-}
-;
-CssStyles.addInfoStyles();
-CssStyles.addMenuStyles();
-cc = ContextMenu.parse(ll);
+};
+console.log(ll.menu.pool[0].action);
+
+ContextMenu.CssStyles.addInfoStyles();
+ContextMenu.CssStyles.addMenuStyles();
+cc = ContextMenu.Parser.parseContextMenu(ll);
 dialog.attachMenu(cc);
 
 // Unfold zoom menu:
@@ -260,7 +269,7 @@ dialog.attachMenu(cc);
 <hr>
 <address></address>
 <!-- hhmts start -->
-Last modified: Mon May 18 23:57:41 BST 2020
+Last modified: Tue May 19 17:14:19 BST 2020
 <!-- hhmts end -->
 </body>
 <script>cc.getStore().insert(document.getElementsByClassName("test"));

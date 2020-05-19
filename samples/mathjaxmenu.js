@@ -590,7 +590,7 @@ MathJax.Hub.Register.StartupHook("MathEvents Ready", function () {
 
   ContextMenu.CssStyles.addInfoStyles();
   ContextMenu.CssStyles.addMenuStyles();
-  contextmenu = ContextMenu.ContextMenu.parse(cm_json);
+  contextmenu = ContextMenu.Parser.parseContextMenu(cm_json);
   about.attachMenu(contextmenu);
   help.attachMenu(contextmenu);
   mathmlSource.attachMenu(contextmenu);
