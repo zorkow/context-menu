@@ -38,7 +38,7 @@ import {Item} from './item';
 import {SubMenu} from './sub_menu';
 
 
-export namespace Parser {
+namespace Parser {
 
   /**
    * Parses a JSON respresentation of a command item.
@@ -46,7 +46,7 @@ export namespace Parser {
    * @param {Menu} menu The menu the item is attached to.
    * @return {Command} The new command object.
    */
-  let parseCommand = function(
+  const parseCommand = function(
     {content: content, action: action, id: id}:
     {content: string, action: Function, id: string}, menu: Menu): Command {
     return new Command(menu, content, action, id);
@@ -58,7 +58,7 @@ export namespace Parser {
    * @param {Menu} menu The menu the item is attached to.
    * @return {Checkbox} The new checkbox object.
    */
-  let parseCheckbox = function(
+  const parseCheckbox = function(
     {content: content, variable: variable, id: id}:
     {content: string, variable: string, id: string}, menu: Menu): Checkbox {
     return new Checkbox(menu, content, variable, id);
@@ -71,7 +71,7 @@ export namespace Parser {
    * @param {Menu} menu The menu the item is attached to.
    * @return {Combo} The new combo object.
    */
-  let parseCombo = function(
+  const parseCombo = function(
     {content: content, variable: variable, id: id}:
     {content: string, variable: string, id: string}, menu: Menu): Combo {
     return new Combo(menu, content, variable, id);
@@ -84,7 +84,7 @@ export namespace Parser {
    * @param {Menu} menu The menu the item is attached to.
    * @return {Label} The new label object.
    */
-  let parseLabel = function(
+  const parseLabel = function(
     {content: content, id: id}: {content: string, id: string},
     menu: Menu): Label {
     return new Label(menu, content, id);
@@ -97,7 +97,7 @@ export namespace Parser {
    * @param {Menu} menu The menu the item is attached to.
    * @return {Radio} The new radio object.
    */
-  let parseRadio = function(
+  const parseRadio = function(
     {content: content, variable: variable, id: id}:
     {content: string, variable: string, id: string}, menu: Menu): Radio {
     return new Radio(menu, content, variable, id);
@@ -110,7 +110,7 @@ export namespace Parser {
    * @param {Menu} menu The menu the item is attached to.
    * @return {Rule} The new rule object.
    */
-  let parseRule = function({}: {}, menu: Menu): Rule {
+  const parseRule = function({}: {}, menu: Menu): Rule {
     return new Rule(menu);
   };
 
@@ -121,11 +121,11 @@ export namespace Parser {
    * @param {Menu} menu The menu the item is attached to.
    * @return {Submenu} The new submenu object.
    */
-  let parseSubmenu = function(
+  const parseSubmenu = function(
     {content: content, menu: submenu, id: id}:
     {content: string, menu: any, id: string}, menu: Menu): Submenu {
-    let item = new Submenu(menu, content, id);
-    let subMenu = parseSubMenu(submenu, item);
+    const item = new Submenu(menu, content, id);
+    const subMenu = parseSubMenu(submenu, item);
     item.setSubmenu(subMenu);
     return item;
   };
@@ -146,9 +146,9 @@ export namespace Parser {
     }
     // The variable id is currently ignored!
     let {pool: pool, items: items, id: id} = menu;
-    let ctxtMenu = new ContextMenu();
-    let variables = pool.map(x => parseVariable(x as any, ctxtMenu.getPool()));
-    let itemList = parseItems(items, ctxtMenu);
+    const ctxtMenu = new ContextMenu();
+    const variables = pool.map(x => parseVariable(x as any, ctxtMenu.getPool()));
+    const itemList = parseItems(items, ctxtMenu);
     // TODO: Try and catch with error
     // ctxtMenu.parseItems(items);
     ctxtMenu.setItems(itemList);
@@ -162,11 +162,11 @@ export namespace Parser {
    * @param {Submenu} anchor The anchor item the submenu is attached to.
    * @return {SubMenu} The new submenu object.
    */
-  let parseSubMenu = function(
+  const parseSubMenu = function(
     {items: items, id: id}: {items: any[], id: string},
     anchor: Submenu): SubMenu {
-    let submenu = new SubMenu(anchor);
-    let itemList = parseItems(items, submenu);
+    const submenu = new SubMenu(anchor);
+    const itemList = parseItems(items, submenu);
     submenu.setItems(itemList);
     return submenu;
   };
@@ -177,12 +177,10 @@ export namespace Parser {
    * variable pool of the context menu.
    * @param {JSON} json The JSON object to parse.
    */
-  let parseVariable = function(
+  const parseVariable = function(
     {name: name, getter: getter, setter: setter}:
     {name: string, getter: () => string | boolean,
      setter: (x: (string | boolean)) => void}, pool: VariablePool<string|boolean>) {
-    console.log(name);
-    console.log(getter);
     const variable = new Variable(name, getter, setter);
     pool.insert(variable);
   };
@@ -192,8 +190,8 @@ export namespace Parser {
    * Parses items in JSON formats and attaches them to the menu.
    * @param {Array.<JSON>} items List of JSON menu items.
    */
-  let parseItems = function(items: any[], ctxt: Menu): Item[] {
-    let hidden = items.map(x => [parseItem(x, ctxt), x.hidden]);
+  const parseItems = function(items: any[], ctxt: Menu): Item[] {
+    const hidden = items.map(x => [parseItem(x, ctxt), x.hidden]);
     hidden.forEach(x => x[1] && x[0].hide());
     return hidden.map(x => x[0]);
   };
@@ -203,10 +201,10 @@ export namespace Parser {
    * @param {Array.<JSON>} items List of JSON menu items.
    * @return {}
    */
-  let parseItem = function(item: any, ctxt: Menu): Item {
-    let func = parseMapping_[item['type']];
+  const parseItem = function(item: any, ctxt: Menu): Item {
+    const func = parseMapping_[item['type']];
     if (func) {
-      let menuItem = func(item, ctxt);
+      const menuItem = func(item, ctxt);
       ctxt.getItems().push(menuItem);
       if (item['disabled']) {
         menuItem.disable();
@@ -225,3 +223,6 @@ export namespace Parser {
     'submenu': parseSubmenu
   };
 }
+
+let parse = Parser.parseContextMenu;
+export default parse;
