@@ -71,32 +71,32 @@ KeyNavigatable, MouseNavigatable {
   /**
    * @override
    */
-  public escape(event: KeyboardEvent): void {}
+  public escape(_event: KeyboardEvent): void {}
 
   /**
    * @override
    */
-  public space(event: KeyboardEvent): void {}
+  public space(_event: KeyboardEvent): void {}
 
   /**
    * @override
    */
-  public left(event: KeyboardEvent): void {}
+  public left(_event: KeyboardEvent): void {}
 
   /**
    * @override
    */
-  public right(event: KeyboardEvent): void {}
+  public right(_event: KeyboardEvent): void {}
 
   /**
    * @override
    */
-  public up(event: KeyboardEvent): void {}
+  public up(_event: KeyboardEvent): void {}
 
   /**
    * @override
    */
-  public down(event: KeyboardEvent): void {}
+  public down(_event: KeyboardEvent): void {}
 
   /**
    * Stops event propagation and bubbling.

@@ -22,10 +22,7 @@
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-import {Menu} from './menu';
 import {MenuElement} from './menu_element';
-import {Item} from './item';
-import {VariablePool} from './variable_pool';
 import {Postable} from './postable';
 
 

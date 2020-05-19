@@ -62,6 +62,7 @@ export class Variable<T> {
       return this.getter(node);
     } catch (e) {
       MenuUtil.error(e, 'Command of variable ' + this.name + ' failed.');
+      return null;
     }
   }
 

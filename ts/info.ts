@@ -124,7 +124,7 @@ export class Info extends AbstractPostable {
   /**
    * @override
    */
-  public click(event: MouseEvent): void { }
+  public click(_event: MouseEvent): void { }
 
   /**
    * @override
@@ -137,7 +137,7 @@ export class Info extends AbstractPostable {
   /**
    * @override
    */
-  public escape(event: KeyboardEvent): void {
+  public escape(_event: KeyboardEvent): void {
     this.unpost();
   }
 

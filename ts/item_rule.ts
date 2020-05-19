@@ -61,7 +61,7 @@ export class Rule extends AbstractEntry {
   /**
    * @override
    */
-  public addEvents(element: HTMLElement) { }
+  public addEvents(_element: HTMLElement) { }
 
 }
 

@@ -68,7 +68,8 @@ export class SubMenu extends AbstractMenu {
     let parent = this.anchor.getHtml();
     let menu = this.getHtml();
     let base = (this.baseMenu as ContextMenu).getFrame();
-    let side = 'left', mw = parent.offsetWidth;
+    // // let side = 'left';
+    let mw = parent.offsetWidth;
     let x = (mobileFlag ? 30 : mw - 2);
     let y = 0;
     while (parent && parent !== base) {
@@ -80,7 +81,7 @@ export class SubMenu extends AbstractMenu {
       if ((rtlFlag && x - mw - menu.offsetWidth > margin) ||
           (!rtlFlag && x + menu.offsetWidth >
            document.body.offsetWidth - margin)) {
-        side = 'right';
+        // // side = 'right';
         x = Math.max(margin, x - mw - menu.offsetWidth + 6);
       }
     }

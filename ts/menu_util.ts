@@ -24,7 +24,6 @@
 
 import {ContextMenu} from './context_menu';
 import {Item} from './item';
-import {Menu} from './menu';
 
 
 
@@ -63,7 +62,7 @@ export namespace MenuUtil {
    * @param {Error} error The thrown error, containing the stack trace.
    * @param {string} msg The message to be signalled.
    */
-  export function error(error: Error, msg: string): void {
+  export function error(_error: Error, msg: string): void {
     console.error('ContextMenu Error: ' + msg);
   }
 

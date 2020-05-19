@@ -24,7 +24,6 @@
  */
 
 import {ContextMenu} from './context_menu';
-import {MenuUtil} from './menu_util';
 import {AbstractPostable} from './abstract_postable';
 
 

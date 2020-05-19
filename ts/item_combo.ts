@@ -38,12 +38,6 @@ export class Combo extends AbstractVariableItem<string> {
    */
   protected role = 'combobox';
 
-  /**
-   * The state variable. Initially set false.
-   * @type {Variable}
-   */
-  private initial: Function;
-
   private input: HTMLInputElement;
 
   private inputEvent: boolean = false;
@@ -114,7 +108,7 @@ export class Combo extends AbstractVariableItem<string> {
    * Executes the key event of the combobox.
    * @param {KeyboardEvent} event The input event.
    */
-  public inputKey(event: KeyboardEvent) {
+  public inputKey(_event: KeyboardEvent) {
     this.bubbleKey();
     this.inputEvent = true;
   }

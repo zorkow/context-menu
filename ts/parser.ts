@@ -136,13 +136,12 @@ namespace Parser {
                           id: string}}): ContextMenu {
     if (!menu) {
       MenuUtil.error(null, 'Wrong JSON format for menu.');
-      return;
+      return null;
     }
     // The variable id is currently ignored!
-    let {pool: pool, items: items, id: id} = menu;
+    let {pool: pool, items: items} = menu;
     const ctxtMenu = new ContextMenu();
-    const variables = pool.map(
-      x => parseVariable(x as any, ctxtMenu.getPool()));
+    pool.forEach(x => parseVariable(x as any, ctxtMenu.getPool()));
     const itemList = parseItems(items, ctxtMenu);
     ctxtMenu.items = itemList;
     return ctxtMenu;
@@ -155,7 +154,7 @@ namespace Parser {
    * @return {SubMenu} The new submenu object.
    */
   const parseSubMenu = function(
-    {items: items, id: id}: {items: any[], id: string},
+    {items: items}: {items: any[], id: string},
     anchor: Submenu): SubMenu {
     const submenu = new SubMenu(anchor);
     const itemList = parseItems(items, submenu);
@@ -203,6 +202,7 @@ namespace Parser {
       }
       return menuItem;
     }
+    return null;
   };
 
   /**

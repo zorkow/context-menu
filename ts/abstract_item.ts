@@ -23,7 +23,6 @@
  */
 
 import {AbstractEntry} from './abstract_entry';
-import {AbstractMenu} from './abstract_menu';
 import {Item} from './item';
 import {Menu} from './menu';
 import {SubMenu} from './sub_menu';
@@ -192,7 +191,7 @@ export abstract class AbstractItem extends AbstractEntry implements Item {
   /**
    * @override
    */
-  public escape(event: KeyboardEvent) {
+  public escape(_event: KeyboardEvent) {
     MenuUtil.close(this);
   }
 
@@ -234,7 +233,7 @@ export abstract class AbstractItem extends AbstractEntry implements Item {
   /**
    * @override
    */
-  public space(event: KeyboardEvent) {
+  public space(_event: KeyboardEvent) {
     this.press();
   }
 
@@ -262,7 +261,6 @@ export abstract class AbstractItem extends AbstractEntry implements Item {
    * Executes the additional callbacks registered with this menu item.
    */
   private executeCallbacks_() {
-    let active = MenuUtil.getActiveElement(this);
     for (let func of this.callbacks) {
       try {
         func(this);

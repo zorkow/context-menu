@@ -24,11 +24,8 @@
 
 import {AbstractMenu} from './abstract_menu';
 import {HtmlClasses} from './html_classes';
-import {Item} from './item';
 import {MenuStore} from './menu_store';
-import {Variable} from './variable';
 import {Postable} from './postable';
-import {MenuUtil} from './menu_util';
 import {VariablePool} from './variable_pool';
 
 
@@ -111,7 +108,7 @@ export class ContextMenu extends AbstractMenu {
   /**
    * @override
    */
-  public escape(event: KeyboardEvent) {
+  public escape(_event: KeyboardEvent) {
     this.unpost();
     this.unpostWidgets();
   }
@@ -135,14 +132,14 @@ export class ContextMenu extends AbstractMenu {
   /**
    * @override
    */
-  public left(event: KeyboardEvent) {
+  public left(_event: KeyboardEvent) {
     this.move_(this.store_.previous());
   }
 
   /**
    * @override
    */
-  public right(event: KeyboardEvent) {
+  public right(_event: KeyboardEvent) {
     this.move_(this.store_.next());
   }
 
@@ -200,7 +197,6 @@ export class ContextMenu extends AbstractMenu {
     }
     let x: number;
     let y: number;
-    let keydown: boolean = false;
     if (event instanceof MouseEvent) {
       x = event.pageX, y = event.pageY;
       if (!x && !y && event.clientX) {

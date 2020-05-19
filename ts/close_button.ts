@@ -23,7 +23,6 @@
  */
 
 import {AbstractPostable} from './abstract_postable';
-import {MenuElement} from './menu_element';
 import {HtmlClasses} from './html_classes';
 import {Postable} from './postable';
 

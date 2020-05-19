@@ -116,7 +116,7 @@ export abstract class AbstractMenu extends AbstractPostable implements Menu {
   /**
    * @override
    */
-  public up(event: KeyboardEvent): void {
+  public up(_event: KeyboardEvent): void {
     let items = this.items.filter(
       x => (x instanceof AbstractItem) && (!x.isHidden()));
     if (items.length === 0) {
@@ -137,7 +137,7 @@ export abstract class AbstractMenu extends AbstractPostable implements Menu {
   /**
    * @override
    */
-  public down(event: KeyboardEvent): void {
+  public down(_event: KeyboardEvent): void {
     let items = this.items.filter(
       x => (x instanceof AbstractItem) && (!x.isHidden()));
     if (items.length === 0) {

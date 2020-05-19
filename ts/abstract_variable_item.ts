@@ -24,7 +24,6 @@
 
 
 import {AbstractItem} from './abstract_item';
-import {MenuUtil} from './menu_util';
 import {VariableItem} from './variable_item';
 import {Variable} from './variable';
 
