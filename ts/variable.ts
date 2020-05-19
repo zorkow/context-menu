@@ -42,15 +42,15 @@ export class Variable<T> {
    * @param {function(T)} getter It's initial value.
    * @param {function(T)} callback Function to call when value is changed.
    */
-  constructor(private name: string,
+  constructor(private _name: string,
               private getter: (node?: HTMLElement) => T,
               private setter: (x: T, node?: HTMLElement) => void) { }
 
   /**
    * @return {string} The name of the variable.
    */
-  public getName() {
-    return this.name;
+  public get name() {
+    return this._name;
   }
 
   /**

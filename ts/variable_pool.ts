@@ -34,7 +34,7 @@ export class VariablePool<T> {
    * @param {Variable<T>} variable The new variable.
    */
   public insert(variable: Variable<T>) {
-    this.pool[variable.getName()] = variable;
+    this.pool[variable.name] = variable;
   }
 
   /**
