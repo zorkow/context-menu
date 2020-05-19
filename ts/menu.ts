@@ -43,22 +43,15 @@ export interface Menu extends Postable, KeyNavigatable, MouseNavigatable  {
   items: Item[];
 
   /**
-   * @return {VariablePool<string | boolean>} The variable pool associated to
+   * @type {VariablePool<string | boolean>} The variable pool associated to
    *     this menu.
    */
   pool: VariablePool<string | boolean>;
 
   /**
-   * Returns the currently focused Item.
-   * @return {Item} The focused Item.
+   * @type {Item} The currently focused Item.
    */
-  getFocused(): Item;
-
-  /**
-   * Sets the currently focused Item.
-   * @param {Item} item The new focused Item.
-   */
-  setFocused(item?: Item): void;
+  focused: Item;
 
   /**
    * Unposts all submenus of this menu.

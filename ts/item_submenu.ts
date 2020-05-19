@@ -92,7 +92,7 @@ export class Submenu extends AbstractItem {
       super.unfocus();
       return;
     }
-    if (this.getMenu().getFocused() !== this) {
+    if (this.getMenu().focused !== this) {
       super.unfocus();
       this.getMenu().unpostSubmenus();
       return;

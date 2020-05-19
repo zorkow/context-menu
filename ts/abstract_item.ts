@@ -175,7 +175,7 @@ export abstract class AbstractItem extends AbstractEntry implements Item {
    * @override
    */
   public focus() {
-    this.getMenu().setFocused(this);
+    this.getMenu().focused = this;
     super.focus();
     this.activate();
   }
@@ -219,7 +219,7 @@ export abstract class AbstractItem extends AbstractEntry implements Item {
       return;
     }
     let menu = this.getMenu() as SubMenu;
-    menu.setFocused(null);
+    menu.focused = null;
     menu.getAnchor().focus();
   }
 

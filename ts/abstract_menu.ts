@@ -51,7 +51,7 @@ export abstract class AbstractMenu extends AbstractPostable implements Menu {
 
   private _baseMenu: Menu = null;
   private _items: Item[] = [];
-  private focused: Item;
+  private _focused: Item;
 
   /**
    * @override
@@ -91,23 +91,23 @@ export abstract class AbstractMenu extends AbstractPostable implements Menu {
   /**
    * @override
    */
-  public getFocused(): Item {
-    return this.focused;
+  public get focused(): Item {
+    return this._focused;
   }
 
   /**
    * @override
    */
-  public setFocused(item: Item) {
-    if (this.focused === item) {
+  public set focused(item: Item) {
+    if (this._focused === item) {
       return;
     }
-    if (!this.focused) {
+    if (!this._focused) {
       this.unfocus();
     }
     // Order here is important for test in submenu.unfocus.
-    let old = this.focused;
-    this.focused = item;
+    let old = this._focused;
+    this._focused = item;
     if (old) {
       old.unfocus();
     }
@@ -198,7 +198,7 @@ export abstract class AbstractMenu extends AbstractPostable implements Menu {
       this.items.filter(x => x instanceof Submenu) as Submenu[];
     for (let submenu of submenus) {
       submenu.submenu.unpost();
-      if (submenu !== this.getFocused()) {
+      if (submenu !== this.focused) {
         submenu.unfocus();
       }
     }
@@ -210,7 +210,7 @@ export abstract class AbstractMenu extends AbstractPostable implements Menu {
   public unpost(): void {
     super.unpost();
     this.unpostSubmenus();
-    this.setFocused(null);
+    this.focused = null;
   }
 
   /**
