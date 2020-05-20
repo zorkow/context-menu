@@ -162,4 +162,3 @@ KeyNavigatable, MouseNavigatable {
     element.addEventListener('dblclick', this.stop.bind(this));
   }
 }
-

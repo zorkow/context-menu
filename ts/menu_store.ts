@@ -39,7 +39,6 @@ export class MenuStore {
   protected store: HTMLElement[] = [];
 
   private _active: HTMLElement = null;
-  private menu: ContextMenu;
   private counter: number = 0;
   private attachedClass: string = HtmlClasses['ATTACHED'] + '_' +
     MenuUtil.counter();
@@ -50,9 +49,7 @@ export class MenuStore {
    * @constructor
    * @param {ContextMenu} menu The context menu the store belongs to.
    */
-  constructor(menu: ContextMenu) {
-    this.menu = menu;
-  }
+  constructor(private menu: ContextMenu) { }
 
   /**
    * Sets the new active store element if it exists in the store.
@@ -362,4 +359,3 @@ export class MenuStore {
   }
 
 }
-

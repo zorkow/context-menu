@@ -102,4 +102,3 @@ export abstract class AbstractEntry extends MenuElement implements Entry {
   }
 
 }
-

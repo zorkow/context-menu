@@ -86,4 +86,3 @@ export class Checkbox extends AbstractVariableItem<boolean> {
   }
 
 }
-

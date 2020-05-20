@@ -74,4 +74,3 @@ implements Postable {
   protected abstract display(): void;
 
 }
-

@@ -117,4 +117,3 @@ export class SubMenu extends AbstractMenu {
   }
 
 }
-

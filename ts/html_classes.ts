@@ -111,4 +111,3 @@ export const HtmlAttrs: {[id: string]: HtmlAttr} = {
 export type HtmlAttr = 'CtxtMenu_Counter' | 'CtxtMenu_keydownFunc' |
   'CtxtMenu_contextmenuFunc' | 'CtxtMenu_touchstartFunc' |
   'CtxtMenu_Oldtabindex';
-

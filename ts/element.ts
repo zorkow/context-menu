@@ -38,4 +38,3 @@ export interface Element  {
   generateHtml(): void;
 
 }
-

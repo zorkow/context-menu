@@ -41,8 +41,6 @@ export class Info extends AbstractPostable {
   protected role = 'dialog';
 
   private menu: ContextMenu;
-  private title: string = '';
-  private signature: string = '';
   private contentDiv: HTMLElement = this.generateContent();
   private close: CloseButton = this.generateClose();
   private content: Function;
@@ -54,11 +52,10 @@ export class Info extends AbstractPostable {
    * @param {Function} content Function generating the content of the box.
    * @param {string} signature The final line of the info box.
    */
-  constructor(title: string, content: Function, signature: string) {
+  constructor(private title: string, content: Function,
+              private signature: string) {
     super();
-    this.title = title;
     this.content = content || function() { return ''; };
-    this.signature = signature;
   }
 
   /**
@@ -185,4 +182,3 @@ export class Info extends AbstractPostable {
   }
 
 }
-

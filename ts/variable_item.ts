@@ -42,4 +42,3 @@ export interface VariableItem {
    */
   update(): void;
 }
-

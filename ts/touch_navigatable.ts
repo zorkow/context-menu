@@ -62,4 +62,3 @@ export interface TouchNavigatable {
   touchcancel(event: TouchEvent): void;
 
 }
-

@@ -74,4 +74,3 @@ export interface MouseNavigatable {
   click(event: MouseEvent): void;
 
 }
-

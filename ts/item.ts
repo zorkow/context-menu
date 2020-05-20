@@ -65,4 +65,3 @@ export interface Item extends Entry, Element {
   enable(): void;
 
 }
-

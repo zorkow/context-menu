@@ -149,4 +149,3 @@ export class Combo extends AbstractVariableItem<string> {
   }
 
 }
-

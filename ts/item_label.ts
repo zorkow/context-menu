@@ -50,4 +50,3 @@ export class Label extends AbstractItem {
   }
 
 }
-

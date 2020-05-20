@@ -53,4 +53,3 @@ export interface Entry {
   isHidden(): boolean;
 
 }
-

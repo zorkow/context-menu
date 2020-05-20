@@ -42,7 +42,6 @@ export class Popup extends AbstractPostable {
     height: 300,
   };
   private menu: ContextMenu;
-  private title: string = '';
   private content: Function;
 
   /**
@@ -71,9 +70,8 @@ export class Popup extends AbstractPostable {
    * @param {string} title The title of the popup window.
    * @param {Function} content Function generating the content.
    */
-  constructor(title: string, content: Function) {
+  constructor(private title: string, content: Function) {
     super();
-    this.title = title;
     this.content = content || function() { return ''; };
   }
 
@@ -172,4 +170,3 @@ export class Popup extends AbstractPostable {
   }
 
 }
-

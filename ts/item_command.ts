@@ -29,8 +29,6 @@ import {Menu} from './menu';
 
 export class Command extends AbstractItem {
 
-  private command: Function = null;
-
   /**
    * @constructor
    * @extends {AbstractItem}
@@ -40,9 +38,9 @@ export class Command extends AbstractItem {
    *     triggering the menu item.
    * @param {string=} id Optionally the id of the menu item.
    */
-  constructor(menu: Menu, content: string, command: Function, id?: string) {
+  constructor(menu: Menu, content: string, private command: Function,
+              id?: string) {
     super(menu, 'command', content, id);
-    this.command = command;
   }
 
   /**
@@ -58,4 +56,3 @@ export class Command extends AbstractItem {
   }
 
 }
-

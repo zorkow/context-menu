@@ -96,4 +96,3 @@ implements VariableItem {
   protected abstract updateSpan(): void;
 
 }
-

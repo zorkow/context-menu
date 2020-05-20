@@ -89,4 +89,3 @@ export class Radio extends AbstractVariableItem<string> {
   }
 
 }
-

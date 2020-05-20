@@ -235,4 +235,3 @@ export abstract class AbstractMenu extends AbstractPostable implements Menu {
   }
 
 }
-

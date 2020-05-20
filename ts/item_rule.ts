@@ -64,4 +64,3 @@ export class Rule extends AbstractEntry {
   public addEvents(_element: HTMLElement) { }
 
 }
-

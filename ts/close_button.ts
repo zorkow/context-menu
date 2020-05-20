@@ -39,17 +39,14 @@ export class CloseButton extends AbstractPostable {
    */
   protected role = 'button';
 
-  private element: Postable;
-
   /**
    * @constructor
    * @extends {AbstractPostable}
    * @param {Postable} element The postable element the close button is
    *     attached to.
    */
-  constructor(element: Postable) {
+  constructor(private element: Postable) {
     super();
-    this.element = element;
   }
 
   /**
@@ -104,4 +101,3 @@ export class CloseButton extends AbstractPostable {
   }
 
 }
-

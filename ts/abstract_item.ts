@@ -273,4 +273,3 @@ export abstract class AbstractItem extends AbstractEntry implements Item {
   }
 
 }
-

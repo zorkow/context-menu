@@ -71,4 +71,3 @@ export interface Menu extends Postable, KeyNavigatable, MouseNavigatable {
   generateMenu(): void;
 
 }
-
