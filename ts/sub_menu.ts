@@ -67,7 +67,7 @@ export class SubMenu extends AbstractMenu {
     let margin = 5;
     let parent = this.anchor.html;
     let menu = this.html;
-    let base = (this.baseMenu as ContextMenu).getFrame();
+    let base = (this.baseMenu as ContextMenu).frame;
     // // let side = 'left';
     let mw = parent.offsetWidth;
     let x = (mobileFlag ? 30 : mw - 2);
@@ -103,7 +103,7 @@ export class SubMenu extends AbstractMenu {
    * @override
    */
   protected display() {
-    (this.baseMenu as ContextMenu).getFrame().appendChild(this.html);
+    (this.baseMenu as ContextMenu).frame.appendChild(this.html);
   }
 
   /**

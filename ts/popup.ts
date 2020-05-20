@@ -96,7 +96,7 @@ export class Popup extends AbstractPostable {
    * @override
    */
   protected display() {
-    this.active = this.menu.getStore().getActive();
+    this.active = this.menu.store.getActive();
     let settings: string[] = [];
     for (let setting in Popup.popupSettings) {
       settings.push(setting + '=' + Popup.popupSettings[setting]);

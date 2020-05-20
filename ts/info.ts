@@ -110,7 +110,7 @@ export class Info extends AbstractPostable {
     this.contentDiv.innerHTML = this.content();
     let html = this.menu.html;
     html.parentNode.removeChild(html);
-    this.menu.getFrame().appendChild(this.html);
+    this.menu.frame.appendChild(this.html);
   }
 
   /**

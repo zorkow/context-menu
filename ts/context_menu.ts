@@ -41,13 +41,13 @@ export class ContextMenu extends AbstractMenu {
    * The div that holds the entire menu.
    * @type {HTMLElement}
    */
-  private frame: HTMLElement;
+  private _frame: HTMLElement;
 
   /**
    * A store the menu belongs to.
    * @type {MenuStore}
    */
-  private store_: MenuStore = new MenuStore(this);
+  private _store: MenuStore = new MenuStore(this);
 
   /**
    * The element the menu is anchored to.
@@ -79,15 +79,15 @@ export class ContextMenu extends AbstractMenu {
       this.unpost();
     }
     super.generateHtml();
-    this.frame = document.createElement('div');
-    this.frame.classList.add(HtmlClasses['MENUFRAME']);
+    this._frame = document.createElement('div');
+    this._frame.classList.add(HtmlClasses['MENUFRAME']);
     //// TODO: Adapt to other browsers.
     let styleString = 'left: 0px; top: 0px; z-index: 200; width: 100%; ' +
       'height: 100%; border: 0px; padding: 0px; margin: 0px;';
-    this.frame.setAttribute('style', 'position: absolute; ' + styleString);
+    this._frame.setAttribute('style', 'position: absolute; ' + styleString);
     let innerDiv = document.createElement('div');
     innerDiv.setAttribute('style', 'position: fixed; ' + styleString);
-    this.frame.appendChild(innerDiv);
+    this._frame.appendChild(innerDiv);
     innerDiv.addEventListener('mousedown',
                               function(event: Event) {
                                 this.unpost();
@@ -122,7 +122,7 @@ export class ContextMenu extends AbstractMenu {
       return;
     }
     this.frame.parentNode.removeChild(this.frame);
-    let store = this.getStore();
+    let store = this.store;
     if (!this.moving) {
       store.insertTaborder();
     }
@@ -133,29 +133,29 @@ export class ContextMenu extends AbstractMenu {
    * @override
    */
   public left(_event: KeyboardEvent) {
-    this.move_(this.store_.previous());
+    this.move_(this.store.previous());
   }
 
   /**
    * @override
    */
   public right(_event: KeyboardEvent) {
-    this.move_(this.store_.next());
+    this.move_(this.store.next());
   }
 
   /**
    * @return {HTMLElement} The frame element wrapping all the elements of the
    *     menu.
    */
-  public getFrame(): HTMLElement {
-    return this.frame;
+  public get frame(): HTMLElement {
+    return this._frame;
   }
 
   /**
    * @return {MenuStore} The store of this menu.
    */
-  public getStore(): MenuStore {
-    return this.store_;
+  public get store(): MenuStore {
+    return this._store;
   }
 
   /**
@@ -182,7 +182,7 @@ export class ContextMenu extends AbstractMenu {
   public post(numberOrEvent?: any, isY?: number) {
     if (typeof(isY) !== 'undefined') {
       if (!this.moving) {
-        this.getStore().removeTaborder();
+        this.store.removeTaborder();
       }
       super.post(numberOrEvent, isY);
       return;
@@ -213,8 +213,8 @@ export class ContextMenu extends AbstractMenu {
       x = (rect.right + rect.left) / 2 + offsetX;
       y = (rect.bottom + rect.top) / 2 + offsetY;
     }
-    this.getStore().setActive(node);
-    this.anchor = this.getStore().getActive();
+    this.store.setActive(node);
+    this.anchor = this.store.getActive();
     let menu = this.html;
     let margin = 5;
     if (x + menu.offsetWidth > document.body.offsetWidth - margin) {

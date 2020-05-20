@@ -54,7 +54,7 @@ export namespace MenuUtil {
   export function getActiveElement(item: Item): HTMLElement {
     let menu = item.getMenu();
     let baseMenu = (menu.baseMenu ? menu.baseMenu : menu) as ContextMenu;
-    return baseMenu.getStore().getActive();
+    return baseMenu.store.getActive();
   }
 
   /**
