@@ -126,7 +126,7 @@ export class ContextMenu extends AbstractMenu {
     if (!this.moving) {
       store.insertTaborder();
     }
-    store.getActive().focus();
+    store.active.focus();
   }
 
   /**
@@ -213,8 +213,8 @@ export class ContextMenu extends AbstractMenu {
       x = (rect.right + rect.left) / 2 + offsetX;
       y = (rect.bottom + rect.top) / 2 + offsetY;
     }
-    this.store.setActive(node);
-    this.anchor = this.store.getActive();
+    this.store.active = node;
+    this.anchor = this.store.active;
     let menu = this.html;
     let margin = 5;
     if (x + menu.offsetWidth > document.body.offsetWidth - margin) {

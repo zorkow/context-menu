@@ -38,7 +38,7 @@ export class MenuStore {
    */
   protected store: HTMLElement[] = [];
 
-  private active: HTMLElement = null;
+  private _active: HTMLElement = null;
   private menu: ContextMenu;
   private counter: number = 0;
   private attachedClass: string = HtmlClasses['ATTACHED'] + '_' +
@@ -58,10 +58,10 @@ export class MenuStore {
    * Sets the new active store element if it exists in the store.
    * @param {HTMLElement} element Element to be activated.
    */
-  public setActive(element: HTMLElement): void {
+  public set active(element: HTMLElement) {
     do {
       if (this.store.indexOf(element) !== -1) {
-        this.active = element;
+        this._active = element;
         break;
       }
       element = <HTMLElement>element.parentNode;
@@ -71,8 +71,8 @@ export class MenuStore {
   /**
    * @return {HTMLElement} The currently active store element, if one exists.
    */
-  public getActive(): HTMLElement {
-    return this.active;
+  public get active(): HTMLElement {
+    return this._active;
   }
 
   /**

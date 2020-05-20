@@ -30,7 +30,6 @@ import {Submenu} from './item_submenu';
 
 export class SubMenu extends AbstractMenu {
 
-  private anchor: Submenu;
 
   /**
    * @constructor
@@ -38,9 +37,8 @@ export class SubMenu extends AbstractMenu {
    * @param {Submenu} anchor The item in the parent menu triggering this
    *     submenu.
    */
-  constructor(anchor: Submenu) {
+  constructor(private _anchor: Submenu) {
     super();
-    this.anchor = anchor;
     this.variablePool = this.anchor.getMenu().pool;
     this.setBaseMenu();
   }
@@ -49,8 +47,8 @@ export class SubMenu extends AbstractMenu {
    * @return {Submenu} The submenu item that anchors this popdown submenu to
    *     its parent.
    */
-  public getAnchor(): Submenu {
-    return this.anchor;
+  public get anchor(): Submenu {
+    return this._anchor;
   }
 
   /**
