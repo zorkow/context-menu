@@ -9,3 +9,4 @@ export let CssStyles = obj1;
 export let Info = obj2;
 export let Popup = obj3;
 export let parse = Parse;
+export let version = '0.3.0';
