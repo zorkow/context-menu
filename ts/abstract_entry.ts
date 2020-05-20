@@ -25,7 +25,6 @@
 import {Entry} from './entry';
 import {MenuElement} from './menu_element';
 import {Menu} from './menu';
-// import {AbstractMenu} from './abstract_menu';
 import {HtmlClasses} from './html_classes';
 
 
