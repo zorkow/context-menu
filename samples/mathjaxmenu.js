@@ -603,14 +603,14 @@ MathJax.Hub.Register.StartupHook("MathEvents Ready", function () {
       if (math) {
         // remove already set tabindex.
         math.removeAttribute('tabindex');
-        contextmenu.getStore().insert(math);
+        contextmenu.store.insert(math);
       }
     });
   // Unfold zoom menu:
   //cc.post(50,50);
 
   // Into init function:
-  contextmenu.getStore().inTaborder(SETTINGS.inTabOrder);
+  contextmenu.store.inTaborder(SETTINGS.inTabOrder);
 
   cc = contextmenu;
 });

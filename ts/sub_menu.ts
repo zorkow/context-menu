@@ -111,7 +111,7 @@ export class SubMenu extends AbstractMenu {
     //// TODO: Make this type safer!
     let menu: any = this;
     do {
-      menu = menu.anchor.getMenu();
+      menu = menu.anchor.menu;
     } while (menu instanceof SubMenu);
     this.baseMenu = menu;
   }

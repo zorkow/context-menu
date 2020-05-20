@@ -2,11 +2,10 @@
   "name": "mj-context-menu",
   "version": "0.2.2",
   "description": "A generic context menu",
-  "main": "dist/context_menu.js",
-  "types": "dist/context_menu.d.ts",
+  "main": "dist/ContextMenu.js",
   "scripts": {
-    "build": "./node_modules/.bin/tsc",
-    "prepare": "./node_modules/.bin/tsc"
+    "build": "./node_modules/.bin/webpack",
+    "prepare": "npx rimraf dist; ./node_modules/.bin/webpack"
   },
   "maintainers": [
     "Volker Sorge <v.sorge@mathjax.org>"
