@@ -25,7 +25,7 @@
 import {Entry} from './entry';
 import {MenuElement} from './menu_element';
 import {Menu} from './menu';
-import {AbstractMenu} from './abstract_menu';
+// import {AbstractMenu} from './abstract_menu';
 import {HtmlClasses} from './html_classes';
 
 
@@ -45,8 +45,6 @@ export abstract class AbstractEntry extends MenuElement implements Entry {
    */
   protected role = 'menuitem';
 
-  private menu: Menu;
-  private type: string = 'entry';
   private hidden: boolean = false;
 
   /**
@@ -56,31 +54,29 @@ export abstract class AbstractEntry extends MenuElement implements Entry {
    * @param {Menu} menu The context menu or sub-menu the entry belongs to.
    * @param {string} type The type of the entry.
    */
-  constructor(menu: Menu, type: string) {
+  constructor(private _menu: Menu, private _type: string) {
     super();
-    this.menu = menu;
-    this.type = type;
   }
 
   /**
    * @return {Menu} The context menu or sub-menu the entry belongs to.
    */
-  public getMenu(): AbstractMenu {
-    return this.menu as AbstractMenu;
+  public get menu(): Menu {
+    return this._menu as Menu;
   }
 
   /**
    * @param {Menu} menu Sets the menu.
    */
-  public setMenu(menu: Menu) {
-    this.menu = menu;
+  public set menu(menu: Menu) {
+    this._menu = menu;
   }
 
   /**
    * @return {string} The type of the menu entry, used for jsonification.
    */
-  public getType() {
-    return this.type;
+  public get type() {
+    return this._type;
   }
 
   /**

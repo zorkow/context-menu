@@ -92,9 +92,9 @@ export class Submenu extends AbstractItem {
       super.unfocus();
       return;
     }
-    if (this.getMenu().focused !== this) {
+    if (this.menu.focused !== this) {
       super.unfocus();
-      this.getMenu().unpostSubmenus();
+      this.menu.unpostSubmenus();
       return;
     }
     this.html.setAttribute('tabindex', '-1');

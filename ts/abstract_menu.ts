@@ -218,13 +218,13 @@ export abstract class AbstractMenu extends AbstractPostable implements Menu {
    */
   public find(id: string): Item {
     for (let item of this.items) {
-      if (item.getType() === 'rule') {
+      if (item.type === 'rule') {
         continue;
       }
       if (item.id === id) {
         return item;
       }
-      if (item.getType() === 'submenu') {
+      if (item.type === 'submenu') {
         let result = (item as Submenu).submenu.find(id);
         if (result) {
           return result;

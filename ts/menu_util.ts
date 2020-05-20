@@ -37,7 +37,7 @@ export namespace MenuUtil {
    * @param {Item} item The item on which the menu close is called.
    */
   export function close(item: Item): void {
-    let menu = item.getMenu();
+    let menu = item.menu;
     // TODO: Have baseMenu point to itself and simplify unposting.
     if (menu.baseMenu) {
       menu.baseMenu.unpost();
@@ -52,7 +52,7 @@ export namespace MenuUtil {
    * @return {HtmlElement} The currently active element.
    */
   export function getActiveElement(item: Item): HTMLElement {
-    let menu = item.getMenu();
+    let menu = item.menu;
     let baseMenu = (menu.baseMenu ? menu.baseMenu : menu) as ContextMenu;
     return baseMenu.store.active;
   }

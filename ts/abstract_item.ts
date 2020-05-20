@@ -23,6 +23,7 @@
  */
 
 import {AbstractEntry} from './abstract_entry';
+import {AbstractMenu} from './abstract_menu';
 import {Item} from './item';
 import {Menu} from './menu';
 import {SubMenu} from './sub_menu';
@@ -71,8 +72,8 @@ export abstract class AbstractItem extends AbstractEntry implements Item {
   public set content(content: string) {
     this._content = content;
     this.generateHtml();
-    if (this.getMenu()) {
-      this.getMenu().generateHtml();
+    if (this.menu) {
+      (this.menu as AbstractMenu).generateHtml();
     }
   }
 
@@ -175,7 +176,7 @@ export abstract class AbstractItem extends AbstractEntry implements Item {
    * @override
    */
   public focus() {
-    this.getMenu().focused = this;
+    this.menu.focused = this;
     super.focus();
     this.activate();
   }
@@ -199,14 +200,14 @@ export abstract class AbstractItem extends AbstractEntry implements Item {
    * @override
    */
   public up(event: KeyboardEvent) {
-    this.getMenu().up(event);
+    this.menu.up(event);
   }
 
   /**
    * @override
    */
   public down(event: KeyboardEvent) {
-    this.getMenu().down(event);
+    this.menu.down(event);
   }
 
   //// TODO: RTL change of direction.
@@ -214,11 +215,11 @@ export abstract class AbstractItem extends AbstractEntry implements Item {
    * @override
    */
   public left(event: KeyboardEvent) {
-    if (this.getMenu() instanceof ContextMenu) {
-      this.getMenu().left(event);
+    if (this.menu instanceof ContextMenu) {
+      this.menu.left(event);
       return;
     }
-    let menu = this.getMenu() as SubMenu;
+    let menu = this.menu as SubMenu;
     menu.focused = null;
     menu.anchor.focus();
   }
@@ -227,7 +228,7 @@ export abstract class AbstractItem extends AbstractEntry implements Item {
    * @override
    */
   public right(event: KeyboardEvent) {
-    this.getMenu().right(event);
+    this.menu.right(event);
   }
 
   /**

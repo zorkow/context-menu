@@ -39,7 +39,7 @@ export class SubMenu extends AbstractMenu {
    */
   constructor(private _anchor: Submenu) {
     super();
-    this.variablePool = this.anchor.getMenu().pool;
+    this.variablePool = this.anchor.menu.pool;
     this.setBaseMenu();
   }
 
@@ -55,7 +55,7 @@ export class SubMenu extends AbstractMenu {
    * @override
    */
   public post() {
-    if (!this.anchor.getMenu().isPosted()) {
+    if (!this.anchor.menu.isPosted()) {
       return;
     }
     //// TODO: These are currently ignored!

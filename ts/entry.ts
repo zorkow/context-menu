@@ -28,20 +28,14 @@ import {Menu} from './menu';
 export interface Entry {
 
   /**
-   * @return {Menu} The menu the entry belongs to.
+   * @type {Menu} The menu the entry belongs to.
    */
-  getMenu(): Menu;
+  menu: Menu;
 
   /**
-   * Sets the parent menu for this entry.
-   * @param {Menu} menu The menu the entry is attached to.
+   * @type {string} The type of the entry.
    */
-  setMenu(menu: Menu): void;
-
-  /**
-   * @return {string} The type of the entry.
-   */
-  getType(): string;
+  type: string;
 
   /**
    * Hide entry in the menu.
