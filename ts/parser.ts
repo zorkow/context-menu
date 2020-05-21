@@ -35,6 +35,7 @@ import {Radio} from './item_radio';
 import {Submenu} from './item_submenu';
 import {Rule} from './item_rule';
 import {Item} from './item';
+import {Slider} from './item_slider';
 import {SubMenu} from './sub_menu';
 
 
@@ -74,6 +75,18 @@ namespace Parser {
     {content: content, variable: variable, id: id}:
     {content: string, variable: string, id: string}, menu: Menu): Combo {
     return new Combo(menu, content, variable, id);
+  };
+
+  /**
+   * Parses a JSON respresentation of a combo item.
+   * @param {JSON} json The JSON object to parse.
+   * @param {Menu} menu The menu the item is attached to.
+   * @return {Slider} The new combo object.
+   */
+  const parseSlider = function(
+    {content: content, variable: variable, id: id}:
+    {content: string, variable: string, id: string}, menu: Menu): Slider {
+    return new Slider(menu, content, variable, id);
   };
 
   /**
@@ -215,6 +228,7 @@ namespace Parser {
     'label': parseLabel,
     'radio': parseRadio,
     'rule': parseRule,
+    'slider': parseSlider,
     'submenu': parseSubmenu
   };
 }

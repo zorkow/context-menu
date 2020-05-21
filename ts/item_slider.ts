@@ -17,7 +17,7 @@
 
 
 /**
- * @fileoverview Class of combo boxes.
+ * @fileoverview Class of slider.
  *
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
@@ -31,12 +31,16 @@ import {HtmlClasses} from './html_classes';
 import {KEY} from './key_navigatable';
 
 
-export class Combo extends AbstractVariableItem<string> {
+export class Slider extends AbstractVariableItem<string> {
 
   /**
    * @override
    */
-  protected role = 'combobox';
+  protected role = 'slider';
+  private labelSpan: HTMLElement;
+  private valueSpan: HTMLElement;
+  private labelId = 'ctx_slideLabel' + MenuUtil.counter();
+  private valueId = 'ctx_slideValue' + MenuUtil.counter();
 
   private input: HTMLInputElement;
 
@@ -51,7 +55,7 @@ export class Combo extends AbstractVariableItem<string> {
    * @param {string=} id Optionally the id of the menu item.
    */
   constructor(menu: Menu, content: string, variable: string, id?: string) {
-    super(menu, 'combobox', content, id);
+    super(menu, 'slider', content, id);
     this.variable = menu.pool.lookup(variable) as Variable<string>;
     this.register();
   }
@@ -62,6 +66,7 @@ export class Combo extends AbstractVariableItem<string> {
   public executeAction() {
     this.variable.setValue(
       this.input.value, MenuUtil.getActiveElement(this));
+    this.update();
   }
 
   /**
@@ -94,7 +99,13 @@ export class Combo extends AbstractVariableItem<string> {
   public generateHtml() {
     super.generateHtml();
     let html = this.html;
-    html.classList.add(HtmlClasses['MENUCOMBOBOX']); // ???
+    html.classList.add(HtmlClasses['MENUSLIDER']); // ???
+    console.log(html.childNodes.length);
+    this.valueSpan = document.createElement('span');
+    this.valueSpan.setAttribute('id', this.valueId);
+    // this.span.appendChild(this.valueSpan);
+    this.valueSpan.classList.add(HtmlClasses['SLIDERVALUE']);
+    this.html.appendChild(this.valueSpan);
   }
 
   /**
@@ -102,23 +113,46 @@ export class Combo extends AbstractVariableItem<string> {
    */
   public generateSpan() {
     this.span = document.createElement('span');
-    this.span.classList.add(HtmlClasses['MENUINPUTBOX']); // ???
+    this.labelSpan = document.createElement('span');
+    this.labelSpan.setAttribute('id', this.labelId);
+    this.labelSpan.appendChild(this.html.childNodes[0]);
+    this.html.appendChild(this.labelSpan);
+    // this.span.classList.add(HtmlClasses['MENUINPUTBOX']); // ???
     this.input = document.createElement('input');
     this.input.addEventListener('keydown', this.inputKey.bind(this));
-    this.input.setAttribute('size', '10em');
-    this.input.setAttribute('type', 'text');
-    this.input.setAttribute('tabindex', '-1');
+    this.input.addEventListener('mousedown', this.inputKey.bind(this));
+    this.input.setAttribute('type', 'range');
+    this.input.setAttribute('min', '0');
+    this.input.setAttribute('max', '100');
+    this.input.setAttribute('aria-valuemin', '0');
+    this.input.setAttribute('aria-valuemax', '100');
+    this.input.setAttribute('aria-labelledby', this.labelId);
+    // this.input.setAttribute('value', '50');
+    this.input.oninput = this.executeAction.bind(this);
+    this.input.classList.add(HtmlClasses['SLIDERBAR']);
+    // this.input.setAttribute('style', 'width:50%;margin-top:.5em;appearance:slider-horizontal;');
+    // this.input.setAttribute('', '');
+    // this.input.setAttribute('size', '10em');
+    // this.input.setAttribute('type', 'text');
+    // this.input.setAttribute('tabindex', '-1');
     this.span.appendChild(this.input);
   }
 
 
   /**
-   * Executes the key event of the combobox.
+   * Executes the key event of the sliderbox.
    * @param {KeyboardEvent} event The input event.
    */
-  public inputKey(_event: KeyboardEvent) {
-    this.bubbleKey();
+  public inputKey(_event: InputEvent) {
     this.inputEvent = true;
+  }
+
+
+  /**
+   * @override
+   */
+  public mousedown(event: MouseEvent) {
+    event.stopPropagation();
   }
 
 
@@ -141,7 +175,11 @@ export class Combo extends AbstractVariableItem<string> {
   /**
    * Toggles the aria checked attribute.
    */
-  protected updateAria() { }
+  protected updateAria() {
+    let value = this.variable.getValue();
+    this.input.setAttribute('aria-valuenow', value);
+    this.input.setAttribute('aria-valuetext', value + '%');
+  }
 
   /**
    * Toggles the checked tick.
@@ -150,6 +188,7 @@ export class Combo extends AbstractVariableItem<string> {
     let initValue;
     try {
       initValue = this.variable.getValue(MenuUtil.getActiveElement(this));
+      this.valueSpan.innerHTML = initValue + '%';
     } catch (e) {
       initValue = '';
     }

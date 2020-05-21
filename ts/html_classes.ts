@@ -77,13 +77,16 @@ export const HtmlClasses: {[id: string]: HtmlClass} = {
   MENURADIOCHECK: prefixClass_('MenuRadioCheck'),
   MENUINPUTBOX: prefixClass_('MenuInputBox'),
   MENURULE: prefixClass_('MenuRule'),
+  MENUSLIDER: prefixClass_('MenuSlider'),
   MOUSEPOST: prefixClass_('MousePost'),
   RTL: prefixClass_('RTL'),
   INFO: prefixClass_('Info'),
   INFOCLOSE: prefixClass_('InfoClose'),
   INFOCONTENT: prefixClass_('InfoContent'),
   INFOSIGNATURE: prefixClass_('InfoSignature'),
-  INFOTITLE: prefixClass_('InfoTitle')
+  INFOTITLE: prefixClass_('InfoTitle'),
+  SLIDERVALUE: prefixClass_('SliderValue'),
+  SLIDERBAR: prefixClass_('SliderBar'),
 };
 
 // This is an awkward type construction!
@@ -94,7 +97,7 @@ export type HtmlClass = 'CtxtMenu_ContextMenu' | 'CtxtMenu_Menu' |
   'CtxtMenu_MousePost' | 'CtxtMenu_RTL' | 'CtxtMenu_Attached' |
   'CtxtMenu_Info' | 'CtxtMenu_InfoClose' | 'CtxtMenu_InfoContent' |
   'CtxtMenu_InfoSignature' | 'CtxtMenu_InfoTitle' | 'CtxtMenu_MenuFrame' |
-  'CtxtMenu_MenuInputBox' ;
+  'CtxtMenu_MenuInputBox' | 'CtxtMenu_MenuSlider' ;
 
 /**
  * HTML attributes.

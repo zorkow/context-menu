@@ -125,6 +125,16 @@ export namespace CssStyles {
   MENU_STYLES[makeClass_('MENUCOMBOBOX')] = '{' +
     '  left:.1em; padding-bottom:.5em;' +
     '}',
+  MENU_STYLES[makeClass_('MENUSLIDER')] = '{' +
+    '  left: .1em;' +
+    '}',
+  MENU_STYLES[makeClass_('SLIDERVALUE')] = '{' +
+    '  position:absolute; right:.1em; padding-top:.25em; color:#333333;' +
+    '  font-size: .75em' +
+    '}',
+  MENU_STYLES[makeClass_('SLIDERBAR')] = '{' +
+    '  outline: none; background: #d3d3d3' +
+    '}',
   MENU_STYLES[makeClass_('MENULABEL')] = '{' +
     '  padding: 1px 2em 3px 1.33em;' +
     '  font-style:italic' +
