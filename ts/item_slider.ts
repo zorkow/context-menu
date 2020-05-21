@@ -100,10 +100,8 @@ export class Slider extends AbstractVariableItem<string> {
     super.generateHtml();
     let html = this.html;
     html.classList.add(HtmlClasses['MENUSLIDER']); // ???
-    console.log(html.childNodes.length);
     this.valueSpan = document.createElement('span');
     this.valueSpan.setAttribute('id', this.valueId);
-    // this.span.appendChild(this.valueSpan);
     this.valueSpan.classList.add(HtmlClasses['SLIDERVALUE']);
     this.html.appendChild(this.valueSpan);
   }
@@ -117,24 +115,16 @@ export class Slider extends AbstractVariableItem<string> {
     this.labelSpan.setAttribute('id', this.labelId);
     this.labelSpan.appendChild(this.html.childNodes[0]);
     this.html.appendChild(this.labelSpan);
-    // this.span.classList.add(HtmlClasses['MENUINPUTBOX']); // ???
     this.input = document.createElement('input');
     this.input.addEventListener('keydown', this.inputKey.bind(this));
-    this.input.addEventListener('mousedown', this.inputKey.bind(this));
     this.input.setAttribute('type', 'range');
     this.input.setAttribute('min', '0');
     this.input.setAttribute('max', '100');
     this.input.setAttribute('aria-valuemin', '0');
     this.input.setAttribute('aria-valuemax', '100');
     this.input.setAttribute('aria-labelledby', this.labelId);
-    // this.input.setAttribute('value', '50');
     this.input.oninput = this.executeAction.bind(this);
     this.input.classList.add(HtmlClasses['SLIDERBAR']);
-    // this.input.setAttribute('style', 'width:50%;margin-top:.5em;appearance:slider-horizontal;');
-    // this.input.setAttribute('', '');
-    // this.input.setAttribute('size', '10em');
-    // this.input.setAttribute('type', 'text');
-    // this.input.setAttribute('tabindex', '-1');
     this.span.appendChild(this.input);
   }
 
@@ -155,6 +145,14 @@ export class Slider extends AbstractVariableItem<string> {
     event.stopPropagation();
   }
 
+
+  /**
+   * @override
+   */
+  public mouseup(_event: MouseEvent) {
+    // Needed for Firefox
+    event.stopPropagation();
+  }
 
   /**
    * Specification of the keydown event.
@@ -185,9 +183,11 @@ export class Slider extends AbstractVariableItem<string> {
    * Toggles the checked tick.
    */
   protected updateSpan() {
+    console.log('Updating span');
     let initValue;
     try {
       initValue = this.variable.getValue(MenuUtil.getActiveElement(this));
+      console.log('with value: ' + initValue);
       this.valueSpan.innerHTML = initValue + '%';
     } catch (e) {
       initValue = '';
