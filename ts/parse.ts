@@ -166,7 +166,7 @@ export namespace Parse {
    * @param {Submenu} anchor The anchor item the submenu is attached to.
    * @return {SubMenu} The new submenu object.
    */
-  const subMenu = function(
+  export const subMenu = function(
     {items: its}: {items: any[], id: string},
     anchor: Submenu): SubMenu {
     const submenu = new SubMenu(anchor);
