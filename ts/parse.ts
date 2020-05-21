@@ -39,7 +39,7 @@ import {Slider} from './item_slider';
 import {SubMenu} from './sub_menu';
 
 
-namespace Parser {
+export namespace Parse {
 
   /**
    * Parses a JSON respresentation of a command item.
@@ -47,7 +47,7 @@ namespace Parser {
    * @param {Menu} menu The menu the item is attached to.
    * @return {Command} The new command object.
    */
-  const parseCommand = function(
+  const command = function(
     {content: content, action: action, id: id}:
     {content: string, action: Function, id: string}, menu: Menu): Command {
     return new Command(menu, content, action, id);
@@ -59,7 +59,7 @@ namespace Parser {
    * @param {Menu} menu The menu the item is attached to.
    * @return {Checkbox} The new checkbox object.
    */
-  const parseCheckbox = function(
+  const checkbox = function(
     {content: content, variable: variable, id: id}:
     {content: string, variable: string, id: string}, menu: Menu): Checkbox {
     return new Checkbox(menu, content, variable, id);
@@ -71,7 +71,7 @@ namespace Parser {
    * @param {Menu} menu The menu the item is attached to.
    * @return {Combo} The new combo object.
    */
-  const parseCombo = function(
+  const combo = function(
     {content: content, variable: variable, id: id}:
     {content: string, variable: string, id: string}, menu: Menu): Combo {
     return new Combo(menu, content, variable, id);
@@ -83,7 +83,7 @@ namespace Parser {
    * @param {Menu} menu The menu the item is attached to.
    * @return {Slider} The new combo object.
    */
-  const parseSlider = function(
+  const slider = function(
     {content: content, variable: variable, id: id}:
     {content: string, variable: string, id: string}, menu: Menu): Slider {
     return new Slider(menu, content, variable, id);
@@ -95,7 +95,7 @@ namespace Parser {
    * @param {Menu} menu The menu the item is attached to.
    * @return {Label} The new label object.
    */
-  const parseLabel = function(
+  const label = function(
     {content: content, id: id}: {content: string, id: string},
     menu: Menu): Label {
     return new Label(menu, content, id);
@@ -107,7 +107,7 @@ namespace Parser {
    * @param {Menu} menu The menu the item is attached to.
    * @return {Radio} The new radio object.
    */
-  const parseRadio = function(
+  const radio = function(
     {content: content, variable: variable, id: id}:
     {content: string, variable: string, id: string}, menu: Menu): Radio {
     return new Radio(menu, content, variable, id);
@@ -119,7 +119,7 @@ namespace Parser {
    * @param {Menu} menu The menu the item is attached to.
    * @return {Rule} The new rule object.
    */
-  const parseRule = function({}: {}, menu: Menu): Rule {
+  const rule = function({}: {}, menu: Menu): Rule {
     return new Rule(menu);
   };
 
@@ -129,12 +129,12 @@ namespace Parser {
    * @param {Menu} menu The menu the item is attached to.
    * @return {Submenu} The new submenu object.
    */
-  const parseSubmenu = function(
+  const submenu = function(
     {content: content, menu: submenu, id: id}:
     {content: string, menu: any, id: string}, menu: Menu): Submenu {
     const item = new Submenu(menu, content, id);
-    const subMenu = parseSubMenu(submenu, item);
-    item.submenu = subMenu;
+    const sm = subMenu(submenu, item);
+    item.submenu = sm;
     return item;
   };
 
@@ -143,7 +143,7 @@ namespace Parser {
    * @param {JSON} json The JSON object to parse.
    * @return {ContextMenu} The new context menu object.
    */
-  export const parseContextMenu = function(
+  export const contextMenu = function(
     {menu: menu}: {menu: {pool: Array<Object>,
                           items: Array<Object>,
                           id: string}}): ContextMenu {
@@ -152,10 +152,10 @@ namespace Parser {
       return null;
     }
     // The variable id is currently ignored!
-    let {pool: pool, items: items} = menu;
+    let {pool: pool, items: its} = menu;
     const ctxtMenu = new ContextMenu();
-    pool.forEach(x => parseVariable(x as any, ctxtMenu.pool));
-    const itemList = parseItems(items, ctxtMenu);
+    pool.forEach(x => variable(x as any, ctxtMenu.pool));
+    const itemList = items(its, ctxtMenu);
     ctxtMenu.items = itemList;
     return ctxtMenu;
   };
@@ -166,11 +166,11 @@ namespace Parser {
    * @param {Submenu} anchor The anchor item the submenu is attached to.
    * @return {SubMenu} The new submenu object.
    */
-  const parseSubMenu = function(
-    {items: items}: {items: any[], id: string},
+  const subMenu = function(
+    {items: its}: {items: any[], id: string},
     anchor: Submenu): SubMenu {
     const submenu = new SubMenu(anchor);
-    const itemList = parseItems(items, submenu);
+    const itemList = items(its, submenu);
     submenu.items = itemList;
     return submenu;
   };
@@ -180,7 +180,7 @@ namespace Parser {
    * variable pool of the context menu.
    * @param {JSON} json The JSON object to parse.
    */
-  const parseVariable = function(
+  const variable = function(
     {name: name, getter: getter, setter: setter}:
     {name: string, getter: () => string | boolean,
      setter: (x: (string | boolean)) => void},
@@ -193,8 +193,8 @@ namespace Parser {
    * Parses items in JSON formats and attaches them to the menu.
    * @param {Array.<JSON>} items List of JSON menu items.
    */
-  const parseItems = function(items: any[], ctxt: Menu): Item[] {
-    const hidden = items.map(x => [parseItem(x, ctxt), x.hidden]);
+  const items = function(its: any[], ctxt: Menu): Item[] {
+    const hidden = its.map(x => [item(x, ctxt), x.hidden]);
     hidden.forEach(x => x[1] && x[0].hide());
     return hidden.map(x => x[0]);
   };
@@ -205,8 +205,8 @@ namespace Parser {
    * @param {Menu} ctxt The context menu for the items.
    * @return {Item} The list of parsed items.
    */
-  const parseItem = function(item: any, ctxt: Menu): Item {
-    const func = parseMapping[item['type']];
+  const item = function(item: any, ctxt: Menu): Item {
+    const func = mapping[item['type']];
     if (func) {
       const menuItem = func(item, ctxt);
       ctxt.items.push(menuItem);
@@ -221,17 +221,15 @@ namespace Parser {
   /**
    * @type{Object.<Function>}
    */
-  const parseMapping: { [id: string]: Function } = {
-    'checkbox': parseCheckbox,
-    'combo': parseCombo,
-    'command': parseCommand,
-    'label': parseLabel,
-    'radio': parseRadio,
-    'rule': parseRule,
-    'slider': parseSlider,
-    'submenu': parseSubmenu
+  const mapping: { [id: string]: Function } = {
+    'checkbox': checkbox,
+    'combo': combo,
+    'command': command,
+    'label': label,
+    'radio': radio,
+    'rule': rule,
+    'slider': slider,
+    'submenu': submenu
   };
 }
 
-let parse = Parser.parseContextMenu;
-export default parse;
