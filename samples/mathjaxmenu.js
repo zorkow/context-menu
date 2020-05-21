@@ -133,6 +133,8 @@ MathJax.Hub.Register.StartupHook("MathEvents Ready", function () {
 
   var MENU = {};
   var SETTINGS = MathJax.Hub.config.menuSettings;
+  MathJax.testCombo = 'hello';
+  MathJax.testSlider = 50;
   MENU.id = function(value) { };
   MENU.About = function() {
     about.post(0, 0);
@@ -230,6 +232,18 @@ MathJax.Hub.Register.StartupHook("MathEvents Ready", function () {
     // always get "Auto".
     MathJax.Menu.Font();
   };
+  MENU.getCombo = function() {
+    return MathJax.testCombo;
+  };
+  MENU.setCombo = function(value) {
+    MathJax.testCombo = value;
+  };
+  MENU.getSlider = function() {
+    return MathJax.testSlider;
+  };
+  MENU.setSlider = function(value) {
+    MathJax.testSlider = value;
+  };
 
   var cm_json =
         {"menu":
@@ -293,6 +307,14 @@ MathJax.Hub.Register.StartupHook("MathEvents Ready", function () {
            { "name": "font",
              "getter": MENU.getFont,
              "setter": MENU.setFont
+           },
+           { "name": "comboTest",
+             "getter": MENU.getCombo,
+             "setter": MENU.setCombo
+           },
+           { "name": "sliderTest",
+             "getter": MENU.getSlider,
+             "setter": MENU.setSlider
            }
          ],
           "items":
@@ -574,6 +596,10 @@ MathJax.Hub.Register.StartupHook("MathEvents Ready", function () {
              }
             },
             {"type": "rule"},
+            {"type": "slider",
+             "variable": "sliderTest",
+             "content": "Slider: "
+            },
             {"type": "command",
              "id": "About",
              "content": "About MathJax",
@@ -583,7 +609,12 @@ MathJax.Hub.Register.StartupHook("MathEvents Ready", function () {
              "id": "Help",
              "content": "MathJax Help",
              "action": MENU.Help
+            },
+            {"type": "combo",
+             "variable": "comboTest",
+             "content": "Combo: "
             }
+
           ]
          }
         };
