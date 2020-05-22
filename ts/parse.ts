@@ -180,7 +180,7 @@ export namespace Parse {
    * variable pool of the context menu.
    * @param {JSON} json The JSON object to parse.
    */
-  const variable = function(
+  export const variable = function(
     {name: name, getter: getter, setter: setter}:
     {name: string, getter: () => string | boolean,
      setter: (x: (string | boolean)) => void},
