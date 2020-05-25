@@ -22,21 +22,21 @@
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-import {Command} from './item_command';
-import {Menu} from './menu';
-import {MenuUtil} from './menu_util';
-import {ContextMenu} from './context_menu';
-import {Variable} from './variable';
-import {VariablePool} from './variable_pool';
-import {Checkbox} from './item_checkbox';
-import {Combo} from './item_combo';
-import {Label} from './item_label';
-import {Radio} from './item_radio';
-import {Submenu} from './item_submenu';
-import {Rule} from './item_rule';
-import {Item} from './item';
-import {Slider} from './item_slider';
-import {SubMenu} from './sub_menu';
+import {Command} from './item_command.js';
+import {Menu} from './menu.js';
+import {MenuUtil} from './menu_util.js';
+import {ContextMenu} from './context_menu.js';
+import {Variable} from './variable.js';
+import {VariablePool} from './variable_pool.js';
+import {Checkbox} from './item_checkbox.js';
+import {Combo} from './item_combo.js';
+import {Label} from './item_label.js';
+import {Radio} from './item_radio.js';
+import {Submenu} from './item_submenu.js';
+import {Rule} from './item_rule.js';
+import {Item} from './item.js';
+import {Slider} from './item_slider.js';
+import {SubMenu} from './sub_menu.js';
 
 
 export namespace Parse {

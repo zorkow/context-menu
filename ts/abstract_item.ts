@@ -22,14 +22,14 @@
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-import {AbstractEntry} from './abstract_entry';
-import {AbstractMenu} from './abstract_menu';
-import {Item} from './item';
-import {Menu} from './menu';
-import {SubMenu} from './sub_menu';
-import {MenuUtil} from './menu_util';
-import {HtmlClasses} from './html_classes';
-import {ContextMenu} from './context_menu';
+import {AbstractEntry} from './abstract_entry.js';
+import {AbstractMenu} from './abstract_menu.js';
+import {Item} from './item.js';
+import {Menu} from './menu.js';
+import {SubMenu} from './sub_menu.js';
+import {MenuUtil} from './menu_util.js';
+import {HtmlClasses} from './html_classes.js';
+import {ContextMenu} from './context_menu.js';
 
 
 

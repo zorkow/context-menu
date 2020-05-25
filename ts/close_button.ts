@@ -22,9 +22,9 @@
  * @author v.sorge@mathjax.org (Volker Sorge)
  */
 
-import {AbstractPostable} from './abstract_postable';
-import {HtmlClasses} from './html_classes';
-import {Postable} from './postable';
+import {AbstractPostable} from './abstract_postable.js';
+import {HtmlClasses} from './html_classes.js';
+import {Postable} from './postable.js';
 
 
 export class CloseButton extends AbstractPostable {

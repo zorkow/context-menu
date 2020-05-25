@@ -22,9 +22,9 @@
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-import {AbstractNavigatable} from './abstract_navigatable';
-import {HtmlClass} from './html_classes';
-import {Element} from './element';
+import {AbstractNavigatable} from './abstract_navigatable.js';
+import {HtmlClass} from './html_classes.js';
+import {Element} from './element.js';
 
 
 

@@ -22,11 +22,11 @@
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-import {AbstractVariableItem} from './abstract_variable_item';
-import {Menu} from './menu';
-import {MenuUtil} from './menu_util';
-import {Variable} from './variable';
-import {HtmlClasses} from './html_classes';
+import {AbstractVariableItem} from './abstract_variable_item.js';
+import {Menu} from './menu.js';
+import {MenuUtil} from './menu_util.js';
+import {Variable} from './variable.js';
+import {HtmlClasses} from './html_classes.js';
 
 
 export class Checkbox extends AbstractVariableItem<boolean> {

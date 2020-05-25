@@ -22,9 +22,9 @@
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-import {AbstractItem} from './abstract_item';
-import {MenuUtil} from './menu_util';
-import {Menu} from './menu';
+import {AbstractItem} from './abstract_item.js';
+import {MenuUtil} from './menu_util.js';
+import {Menu} from './menu.js';
 
 
 export class Command extends AbstractItem {

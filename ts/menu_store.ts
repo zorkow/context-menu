@@ -22,10 +22,10 @@
  * @author v.sorge@mathjax.org (Volker Sorge)
  */
 
-import {ContextMenu} from './context_menu';
-import {MenuUtil} from './menu_util';
-import {HtmlClasses, HtmlAttrs} from './html_classes';
-import {KEY} from './key_navigatable';
+import {ContextMenu} from './context_menu.js';
+import {MenuUtil} from './menu_util.js';
+import {HtmlClasses, HtmlAttrs} from './html_classes.js';
+import {KEY} from './key_navigatable.js';
 
 
 

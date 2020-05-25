@@ -22,7 +22,7 @@
  * @author v.sorge@mathjax.org (Volker Sorge)
  */
 
-import {HtmlClasses} from './html_classes';
+import {HtmlClasses} from './html_classes.js';
 
 
 /**

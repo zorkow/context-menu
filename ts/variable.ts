@@ -24,10 +24,10 @@
  */
 
 
-import {VariableItem} from './variable_item';
-import {MenuUtil} from './menu_util';
-import {Checkbox} from './item_checkbox';
-import {Radio} from './item_radio';
+import {VariableItem} from './variable_item.js';
+import {MenuUtil} from './menu_util.js';
+import {Checkbox} from './item_checkbox.js';
+import {Radio} from './item_radio.js';
 
 
 export class Variable<T> {

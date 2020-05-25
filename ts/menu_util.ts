@@ -22,8 +22,8 @@
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-import {ContextMenu} from './context_menu';
-import {Item} from './item';
+import {ContextMenu} from './context_menu.js';
+import {Item} from './item.js';
 
 
 

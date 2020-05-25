@@ -22,7 +22,7 @@
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-import {Variable} from './variable';
+import {Variable} from './variable.js';
 
 
 export class VariablePool<T> {

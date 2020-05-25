@@ -4,8 +4,8 @@
   "description": "A generic context menu",
   "main": "dist/ContextMenu.js",
   "scripts": {
-    "build": "./node_modules/.bin/webpack",
-    "prepare": "npx rimraf dist; ./node_modules/.bin/webpack"
+    "build": "./node_modules/.bin/tsc; ./node_modules/.bin/webpack",
+    "prepare": "npx rimraf js; npx rimraf dist; ./node_modules/.bin/tsc; ./node_modules/.bin/webpack"
   },
   "maintainers": [
     "Volker Sorge <v.sorge@mathjax.org>"
