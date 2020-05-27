@@ -87,6 +87,7 @@ export const HtmlClasses: {[id: string]: HtmlClass} = {
   INFOTITLE: prefixClass_('InfoTitle'),
   SLIDERVALUE: prefixClass_('SliderValue'),
   SLIDERBAR: prefixClass_('SliderBar'),
+  SELECTION: prefixClass_('Selection'),
 };
 
 // This is an awkward type construction!
@@ -97,7 +98,9 @@ export type HtmlClass = 'CtxtMenu_ContextMenu' | 'CtxtMenu_Menu' |
   'CtxtMenu_MousePost' | 'CtxtMenu_RTL' | 'CtxtMenu_Attached' |
   'CtxtMenu_Info' | 'CtxtMenu_InfoClose' | 'CtxtMenu_InfoContent' |
   'CtxtMenu_InfoSignature' | 'CtxtMenu_InfoTitle' | 'CtxtMenu_MenuFrame' |
-  'CtxtMenu_MenuInputBox' | 'CtxtMenu_MenuSlider' ;
+  'CtxtMenu_MenuInputBox' | 'CtxtMenu_MenuSlider' |
+  'CtxtMenu_Selection'
+  ;
 
 /**
  * HTML attributes.

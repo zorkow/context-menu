@@ -1,6 +1,6 @@
 /*************************************************************
  *
- *  Copyright (c) 2015-2016 The MathJax Consortium
+ *  Copyright (c) 2020 The MathJax Consortium
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 
 
 /**
- * @fileoverview Class of info widgets.
+ * @fileoverview Class of selection boxes with multiple radio buttons.
  *
  * @author v.sorge@mathjax.org (Volker Sorge)
  */
@@ -25,10 +25,41 @@
 import {CloseButton} from './close_button';
 import {ContextMenu} from './context_menu';
 import {HtmlClasses} from './html_classes';
+// import {Postable} from './postable';
 import {AbstractPostable} from './abstract_postable';
+import {AbstractMenu} from './abstract_menu';
+
+export class SelectionMenu extends AbstractMenu {
+
+  protected className = HtmlClasses['SELECTION'];
+
+  constructor(public anchor: SelectionBox) {
+    super();
+    this.variablePool = this.anchor.menu.pool;
+    this.baseMenu = this.anchor.menu;
+  }
+
+  // public post() {
+  //   console.log('This');
+  //   super.post();
+  // }
+
+  /**
+   * @override
+   */
+  protected display() {
+    console.log('When?');
+  }
+  
+  public generateMenu() {
+    super.generateMenu();
+    // this.html.classList.remove(HtmlClasses['MENU']);
+  }
+
+}
 
 
-export class Info extends AbstractPostable {
+export class SelectionBox extends AbstractPostable {
 
   /**
    * @override
@@ -40,22 +71,20 @@ export class Info extends AbstractPostable {
    */
   protected role = 'dialog';
 
-  private menu: ContextMenu;
+  public menu: ContextMenu;
   private contentDiv: HTMLElement = this.generateContent();
   private close: CloseButton = this.generateClose();
-  private content: Function;
-
+  // private content: Function;
+  private _selections: SelectionMenu[] = [];
+  
   /**
    * @constructor
    * @extends {AbstractPostable}
-   * @param {string} title The title of the info box.
-   * @param {Function} content Function generating the content of the box.
-   * @param {string} signature The final line of the info box.
+   * @param {string} title The title of the selection box.
+   * @param {string} signature The final line of the selection box.
    */
-  constructor(private title: string, content: Function,
-              private signature: string) {
+  constructor(private title: string, private signature: string) {
     super();
-    this.content = content || function() { return ''; };
   }
 
   /**
@@ -66,6 +95,21 @@ export class Info extends AbstractPostable {
     this.menu = menu;
   }
 
+  public get selections(): SelectionMenu[] {
+    return this._selections;
+  }
+
+  public set selections(selections: SelectionMenu[]) {
+    this._selections = [];
+    selections.forEach(x => this.addSelection(x));
+  }
+
+  public addSelection(selection: SelectionMenu) {
+    selection.anchor = this;
+    this._selections.push(selection);
+  }
+  
+  
   /**
    * @override
    */
@@ -84,8 +128,6 @@ export class Info extends AbstractPostable {
    */
   public post() {
     super.post();
-    //// TODO: There is potentially a bug in IE. Look into it.
-    //  Look for MENU.prototype.msieAboutBug in MathMenu.js
     let doc = document.documentElement;
     let html = this.html;
     let H = window.innerHeight || doc.clientHeight || doc.scrollHeight || 0;
@@ -104,8 +146,19 @@ export class Info extends AbstractPostable {
    */
   protected display() {
     this.menu.registerWidget(this);
-    this.contentDiv.innerHTML = this.content();
+    // let count = 0;
+    // let span = document.createElement('p');
+    // this.contentDiv.appendChild(span);
+    this.selections.forEach(x => {
+      // if (count > 2) return;
+      // x.post(100 * count, 0);
+      // count++;
+      // let span = document.createElement('span');
+      // this.contentDiv.appendChild(span);
+      this.contentDiv.appendChild(x.html);
+    });
     let html = this.menu.html;
+    console.log(html.parentNode);
     if (html.parentNode) {
       html.parentNode.removeChild(html);
     }

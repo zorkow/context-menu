@@ -37,6 +37,7 @@ import {Rule} from './item_rule';
 import {Item} from './item';
 import {Slider} from './item_slider';
 import {SubMenu} from './sub_menu';
+import {SelectionMenu, SelectionBox} from './selection_box';
 
 
 export namespace Parse {
@@ -107,7 +108,7 @@ export namespace Parse {
    * @param {Menu} menu The menu the item is attached to.
    * @return {Radio} The new radio object.
    */
-  const radio = function(
+  export const radio = function(
     {content: content, variable: variable, id: id}:
     {content: string, variable: string, id: string}, menu: Menu): Radio {
     return new Radio(menu, content, variable, id);
@@ -230,6 +231,33 @@ export namespace Parse {
     'rule': rule,
     'slider': slider,
     'submenu': submenu
+  };
+
+
+  declare type selection = {title: string, values: string[], variable: string};
+  
+  const selectionMenu = function(
+    {title: title, values: values, variable: variable}: selection,
+    sb: SelectionBox): SelectionMenu {
+    let selection = new SelectionMenu(sb);
+    let tit = label({content: title || '', id: title || 'id'}, selection);
+    let rul = rule({}, selection);
+    let radios = values.map(x => radio({content: x, variable: variable, id: x}, selection));
+    let items = [tit, rul].concat(radios) as Item[];
+    selection.items = items;
+    return selection;
+  };
+  
+  export const selectionBox = function(
+    {title: title, signature: signature, selections: selections}:
+    {title: string, signature: string, selections: selection[]},
+    ctxt: ContextMenu): SelectionBox {
+    let sb = new SelectionBox(title, signature);
+    sb.attachMenu(ctxt);
+    let sels = selections.map(x => selectionMenu(x, sb));
+    console.log(sels);
+    sb.selections = sels;
+    return sb;
   };
 }
 

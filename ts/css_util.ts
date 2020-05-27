@@ -163,9 +163,13 @@ export namespace CssStyles {
               makeClass_('MENUITEM') + ':focus'] = '{' +
     '  outline:none' +
     '}',
+  MENU_STYLES[makeClass_('SELECTION')] = '{' +
+    '  position:relative; float:left' +
+    '}',
   MENU_STYLES[makeClass_('MENU') + ' ' + makeClass_('MENUCLOSE')] = '{' +
     '  top:-10px; left:-10px' +
     '}';
+
 
   // Style of the little cross button to close a dialog or the mobile menu.
   let CLOSE_ICON_STYLES: {[id: string]: string} = {};
