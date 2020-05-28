@@ -101,6 +101,22 @@ export class SelectionBox extends Info {
   }
 
 
+  private rowDiv(sels: SelectionMenu[]): [HTMLElement, number] {
+    let div = document.createElement('div');
+    this.contentDiv.appendChild(div);
+    let rects = sels.map(sel => {
+      div.appendChild(sel.html);
+      if (!sel.html.id) {
+        sel.html.id = this.prefix + this.counter++;
+      }
+      return sel.html.getBoundingClientRect();
+    });
+    let width = rects.reduce((x, y) => x + y.width, 0);
+    let height = rects.reduce((x, y) => Math.max(x, y.height), 0);
+    div.setAttribute('style', 'clear: both; height: ' + height + 'px;');
+    return [div, width];
+  }
+
   /**
    * @override
    */
@@ -109,13 +125,16 @@ export class SelectionBox extends Info {
     if (!this.selections.length) {
       return;
     }
-    this.selections.forEach(x => {
-      if (!x.html.id) {
-        x.html.id = this.prefix + this.counter++;
-      }
-      x.post();
-      this.contentDiv.appendChild(x.html);
-    });
+    let outerDivs: HTMLElement[] = [];
+    let chunks = 4;
+    let maxWidth = 0;
+    for (let i = 0; i < this.selections.length; i += chunks) {
+      let sels = this.selections.slice(i, i + chunks);
+      let [div, width] = this.rowDiv(sels);
+      outerDivs.push(div);
+      maxWidth = Math.max(maxWidth, width);
+    }
+    outerDivs.forEach(div => div.style.width = maxWidth + 'px');
   }
 
   /**
