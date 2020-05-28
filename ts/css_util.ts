@@ -164,7 +164,14 @@ export namespace CssStyles {
     '  outline:none' +
     '}',
   MENU_STYLES[makeClass_('SELECTION')] = '{' +
-    '  position:relative; float:left' +
+    '  position:relative; float:left;' +
+    ' -webkit-box-shadow:none;' +
+    ' -webkit-border-radius:0px; ' +
+    // ' border-bottom-style: none; ' +
+    '}',
+  MENU_STYLES[makeClass_('SELECTIONBOX')] = '{' +
+    '  padding: 0em; max-height:30em; max-width:40em;' +
+    '  background-color:#FFFFFF;' +
     '}',
   MENU_STYLES[makeClass_('MENU') + ' ' + makeClass_('MENUCLOSE')] = '{' +
     '  top:-10px; left:-10px' +

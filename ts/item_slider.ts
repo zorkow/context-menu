@@ -134,7 +134,6 @@ export class Slider extends AbstractVariableItem<string> {
    * @param {KeyboardEvent} event The input event.
    */
   public inputKey(_event: KeyboardEvent) {
-    console.log('In input key.');
     this.inputEvent = true;
   }
 

@@ -255,7 +255,6 @@ export namespace Parse {
     let sb = new SelectionBox(title, signature);
     sb.attachMenu(ctxt);
     let sels = selections.map(x => selectionMenu(x, sb));
-    console.log(sels);
     sb.selections = sels;
     return sb;
   };

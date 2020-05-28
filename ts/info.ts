@@ -40,8 +40,9 @@ export class Info extends AbstractPostable {
    */
   protected role = 'dialog';
 
-  private menu: ContextMenu;
-  private contentDiv: HTMLElement = this.generateContent();
+  protected contentDiv: HTMLElement = this.generateContent();
+
+  public menu: ContextMenu;
   private close: CloseButton = this.generateClose();
   private content: Function;
 
@@ -166,7 +167,7 @@ export class Info extends AbstractPostable {
    * @return {HTMLElement} The basic content element of the widget. The actual
    *     content is regenerated and attached during posting.
    */
-  private generateContent(): HTMLElement {
+  protected generateContent(): HTMLElement {
     let div = document.createElement('div');
     div.classList.add(HtmlClasses['INFOCONTENT']);
     div.setAttribute('tabindex', '0');

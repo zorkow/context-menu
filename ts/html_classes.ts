@@ -88,6 +88,7 @@ export const HtmlClasses: {[id: string]: HtmlClass} = {
   SLIDERVALUE: prefixClass_('SliderValue'),
   SLIDERBAR: prefixClass_('SliderBar'),
   SELECTION: prefixClass_('Selection'),
+  SELECTIONBOX: prefixClass_('SelectionBox'),
 };
 
 // This is an awkward type construction!
@@ -99,7 +100,7 @@ export type HtmlClass = 'CtxtMenu_ContextMenu' | 'CtxtMenu_Menu' |
   'CtxtMenu_Info' | 'CtxtMenu_InfoClose' | 'CtxtMenu_InfoContent' |
   'CtxtMenu_InfoSignature' | 'CtxtMenu_InfoTitle' | 'CtxtMenu_MenuFrame' |
   'CtxtMenu_MenuInputBox' | 'CtxtMenu_MenuSlider' |
-  'CtxtMenu_Selection'
+  'CtxtMenu_Selection' | 'CtxtMenu_SelectionBox'
   ;
 
 /**

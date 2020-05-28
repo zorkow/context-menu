@@ -22,15 +22,17 @@
  * @author v.sorge@mathjax.org (Volker Sorge)
  */
 
-import {CloseButton} from './close_button';
 import {ContextMenu} from './context_menu';
 import {HtmlClasses} from './html_classes';
-// import {Postable} from './postable';
-import {AbstractPostable} from './abstract_postable';
 import {AbstractMenu} from './abstract_menu';
+import {Info} from './info';
+
 
 export class SelectionMenu extends AbstractMenu {
 
+  /**
+   * @override
+   */
   protected className = HtmlClasses['SELECTION'];
 
   constructor(public anchor: SelectionBox) {
@@ -39,52 +41,41 @@ export class SelectionMenu extends AbstractMenu {
     this.baseMenu = this.anchor.menu;
   }
 
-  // public post() {
-  //   console.log('This');
-  //   super.post();
-  // }
+  /**
+   * @override
+   */
+  protected display() { }
 
   /**
    * @override
    */
-  protected display() {
-    console.log('When?');
-  }
-  
-  public generateMenu() {
-    super.generateMenu();
-    // this.html.classList.remove(HtmlClasses['MENU']);
+  public right(event: KeyboardEvent) {
+    this.anchor.right(event);
   }
 
+  /**
+   * @override
+   */
+  public left(event: KeyboardEvent) {
+    this.anchor.left(event);
+  }
 }
 
 
-export class SelectionBox extends AbstractPostable {
+export class SelectionBox extends Info {
 
-  /**
-   * @override
-   */
-  protected className = HtmlClasses['INFO'];
-
-  /**
-   * @override
-   */
-  protected role = 'dialog';
-
-  public menu: ContextMenu;
-  private contentDiv: HTMLElement = this.generateContent();
-  private close: CloseButton = this.generateClose();
-  // private content: Function;
   private _selections: SelectionMenu[] = [];
-  
+  private counter: number = 0;
+  private prefix: string = 'ctxt-selection';
+
   /**
    * @constructor
-   * @extends {AbstractPostable}
+   * @extends {Info}
    * @param {string} title The title of the selection box.
    * @param {string} signature The final line of the selection box.
    */
-  constructor(private title: string, private signature: string) {
-    super();
+  constructor(title: string, signature: string) {
+    super(title, null, signature);
   }
 
   /**
@@ -108,132 +99,73 @@ export class SelectionBox extends AbstractPostable {
     selection.anchor = this;
     this._selections.push(selection);
   }
-  
-  
-  /**
-   * @override
-   */
-  public generateHtml() {
-    super.generateHtml();
-    let html = this.html;
-    html.appendChild(this.generateTitle());
-    html.appendChild(this.contentDiv);
-    html.appendChild(this.generateSignature());
-    html.appendChild(this.close.html);
-    html.setAttribute('tabindex', '0');
-  }
 
-  /**
-   * @override
-   */
-  public post() {
-    super.post();
-    let doc = document.documentElement;
-    let html = this.html;
-    let H = window.innerHeight || doc.clientHeight || doc.scrollHeight || 0;
-    let x = Math.floor((- html.offsetWidth) / 2);
-    let y = Math.floor((H - html.offsetHeight) / 3);
-    html.setAttribute(
-      'style', 'margin-left: ' + x + 'px; top: ' + y + 'px;');
-    if (window.event instanceof MouseEvent) {
-      html.classList.add(HtmlClasses['MOUSEPOST']);
-    }
-    html.focus();
-  }
 
   /**
    * @override
    */
   protected display() {
-    this.menu.registerWidget(this);
-    // let count = 0;
-    // let span = document.createElement('p');
-    // this.contentDiv.appendChild(span);
+    super.display();
+    if (!this.selections.length) {
+      return;
+    }
     this.selections.forEach(x => {
-      // if (count > 2) return;
-      // x.post(100 * count, 0);
-      // count++;
-      // let span = document.createElement('span');
-      // this.contentDiv.appendChild(span);
+      if (!x.html.id) {
+        x.html.id = this.prefix + this.counter++;
+      }
+      x.post();
       this.contentDiv.appendChild(x.html);
     });
-    let html = this.menu.html;
-    console.log(html.parentNode);
-    if (html.parentNode) {
-      html.parentNode.removeChild(html);
-    }
-    this.menu.frame.appendChild(this.html);
   }
 
   /**
    * @override
    */
-  public click(_event: MouseEvent): void { }
-
-  /**
-   * @override
-   */
-  public keydown(event: KeyboardEvent) {
-    this.bubbleKey();
-    super.keydown(event);
+  public left(event: KeyboardEvent) {
+    this.move(event, (index: number) =>
+              (index === 0 ? this.selections.length : index) - 1);
   }
 
   /**
    * @override
    */
-  public escape(_event: KeyboardEvent): void {
-    this.unpost();
+  public right(event: KeyboardEvent) {
+    this.move(event, (index: number) =>
+              index === this.selections.length - 1 ? 0 : index + 1);
   }
 
   /**
    * @override
    */
-  public unpost() {
-    super.unpost();
-    this.html.classList.remove(HtmlClasses['MOUSEPOST']);
-    this.menu.unregisterWidget(this);
-  }
-
-  /**
-   * @return {CloseButton} The close button for the widget.
-   */
-  private generateClose(): CloseButton {
-    let close = new CloseButton(this);
-    let html = close.html;
-    html.classList.add(HtmlClasses['INFOCLOSE']);
-    html.setAttribute('aria-label', 'Close Dialog Box');
-    return close;
-  }
-
-  /**
-   * @return {HTMLElement} The title element of the widget.
-   */
-  private generateTitle(): HTMLElement {
-    let span = document.createElement('span');
-    span.innerHTML = this.title;
-    span.classList.add(HtmlClasses['INFOTITLE']);
-    return span;
-  }
-
-  /**
-   * @return {HTMLElement} The basic content element of the widget. The actual
-   *     content is regenerated and attached during posting.
-   */
-  private generateContent(): HTMLElement {
-    let div = document.createElement('div');
-    div.classList.add(HtmlClasses['INFOCONTENT']);
-    div.setAttribute('tabindex', '0');
+  protected generateContent(): HTMLElement {
+    let div = super.generateContent();
+    div.classList.add(HtmlClasses['SELECTIONBOX']);
+    div.removeAttribute('tabindex');
     return div;
   }
 
-  /**
-   * @return {HTMLElement} The signature element of the widget.
-   */
-  private generateSignature(): HTMLElement {
-    let span = document.createElement('span');
-    span.innerHTML = this.signature;
-    span.classList.add(HtmlClasses['INFOSIGNATURE']);
-    return span;
+  private findSelection(event: KeyboardEvent): SelectionMenu {
+    let target = event.target as HTMLElement;
+    let selection = null;
+    if (target.id) {
+      selection = this.selections.find(x => x.html.id === target.id);
+    }
+    if (!selection) {
+      let id = target.parentElement.id;
+      selection = this.selections.find(x => x.html.id === id);
+    }
+    return selection;
+  }
+
+  private move(event: KeyboardEvent,
+               isNext: (x: number) => number) {
+    let selection = this.findSelection(event);
+    if (selection.focused) {
+      selection.focused.unfocus();
+    }
+    let index = this.selections.indexOf(selection);
+    let next = isNext(index);
+    this.selections[next].focus();
   }
 
 }
