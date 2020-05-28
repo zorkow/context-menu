@@ -26,10 +26,8 @@ import {AbstractEntry} from './abstract_entry';
 import {AbstractMenu} from './abstract_menu';
 import {Item} from './item';
 import {Menu} from './menu';
-import {SubMenu} from './sub_menu';
 import {MenuUtil} from './menu_util';
 import {HtmlClasses} from './html_classes';
-import {ContextMenu} from './context_menu';
 
 
 
@@ -215,13 +213,7 @@ export abstract class AbstractItem extends AbstractEntry implements Item {
    * @override
    */
   public left(event: KeyboardEvent) {
-    if (this.menu instanceof ContextMenu) {
-      this.menu.left(event);
-      return;
-    }
-    let menu = this.menu as SubMenu;
-    menu.focused = null;
-    menu.anchor.focus();
+    this.menu.left(event);
   }
 
   /**
