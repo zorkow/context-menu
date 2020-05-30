@@ -1,27 +1,32 @@
 const path = require('path');
 
 module.exports = {
-  entry: './ts/index.ts',
+  entry: './dist/index.js',
   devtool: 'inline-source-map',
   mode: 'development',
   module: {
     rules: [
       {
-        test: /\.tsx?$/,
-        use: 'ts-loader',
-        exclude: /node_modules/
-      },
-    ],
+        test: /\.m?js$/,
+        exclude: /(node_modules)/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env']
+          }
+        }
+      }
+    ]
   },
   resolve: {
-    extensions: [ '.tsx', '.ts', '.js' ]
+    extensions: [ '.js' ]
   },
   output: {
     filename: 'ContextMenu.js',
     library: 'ContextMenu',
     libraryTarget: 'umd',
     globalObject: 'this',
-    path: path.resolve(__dirname, 'dist'),
-  },
+    path: path.resolve(__dirname, 'dist')
+  }
 };
 

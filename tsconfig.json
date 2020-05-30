@@ -20,7 +20,6 @@
   "typeRoots": [],
   "types": [],
   "exclude": [
-    "js",
     "dist",
     "samples",
     "node_modules"
