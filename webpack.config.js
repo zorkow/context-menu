@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-  entry: './dist/index.js',
+  entry: './js/index.js',
   devtool: 'inline-source-map',
   mode: 'development',
   module: {
@@ -29,4 +29,3 @@ module.exports = {
     path: path.resolve(__dirname, 'dist')
   }
 };
-
