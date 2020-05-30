@@ -22,11 +22,11 @@
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-import {Item} from './item';
-import {Postable} from './postable';
-import {VariablePool} from './variable_pool';
-import {KeyNavigatable} from './key_navigatable';
-import {MouseNavigatable} from './mouse_navigatable';
+import {Item} from './item.js';
+import {Postable} from './postable.js';
+import {VariablePool} from './variable_pool.js';
+import {KeyNavigatable} from './key_navigatable.js';
+import {MouseNavigatable} from './mouse_navigatable.js';
 
 export interface Menu extends Postable, KeyNavigatable, MouseNavigatable {
 

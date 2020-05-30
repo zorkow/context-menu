@@ -22,9 +22,9 @@
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-import {AbstractItem} from './abstract_item';
-import {Menu} from './menu';
-import {HtmlClasses} from './html_classes';
+import {AbstractItem} from './abstract_item.js';
+import {Menu} from './menu.js';
+import {HtmlClasses} from './html_classes.js';
 
 
 export class Submenu extends AbstractItem {

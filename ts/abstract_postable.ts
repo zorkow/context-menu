@@ -22,8 +22,8 @@
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-import {MenuElement} from './menu_element';
-import {Postable} from './postable';
+import {MenuElement} from './menu_element.js';
+import {Postable} from './postable.js';
 
 
 

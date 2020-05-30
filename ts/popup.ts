@@ -23,8 +23,8 @@
  * @author v.sorge@mathjax.org (Volker Sorge)
  */
 
-import {ContextMenu} from './context_menu';
-import {AbstractPostable} from './abstract_postable';
+import {ContextMenu} from './context_menu.js';
+import {AbstractPostable} from './abstract_postable.js';
 
 
 export class Popup extends AbstractPostable {

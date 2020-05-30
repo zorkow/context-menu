@@ -22,10 +22,10 @@
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-import {Entry} from './entry';
-import {MenuElement} from './menu_element';
-import {Menu} from './menu';
-import {HtmlClasses} from './html_classes';
+import {Entry} from './entry.js';
+import {MenuElement} from './menu_element.js';
+import {Menu} from './menu.js';
+import {HtmlClasses} from './html_classes.js';
 
 
 

@@ -22,13 +22,13 @@
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-import {AbstractPostable} from './abstract_postable';
-import {AbstractItem} from './abstract_item';
-import {Menu} from './menu';
-import {Item} from './item';
-import {VariablePool} from './variable_pool';
-import {HtmlClasses} from './html_classes';
-import {Submenu} from './item_submenu';
+import {AbstractPostable} from './abstract_postable.js';
+import {AbstractItem} from './abstract_item.js';
+import {Menu} from './menu.js';
+import {Item} from './item.js';
+import {VariablePool} from './variable_pool.js';
+import {HtmlClasses} from './html_classes.js';
+import {Submenu} from './item_submenu.js';
 
 
 export abstract class AbstractMenu extends AbstractPostable implements Menu {

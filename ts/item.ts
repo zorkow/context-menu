@@ -23,8 +23,8 @@
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-import {Element} from './element';
-import {Entry} from './entry';
+import {Element} from './element.js';
+import {Entry} from './entry.js';
 
 
 export interface Item extends Entry, Element {

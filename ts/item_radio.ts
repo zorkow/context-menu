@@ -23,11 +23,11 @@
  */
 
 
-import {AbstractVariableItem} from './abstract_variable_item';
-import {Menu} from './menu';
-import {Variable} from './variable';
-import {MenuUtil} from './menu_util';
-import {HtmlClasses} from './html_classes';
+import {AbstractVariableItem} from './abstract_variable_item.js';
+import {Menu} from './menu.js';
+import {Variable} from './variable.js';
+import {MenuUtil} from './menu_util.js';
+import {HtmlClasses} from './html_classes.js';
 
 
 export class Radio extends AbstractVariableItem<string> {

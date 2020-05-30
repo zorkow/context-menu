@@ -23,9 +23,9 @@
  */
 
 
-import {AbstractItem} from './abstract_item';
-import {VariableItem} from './variable_item';
-import {Variable} from './variable';
+import {AbstractItem} from './abstract_item.js';
+import {VariableItem} from './variable_item.js';
+import {Variable} from './variable.js';
 
 
 export abstract class AbstractVariableItem<T> extends AbstractItem

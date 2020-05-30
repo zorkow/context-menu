@@ -22,9 +22,9 @@
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-import {AbstractEntry} from './abstract_entry';
-import {Menu} from './menu';
-import {HtmlClasses} from './html_classes';
+import {AbstractEntry} from './abstract_entry.js';
+import {Menu} from './menu.js';
+import {HtmlClasses} from './html_classes.js';
 
 
 export class Rule extends AbstractEntry {

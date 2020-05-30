@@ -22,9 +22,9 @@
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-import {AbstractMenu} from './abstract_menu';
-import {ContextMenu} from './context_menu';
-import {Submenu} from './item_submenu';
+import {AbstractMenu} from './abstract_menu.js';
+import {ContextMenu} from './context_menu.js';
+import {Submenu} from './item_submenu.js';
 
 
 

@@ -22,11 +22,11 @@
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-import {AbstractMenu} from './abstract_menu';
-import {HtmlClasses} from './html_classes';
-import {MenuStore} from './menu_store';
-import {Postable} from './postable';
-import {VariablePool} from './variable_pool';
+import {AbstractMenu} from './abstract_menu.js';
+import {HtmlClasses} from './html_classes.js';
+import {MenuStore} from './menu_store.js';
+import {Postable} from './postable.js';
+import {VariablePool} from './variable_pool.js';
 
 
 export class ContextMenu extends AbstractMenu {

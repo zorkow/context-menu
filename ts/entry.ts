@@ -22,7 +22,7 @@
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-import {Menu} from './menu';
+import {Menu} from './menu.js';
 
 
 export interface Entry {
