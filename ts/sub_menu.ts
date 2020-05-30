@@ -116,4 +116,9 @@ export class SubMenu extends AbstractMenu {
     this.baseMenu = menu;
   }
 
+  public left(_event: KeyboardEvent) {
+    this.focused = null;
+    this.anchor.focus();
+  }
+
 }

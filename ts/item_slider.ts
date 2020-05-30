@@ -116,14 +116,14 @@ export class Slider extends AbstractVariableItem<string> {
     this.labelSpan.appendChild(this.html.childNodes[0]);
     this.html.appendChild(this.labelSpan);
     this.input = document.createElement('input');
-    this.input.addEventListener('keydown', this.inputKey.bind(this));
     this.input.setAttribute('type', 'range');
     this.input.setAttribute('min', '0');
     this.input.setAttribute('max', '100');
     this.input.setAttribute('aria-valuemin', '0');
     this.input.setAttribute('aria-valuemax', '100');
     this.input.setAttribute('aria-labelledby', this.labelId);
-    this.input.oninput = this.executeAction.bind(this);
+    this.input.addEventListener('keydown', this.inputKey.bind(this));
+    this.input.addEventListener('input', this.executeAction.bind(this));
     this.input.classList.add(HtmlClasses['SLIDERBAR']);
     this.span.appendChild(this.input);
   }
@@ -133,7 +133,7 @@ export class Slider extends AbstractVariableItem<string> {
    * Executes the key event of the sliderbox.
    * @param {KeyboardEvent} event The input event.
    */
-  public inputKey(_event: InputEvent) {
+  public inputKey(_event: KeyboardEvent) {
     this.inputEvent = true;
   }
 
@@ -159,9 +159,14 @@ export class Slider extends AbstractVariableItem<string> {
    * @param {KeyboardEvent} event The input event.
    */
   public keydown(event: KeyboardEvent) {
+    let code = event.keyCode;
+    if (code === KEY.UP || code === KEY.DOWN) {
+      event.preventDefault();
+      super.keydown(event);
+      return;
+    }
     if (this.inputEvent &&
-        event.keyCode !== KEY.ESCAPE &&
-        event.keyCode !== KEY.RETURN) {
+        code !== KEY.ESCAPE && code !== KEY.RETURN) {
       this.inputEvent = false;
       event.stopPropagation();
       return;
@@ -183,11 +188,9 @@ export class Slider extends AbstractVariableItem<string> {
    * Toggles the checked tick.
    */
   protected updateSpan() {
-    console.log('Updating span');
     let initValue;
     try {
       initValue = this.variable.getValue(MenuUtil.getActiveElement(this));
-      console.log('with value: ' + initValue);
       this.valueSpan.innerHTML = initValue + '%';
     } catch (e) {
       initValue = '';

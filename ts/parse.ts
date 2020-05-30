@@ -22,6 +22,7 @@
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
+
 import {Command} from './item_command.js';
 import {Menu} from './menu.js';
 import {MenuUtil} from './menu_util.js';
@@ -37,6 +38,7 @@ import {Rule} from './item_rule.js';
 import {Item} from './item.js';
 import {Slider} from './item_slider.js';
 import {SubMenu} from './sub_menu.js';
+import {SelectionMenu, SelectionBox, SelectionOrder} from './selection_box.js';
 
 
 export namespace Parse {
@@ -107,7 +109,7 @@ export namespace Parse {
    * @param {Menu} menu The menu the item is attached to.
    * @return {Radio} The new radio object.
    */
-  const radio = function(
+  export const radio = function(
     {content: content, variable: variable, id: id}:
     {content: string, variable: string, id: string}, menu: Menu): Radio {
     return new Radio(menu, content, variable, id);
@@ -230,6 +232,32 @@ export namespace Parse {
     'rule': rule,
     'slider': slider,
     'submenu': submenu
+  };
+
+
+  declare type selection = {title: string, values: string[], variable: string};
+  
+  const selectionMenu = function(
+    {title: title, values: values, variable: variable}: selection,
+    sb: SelectionBox): SelectionMenu {
+    let selection = new SelectionMenu(sb);
+    let tit = label({content: title || '', id: title || 'id'}, selection);
+    let rul = rule({}, selection);
+    let radios = values.map(x => radio({content: x, variable: variable, id: x}, selection));
+    let items = [tit, rul].concat(radios) as Item[];
+    selection.items = items;
+    return selection;
+  };
+  
+  export const selectionBox = function(
+    {title: title, signature: signature, selections: selections, order: order}:
+    {title: string, signature: string, selections: selection[], order?: SelectionOrder},
+    ctxt: ContextMenu): SelectionBox {
+    let sb = new SelectionBox(title, signature, order);
+    sb.attachMenu(ctxt);
+    let sels = selections.map(x => selectionMenu(x, sb));
+    sb.selections = sels;
+    return sb;
   };
 }
 
