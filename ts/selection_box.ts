@@ -22,10 +22,10 @@
  * @author v.sorge@mathjax.org (Volker Sorge)
  */
 
-import {ContextMenu} from './context_menu';
-import {HtmlClasses} from './html_classes';
-import {AbstractMenu} from './abstract_menu';
-import {Info} from './info';
+import {ContextMenu} from './context_menu.js';
+import {HtmlClasses} from './html_classes.js';
+import {AbstractMenu} from './abstract_menu.js';
+import {Info} from './info.js';
 
 
 export class SelectionMenu extends AbstractMenu {
