@@ -50,7 +50,7 @@ export abstract class AbstractMenu extends AbstractPostable implements Menu {
   protected role = 'menu';
 
   private _baseMenu: Menu = null;
-  private _items: Item[] = [];
+  protected _items: Item[] = [];
   private _focused: Item;
 
   /**
@@ -160,6 +160,7 @@ export abstract class AbstractMenu extends AbstractPostable implements Menu {
    * @override
    */
   public generateHtml() {
+    console.log('How often?');
     super.generateHtml();
     this.generateMenu();
   }

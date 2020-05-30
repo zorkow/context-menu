@@ -37,7 +37,7 @@ import {Rule} from './item_rule';
 import {Item} from './item';
 import {Slider} from './item_slider';
 import {SubMenu} from './sub_menu';
-import {SelectionMenu, SelectionBox} from './selection_box';
+import {SelectionMenu, SelectionBox, SelectionOrder} from './selection_box';
 
 
 export namespace Parse {
@@ -249,10 +249,10 @@ export namespace Parse {
   };
   
   export const selectionBox = function(
-    {title: title, signature: signature, selections: selections}:
-    {title: string, signature: string, selections: selection[]},
+    {title: title, signature: signature, selections: selections, order: order}:
+    {title: string, signature: string, selections: selection[], order?: SelectionOrder},
     ctxt: ContextMenu): SelectionBox {
-    let sb = new SelectionBox(title, signature);
+    let sb = new SelectionBox(title, signature, order);
     sb.attachMenu(ctxt);
     let sels = selections.map(x => selectionMenu(x, sb));
     sb.selections = sels;

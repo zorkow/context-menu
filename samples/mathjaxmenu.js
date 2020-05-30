@@ -673,6 +673,7 @@ MathJax.Hub.Register.StartupHook("MathEvents Ready", function () {
     {
       "title": "Clearspeak Preferences",
       "signature": '',
+      "order": 'decreasing',
       "selections": [
         {"title": "AbsoluteValue",
          "values": ['Auto', 'AbsEnd', 'Cardinality', 'Determinant'],
@@ -686,12 +687,12 @@ MathJax.Hub.Register.StartupHook("MathEvents Ready", function () {
         {"title": "CombinationPermutation",
          "values": ['Auto', 'ChoosePermute'],
          "variable": "cspref_CombinationPermutation"},
-        {"title": "Currency",
-         "values": ['Auto', 'Position', 'Prefix'],
-         "variable": "cspref_Currency"},
         {"title": "Ellipses",
          "values": ['Auto', 'AndSoOn'],
          "variable": "cspref_Ellipses"},
+        {"title": "Currency",
+         "values": ['Auto', 'Position', 'Prefix'],
+         "variable": "cspref_Currency"},
         {"title": "Exponent",
          "values": ['Auto', 'AfterPower', 'Ordinal', 'OrdinalPower'],
          "variable": "cspref_Exponent"},

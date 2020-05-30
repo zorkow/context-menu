@@ -57,6 +57,7 @@ function prefixAttr_(name: string): HtmlAttr {
 }
 
 // This is in lieu of a proper enum type.
+// TODO: Rewrite into new enum
 /**
  * HTML classes.
  * @enum {string}
@@ -89,6 +90,9 @@ export const HtmlClasses: {[id: string]: HtmlClass} = {
   SLIDERBAR: prefixClass_('SliderBar'),
   SELECTION: prefixClass_('Selection'),
   SELECTIONBOX: prefixClass_('SelectionBox'),
+  SELECTIONMENU: prefixClass_('SelectionMenu'),
+  SELECTIONDIVIDER: prefixClass_('SelectionDivider'),
+  SELECTIONITEM: prefixClass_('SelectionItem')
 };
 
 // This is an awkward type construction!
@@ -100,7 +104,8 @@ export type HtmlClass = 'CtxtMenu_ContextMenu' | 'CtxtMenu_Menu' |
   'CtxtMenu_Info' | 'CtxtMenu_InfoClose' | 'CtxtMenu_InfoContent' |
   'CtxtMenu_InfoSignature' | 'CtxtMenu_InfoTitle' | 'CtxtMenu_MenuFrame' |
   'CtxtMenu_MenuInputBox' | 'CtxtMenu_MenuSlider' |
-  'CtxtMenu_Selection' | 'CtxtMenu_SelectionBox'
+  'CtxtMenu_Selection' | 'CtxtMenu_SelectionBox' | 'CtxtMenu_SelectionItem' |
+  'CtxtMenu_SelectionDivider' | 'CtxtMenu_SelectionMenu'
   ;
 
 /**

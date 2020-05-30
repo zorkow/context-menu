@@ -33,12 +33,20 @@ export class SelectionMenu extends AbstractMenu {
   /**
    * @override
    */
-  protected className = HtmlClasses['SELECTION'];
+  protected className = HtmlClasses['SELECTIONMENU'];
 
   constructor(public anchor: SelectionBox) {
     super();
     this.variablePool = this.anchor.menu.pool;
     this.baseMenu = this.anchor.menu;
+  }
+
+  /**
+   * @override
+   */
+  public generateHtml() {
+    super.generateHtml();
+    this.items.forEach(item => item.html.classList.add(HtmlClasses['SELECTIONITEM']));
   }
 
   /**
@@ -62,19 +70,30 @@ export class SelectionMenu extends AbstractMenu {
 }
 
 
+export const enum SelectionOrder {
+  NONE = 'none',
+  ALPHABETICAL = 'alphabetical',
+  INCREASING = 'increasing',
+  DECREASING = 'decreasing'
+}
+
+
 export class SelectionBox extends Info {
 
   private _selections: SelectionMenu[] = [];
   private counter: number = 0;
   private prefix: string = 'ctxt-selection';
+  static chunkSize = 4;
 
   /**
    * @constructor
    * @extends {Info}
    * @param {string} title The title of the selection box.
    * @param {string} signature The final line of the selection box.
+   * @param {string=} style The style component.
    */
-  constructor(title: string, signature: string) {
+  constructor(title: string, signature: string,
+              public style: SelectionOrder = SelectionOrder.NONE) {
     super(title, null, signature);
   }
 
@@ -101,7 +120,7 @@ export class SelectionBox extends Info {
   }
 
 
-  private rowDiv(sels: SelectionMenu[]): [HTMLElement, number] {
+  private rowDiv(sels: SelectionMenu[]): [HTMLElement, number, number] {
     let div = document.createElement('div');
     this.contentDiv.appendChild(div);
     let rects = sels.map(sel => {
@@ -113,8 +132,9 @@ export class SelectionBox extends Info {
     });
     let width = rects.reduce((x, y) => x + y.width, 0);
     let height = rects.reduce((x, y) => Math.max(x, y.height), 0);
-    div.setAttribute('style', 'clear: both; height: ' + height + 'px;');
-    return [div, width];
+    div.classList.add(HtmlClasses['SELECTIONDIVIDER']);
+    div.setAttribute('style', 'height: ' + height + 'px;');
+    return [div, width, height];
   }
 
   /**
@@ -122,17 +142,18 @@ export class SelectionBox extends Info {
    */
   protected display() {
     super.display();
+    this.order();
     if (!this.selections.length) {
       return;
     }
     let outerDivs: HTMLElement[] = [];
-    let chunks = 4;
     let maxWidth = 0;
-    for (let i = 0; i < this.selections.length; i += chunks) {
-      let sels = this.selections.slice(i, i + chunks);
-      let [div, width] = this.rowDiv(sels);
+    for (let i = 0; i < this.selections.length; i += SelectionBox.chunkSize) {
+      let sels = this.selections.slice(i, i + SelectionBox.chunkSize);
+      let [div, width, height] = this.rowDiv(sels);
       outerDivs.push(div);
       maxWidth = Math.max(maxWidth, width);
+      sels.forEach(sel => sel.html.style.height = height + 'px');
     }
     outerDivs.forEach(div => div.style.width = maxWidth + 'px');
   }
@@ -151,6 +172,14 @@ export class SelectionBox extends Info {
   public right(event: KeyboardEvent) {
     this.move(event, (index: number) =>
               index === this.selections.length - 1 ? 0 : index + 1);
+  }
+
+  /**
+   * @override
+   */
+  public generateHtml() {
+    super.generateHtml();
+    this.html.classList.add(HtmlClasses['SELECTION']);
   }
 
   /**
@@ -185,6 +214,28 @@ export class SelectionBox extends Info {
     let index = this.selections.indexOf(selection);
     let next = isNext(index);
     this.selections[next].focus();
+  }
+
+  static orderMethod = new Map<SelectionOrder, (x: SelectionMenu, y: SelectionMenu) => number>([
+    [SelectionOrder.ALPHABETICAL, (x, y) => x.items[0].content.localeCompare(y.items[0].content)],
+    [SelectionOrder.NONE, (_x, _y) => 1],
+    [SelectionOrder.DECREASING, (x, y) => {
+      let xl = x.items.length;
+      let yl = y.items.length;
+      return (xl < yl) ? 1 : ((yl < xl) ? -1 : 0);
+    }],
+    [SelectionOrder.INCREASING, (x, y) => {
+      let xl = x.items.length;
+      let yl = y.items.length;
+      return (xl < yl) ? -1 : ((yl < xl) ? 1 : 0);
+    }],
+  ]);
+
+  /**
+   * Orders the selections.
+   */
+  private order() {
+    this.selections.sort(SelectionBox.orderMethod.get(this.style));
   }
 
 }
