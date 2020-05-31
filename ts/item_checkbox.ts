@@ -27,6 +27,7 @@ import {Menu} from './menu.js';
 import {MenuUtil} from './menu_util.js';
 import {Variable} from './variable.js';
 import {HtmlClasses} from './html_classes.js';
+// import {ParserFactory} from './parser_factory.js';
 
 
 export class Checkbox extends AbstractVariableItem<boolean> {
@@ -35,6 +36,19 @@ export class Checkbox extends AbstractVariableItem<boolean> {
    * @override
    */
   protected role = 'menuitemcheckbox';
+
+  /**
+   * Parses a JSON respresentation of a checkbox item.
+   * @param {JSON} json The JSON object to parse.
+   * @param {Menu} menu The menu the item is attached to.
+   * @return {Checkbox} The new checkbox object.
+   */
+  public static fromJson(
+    {content: content, variable: variable, id: id}:
+    {content: string, variable: string, id: string}, menu: Menu): Checkbox {
+    return new this(menu, content, variable, id);
+
+  }
 
   /**
    * @constructor
@@ -83,6 +97,14 @@ export class Checkbox extends AbstractVariableItem<boolean> {
    */
   public updateSpan() {
     this.span.style.display = this.variable.getValue() ? '' : 'none';
+  }
+
+  /**
+   * @return {JSON} The object in JSON.
+   */
+  public toJson() {
+    return {type: ''
+           };
   }
 
 }

@@ -29,6 +29,7 @@ import {MenuUtil} from './menu_util.js';
 import {Variable} from './variable.js';
 import {HtmlClasses} from './html_classes.js';
 import {KEY} from './key_navigatable.js';
+// import {ParserFactory} from './parser_factory.js';
 
 
 export class Combo extends AbstractVariableItem<string> {
@@ -41,6 +42,18 @@ export class Combo extends AbstractVariableItem<string> {
   private input: HTMLInputElement;
 
   private inputEvent: boolean = false;
+
+  /**
+   * Parses a JSON respresentation of a combo item.
+   * @param {JSON} json The JSON object to parse.
+   * @param {Menu} menu The menu the item is attached to.
+   * @return {Combo} The new combo object.
+   */
+  public static fromJson(
+    {content: content, variable: variable, id: id}:
+    {content: string, variable: string, id: string}, menu: Menu): Combo {
+    return new this(menu, content, variable, id);
+  }
 
   /**
    * @constructor
@@ -154,6 +167,14 @@ export class Combo extends AbstractVariableItem<string> {
       initValue = '';
     }
     this.input.value = initValue;
+  }
+
+  /**
+   * @return {JSON} The object in JSON.
+   */
+  public toJson() {
+    return {type: ''
+           };
   }
 
 }

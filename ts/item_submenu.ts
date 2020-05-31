@@ -25,6 +25,7 @@
 import {AbstractItem} from './abstract_item.js';
 import {Menu} from './menu.js';
 import {HtmlClasses} from './html_classes.js';
+import {ParserFactory} from './parser_factory.js';
 
 
 export class Submenu extends AbstractItem {
@@ -40,6 +41,21 @@ export class Submenu extends AbstractItem {
    * @type {SubMenu}
    */
   private _submenu: Menu = null;
+
+  /**
+   * Parses a JSON respresentation of a submenu item.
+   * @param {JSON} json The JSON object to parse.
+   * @param {Menu} menu The menu the item is attached to.
+   * @return {Submenu} The new submenu object.
+   */
+  public static fromJson(
+    {content: content, menu: submenu, id: id}:
+    {content: string, menu: any, id: string}, menu: Menu): Submenu {
+    const item = new this(menu, content, id);
+    const sm = ParserFactory.get('subMenu')(submenu, item);
+    item.submenu = sm;
+    return item;
+  }
 
   /**
    * @constructor
@@ -152,6 +168,14 @@ export class Submenu extends AbstractItem {
     } else {
       this.submenu.down(event);
     }
+  }
+
+  /**
+   * @return {JSON} The object in JSON.
+   */
+  public toJson() {
+    return {type: ''
+           };
   }
 
 }

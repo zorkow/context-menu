@@ -29,13 +29,27 @@ import {MenuUtil} from './menu_util.js';
 import {Checkbox} from './item_checkbox.js';
 import {Radio} from './item_radio.js';
 import {VariablePool} from './variable_pool.js';
-import {ParserFactory} from './parser_factory.js';
+// import {ParserFactory} from './parser_factory.js';
 
 
 export class Variable<T> {
 
   private items: VariableItem[] = [];
 
+  /**
+   * Parses a JSON respresentation of a variable and inserts it into the
+   * variable pool of the context menu.
+   * @param {JSON} json The JSON object to parse.
+   * @param {VariablePool<string|boolean>} pool The variable pool to insert.
+   */
+  public static fromJson(
+    {name: name, getter: getter, setter: setter}:
+    {name: string, getter: () => string | boolean,
+     setter: (x: (string | boolean)) => void},
+    pool: VariablePool<string|boolean>) {
+    const variable = new this(name, getter, setter);
+    pool.insert(variable);
+  }
 
   /**
    * @constructor
@@ -131,21 +145,6 @@ export class Variable<T> {
   }
 
   /**
-   * Parses a JSON respresentation of a variable and inserts it into the
-   * variable pool of the context menu.
-   * @param {JSON} json The JSON object to parse.
-   */
-  public static fromJson(
-    {name: name, getter: getter, setter: setter}:
-    {name: string, getter: () => string | boolean,
-     setter: (x: (string | boolean)) => void},
-    pool: VariablePool<string|boolean>) {
-    const variable = new this(name, getter, setter);
-    pool.insert(variable);
-  }
-
-
-  /**
    * The variable object in JSON. Note, that the getter and setter methods will
    * be strings.
    * @return {JSON} The JSON object.
@@ -154,10 +153,7 @@ export class Variable<T> {
     return {type: 'variable',
             name: this.name,
             getter: this.getter.toString(),
-            setter: this.setter.toString()}
+            setter: this.setter.toString()};
   }
 
 }
-
-
-ParserFactory.add('variable', Variable.fromJson.bind(Variable));

@@ -25,11 +25,27 @@
 import {AbstractMenu} from './abstract_menu.js';
 import {ContextMenu} from './context_menu.js';
 import {Submenu} from './item_submenu.js';
+import {ParserFactory} from './parser_factory.js';
 
 
 
 export class SubMenu extends AbstractMenu {
 
+
+  /**
+   * Parses a JSON respresentation of a submenu.
+   * @param {JSON} json The JSON object to parse.
+   * @param {Submenu} anchor The anchor item the submenu is attached to.
+   * @return {SubMenu} The new submenu object.
+   */
+  public static fromJson(
+    {items: its}: {items: any[], id: string},
+    anchor: Submenu): SubMenu {
+    const submenu = new this(anchor);
+    const itemList = ParserFactory.get('items')(its, submenu);
+    submenu.items = itemList;
+    return submenu;
+  }
 
   /**
    * @constructor
@@ -119,6 +135,14 @@ export class SubMenu extends AbstractMenu {
   public left(_event: KeyboardEvent) {
     this.focused = null;
     this.anchor.focus();
+  }
+
+  /**
+   * @return {JSON} The object in JSON.
+   */
+  public toJson() {
+    return {type: ''
+           };
   }
 
 }

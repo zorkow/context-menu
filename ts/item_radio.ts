@@ -28,6 +28,7 @@ import {Menu} from './menu.js';
 import {Variable} from './variable.js';
 import {MenuUtil} from './menu_util.js';
 import {HtmlClasses} from './html_classes.js';
+// import {ParserFactory} from './parser_factory.js';
 
 
 export class Radio extends AbstractVariableItem<string> {
@@ -36,6 +37,18 @@ export class Radio extends AbstractVariableItem<string> {
    * @override
    */
   protected role = 'menuitemradio';
+
+  /**
+   * Parses a JSON respresentation of a radio item.
+   * @param {JSON} json The JSON object to parse.
+   * @param {Menu} menu The menu the item is attached to.
+   * @return {Radio} The new radio object.
+   */
+  public static fromJson(
+    {content: content, variable: variable, id: id}:
+    {content: string, variable: string, id: string}, menu: Menu): Radio {
+    return new this(menu, content, variable, id);
+  }
 
   /**
    * @constructor
@@ -86,6 +99,14 @@ export class Radio extends AbstractVariableItem<string> {
   protected updateSpan() {
     this.span.style.display =
       this.variable.getValue() === this.id ? '' : 'none';
+  }
+
+  /**
+   * @return {JSON} The object in JSON.
+   */
+  public toJson() {
+    return {type: ''
+           };
   }
 
 }

@@ -25,9 +25,22 @@
 import {AbstractItem} from './abstract_item.js';
 import {MenuUtil} from './menu_util.js';
 import {Menu} from './menu.js';
+// import {ParserFactory} from './parser_factory.js';
 
 
 export class Command extends AbstractItem {
+
+  /**
+   * Parses a JSON respresentation of a command item.
+   * @param {JSON} json The JSON object to parse.
+   * @param {Menu} menu The menu the item is attached to.
+   * @return {Command} The new command object.
+   */
+  public static fromJson(
+    {content: content, action: action, id: id}:
+    {content: string, action: Function, id: string}, menu: Menu): Command {
+    return new this(menu, content, action, id);
+  }
 
   /**
    * @constructor
@@ -53,6 +66,14 @@ export class Command extends AbstractItem {
       MenuUtil.error(e, 'Illegal command callback.');
     }
     MenuUtil.close(this);
+  }
+
+  /**
+   * @return {JSON} The object in JSON.
+   */
+  public toJson() {
+    return {type: ''
+           };
   }
 
 }

@@ -65,6 +65,13 @@ export class Popup extends AbstractPostable {
   private active: HTMLElement = null;
 
   /**
+   * Parses a JSON respresentation of the .
+   * @param {JSON} json The JSON object to parse.
+   */
+  public static fromJson() {
+  }
+
+  /**
    * @constructor
    * @extends {AbstractPostable}
    * @param {string} title The title of the popup window.
@@ -167,6 +174,14 @@ export class Popup extends AbstractPostable {
       this.window.moveTo(x, y);
     }
     this.active = null;
+  }
+
+  /**
+   * @return {JSON} The object in JSON.
+   */
+  public toJson() {
+    return {type: ''
+           };
   }
 
 }

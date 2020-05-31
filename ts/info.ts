@@ -47,6 +47,13 @@ export class Info extends AbstractPostable {
   private content: Function;
 
   /**
+   * Parses a JSON respresentation of the .
+   * @param {JSON} json The JSON object to parse.
+   */
+  public static fromJson() {
+  }
+
+  /**
    * @constructor
    * @extends {AbstractPostable}
    * @param {string} title The title of the info box.
@@ -182,6 +189,14 @@ export class Info extends AbstractPostable {
     span.innerHTML = this.signature;
     span.classList.add(HtmlClasses['INFOSIGNATURE']);
     return span;
+  }
+
+  /**
+   * @return {JSON} The object in JSON.
+   */
+  public toJson() {
+    return {type: ''
+           };
   }
 
 }

@@ -39,8 +39,8 @@ import {Item} from './item.js';
 import {Slider} from './item_slider.js';
 import {SubMenu} from './sub_menu.js';
 import {SelectionMenu, SelectionBox, SelectionOrder} from './selection_box.js';
-
 import {ParserFactory} from './parser_factory.js';
+
 
 export namespace Parse {
 
@@ -55,6 +55,7 @@ export namespace Parse {
     {content: string, action: Function, id: string}, menu: Menu): Command {
     return new Command(menu, content, action, id);
   };
+  ParserFactory.add('command', Command.fromJson.bind(Command));
 
   /**
    * Parses a JSON respresentation of a checkbox item.
@@ -67,6 +68,7 @@ export namespace Parse {
     {content: string, variable: string, id: string}, menu: Menu): Checkbox {
     return new Checkbox(menu, content, variable, id);
   };
+  ParserFactory.add('checkbox', Checkbox.fromJson.bind(Checkbox));
 
   /**
    * Parses a JSON respresentation of a combo item.
@@ -79,9 +81,10 @@ export namespace Parse {
     {content: string, variable: string, id: string}, menu: Menu): Combo {
     return new Combo(menu, content, variable, id);
   };
+  ParserFactory.add('combo', Combo.fromJson.bind(Combo));
 
   /**
-   * Parses a JSON respresentation of a combo item.
+   * Parses a JSON respresentation of a slider item.
    * @param {JSON} json The JSON object to parse.
    * @param {Menu} menu The menu the item is attached to.
    * @return {Slider} The new combo object.
@@ -91,6 +94,7 @@ export namespace Parse {
     {content: string, variable: string, id: string}, menu: Menu): Slider {
     return new Slider(menu, content, variable, id);
   };
+  ParserFactory.add('slider', Slider.fromJson.bind(Slider));
 
   /**
    * Parses a JSON respresentation of a label item.
@@ -103,6 +107,7 @@ export namespace Parse {
     menu: Menu): Label {
     return new Label(menu, content, id);
   };
+  ParserFactory.add('label', Label.fromJson.bind(Label));
 
   /**
    * Parses a JSON respresentation of a radio item.
@@ -115,16 +120,7 @@ export namespace Parse {
     {content: string, variable: string, id: string}, menu: Menu): Radio {
     return new Radio(menu, content, variable, id);
   };
-
-  /**
-   * Parses a JSON respresentation of a rule item.
-   * @param {JSON} json The empty JSON object.
-   * @param {Menu} menu The menu the item is attached to.
-   * @return {Rule} The new rule object.
-   */
-  const rule = function({}: {}, menu: Menu): Rule {
-    return new Rule(menu);
-  };
+  ParserFactory.add('radio', Radio.fromJson.bind(Radio));
 
   /**
    * Parses a JSON respresentation of a submenu item.
@@ -140,6 +136,7 @@ export namespace Parse {
     item.submenu = sm;
     return item;
   };
+  ParserFactory.add('submenu', Submenu.fromJson.bind(Submenu));
 
   /**
    * Parses a JSON respresentation of a variable pool.
@@ -154,15 +151,9 @@ export namespace Parse {
       MenuUtil.error(null, 'Wrong JSON format for menu.');
       return null;
     }
-    // The variable id is currently ignored!
-    let {pool: pool, items: its} = menu;
-    const ctxtMenu = new ContextMenu();
-    let varParser = ParserFactory.get('variable');
-    pool.forEach(x => varParser(x as any, ctxtMenu.pool));
-    const itemList = items(its, ctxtMenu);
-    ctxtMenu.items = itemList;
-    return ctxtMenu;
+    return ParserFactory.get('contextMenu')({menu: menu});
   };
+  ParserFactory.add('contextMenu', ContextMenu.fromJson.bind(ContextMenu));
 
   /**
    * Parses a JSON respresentation of a submenu.
@@ -178,6 +169,7 @@ export namespace Parse {
     submenu.items = itemList;
     return submenu;
   };
+  ParserFactory.add('subMenu', SubMenu.fromJson.bind(SubMenu));
 
   /**
    * Parses a JSON respresentation of a variable and inserts it into the
@@ -192,6 +184,7 @@ export namespace Parse {
     const variable = new Variable(name, getter, setter);
     pool.insert(variable);
   };
+  ParserFactory.add('variable', Variable.fromJson.bind(Variable));
 
   /**
    * Parses items in JSON formats and attaches them to the menu.
@@ -202,7 +195,8 @@ export namespace Parse {
     hidden.forEach(x => x[1] && x[0].hide());
     return hidden.map(x => x[0]);
   };
-
+  ParserFactory.add('items', items);
+  
   /**
    * Parses items in JSON formats and attaches them to the menu.
    * @param {Array.<JSON>} items List of JSON menu items.
@@ -210,7 +204,8 @@ export namespace Parse {
    * @return {Item} The list of parsed items.
    */
   const item = function(item: any, ctxt: Menu): Item {
-    const func = mapping[item['type']];
+    // const func = mapping[item['type']];
+    const func = ParserFactory.get(item['type']);
     if (func) {
       const menuItem = func(item, ctxt);
       ctxt.items.push(menuItem);
@@ -222,19 +217,19 @@ export namespace Parse {
     return null;
   };
 
-  /**
-   * @type{Object.<Function>}
-   */
-  const mapping: { [id: string]: Function } = {
-    'checkbox': checkbox,
-    'combo': combo,
-    'command': command,
-    'label': label,
-    'radio': radio,
-    'rule': rule,
-    'slider': slider,
-    'submenu': submenu
-  };
+  // /**
+  //  * @type{Object.<Function>}
+  //  */
+  // const mapping: { [id: string]: Function } = {
+  //   'checkbox': ParserFactory.get('checkbox'),
+  //   'combo': ParserFactory.get('combo'),
+  //   'command': ParserFactory.get('command'),
+  //   'label': ParserFactory.get('label'),
+  //   'radio': ParserFactory.get('radio'),
+  //   'rule': ParserFactory.get('rule'),
+  //   'slider': ParserFactory.get('slider'),
+  //   'submenu': ParserFactory.get('submenu')
+  // };
 
 
   declare type selection = {title: string, values: string[], variable: string};
@@ -243,8 +238,8 @@ export namespace Parse {
     {title: title, values: values, variable: variable}: selection,
     sb: SelectionBox): SelectionMenu {
     let selection = new SelectionMenu(sb);
-    let tit = label({content: title || '', id: title || 'id'}, selection);
-    let rul = rule({}, selection);
+    let tit = Label.fromJson({content: title || '', id: title || 'id'}, selection);
+    let rul = Rule.fromJson({}, selection);
     let radios = values.map(x => radio({content: x, variable: variable, id: x}, selection));
     let items = [tit, rul].concat(radios) as Item[];
     selection.items = items;
@@ -260,6 +255,16 @@ export namespace Parse {
     let sels = selections.map(x => selectionMenu(x, sb));
     sb.selections = sels;
     return sb;
+  };
+
+  export const dummy = function() {
+    console.log(command);
+    console.log(combo);
+    console.log(checkbox);
+    console.log(radio);
+    console.log(slider);
+    console.log(submenu);
+    console.log(label);
   };
 }
 

@@ -36,6 +36,17 @@ export class SelectionMenu extends AbstractMenu {
    */
   protected className = HtmlClasses['SELECTIONMENU'];
 
+  /**
+   * Parses a JSON respresentation of the .
+   * @param {JSON} json The JSON object to parse.
+   */
+  public static fromJson() {
+  }
+
+  /**
+   * @constructor
+   * @param{SelectionBox} anchor The anchor element.
+   */
   constructor(public anchor: SelectionBox) {
     super();
     this.variablePool = this.anchor.menu.pool;
@@ -84,6 +95,13 @@ export class SelectionBox extends Info {
   private _selections: SelectionMenu[] = [];
   private prefix: string = 'ctxt-selection';
   static chunkSize = 4;
+
+  /**
+   * Parses a JSON respresentation of the .
+   * @param {JSON} json The JSON object to parse.
+   */
+  public static fromJson() {
+  }
 
   /**
    * @constructor
@@ -236,6 +254,14 @@ export class SelectionBox extends Info {
    */
   private order() {
     this.selections.sort(SelectionBox.orderMethod.get(this.style));
+  }
+
+  /**
+   * @return {JSON} The object in JSON.
+   */
+  public toJson() {
+    return {type: ''
+           };
   }
 
 }

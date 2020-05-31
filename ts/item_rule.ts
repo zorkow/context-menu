@@ -25,6 +25,7 @@
 import {AbstractEntry} from './abstract_entry.js';
 import {Menu} from './menu.js';
 import {HtmlClasses} from './html_classes.js';
+import {ParserFactory} from './parser_factory.js';
 
 
 export class Rule extends AbstractEntry {
@@ -38,6 +39,16 @@ export class Rule extends AbstractEntry {
    * @override
    */
   protected role = 'separator';
+
+  /**
+   * Parses a JSON respresentation of the .
+   * @param {JSON} json The JSON object to parse.
+   * @param {Menu} menu The menu for the rule.
+   * @return {Rule} The new rule.
+   */
+  public static fromJson({}: {}, menu: Menu) {
+    return new this(menu);
+  }
 
   /**
    * @constructor
@@ -63,4 +74,14 @@ export class Rule extends AbstractEntry {
    */
   public addEvents(_element: HTMLElement) { }
 
+  /**
+   * @return {JSON} The object in JSON.
+   */
+  public toJson() {
+    return {type: 'rule'};
+  }
+
 }
+
+
+ParserFactory.add('rule', Rule.fromJson.bind(Rule));

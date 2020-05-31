@@ -27,6 +27,7 @@ import {HtmlClasses} from './html_classes.js';
 import {MenuStore} from './menu_store.js';
 import {Postable} from './postable.js';
 import {VariablePool} from './variable_pool.js';
+import {ParserFactory} from './parser_factory.js';
 
 
 export class ContextMenu extends AbstractMenu {
@@ -61,6 +62,24 @@ export class ContextMenu extends AbstractMenu {
    */
   private widgets: Postable[] = [];
 
+  /**
+   * Parses a JSON respresentation of a context menu.
+   * @param {JSON} json The JSON object to parse.
+   * @return {ContextMenu} The new context menu object.
+   */
+  public static fromJson(
+    {menu: menu}: {menu: {pool: Array<Object>,
+                          items: Array<Object>,
+                          id: string}}): ContextMenu {
+    // The variable id is currently ignored!
+    let {pool: pool, items: its} = menu;
+    const ctxtMenu = new ContextMenu();
+    let varParser = ParserFactory.get('variable');
+    pool.forEach(x => varParser(x as any, ctxtMenu.pool));
+    const itemList = ParserFactory.get('items')(its, ctxtMenu);
+    ctxtMenu.items = itemList;
+    return ctxtMenu;
+  }
 
   /**
    * @constructor
@@ -271,6 +290,14 @@ export class ContextMenu extends AbstractMenu {
       this.post(next);
       this.moving = false;
     }
+  }
+
+  /**
+   * @return {JSON} The object in JSON.
+   */
+  public toJson() {
+    return {type: ''
+           };
   }
 
 }
