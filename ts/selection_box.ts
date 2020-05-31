@@ -23,6 +23,7 @@
  */
 
 import {ContextMenu} from './context_menu.js';
+import {MenuUtil} from './menu_util.js';
 import {HtmlClasses} from './html_classes.js';
 import {AbstractMenu} from './abstract_menu.js';
 import {Info} from './info.js';
@@ -81,7 +82,6 @@ export const enum SelectionOrder {
 export class SelectionBox extends Info {
 
   private _selections: SelectionMenu[] = [];
-  private counter: number = 0;
   private prefix: string = 'ctxt-selection';
   static chunkSize = 4;
 
@@ -126,7 +126,7 @@ export class SelectionBox extends Info {
     let rects = sels.map(sel => {
       div.appendChild(sel.html);
       if (!sel.html.id) {
-        sel.html.id = this.prefix + this.counter++;
+        sel.html.id = this.prefix + MenuUtil.counter();
       }
       return sel.html.getBoundingClientRect();
     });
