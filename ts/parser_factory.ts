@@ -25,16 +25,20 @@
 
 export type ParseMethod = (json: any, ...aux: any[]) => any;
 
-export namespace ParserFactory {
+export class ParserFactory {
 
-  const parser = new Map<string, ParseMethod>();
+  private _parser: Map<string, ParseMethod>;
 
-  export function get(name: string) {
-    return parser.get(name);
+  constructor(init: [string, ParseMethod][]) {
+    this._parser = new Map<string, ParseMethod>(init);
   }
 
-  export function add(name: string, method: ParseMethod) {
-    parser.set(name, method);
+  public get(name: string) {
+    return this._parser.get(name);
+  }
+
+  public add(name: string, method: ParseMethod) {
+    this._parser.set(name, method);
   }
 
 }
