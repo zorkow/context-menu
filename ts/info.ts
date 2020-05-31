@@ -50,8 +50,8 @@ export class Info extends AbstractPostable {
    * Parses a JSON respresentation of the .
    * @param {JSON} json The JSON object to parse.
    */
-  public static fromJson() {
-  }
+  // public static fromJson() {
+  // }
 
   /**
    * @constructor

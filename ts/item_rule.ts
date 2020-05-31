@@ -25,7 +25,6 @@
 import {AbstractEntry} from './abstract_entry.js';
 import {Menu} from './menu.js';
 import {HtmlClasses} from './html_classes.js';
-import {ParserFactory} from './parser_factory.js';
 
 
 export class Rule extends AbstractEntry {
@@ -82,6 +81,3 @@ export class Rule extends AbstractEntry {
   }
 
 }
-
-
-ParserFactory.add('rule', Rule.fromJson.bind(Rule));

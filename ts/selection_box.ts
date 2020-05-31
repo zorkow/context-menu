@@ -27,8 +27,12 @@ import {MenuUtil} from './menu_util.js';
 import {HtmlClasses} from './html_classes.js';
 import {AbstractMenu} from './abstract_menu.js';
 import {Info} from './info.js';
+import {Item} from './item.js';
+import {ParserFactory} from './parser_factory.js';
 
 
+declare type selection = {title: string, values: string[], variable: string};
+  
 export class SelectionMenu extends AbstractMenu {
 
   /**
@@ -37,10 +41,25 @@ export class SelectionMenu extends AbstractMenu {
   protected className = HtmlClasses['SELECTIONMENU'];
 
   /**
-   * Parses a JSON respresentation of the .
+   * Parses a JSON respresentation of a selection menu.
    * @param {JSON} json The JSON object to parse.
+   * @param {SelectionBox} sb The selection box to attach to.
+   * @return {SelectionMenu} The new selection menu.
    */
-  public static fromJson() {
+  public static fromJson(
+    {title: title, values: values, variable: variable}: selection,
+    sb: SelectionBox): SelectionMenu {
+    let selection = new this(sb);
+    let tit = ParserFactory.get('label')(
+      {content: title || '', id: title || 'id'}, selection);
+    let rul = ParserFactory.get('rule')(
+      {}, selection);
+    let radios = values.map(
+      x => ParserFactory.get('radio')(
+        {content: x, variable: variable, id: x}, selection));
+    let items = [tit, rul].concat(radios) as Item[];
+    selection.items = items;
+    return selection;
   }
 
   /**
@@ -97,10 +116,18 @@ export class SelectionBox extends Info {
   static chunkSize = 4;
 
   /**
-   * Parses a JSON respresentation of the .
+   * Parses a JSON respresentation of a selection box.
    * @param {JSON} json The JSON object to parse.
    */
-  public static fromJson() {
+  public static fromJson(
+    {title: title, signature: signature, selections: selections, order: order}:
+    {title: string, signature: string, selections: selection[], order?: SelectionOrder},
+    ctxt: ContextMenu): SelectionBox {
+    let sb = new this(title, signature, order);
+    sb.attachMenu(ctxt);
+    let sels = selections.map(x => ParserFactory.get('selectionMenu')(x, sb));
+    sb.selections = sels;
+    return sb;
   }
 
   /**
