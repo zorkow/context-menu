@@ -40,6 +40,7 @@ import {Slider} from './item_slider.js';
 import {SubMenu} from './sub_menu.js';
 import {SelectionMenu, SelectionBox, SelectionOrder} from './selection_box.js';
 
+import {ParserFactory} from './parser_factory.js';
 
 export namespace Parse {
 
@@ -156,7 +157,8 @@ export namespace Parse {
     // The variable id is currently ignored!
     let {pool: pool, items: its} = menu;
     const ctxtMenu = new ContextMenu();
-    pool.forEach(x => variable(x as any, ctxtMenu.pool));
+    let varParser = ParserFactory.get('variable');
+    pool.forEach(x => varParser(x as any, ctxtMenu.pool));
     const itemList = items(its, ctxtMenu);
     ctxtMenu.items = itemList;
     return ctxtMenu;
