@@ -27,7 +27,7 @@ import {Menu} from './menu.js';
 import {MenuUtil} from './menu_util.js';
 import {Variable} from './variable.js';
 import {HtmlClasses} from './html_classes.js';
-// import {ParserFactory} from './parser_factory.js';
+import {ParserFactory} from './parser_factory.js';
 
 
 export class Checkbox extends AbstractVariableItem<boolean> {
@@ -44,6 +44,7 @@ export class Checkbox extends AbstractVariableItem<boolean> {
    * @return {Checkbox} The new checkbox object.
    */
   public static fromJson(
+    _factory: ParserFactory,
     {content: content, variable: variable, id: id}:
     {content: string, variable: string, id: string}, menu: Menu): Checkbox {
     return new this(menu, content, variable, id);

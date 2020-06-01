@@ -29,7 +29,7 @@ import {MenuUtil} from './menu_util.js';
 import {Variable} from './variable.js';
 import {HtmlClasses} from './html_classes.js';
 import {KEY} from './key_navigatable.js';
-// import {ParserFactory} from './parser_factory.js';
+import {ParserFactory} from './parser_factory.js';
 
 
 export class Slider extends AbstractVariableItem<string> {
@@ -54,6 +54,7 @@ export class Slider extends AbstractVariableItem<string> {
    * @return {Slider} The new slider object.
    */
   public static fromJson(
+    _factory: ParserFactory,
     {content: content, variable: variable, id: id}:
     {content: string, variable: string, id: string}, menu: Menu): Slider {
     return new this(menu, content, variable, id);

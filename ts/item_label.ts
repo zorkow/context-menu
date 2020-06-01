@@ -25,7 +25,7 @@
 import {AbstractItem} from './abstract_item.js';
 import {Menu} from './menu.js';
 import {HtmlClasses} from './html_classes.js';
-// import {ParserFactory} from './parser_factory.js';
+import {ParserFactory} from './parser_factory.js';
 
 
 export class Label extends AbstractItem {
@@ -37,6 +37,7 @@ export class Label extends AbstractItem {
    * @return {Label} The new label object.
    */
   public static fromJson(
+    _factory: ParserFactory,
     {content: content, id: id}: {content: string, id: string},
     menu: Menu): Label {
     return new this(menu, content, id);

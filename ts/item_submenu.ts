@@ -49,10 +49,11 @@ export class Submenu extends AbstractItem {
    * @return {Submenu} The new submenu object.
    */
   public static fromJson(
+    factory: ParserFactory,
     {content: content, menu: submenu, id: id}:
     {content: string, menu: any, id: string}, menu: Menu): Submenu {
     const item = new this(menu, content, id);
-    const sm = ParserFactory.get('subMenu')(submenu, item);
+    const sm = factory.get('subMenu')(factory, submenu, item);
     item.submenu = sm;
     return item;
   }

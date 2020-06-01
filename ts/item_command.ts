@@ -25,7 +25,7 @@
 import {AbstractItem} from './abstract_item.js';
 import {MenuUtil} from './menu_util.js';
 import {Menu} from './menu.js';
-// import {ParserFactory} from './parser_factory.js';
+import {ParserFactory} from './parser_factory.js';
 
 
 export class Command extends AbstractItem {
@@ -37,6 +37,7 @@ export class Command extends AbstractItem {
    * @return {Command} The new command object.
    */
   public static fromJson(
+    _factory: ParserFactory,
     {content: content, action: action, id: id}:
     {content: string, action: Function, id: string}, menu: Menu): Command {
     return new this(menu, content, action, id);

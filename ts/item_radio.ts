@@ -28,7 +28,7 @@ import {Menu} from './menu.js';
 import {Variable} from './variable.js';
 import {MenuUtil} from './menu_util.js';
 import {HtmlClasses} from './html_classes.js';
-// import {ParserFactory} from './parser_factory.js';
+import {ParserFactory} from './parser_factory.js';
 
 
 export class Radio extends AbstractVariableItem<string> {
@@ -45,6 +45,7 @@ export class Radio extends AbstractVariableItem<string> {
    * @return {Radio} The new radio object.
    */
   public static fromJson(
+    _factory: ParserFactory,
     {content: content, variable: variable, id: id}:
     {content: string, variable: string, id: string}, menu: Menu): Radio {
     return new this(menu, content, variable, id);

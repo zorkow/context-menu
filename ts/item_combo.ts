@@ -29,7 +29,7 @@ import {MenuUtil} from './menu_util.js';
 import {Variable} from './variable.js';
 import {HtmlClasses} from './html_classes.js';
 import {KEY} from './key_navigatable.js';
-// import {ParserFactory} from './parser_factory.js';
+import {ParserFactory} from './parser_factory.js';
 
 
 export class Combo extends AbstractVariableItem<string> {
@@ -50,6 +50,7 @@ export class Combo extends AbstractVariableItem<string> {
    * @return {Combo} The new combo object.
    */
   public static fromJson(
+    _factory: ParserFactory,
     {content: content, variable: variable, id: id}:
     {content: string, variable: string, id: string}, menu: Menu): Combo {
     return new this(menu, content, variable, id);
