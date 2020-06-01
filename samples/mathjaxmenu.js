@@ -637,13 +637,14 @@ MathJax.Hub.Register.StartupHook("MathEvents Ready", function () {
 
   ContextMenu.CssStyles.addInfoStyles();
   ContextMenu.CssStyles.addMenuStyles();
-  contextmenu = ContextMenu.Parse.contextMenu(cm_json);
+  let parser = new ContextMenu.Parser();
+  contextmenu = parser.contextMenu(cm_json);
   about.attachMenu(contextmenu);
   help.attachMenu(contextmenu);
   mathmlSource.attachMenu(contextmenu);
   originalText.attachMenu(contextmenu);
 
-  var box = ContextMenu.Parse.selectionBox(
+  var box = parser.selectionBox(
     {
       "title": 'Selection Test',
       "signature": 'End of selection',
@@ -669,7 +670,7 @@ MathJax.Hub.Register.StartupHook("MathEvents Ready", function () {
 
   ["AbsoluteValue", "Bar", "Caps", "CombinationPermutation", "Currency", "Ellipses", "Exponent", "Fraction", "Functions", "ImpliedTimes", "Log", "Matrix", "MultiLineLabel", "MultiLineOverview", "MultiLinePausesBetweenColumns", "MultsymbolDot", "MultsymbolX", "Paren", "Prime", "Roots", "SetMemberSymbol", "Sets", "TriangleSymbol", "Trig", "VerticalLine"].forEach(creator);
 
-  var prefs = ContextMenu.Parse.selectionBox(
+  var prefs = parser.selectionBox(
     {
       "title": "Clearspeak Preferences",
       "signature": '',

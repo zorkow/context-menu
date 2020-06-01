@@ -23,7 +23,7 @@
  */
 
 
-export type ParseMethod = (json: any, ...aux: any[]) => any;
+export type ParseMethod = (factory: ParserFactory, json: any, ...aux: any[]) => any;
 
 export class ParserFactory {
 

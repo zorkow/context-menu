@@ -47,16 +47,16 @@ export class SelectionMenu extends AbstractMenu {
    * @return {SelectionMenu} The new selection menu.
    */
   public static fromJson(
+    factory: ParserFactory,
     {title: title, values: values, variable: variable}: selection,
     sb: SelectionBox): SelectionMenu {
     let selection = new this(sb);
-    let tit = ParserFactory.get('label')(
-      {content: title || '', id: title || 'id'}, selection);
-    let rul = ParserFactory.get('rule')(
-      {}, selection);
+    let tit = factory.get('label')(
+      factory, {content: title || '', id: title || 'id'}, selection);
+    let rul = factory.get('rule')(factory, {}, selection);
     let radios = values.map(
-      x => ParserFactory.get('radio')(
-        {content: x, variable: variable, id: x}, selection));
+      x => factory.get('radio')(
+        factory, {content: x, variable: variable, id: x}, selection));
     let items = [tit, rul].concat(radios) as Item[];
     selection.items = items;
     return selection;
@@ -113,19 +113,22 @@ export class SelectionBox extends Info {
 
   private _selections: SelectionMenu[] = [];
   private prefix: string = 'ctxt-selection';
-  static chunkSize = 4;
+  public static chunkSize = 4;
 
   /**
    * Parses a JSON respresentation of a selection box.
    * @param {JSON} json The JSON object to parse.
    */
   public static fromJson(
+    factory: ParserFactory,
     {title: title, signature: signature, selections: selections, order: order}:
-    {title: string, signature: string, selections: selection[], order?: SelectionOrder},
+    {title: string, signature: string, selections: selection[],
+     order?: SelectionOrder},
     ctxt: ContextMenu): SelectionBox {
     let sb = new this(title, signature, order);
     sb.attachMenu(ctxt);
-    let sels = selections.map(x => ParserFactory.get('selectionMenu')(x, sb));
+    let sels = selections.map(
+      x => factory.get('selectionMenu')(factory, x, sb));
     sb.selections = sels;
     return sb;
   }

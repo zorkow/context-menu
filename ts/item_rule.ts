@@ -25,6 +25,7 @@
 import {AbstractEntry} from './abstract_entry.js';
 import {Menu} from './menu.js';
 import {HtmlClasses} from './html_classes.js';
+import {ParserFactory} from './parser_factory.js';
 
 
 export class Rule extends AbstractEntry {
@@ -45,7 +46,7 @@ export class Rule extends AbstractEntry {
    * @param {Menu} menu The menu for the rule.
    * @return {Rule} The new rule.
    */
-  public static fromJson({}: {}, menu: Menu) {
+  public static fromJson(_factory: ParserFactory, {}: {}, menu: Menu) {
     return new this(menu);
   }
 

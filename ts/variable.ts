@@ -29,7 +29,7 @@ import {MenuUtil} from './menu_util.js';
 import {Checkbox} from './item_checkbox.js';
 import {Radio} from './item_radio.js';
 import {VariablePool} from './variable_pool.js';
-// import {ParserFactory} from './parser_factory.js';
+import {ParserFactory} from './parser_factory.js';
 
 
 export class Variable<T> {
@@ -43,6 +43,7 @@ export class Variable<T> {
    * @param {VariablePool<string|boolean>} pool The variable pool to insert.
    */
   public static fromJson(
+    _factory: ParserFactory,
     {name: name, getter: getter, setter: setter}:
     {name: string, getter: () => string | boolean,
      setter: (x: (string | boolean)) => void},

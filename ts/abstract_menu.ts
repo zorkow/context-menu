@@ -160,7 +160,6 @@ export abstract class AbstractMenu extends AbstractPostable implements Menu {
    * @override
    */
   public generateHtml() {
-    console.log('How often?');
     super.generateHtml();
     this.generateMenu();
   }

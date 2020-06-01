@@ -62,21 +62,25 @@ export class ContextMenu extends AbstractMenu {
    */
   private widgets: Postable[] = [];
 
+  public id: string = '';
+  
   /**
    * Parses a JSON respresentation of a context menu.
    * @param {JSON} json The JSON object to parse.
    * @return {ContextMenu} The new context menu object.
    */
   public static fromJson(
+    factory: ParserFactory,
     {menu: menu}: {menu: {pool: Array<Object>,
                           items: Array<Object>,
                           id: string}}): ContextMenu {
     // The variable id is currently ignored!
     let {pool: pool, items: its} = menu;
-    const ctxtMenu = new ContextMenu();
-    let varParser = ParserFactory.get('variable');
-    pool.forEach(x => varParser(x as any, ctxtMenu.pool));
-    const itemList = ParserFactory.get('items')(its, ctxtMenu);
+    const ctxtMenu = new this(factory);
+    ctxtMenu.id = menu.id;
+    let varParser = factory.get('variable');
+    pool.forEach(x => varParser(factory, x as any, ctxtMenu.pool));
+    const itemList = factory.get('items')(factory, its, ctxtMenu);
     ctxtMenu.items = itemList;
     return ctxtMenu;
   }
@@ -85,7 +89,7 @@ export class ContextMenu extends AbstractMenu {
    * @constructor
    * @extends {AbstractMenu}
    */
-  constructor() {
+  constructor(public factory: ParserFactory) {
     super();
     this.variablePool = new VariablePool<string | boolean>();
   }
