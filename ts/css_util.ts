@@ -22,7 +22,7 @@
  * @author v.sorge@mathjax.org (Volker Sorge)
  */
 
-import {HtmlClasses} from './html_classes';
+import {HtmlClasses} from './html_classes.js';
 
 
 /**
@@ -163,9 +163,30 @@ export namespace CssStyles {
               makeClass_('MENUITEM') + ':focus'] = '{' +
     '  outline:none' +
     '}',
+  MENU_STYLES[makeClass_('SELECTIONMENU')] = '{' +
+    '  position:relative; float:left;' +
+    '  border-bottom: none;' +
+    ' -webkit-box-shadow:none;' +
+    ' -webkit-border-radius:0px; ' +
+    // ' border-bottom-style: none; ' +
+    '}',
+  MENU_STYLES[makeClass_('SELECTIONITEM')] = '{' +
+    '  padding-right: 1em;' +
+    '}',
+  MENU_STYLES[makeClass_('SELECTION')] = '{' +
+    '  right: 40%; width:50%; ' +
+    '}',
+  MENU_STYLES[makeClass_('SELECTIONBOX')] = '{' +
+    '  padding: 0em; max-height:30em; max-width: none;' +
+    '  background-color:#FFFFFF;' +
+    '}',
+  MENU_STYLES[makeClass_('SELECTIONDIVIDER')] = '{' +
+    '  clear: both; border-top: 2px solid #000000;' +
+    '}',
   MENU_STYLES[makeClass_('MENU') + ' ' + makeClass_('MENUCLOSE')] = '{' +
     '  top:-10px; left:-10px' +
     '}';
+
 
   // Style of the little cross button to close a dialog or the mobile menu.
   let CLOSE_ICON_STYLES: {[id: string]: string} = {};

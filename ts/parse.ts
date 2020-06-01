@@ -22,121 +22,36 @@
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-import {Command} from './item_command';
-import {Menu} from './menu';
-import {MenuUtil} from './menu_util';
-import {ContextMenu} from './context_menu';
-import {Variable} from './variable';
-import {VariablePool} from './variable_pool';
-import {Checkbox} from './item_checkbox';
-import {Combo} from './item_combo';
-import {Label} from './item_label';
-import {Radio} from './item_radio';
-import {Submenu} from './item_submenu';
-import {Rule} from './item_rule';
-import {Item} from './item';
-import {Slider} from './item_slider';
-import {SubMenu} from './sub_menu';
+
+import {Command} from './item_command.js';
+import {Menu} from './menu.js';
+import {MenuUtil} from './menu_util.js';
+import {ContextMenu} from './context_menu.js';
+import {Variable} from './variable.js';
+// import {VariablePool} from './variable_pool.js';
+import {Checkbox} from './item_checkbox.js';
+import {Combo} from './item_combo.js';
+import {Label} from './item_label.js';
+import {Radio} from './item_radio.js';
+import {Submenu} from './item_submenu.js';
+import {Rule} from './item_rule.js';
+import {Item} from './item.js';
+import {Slider} from './item_slider.js';
+import {SubMenu} from './sub_menu.js';
+import {SelectionMenu, SelectionBox} from './selection_box.js';
+import {ParserFactory} from './parser_factory.js';
 
 
 export namespace Parse {
 
-  /**
-   * Parses a JSON respresentation of a command item.
-   * @param {JSON} json The JSON object to parse.
-   * @param {Menu} menu The menu the item is attached to.
-   * @return {Command} The new command object.
-   */
-  const command = function(
-    {content: content, action: action, id: id}:
-    {content: string, action: Function, id: string}, menu: Menu): Command {
-    return new Command(menu, content, action, id);
-  };
-
-  /**
-   * Parses a JSON respresentation of a checkbox item.
-   * @param {JSON} json The JSON object to parse.
-   * @param {Menu} menu The menu the item is attached to.
-   * @return {Checkbox} The new checkbox object.
-   */
-  const checkbox = function(
-    {content: content, variable: variable, id: id}:
-    {content: string, variable: string, id: string}, menu: Menu): Checkbox {
-    return new Checkbox(menu, content, variable, id);
-  };
-
-  /**
-   * Parses a JSON respresentation of a combo item.
-   * @param {JSON} json The JSON object to parse.
-   * @param {Menu} menu The menu the item is attached to.
-   * @return {Combo} The new combo object.
-   */
-  const combo = function(
-    {content: content, variable: variable, id: id}:
-    {content: string, variable: string, id: string}, menu: Menu): Combo {
-    return new Combo(menu, content, variable, id);
-  };
-
-  /**
-   * Parses a JSON respresentation of a combo item.
-   * @param {JSON} json The JSON object to parse.
-   * @param {Menu} menu The menu the item is attached to.
-   * @return {Slider} The new combo object.
-   */
-  const slider = function(
-    {content: content, variable: variable, id: id}:
-    {content: string, variable: string, id: string}, menu: Menu): Slider {
-    return new Slider(menu, content, variable, id);
-  };
-
-  /**
-   * Parses a JSON respresentation of a label item.
-   * @param {JSON} json The JSON object to parse.
-   * @param {Menu} menu The menu the item is attached to.
-   * @return {Label} The new label object.
-   */
-  const label = function(
-    {content: content, id: id}: {content: string, id: string},
-    menu: Menu): Label {
-    return new Label(menu, content, id);
-  };
-
-  /**
-   * Parses a JSON respresentation of a radio item.
-   * @param {JSON} json The JSON object to parse.
-   * @param {Menu} menu The menu the item is attached to.
-   * @return {Radio} The new radio object.
-   */
-  const radio = function(
-    {content: content, variable: variable, id: id}:
-    {content: string, variable: string, id: string}, menu: Menu): Radio {
-    return new Radio(menu, content, variable, id);
-  };
-
-  /**
-   * Parses a JSON respresentation of a rule item.
-   * @param {JSON} json The empty JSON object.
-   * @param {Menu} menu The menu the item is attached to.
-   * @return {Rule} The new rule object.
-   */
-  const rule = function({}: {}, menu: Menu): Rule {
-    return new Rule(menu);
-  };
-
-  /**
-   * Parses a JSON respresentation of a submenu item.
-   * @param {JSON} json The JSON object to parse.
-   * @param {Menu} menu The menu the item is attached to.
-   * @return {Submenu} The new submenu object.
-   */
-  const submenu = function(
-    {content: content, menu: submenu, id: id}:
-    {content: string, menu: any, id: string}, menu: Menu): Submenu {
-    const item = new Submenu(menu, content, id);
-    const sm = subMenu(submenu, item);
-    item.submenu = sm;
-    return item;
-  };
+  ParserFactory.add('command', Command.fromJson.bind(Command));
+  ParserFactory.add('checkbox', Checkbox.fromJson.bind(Checkbox));
+  ParserFactory.add('combo', Combo.fromJson.bind(Combo));
+  ParserFactory.add('slider', Slider.fromJson.bind(Slider));
+  ParserFactory.add('label', Label.fromJson.bind(Label));
+  ParserFactory.add('radio', Radio.fromJson.bind(Radio));
+  ParserFactory.add('rule', Rule.fromJson.bind(Rule));
+  ParserFactory.add('submenu', Submenu.fromJson.bind(Submenu));
 
   /**
    * Parses a JSON respresentation of a variable pool.
@@ -151,43 +66,11 @@ export namespace Parse {
       MenuUtil.error(null, 'Wrong JSON format for menu.');
       return null;
     }
-    // The variable id is currently ignored!
-    let {pool: pool, items: its} = menu;
-    const ctxtMenu = new ContextMenu();
-    pool.forEach(x => variable(x as any, ctxtMenu.pool));
-    const itemList = items(its, ctxtMenu);
-    ctxtMenu.items = itemList;
-    return ctxtMenu;
+    return ParserFactory.get('contextMenu')({menu: menu});
   };
-
-  /**
-   * Parses a JSON respresentation of a submenu.
-   * @param {JSON} json The JSON object to parse.
-   * @param {Submenu} anchor The anchor item the submenu is attached to.
-   * @return {SubMenu} The new submenu object.
-   */
-  export const subMenu = function(
-    {items: its}: {items: any[], id: string},
-    anchor: Submenu): SubMenu {
-    const submenu = new SubMenu(anchor);
-    const itemList = items(its, submenu);
-    submenu.items = itemList;
-    return submenu;
-  };
-
-  /**
-   * Parses a JSON respresentation of a variable and inserts it into the
-   * variable pool of the context menu.
-   * @param {JSON} json The JSON object to parse.
-   */
-  export const variable = function(
-    {name: name, getter: getter, setter: setter}:
-    {name: string, getter: () => string | boolean,
-     setter: (x: (string | boolean)) => void},
-    pool: VariablePool<string|boolean>) {
-    const variable = new Variable(name, getter, setter);
-    pool.insert(variable);
-  };
+  ParserFactory.add('contextMenu', ContextMenu.fromJson.bind(ContextMenu));
+  ParserFactory.add('subMenu', SubMenu.fromJson.bind(SubMenu));
+  ParserFactory.add('variable', Variable.fromJson.bind(Variable));
 
   /**
    * Parses items in JSON formats and attaches them to the menu.
@@ -198,6 +81,7 @@ export namespace Parse {
     hidden.forEach(x => x[1] && x[0].hide());
     return hidden.map(x => x[0]);
   };
+  ParserFactory.add('items', items);
 
   /**
    * Parses items in JSON formats and attaches them to the menu.
@@ -206,7 +90,7 @@ export namespace Parse {
    * @return {Item} The list of parsed items.
    */
   const item = function(item: any, ctxt: Menu): Item {
-    const func = mapping[item['type']];
+    const func = ParserFactory.get(item['type']);
     if (func) {
       const menuItem = func(item, ctxt);
       ctxt.items.push(menuItem);
@@ -218,18 +102,13 @@ export namespace Parse {
     return null;
   };
 
-  /**
-   * @type{Object.<Function>}
-   */
-  const mapping: { [id: string]: Function } = {
-    'checkbox': checkbox,
-    'combo': combo,
-    'command': command,
-    'label': label,
-    'radio': radio,
-    'rule': rule,
-    'slider': slider,
-    'submenu': submenu
-  };
-}
+  ParserFactory.add('selectionMenu',
+                    SelectionMenu.fromJson.bind(SelectionMenu));
+  ParserFactory.add('selectionBox', SelectionBox.fromJson.bind(SelectionBox));
 
+  export const selectionBox = function(
+    json: JSON, ctxt: ContextMenu): SelectionBox {
+    return ParserFactory.get('selectionBox')(json, ctxt);
+  };
+
+}

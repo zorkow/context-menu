@@ -14,11 +14,14 @@
     "alwaysStrict": true,
     "sourceMap": true,
     "lib": ["es6", "dom"],
-    "outDir": "./dist/"
+    "outDir": "js"
   },
   "include": ["ts/**/*"],
+  "typeRoots": [],
+  "types": [],
   "exclude": [
     "dist",
+    "js",
     "samples",
     "node_modules"
   ]

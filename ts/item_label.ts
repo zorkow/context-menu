@@ -22,12 +22,25 @@
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-import {AbstractItem} from './abstract_item';
-import {Menu} from './menu';
-import {HtmlClasses} from './html_classes';
+import {AbstractItem} from './abstract_item.js';
+import {Menu} from './menu.js';
+import {HtmlClasses} from './html_classes.js';
+// import {ParserFactory} from './parser_factory.js';
 
 
 export class Label extends AbstractItem {
+
+  /**
+   * Parses a JSON respresentation of a label item.
+   * @param {JSON} json The JSON object to parse.
+   * @param {Menu} menu The menu the item is attached to.
+   * @return {Label} The new label object.
+   */
+  public static fromJson(
+    {content: content, id: id}: {content: string, id: string},
+    menu: Menu): Label {
+    return new this(menu, content, id);
+  }
 
   /**
    * @constructor
@@ -47,6 +60,14 @@ export class Label extends AbstractItem {
     super.generateHtml();
     let html = this.html;
     html.classList.add(HtmlClasses['MENULABEL']);
+  }
+
+  /**
+   * @return {JSON} The object in JSON.
+   */
+  public toJson() {
+    return {type: ''
+           };
   }
 
 }

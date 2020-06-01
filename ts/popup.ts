@@ -23,8 +23,8 @@
  * @author v.sorge@mathjax.org (Volker Sorge)
  */
 
-import {ContextMenu} from './context_menu';
-import {AbstractPostable} from './abstract_postable';
+import {ContextMenu} from './context_menu.js';
+import {AbstractPostable} from './abstract_postable.js';
 
 
 export class Popup extends AbstractPostable {
@@ -63,6 +63,13 @@ export class Popup extends AbstractPostable {
 
   private mobileFlag = false;
   private active: HTMLElement = null;
+
+  /**
+   * Parses a JSON respresentation of the .
+   * @param {JSON} json The JSON object to parse.
+   */
+  public static fromJson() {
+  }
 
   /**
    * @constructor
@@ -167,6 +174,14 @@ export class Popup extends AbstractPostable {
       this.window.moveTo(x, y);
     }
     this.active = null;
+  }
+
+  /**
+   * @return {JSON} The object in JSON.
+   */
+  public toJson() {
+    return {type: ''
+           };
   }
 
 }

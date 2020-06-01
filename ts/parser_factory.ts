@@ -1,6 +1,6 @@
 /*************************************************************
  *
- *  Copyright (c) 2015-2016 The MathJax Consortium
+ *  Copyright (c) 2020 The MathJax Consortium
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -17,39 +17,28 @@
 
 
 /**
- * @fileoverview Interface specification for menu entries.
+ * @fileoverview Parser factory for menu elements.
  *
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-import {Menu} from './menu.js';
 
+export type ParseMethod = (json: any, ...aux: any[]) => any;
 
-export interface Entry {
+export class ParserFactory {
 
-  /**
-   * @type {Menu} The menu the entry belongs to.
-   */
-  menu: Menu;
+  private _parser: Map<string, ParseMethod>;
 
-  /**
-   * @type {string} The type of the entry.
-   */
-  type: string;
+  constructor(init: [string, ParseMethod][]) {
+    this._parser = new Map<string, ParseMethod>(init);
+  }
 
-  /**
-   * Hide entry in the menu.
-   */
-  hide(): void;
+  public get(name: string) {
+    return this._parser.get(name);
+  }
 
-  /**
-   * Show entry in the menu.
-   */
-  show(): void;
-
-  /**
-   * @return {boolean} Indicates if item is hidden from display.
-   */
-  isHidden(): boolean;
+  public add(name: string, method: ParseMethod) {
+    this._parser.set(name, method);
+  }
 
 }

@@ -23,12 +23,13 @@
  */
 
 
-import {AbstractVariableItem} from './abstract_variable_item';
-import {Menu} from './menu';
-import {MenuUtil} from './menu_util';
-import {Variable} from './variable';
-import {HtmlClasses} from './html_classes';
-import {KEY} from './key_navigatable';
+import {AbstractVariableItem} from './abstract_variable_item.js';
+import {Menu} from './menu.js';
+import {MenuUtil} from './menu_util.js';
+import {Variable} from './variable.js';
+import {HtmlClasses} from './html_classes.js';
+import {KEY} from './key_navigatable.js';
+// import {ParserFactory} from './parser_factory.js';
 
 
 export class Slider extends AbstractVariableItem<string> {
@@ -45,6 +46,18 @@ export class Slider extends AbstractVariableItem<string> {
   private input: HTMLInputElement;
 
   private inputEvent: boolean = false;
+
+  /**
+   * Parses a JSON respresentation of a combo item.
+   * @param {JSON} json The JSON object to parse.
+   * @param {Menu} menu The menu the item is attached to.
+   * @return {Slider} The new slider object.
+   */
+  public static fromJson(
+    {content: content, variable: variable, id: id}:
+    {content: string, variable: string, id: string}, menu: Menu): Slider {
+    return new this(menu, content, variable, id);
+  }
 
   /**
    * @constructor
@@ -116,14 +129,14 @@ export class Slider extends AbstractVariableItem<string> {
     this.labelSpan.appendChild(this.html.childNodes[0]);
     this.html.appendChild(this.labelSpan);
     this.input = document.createElement('input');
-    this.input.addEventListener('keydown', this.inputKey.bind(this));
     this.input.setAttribute('type', 'range');
     this.input.setAttribute('min', '0');
     this.input.setAttribute('max', '100');
     this.input.setAttribute('aria-valuemin', '0');
     this.input.setAttribute('aria-valuemax', '100');
     this.input.setAttribute('aria-labelledby', this.labelId);
-    this.input.oninput = this.executeAction.bind(this);
+    this.input.addEventListener('keydown', this.inputKey.bind(this));
+    this.input.addEventListener('input', this.executeAction.bind(this));
     this.input.classList.add(HtmlClasses['SLIDERBAR']);
     this.span.appendChild(this.input);
   }
@@ -133,7 +146,7 @@ export class Slider extends AbstractVariableItem<string> {
    * Executes the key event of the sliderbox.
    * @param {KeyboardEvent} event The input event.
    */
-  public inputKey(_event: InputEvent) {
+  public inputKey(_event: KeyboardEvent) {
     this.inputEvent = true;
   }
 
@@ -159,9 +172,14 @@ export class Slider extends AbstractVariableItem<string> {
    * @param {KeyboardEvent} event The input event.
    */
   public keydown(event: KeyboardEvent) {
+    let code = event.keyCode;
+    if (code === KEY.UP || code === KEY.DOWN) {
+      event.preventDefault();
+      super.keydown(event);
+      return;
+    }
     if (this.inputEvent &&
-        event.keyCode !== KEY.ESCAPE &&
-        event.keyCode !== KEY.RETURN) {
+        code !== KEY.ESCAPE && code !== KEY.RETURN) {
       this.inputEvent = false;
       event.stopPropagation();
       return;
@@ -183,16 +201,22 @@ export class Slider extends AbstractVariableItem<string> {
    * Toggles the checked tick.
    */
   protected updateSpan() {
-    console.log('Updating span');
     let initValue;
     try {
       initValue = this.variable.getValue(MenuUtil.getActiveElement(this));
-      console.log('with value: ' + initValue);
       this.valueSpan.innerHTML = initValue + '%';
     } catch (e) {
       initValue = '';
     }
     this.input.value = initValue;
+  }
+
+  /**
+   * @return {JSON} The object in JSON.
+   */
+  public toJson() {
+    return {type: ''
+           };
   }
 
 }

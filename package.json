@@ -4,8 +4,8 @@
   "description": "A generic context menu",
   "main": "dist/ContextMenu.js",
   "scripts": {
-    "build": "./node_modules/.bin/webpack",
-    "prepare": "npx rimraf dist; ./node_modules/.bin/webpack"
+    "build": "./node_modules/.bin/tsc; ./node_modules/.bin/webpack",
+    "prepare": "npx rimraf js; npx rimraf dist; ./node_modules/.bin/tsc; ./node_modules/.bin/webpack"
   },
   "maintainers": [
     "Volker Sorge <v.sorge@mathjax.org>"
@@ -25,6 +25,9 @@
   "homepage": "https://github.com/zorkow/context-menu",
   "dependencies": {},
   "devDependencies": {
+    "@babel/core": "^7.10.1",
+    "@babel/preset-env": "^7.10.1",
+    "babel-loader": "^8.1.0",
     "ts-loader": "^6.2.0",
     "tslint": "^5.12.1",
     "tslint-jsdoc-rules": "^0.2.0",
@@ -36,6 +39,7 @@
   "files": [
     "LICENSE",
     "README.md",
+    "js",
     "dist"
   ]
 }

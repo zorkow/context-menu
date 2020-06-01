@@ -22,8 +22,8 @@
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-import {KEY, KeyNavigatable} from './key_navigatable';
-import {MOUSE, MouseNavigatable} from './mouse_navigatable';
+import {KEY, KeyNavigatable} from './key_navigatable.js';
+import {MOUSE, MouseNavigatable} from './mouse_navigatable.js';
 
 
 export abstract class AbstractNavigatable implements

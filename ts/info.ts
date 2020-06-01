@@ -22,10 +22,10 @@
  * @author v.sorge@mathjax.org (Volker Sorge)
  */
 
-import {CloseButton} from './close_button';
-import {ContextMenu} from './context_menu';
-import {HtmlClasses} from './html_classes';
-import {AbstractPostable} from './abstract_postable';
+import {CloseButton} from './close_button.js';
+import {ContextMenu} from './context_menu.js';
+import {HtmlClasses} from './html_classes.js';
+import {AbstractPostable} from './abstract_postable.js';
 
 
 export class Info extends AbstractPostable {
@@ -40,10 +40,18 @@ export class Info extends AbstractPostable {
    */
   protected role = 'dialog';
 
-  private menu: ContextMenu;
-  private contentDiv: HTMLElement = this.generateContent();
+  protected contentDiv: HTMLElement = this.generateContent();
+
+  public menu: ContextMenu;
   private close: CloseButton = this.generateClose();
   private content: Function;
+
+  /**
+   * Parses a JSON respresentation of the .
+   * @param {JSON} json The JSON object to parse.
+   */
+  // public static fromJson() {
+  // }
 
   /**
    * @constructor
@@ -106,7 +114,9 @@ export class Info extends AbstractPostable {
     this.menu.registerWidget(this);
     this.contentDiv.innerHTML = this.content();
     let html = this.menu.html;
-    html.parentNode.removeChild(html);
+    if (html.parentNode) {
+      html.parentNode.removeChild(html);
+    }
     this.menu.frame.appendChild(this.html);
   }
 
@@ -164,7 +174,7 @@ export class Info extends AbstractPostable {
    * @return {HTMLElement} The basic content element of the widget. The actual
    *     content is regenerated and attached during posting.
    */
-  private generateContent(): HTMLElement {
+  protected generateContent(): HTMLElement {
     let div = document.createElement('div');
     div.classList.add(HtmlClasses['INFOCONTENT']);
     div.setAttribute('tabindex', '0');
@@ -179,6 +189,14 @@ export class Info extends AbstractPostable {
     span.innerHTML = this.signature;
     span.classList.add(HtmlClasses['INFOSIGNATURE']);
     return span;
+  }
+
+  /**
+   * @return {JSON} The object in JSON.
+   */
+  public toJson() {
+    return {type: ''
+           };
   }
 
 }
