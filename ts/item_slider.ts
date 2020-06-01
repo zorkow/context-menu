@@ -194,8 +194,10 @@ export class Slider extends AbstractVariableItem<string> {
    */
   protected updateAria() {
     let value = this.variable.getValue();
-    this.input.setAttribute('aria-valuenow', value);
-    this.input.setAttribute('aria-valuetext', value + '%');
+    if (value) {
+      this.input.setAttribute('aria-valuenow', value);
+      this.input.setAttribute('aria-valuetext', value + '%');
+    }
   }
 
   /**
