@@ -36,8 +36,8 @@ export const MOUSE = {
   OVER: 'mouseover',
   OUT: 'mouseout',
   MOVE: 'mousemove',
-  SELECTSTART: 'selectstart', // IE, Safari, Chrome
-  SELECTEND: 'selectend', // IE, Safari, Chrome
+  SELECTEND: 'selectend',  // Edge, Chrome only
+  SELECTSTART: 'selectstart'
 };
 
 

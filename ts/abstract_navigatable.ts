@@ -157,8 +157,8 @@ KeyNavigatable, MouseNavigatable {
     element.addEventListener(MOUSE.CLICK, this.click.bind(this));
     element.addEventListener('keydown', this.keydown.bind(this));
     element.addEventListener('dragstart', this.stop.bind(this));
-    element.addEventListener('selectstart', this.stop.bind(this));
+    element.addEventListener(MOUSE.SELECTSTART, this.stop.bind(this));
     element.addEventListener('contextmenu', this.stop.bind(this));
-    element.addEventListener('dblclick', this.stop.bind(this));
+    element.addEventListener(MOUSE.DBLCLICK, this.stop.bind(this));
   }
 }
