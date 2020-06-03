@@ -644,8 +644,8 @@ MathJax.Hub.Register.StartupHook("MathEvents Ready", function () {
   mathmlSource.attachMenu(contextmenu);
   originalText.attachMenu(contextmenu);
 
-  var box = parser.selectionBox(
-    {
+  var box = parser.parse(
+    { "type": "selectionBox",
       "title": 'Selection Test',
       "signature": 'End of selection',
       "selections": [{"title": "zoom",
