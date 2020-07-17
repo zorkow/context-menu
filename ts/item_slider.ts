@@ -113,7 +113,7 @@ export class Slider extends AbstractVariableItem<string> {
   public generateHtml() {
     super.generateHtml();
     let html = this.html;
-    html.classList.add(HtmlClasses['MENUSLIDER']); // ???
+    html.classList.add(HtmlClasses['MENUSLIDER']);
     this.valueSpan = document.createElement('span');
     this.valueSpan.setAttribute('id', this.valueId);
     this.valueSpan.classList.add(HtmlClasses['SLIDERVALUE']);
@@ -194,7 +194,8 @@ export class Slider extends AbstractVariableItem<string> {
    */
   protected updateAria() {
     let value = this.variable.getValue();
-    if (value) {
+    // TODO: Find out if this method fires before input is available.
+    if (value && this.input) {
       this.input.setAttribute('aria-valuenow', value);
       this.input.setAttribute('aria-valuetext', value + '%');
     }
