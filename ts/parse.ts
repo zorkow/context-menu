@@ -60,10 +60,10 @@ export class Parser {
     ['item', this.item.bind(this)],
     ['selectionMenu', SelectionMenu.fromJson.bind(SelectionMenu)],
     ['selectionBox', SelectionBox.fromJson.bind(SelectionBox)]
-  ]
+  ];
 
   public factory: ParserFactory = new ParserFactory(this._initList);
-  
+
   constructor(init: [string, ParseMethod][] = []) {
     init.forEach(([x, y]) => this.factory.add(x, y));
   }
@@ -119,4 +119,7 @@ export class Parser {
     return this.factory.get('selectionBox')(this.factory, json, ctxt);
   }
 
+  public parse({type: kind, ...json}: {type: string, [k: string]: any}, ...rest: any[]) {
+    return this.factory.get(kind)(this.factory, json, ...rest);
+  }
 }

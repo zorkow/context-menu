@@ -253,8 +253,8 @@ MathJax.Hub.Register.StartupHook("MathEvents Ready", function () {
 
 
   var cm_json =
-        {"menu":
-         {"pool": [
+      {"type": "contextMenu",
+         "pool": [
            {
              "name": "zoom",
              "getter": MENU.getZoomTrigger,
@@ -633,19 +633,19 @@ MathJax.Hub.Register.StartupHook("MathEvents Ready", function () {
 
           ]
          }
-        };
+        ;
 
   ContextMenu.CssStyles.addInfoStyles();
   ContextMenu.CssStyles.addMenuStyles();
   let parser = new ContextMenu.Parser();
-  contextmenu = parser.contextMenu(cm_json);
+  contextmenu = parser.parse(cm_json);
   about.attachMenu(contextmenu);
   help.attachMenu(contextmenu);
   mathmlSource.attachMenu(contextmenu);
   originalText.attachMenu(contextmenu);
 
-  var box = parser.selectionBox(
-    {
+  var box = parser.parse(
+    { "type": "selectionBox",
       "title": 'Selection Test',
       "signature": 'End of selection',
       "selections": [{"title": "zoom",
@@ -670,8 +670,8 @@ MathJax.Hub.Register.StartupHook("MathEvents Ready", function () {
 
   ["AbsoluteValue", "Bar", "Caps", "CombinationPermutation", "Currency", "Ellipses", "Exponent", "Fraction", "Functions", "ImpliedTimes", "Log", "Matrix", "MultiLineLabel", "MultiLineOverview", "MultiLinePausesBetweenColumns", "MultsymbolDot", "MultsymbolX", "Paren", "Prime", "Roots", "SetMemberSymbol", "Sets", "TriangleSymbol", "Trig", "VerticalLine"].forEach(creator);
 
-  var prefs = parser.selectionBox(
-    {
+  var prefs = parser.parse(
+    { "type": "selectionBox",
       "title": "Clearspeak Preferences",
       "signature": '',
       "order": 'decreasing',
