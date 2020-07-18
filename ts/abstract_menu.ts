@@ -49,8 +49,11 @@ export abstract class AbstractMenu extends AbstractPostable implements Menu {
    */
   protected role = 'menu';
 
-  private _baseMenu: Menu = null;
+  /**
+   * @type {Item[]} Item list.
+   */
   protected _items: Item[] = [];
+  private _baseMenu: Menu = null;
   private _focused: Item;
 
   /**
