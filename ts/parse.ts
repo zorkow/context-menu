@@ -25,10 +25,8 @@
 
 import {Command} from './item_command.js';
 import {Menu} from './menu.js';
-import {MenuUtil} from './menu_util.js';
 import {ContextMenu} from './context_menu.js';
 import {Variable} from './variable.js';
-// import {VariablePool} from './variable_pool.js';
 import {Checkbox} from './item_checkbox.js';
 import {Combo} from './item_combo.js';
 import {Label} from './item_label.js';
@@ -62,27 +60,29 @@ export class Parser {
     ['selectionBox', SelectionBox.fromJson.bind(SelectionBox)]
   ];
 
-  public factory: ParserFactory = new ParserFactory(this._initList);
 
+  /**
+   * The parser factory holding the from Json parse methods for all the
+   * components.
+   * @type {ParserFactory}
+   */
+  private readonly _factory: ParserFactory = new ParserFactory(this._initList);
+
+  /**
+   * Creates new constructor method.
+   * @constructor
+   * @param {[string, ParseMethod][]} init Extra init mappings for the parser's
+   *     factory.
+   */
   constructor(init: [string, ParseMethod][] = []) {
     init.forEach(([x, y]) => this.factory.add(x, y));
   }
 
-
   /**
-   * Parses a JSON respresentation of a variable pool.
-   * @param {JSON} json The JSON object to parse.
-   * @return {ContextMenu} The new context menu object.
+   * @return {ParserFactory} The parser factory.
    */
-  public contextMenu(
-    {menu: menu}: {menu: {pool: Array<Object>,
-                          items: Array<Object>,
-                          id: string}}): ContextMenu {
-    if (!menu) {
-      MenuUtil.error(null, 'Wrong JSON format for menu.');
-      return null;
-    }
-    return this.factory.get('contextMenu')(this.factory, {menu: menu});
+  public get factory(): ParserFactory {
+    return this._factory;
   }
 
   /**
