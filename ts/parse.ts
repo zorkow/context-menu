@@ -111,10 +111,10 @@ export class Parser {
    * General parse method.
    * @param {JSON} json The JSON element to parse.
    * @param {any[]} rest Optional rest arguments.
-   * @return {Item} The parsed item.
+   * @return {any} The parsed item.
    */
   public parse({type: kind, ...json}:
-               {type: string, [k: string]: any}, ...rest: any[]): Item {
+               {type: string, [k: string]: any}, ...rest: any[]): any {
     let func = this.factory.get(kind);
     return func ? func(this.factory, json, ...rest) : null;
   }
