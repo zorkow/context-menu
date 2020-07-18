@@ -55,7 +55,6 @@ export class Parser {
     ['subMenu', SubMenu.fromJson.bind(SubMenu)],
     ['variable', Variable.fromJson.bind(Variable)],
     ['items', this.items.bind(this)],
-    ['item', this.item.bind(this)],
     ['selectionMenu', SelectionMenu.fromJson.bind(SelectionMenu)],
     ['selectionBox', SelectionBox.fromJson.bind(SelectionBox)]
   ];
@@ -90,45 +89,34 @@ export class Parser {
    * @param {Array.<JSON>} items List of JSON menu items.
    */
   public items(_factory: ParserFactory, its: any[], ctxt: Menu): Item[] {
-    // let items = [];
-    console.log(3);
-    console.log(ctxt);
+    let hidden = [];
     for (let item of its) {
-      console.log(item);
       let entry = this.parse(item, ctxt);
-      if (!entry) continue;
-      console.log(entry.id);
+      if (!entry) {
+        continue;
+      }
       ctxt.items.push(entry);
       if (item.disabled) {
         entry.disable();
       }
       if (item.hidden) {
-        entry.hide();
+        hidden.push(entry);
       }
     }
+    hidden.forEach(x => x.hide());
     return ctxt.items;
-    // const hidden = its.map(x => [this.item(factory, x, ctxt), x.hidden]);
-    // hidden.forEach(x => x[1] && x[0].hide());
-    // return hidden.map(x => x[0]);
   }
 
   /**
-   * Parses items in JSON formats and attaches them to the menu.
-   * @param {Array.<JSON>} items List of JSON menu items.
-   * @param {Menu} ctxt The context menu for the items.
-   * @return {Item} The list of parsed items.
+   * General parse method.
+   * @param {JSON} json The JSON element to parse.
+   * @param {any[]} rest Optional rest arguments.
+   * @return {Item} The parsed item.
    */
-  public item(_factory: ParserFactory, item: any, ctxt: Menu): Item {
-    const menuItem = this.parse(item, ctxt);
-    ctxt.items.push(menuItem);
-    if (item['disabled']) {
-      menuItem.disable();
-    }
-    return menuItem;
-  }
-
-  public parse({type: kind, ...json}: {type: string, [k: string]: any}, ...rest: any[]) {
-    return this.factory.get(kind)(this.factory, json, ...rest);
+  public parse({type: kind, ...json}:
+               {type: string, [k: string]: any}, ...rest: any[]): Item {
+    let func = this.factory.get(kind);
+    return func ? func(this.factory, json, ...rest) : null;
   }
 
 }
