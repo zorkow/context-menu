@@ -89,10 +89,27 @@ export class Parser {
    * Parses items in JSON formats and attaches them to the menu.
    * @param {Array.<JSON>} items List of JSON menu items.
    */
-  public items(factory: ParserFactory, its: any[], ctxt: Menu): Item[] {
-    const hidden = its.map(x => [this.item(factory, x, ctxt), x.hidden]);
-    hidden.forEach(x => x[1] && x[0].hide());
-    return hidden.map(x => x[0]);
+  public items(_factory: ParserFactory, its: any[], ctxt: Menu): Item[] {
+    // let items = [];
+    console.log(3);
+    console.log(ctxt);
+    for (let item of its) {
+      console.log(item);
+      let entry = this.parse(item, ctxt);
+      if (!entry) continue;
+      console.log(entry.id);
+      ctxt.items.push(entry);
+      if (item.disabled) {
+        entry.disable();
+      }
+      if (item.hidden) {
+        entry.hide();
+      }
+    }
+    return ctxt.items;
+    // const hidden = its.map(x => [this.item(factory, x, ctxt), x.hidden]);
+    // hidden.forEach(x => x[1] && x[0].hide());
+    // return hidden.map(x => x[0]);
   }
 
   /**
@@ -101,25 +118,17 @@ export class Parser {
    * @param {Menu} ctxt The context menu for the items.
    * @return {Item} The list of parsed items.
    */
-  public item(factory: ParserFactory, item: any, ctxt: Menu): Item {
-    const func = this.factory.get(item['type']);
-    if (func) {
-      const menuItem = func(factory, item, ctxt);
-      ctxt.items.push(menuItem);
-      if (item['disabled']) {
-        menuItem.disable();
-      }
-      return menuItem;
+  public item(_factory: ParserFactory, item: any, ctxt: Menu): Item {
+    const menuItem = this.parse(item, ctxt);
+    ctxt.items.push(menuItem);
+    if (item['disabled']) {
+      menuItem.disable();
     }
-    return null;
-  }
-
-  public selectionBox(
-    json: JSON, ctxt: ContextMenu): SelectionBox {
-    return this.factory.get('selectionBox')(this.factory, json, ctxt);
+    return menuItem;
   }
 
   public parse({type: kind, ...json}: {type: string, [k: string]: any}, ...rest: any[]) {
     return this.factory.get(kind)(this.factory, json, ...rest);
   }
+
 }

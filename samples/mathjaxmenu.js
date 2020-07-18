@@ -330,6 +330,11 @@ MathJax.Hub.Register.StartupHook("MathEvents Ready", function () {
              "content": "Clearspeak Preferences",
              "action": MENU.postCsprefs
             },
+            // {"type": "nix",
+            //  "id": "ClearspeakPreferences",
+            //  "content": "Clearspeak Preferences",
+            //  "action": MENU.postCsprefs
+            // },
             {"type": "command",
              "id": "ZoomSelection",
              "content": "Zoom Selection",

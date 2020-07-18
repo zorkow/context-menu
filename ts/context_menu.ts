@@ -33,10 +33,16 @@ import {ParserFactory} from './parser_factory.js';
 export class ContextMenu extends AbstractMenu {
 
   /**
+   * Id of the context menu.
+   * @type {string}
+   */
+  public id: string = '';
+
+  /**
    * Flag to avoid redoing taborder if we are between elements.
    * @type {boolean}
    */
-  private moving = false;
+  private moving: boolean = false;
 
   /**
    * The div that holds the entire menu.
@@ -62,8 +68,6 @@ export class ContextMenu extends AbstractMenu {
    */
   private widgets: Postable[] = [];
 
-  public id: string = '';
-  
   /**
    * Parses a JSON respresentation of a context menu.
    * @param {JSON} json The JSON object to parse.
@@ -282,6 +286,13 @@ export class ContextMenu extends AbstractMenu {
   }
 
   /**
+   * @return {JSON} The object in JSON.
+   */
+  public toJson() {
+    return {type: ''};
+  }
+
+  /**
    * Moves to the given next element.
    * @param {HTMLELement} next The next element in the sequence.
    * @private
@@ -293,14 +304,6 @@ export class ContextMenu extends AbstractMenu {
       this.post(next);
       this.moving = false;
     }
-  }
-
-  /**
-   * @return {JSON} The object in JSON.
-   */
-  public toJson() {
-    return {type: ''
-           };
   }
 
 }
