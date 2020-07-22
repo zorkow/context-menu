@@ -32,7 +32,7 @@ import {ParserFactory} from './parser_factory.js';
 
 
 declare type selection = {title: string, values: string[], variable: string};
-  
+
 export class SelectionMenu extends AbstractMenu {
 
   /**
@@ -108,11 +108,17 @@ export const enum SelectionOrder {
   DECREASING = 'decreasing'
 }
 
+export const enum SelectionGrid {
+  SQUARE = 'square',
+  VERTICAL = 'vertical',
+  HORIZONTAL = 'horizontal'
+}
 
 export class SelectionBox extends Info {
 
   private _selections: SelectionMenu[] = [];
   private prefix: string = 'ctxt-selection';
+  private _balanced: boolean = true;
   public static chunkSize = 4;
 
   /**
@@ -121,17 +127,19 @@ export class SelectionBox extends Info {
    */
   public static fromJson(
     factory: ParserFactory,
-    {title: title, signature: signature, selections: selections, order: order}:
+    {title: title, signature: signature, selections: selections, order: order, grid: grid}:
     {title: string, signature: string, selections: selection[],
-     order?: SelectionOrder},
+     order?: SelectionOrder, grid?: SelectionGrid},
     ctxt: ContextMenu): SelectionBox {
-    let sb = new this(title, signature, order);
-    sb.attachMenu(ctxt);
-    let sels = selections.map(
-      x => factory.get('selectionMenu')(factory, x, sb));
-    sb.selections = sels;
-    return sb;
-  }
+      console.log(grid);
+      console.log(order);
+      let sb = new this(title, signature, order, grid);
+      sb.attachMenu(ctxt);
+      let sels = selections.map(
+        x => factory.get('selectionMenu')(factory, x, sb));
+      sb.selections = sels;
+      return sb;
+    }
 
   /**
    * @constructor
@@ -141,7 +149,8 @@ export class SelectionBox extends Info {
    * @param {string=} style The style component.
    */
   constructor(title: string, signature: string,
-              public style: SelectionOrder = SelectionOrder.NONE) {
+              public style: SelectionOrder = SelectionOrder.NONE,
+              public grid: SelectionGrid = SelectionGrid.VERTICAL) {
     super(title, null, signature);
   }
 
@@ -168,7 +177,7 @@ export class SelectionBox extends Info {
   }
 
 
-  private rowDiv(sels: SelectionMenu[]): [HTMLElement, number, number] {
+  private rowDiv(sels: SelectionMenu[]): [HTMLElement, number, number, number[]] {
     let div = document.createElement('div');
     this.contentDiv.appendChild(div);
     let rects = sels.map(sel => {
@@ -178,11 +187,12 @@ export class SelectionBox extends Info {
       }
       return sel.html.getBoundingClientRect();
     });
-    let width = rects.reduce((x, y) => x + y.width, 0);
+    let column = rects.map(x => x.width);
+    let width = column.reduce((x, y) => x + y, 0);
     let height = rects.reduce((x, y) => Math.max(x, y.height), 0);
     div.classList.add(HtmlClasses['SELECTIONDIVIDER']);
     div.setAttribute('style', 'height: ' + height + 'px;');
-    return [div, width, height];
+    return [div, width, height, column];
   }
 
   /**
@@ -196,14 +206,61 @@ export class SelectionBox extends Info {
     }
     let outerDivs: HTMLElement[] = [];
     let maxWidth = 0;
-    for (let i = 0; i < this.selections.length; i += SelectionBox.chunkSize) {
-      let sels = this.selections.slice(i, i + SelectionBox.chunkSize);
-      let [div, width, height] = this.rowDiv(sels);
+    let balancedColumn: number[] = [];
+    let chunks = this.getChunkSize(this.selections.length);
+    for (let i = 0; i < this.selections.length; i += chunks) {
+      let sels = this.selections.slice(i, i + chunks);
+      let [div, width, height, column] = this.rowDiv(sels);
       outerDivs.push(div);
       maxWidth = Math.max(maxWidth, width);
       sels.forEach(sel => sel.html.style.height = height + 'px');
+      balancedColumn = this.combineColumn(balancedColumn, column);
+    }
+    if (this._balanced) {
+      this.balanceColumn(outerDivs, balancedColumn);
+      maxWidth = balancedColumn.reduce((x, y) => x + y, 20);
     }
     outerDivs.forEach(div => div.style.width = maxWidth + 'px');
+  }
+
+  private getChunkSize(size: number) {
+    switch (this.grid) {
+    case SelectionGrid.SQUARE:
+      return Math.floor(Math.sqrt(size));
+    case SelectionGrid.HORIZONTAL:
+      return size / SelectionBox.chunkSize;
+    case SelectionGrid.VERTICAL:
+    default:
+      return SelectionBox.chunkSize;
+
+    }
+  }
+
+  private balanceColumn(divs: HTMLElement[], column: number[]) {
+    divs.forEach(div => {
+      let children = Array.from(div.children) as HTMLElement[];
+      for (let i = 0, child: HTMLElement; child = children[i]; i++) {
+        child.style.width = column[i] + 'px';
+      }
+    });
+  }
+
+  private combineColumn(col1: number[], col2: number[]): number[] {
+    let result: number[] = [];
+    let i = 0;
+    while (col1[i] || col2[i]) {
+      if (!col1[i]) {
+        result = result.concat(col2.slice(i));
+        break;
+      }
+      if (!col2[i]) {
+        result = result.concat(col1.slice(i));
+        break;
+      }
+      result.push(Math.max(col1[i], col2[i]));
+      i++
+    };
+    return result;
   }
 
   /**

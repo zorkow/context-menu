@@ -177,7 +177,7 @@ export namespace CssStyles {
     '  right: 40%; width:50%; ' +
     '}',
   MENU_STYLES[makeClass_('SELECTIONBOX')] = '{' +
-    '  padding: 0em; max-height:30em; max-width: none;' +
+    '  padding: 0em; max-height:20em; max-width: none;' +
     '  background-color:#FFFFFF;' +
     '}',
   MENU_STYLES[makeClass_('SELECTIONDIVIDER')] = '{' +

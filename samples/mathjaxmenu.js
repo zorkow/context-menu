@@ -679,7 +679,8 @@ MathJax.Hub.Register.StartupHook("MathEvents Ready", function () {
     { "type": "selectionBox",
       "title": "Clearspeak Preferences",
       "signature": '',
-      "order": 'decreasing',
+      "order": 'alphabetical',
+      'grid': 'square',
       "selections": [
         {"title": "AbsoluteValue",
          "values": ['Auto', 'AbsEnd', 'Cardinality', 'Determinant'],
