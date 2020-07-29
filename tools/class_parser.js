@@ -1,3 +1,5 @@
+// Depends on typescript 1.7.3
+
 classParser = {};
 classParser.extern = {};
 
@@ -24,6 +26,7 @@ classParser.filter = function(sources, name) {
   var kind = ts.SyntaxKind[name];
   return sources.filter(x => x.statements[0].body.statements[0].kind === kind);
 };
+
 
 classParser.findSource = function(sources, name) {
   return sources.find(x => x.baseName === name);
@@ -101,7 +104,7 @@ classParser.node = function(node, indentation, source) {
 // Begin: Getting enums
 
 classParser.getEnumName = function(source, statement) {
-  let comments = ts.getJsDocComments(statement, source);
+  let comments = ts.JsDoc.getJsDocCommentsFromDeclarations(statement, source);
   if (!comments || !comments.length) {
     return '';
   }
@@ -189,10 +192,11 @@ classParser.dotOutput = function() {
   let result = 'digraph structs {\n' +
         '  edge [dir=back];\n' +
         '  node [shape=record];\n';
+  const rew = function(x) {return x === 'Node' ? '"Node"' : x;};
   for (let id in classParser.store) {
     let value = classParser.store[id];
     classParser.outputModifiers(value.modifiers, value);
-    result += id + ' [';
+    result += rew(id) + ' [';
     result += value.attrs.length ? value.attrs.join(', ') + ', ' : '';
     result += 'label="{ ';
     result += value.mods.length ? value.mods.join(' ') + ' ' : '';
@@ -201,9 +205,9 @@ classParser.dotOutput = function() {
       result += value.members.map(classParser.outputMethod).join('\\n');
     }
     result += '}"];\n';
-    value.extends.forEach(x => result += x + ' -> ' + id +
+    value.extends.forEach(x => result += rew(x) + ' -> ' + id +
                           '[label="extends"]\n');
-    value.implements.forEach(x => result += x + ' -> ' + id +
+    value.implements.forEach(x => result += rew(x) + ' -> ' + id +
                              '[label="implements"]\n');
   }
   result += '}\n';
@@ -268,7 +272,7 @@ classParser.transform = function(directory, output) {
 ////TODO: Insert namespace prefix.
 
 classParser.rewriteInterfaceFile = function(file) {
-  var headerComments = ts.getJsDocComments(file.statements[0], file);
+  var headerComments = ts.JsDoc.getJsDocCommentsFromDeclarations(file.statements[0], file);
   var header = classParser.combinePartialContent(file.text, headerComments, '\n\n');
 
   ////TODO:  Here we have to search for the correct interface first!
@@ -333,10 +337,32 @@ classParser.readFile = function(filename, ext) {
 };
 
 classParser.readDirectory = function(directory, ext) {
-  var files = fs.readdirSync(directory).
-        filter(x => x.match(RegExp('.' + ext + '$')));
-  return files.map(x => classParser.readFile(directory + x, ext));
+  var files = classParser.walkDirectory(directory, ext);
+
+  // fs.readdirSync(directory).
+  //       filter(x => x.match(RegExp('.' + ext + '$')));
+  return files.map(x => classParser.readFile(x, ext));
 };
+
+
+classParser.walkDirectory = function(dir, ext) {
+  var results = [];
+  var list = fs.readdirSync(dir);
+  list.forEach(function(file) {
+    file = dir + '/' + file;
+    var stat = fs.statSync(file);
+    console.log(file);
+    if (stat && stat.isDirectory()) {
+      results = results.concat(classParser.walkDirectory(file, ext));
+    } else if (file.match(RegExp('\\.' + ext + '$')) &&
+               !file.match(RegExp('\\.d\\.' + ext + '$'))) {
+      console.log(file);
+      results.push(file);
+    }
+  });
+  return results;
+};
+
 
 //
 // Rewriting transpiled Javascript files.
@@ -356,7 +382,7 @@ classParser.cleanJSFile2015 = function(js) {
   let classExpr = expression.members;
   let constructor = classExpr[0];
   let isConst = constructor.kind === ts.SyntaxKind['Constructor'];
-  if (isConst && ts.getJsDocComments(constructor, js)) {
+  if (isConst && ts.getCommentsFromJsDoc(constructor, js)) {
     file = file.concat(expression);
     return js.text;
   }

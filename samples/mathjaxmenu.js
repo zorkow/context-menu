@@ -133,6 +133,8 @@ MathJax.Hub.Register.StartupHook("MathEvents Ready", function () {
 
   var MENU = {};
   var SETTINGS = MathJax.Hub.config.menuSettings;
+  MathJax.testCombo = 'hello';
+  MathJax.testSlider = 50;
   MENU.id = function(value) { };
   MENU.About = function() {
     about.post(0, 0);
@@ -230,10 +232,29 @@ MathJax.Hub.Register.StartupHook("MathEvents Ready", function () {
     // always get "Auto".
     MathJax.Menu.Font();
   };
+  MENU.getCombo = function() {
+    return MathJax.testCombo;
+  };
+  MENU.setCombo = function(value) {
+    MathJax.testCombo = value;
+  };
+  MENU.getSlider = function() {
+    return MathJax.testSlider;
+  };
+  MENU.setSlider = function(value) {
+    MathJax.testSlider = value;
+  };
+  MENU.postSelection = function() {
+    box.post(0, 0);
+  };
+  MENU.postCsprefs = function() {
+    prefs.post(0, 0);
+  };
+
 
   var cm_json =
-        {"menu":
-         {"pool": [
+      {"type": "contextMenu",
+         "pool": [
            {
              "name": "zoom",
              "getter": MENU.getZoomTrigger,
@@ -293,10 +314,32 @@ MathJax.Hub.Register.StartupHook("MathEvents Ready", function () {
            { "name": "font",
              "getter": MENU.getFont,
              "setter": MENU.setFont
+           },
+           { "name": "comboTest",
+             "getter": MENU.getCombo,
+             "setter": MENU.setCombo
+           },
+           { "name": "sliderTest",
+             "getter": MENU.getSlider,
+             "setter": MENU.setSlider
            }
          ],
           "items":
-          [
+          [ {"type": "command",
+             "id": "ClearspeakPreferences",
+             "content": "Clearspeak Preferences",
+             "action": MENU.postCsprefs
+            },
+            {"type": "nix",
+             "id": "ClearspeakPreferences",
+             "content": "Clearspeak Preferences",
+             "action": MENU.postCsprefs
+            },
+            {"type": "command",
+             "id": "ZoomSelection",
+             "content": "Zoom Selection",
+             "action": MENU.postSelection
+            },
             {"type": "submenu",
              "id": "Show",
              "content": "Show Math As",
@@ -574,6 +617,10 @@ MathJax.Hub.Register.StartupHook("MathEvents Ready", function () {
              }
             },
             {"type": "rule"},
+            {"type": "slider",
+             "variable": "sliderTest",
+             "content": "Slider: "
+            },
             {"type": "command",
              "id": "About",
              "content": "About MathJax",
@@ -583,19 +630,142 @@ MathJax.Hub.Register.StartupHook("MathEvents Ready", function () {
              "id": "Help",
              "content": "MathJax Help",
              "action": MENU.Help
+            },
+            {"type": "combo",
+             "variable": "comboTest",
+             "content": "Combo: "
             }
+
           ]
          }
-        };
+        ;
 
   ContextMenu.CssStyles.addInfoStyles();
   ContextMenu.CssStyles.addMenuStyles();
-  contextmenu = ContextMenu.ContextMenu.parse(cm_json);
+  let parser = new ContextMenu.Parser();
+  contextmenu = parser.parse(cm_json);
   about.attachMenu(contextmenu);
   help.attachMenu(contextmenu);
   mathmlSource.attachMenu(contextmenu);
   originalText.attachMenu(contextmenu);
 
+  var box = parser.parse(
+    { "type": "selectionBox",
+      "title": 'Selection Test',
+      "signature": 'End of selection',
+      "selections": [{"title": "zoom",
+                      "values": ["100%", "125%", "133%", "150%", "175%", "200%", "250%", "300%", "400%"],
+                      "variable": "zscale"}]
+    },
+    contextmenu
+  );
+
+  var cspref_Values = { };
+  
+  var creator = function(pref) {
+    let set = MENU['set' + pref] = function(value) {
+      cspref_Values[pref] = value;
+    };
+    let get = MENU['get' + pref] = function() {
+      return cspref_Values[pref] || 'Auto';
+    };
+    let variable = new ContextMenu.Variable('cspref_' + pref, get, set);
+    contextmenu.pool.insert(variable);
+  };
+
+  ["AbsoluteValue", "Bar", "Caps", "CombinationPermutation", "Currency", "Ellipses", "Exponent", "Fraction", "Functions", "ImpliedTimes", "Log", "Matrix", "MultiLineLabel", "MultiLineOverview", "MultiLinePausesBetweenColumns", "MultsymbolDot", "MultsymbolX", "Paren", "Prime", "Roots", "SetMemberSymbol", "Sets", "TriangleSymbol", "Trig", "VerticalLine"].forEach(creator);
+
+  var prefs = parser.parse(
+    { "type": "selectionBox",
+      "title": "Clearspeak Preferences",
+      "signature": '',
+      "order": 'alphabetical',
+      'grid': 'square',
+      "selections": [
+        {"title": "AbsoluteValue",
+         "values": ['Auto', 'AbsEnd', 'Cardinality', 'Determinant'],
+         "variable": "cspref_AbsoluteValue"},
+        {"title": "Bar",
+         "values": ['Auto', 'Conjugate'],
+         "variable": "cspref_Bar"},
+        {"title": "Caps",
+         "values": ['Auto', 'SayCaps'],
+         "variable": "cspref_Caps"},
+        {"title": "CombinationPermutation",
+         "values": ['Auto', 'ChoosePermute'],
+         "variable": "cspref_CombinationPermutation"},
+        {"title": "Ellipses",
+         "values": ['Auto', 'AndSoOn'],
+         "variable": "cspref_Ellipses"},
+        {"title": "Currency",
+         "values": ['Auto', 'Position', 'Prefix'],
+         "variable": "cspref_Currency"},
+        {"title": "Exponent",
+         "values": ['Auto', 'AfterPower', 'Ordinal', 'OrdinalPower'],
+         "variable": "cspref_Exponent"},
+        {"title": "Fraction",
+         "values": ['Auto', 'EndFrac', 'FracOver', 'General', 'GeneralEndFrac',
+                      'Ordinal', 'Over', 'OverEndFrac', 'Per'],
+         "variable": "cspref_Fraction"},
+        {"title": "Functions",
+         "values": ['Auto', 'None', 'Reciprocal'],
+         "variable": "cspref_Functions"},
+         {"title": "ImpliedTimes",
+          "values": ['Auto', 'MoreImpliedTimes', 'None'],
+          "variable": "cspref_ImpliedTimes"},
+         {"title": "Log",
+          "values": ['Auto', 'LnAsNaturalLog'],
+          "variable": "cspref_Log"},
+         {"title": "Matrix",
+          "values": ['Auto', 'Combinatoric', 'EndMatrix', 'EndVector', 'SilentColNum',
+                       'SpeakColNum', 'Vector'],
+          "variable": "cspref_Matrix"},
+         {"title": "MultiLineLabel",
+          "values": ['Auto', 'Case', 'Constraint', 'Equation', 'Line', 'None',
+                       'Row', 'Step'],
+          "variable": "cspref_MultiLineLabel"},
+         {"title": "MultiLineOverview",
+          "values": ['Auto', 'None'],
+          "variable": "cspref_MultiLineOverview"},
+         {"title": "MultiLinePausesBetweenColumns",
+          "values": ['Auto', 'Long', 'Short'],
+          "variable": "cspref_MultiLinePausesBetweenColumns"},
+         {"title": "MultsymbolDot",
+          "values": ['Auto', 'Dot'],
+          "variable": "cspref_MultsymbolDot"},
+         {"title": "MultsymbolX",
+          "values": ['Auto', 'By', 'Cross'],
+          "variable": "cspref_MultsymbolX"},
+         {"title": "Paren",
+          "values": ['Auto', 'CoordPoint', 'Interval', 'Silent', 'Speak',
+                       'SpeakNestingLevel'],
+          "variable": "cspref_Paren"},
+         {"title": "Prime",
+          "values": ['Auto', 'Angle', 'Length'],
+          "variable": "cspref_Prime"},
+         {"title": "Roots",
+          "values": ['Auto', 'PosNegSqRoot', 'PosNegSqRootEnd', 'RootEnd'],
+          "variable": "cspref_Roots"},
+         {"title": "SetMemberSymbol",
+          "values": ['Auto', 'Belongs', 'Element', 'Member'],
+          "variable": "cspref_SetMemberSymbol"},
+         {"title": "Sets",
+          "values": ['Auto', 'SilentBracket', 'woall', 'woAll'],
+          "variable": "cspref_Sets"},
+         {"title": "TriangleSymbol",
+          "values": ['Auto', 'Delta'],
+          "variable": "cspref_TriangleSymbol"},
+         {"title": "Trig",
+          "values": ['Auto', 'ArcTrig', 'TrigInverse', 'Reciprocal'],
+          "variable": "cspref_Trig"},
+          {"title": "VerticalLine",
+           "values": ['Auto', 'Divides', 'Given', 'SuchThat'],
+           "variable": "cspref_VerticalLine"}
+        ]
+    },
+    contextmenu);
+  
+  
   MathJax.Hub.Register.MessageHook(
     'New Math', function(message) {
       var newid = message[1] + '-Frame';
@@ -603,14 +773,14 @@ MathJax.Hub.Register.StartupHook("MathEvents Ready", function () {
       if (math) {
         // remove already set tabindex.
         math.removeAttribute('tabindex');
-        contextmenu.getStore().insert(math);
+        contextmenu.store.insert(math);
       }
     });
   // Unfold zoom menu:
   //cc.post(50,50);
 
   // Into init function:
-  contextmenu.getStore().inTaborder(SETTINGS.inTabOrder);
+  contextmenu.store.inTaborder(SETTINGS.inTabOrder);
 
   cc = contextmenu;
 });

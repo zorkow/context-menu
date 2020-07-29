@@ -2,19 +2,26 @@
   "compileOnSave": true,
   "compilerOptions": {
     "target": "ES5",
-    "module": "system",
+    "module": "commonjs",
     "declaration": true,
     "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "removeComments": true,
+    "downlevelIteration": true,
     "noLib": false,
-    "alwaysStrict": false,
-    "sourceMap": false,
+    "alwaysStrict": true,
+    "sourceMap": true,
     "lib": ["es6", "dom"],
-    "outFile": "dist/context_menu.js"
+    "outDir": "js"
   },
-  "include": ["scripts/ts/**/*"],
+  "include": ["ts/**/*"],
+  "typeRoots": [],
+  "types": [],
   "exclude": [
     "dist",
+    "js",
     "samples",
     "node_modules"
   ]

@@ -2,7 +2,7 @@
 
 SCRIPT=`dirname $0`/..
 BASE=`pwd -P`/$SCRIPT
-SRC=$BASE/scripts/ts
+SRC=$BASE/ts
 DOCTMP=$BASE/doc/tmp
 DOT=$DOCTMP/dot
 DOC=$BASE/doc

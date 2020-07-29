@@ -3,7 +3,7 @@
 <title>Testing the context menu</title>
 
 </head>
-<script src="../dist/context_menu.js"></script>
+<script src="../dist/ContextMenu.js"></script>
 <script>
 var dialog = new ContextMenu.Info('a', function(){
 return '<b>bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb </b><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p><br>aa<p>bbb</p>';}, '<a href="http://www.mathjax.org">MathJax.org</a>');
@@ -11,7 +11,7 @@ return '<b>bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb b
 var MENU = {};
 MENU.ShowSource = function() {};
 MENU.isMac = function() {};
-MENU.Zoom = function() {};
+MENU.Zoom = function() {console.log("Zooming!")};
 MENU.Id = function(x) {return x};
 MENU.About = function() {
   dialog.post(0, 0);
@@ -22,42 +22,50 @@ var ll = {"menu":
      {
          "name": "zoom",
          "value": "NoZoom",
-         "action": MENU.Zoom
+         "getter": MENU.Zoom,
+         "setter": MENU.Zoom
      },
      {
          "name": "zscale",
          "value": "100%",
-         "action": MENU.Zoom
+         "getter": MENU.Zoom,
+         "setter": MENU.Zoom
      },
      {
          "name": "texHints",
          "value": false,
-         "action": MENU.Id
+         "getter": MENU.Id,
+         "setter": MENU.Id
      },
      {
          "name": "semantics",
          "value": false,
-         "action": MENU.Id
+         "getter": MENU.Id,
+         "setter": MENU.Id
      },
      {
          "name": "ALT",
          "value": false,
-         "action": MENU.Id
+         "getter": MENU.Id,
+         "setter": MENU.Id
      },
      {
          "name": "CMD",
          "value": false,
-         "action": MENU.Id
+         "getter": MENU.Id,
+         "setter": MENU.Id
      },
      {
          "name": "CTRL",
          "value": false,
-         "action": MENU.Id
+         "getter": MENU.Id,
+         "setter": MENU.Id
      },
      {
          "name": "Shift",
          "value": false,
-         "action": MENU.Id
+         "getter": MENU.Id,
+         "setter": MENU.Id
      }
  ],
   "items":
@@ -222,11 +230,12 @@ var ll = {"menu":
       
   ]
  }
-}
-;
+};
+console.log(ll.menu.pool[0].action);
+
 ContextMenu.CssStyles.addInfoStyles();
 ContextMenu.CssStyles.addMenuStyles();
-cc = ContextMenu.ContextMenu.parse(ll);
+cc = ContextMenu.Parse.contextMenu(ll);
 dialog.attachMenu(cc);
 
 // Unfold zoom menu:
@@ -234,7 +243,8 @@ dialog.attachMenu(cc);
 
 </script>
 <body>
-<h1>Testing the context menu</h1>
+<h1 id="header">Testing the context menu</h1>
+<script>document.getElementById('header').innerHTML = document.getElementById('header').innerHTML + ' ' + ContextMenu.version;</script>
 
 <button onclick=cc.post(50,50)>here</button>
 
@@ -260,10 +270,10 @@ dialog.attachMenu(cc);
 <hr>
 <address></address>
 <!-- hhmts start -->
-Last modified: Thu May  2 20:51:46 BST 2019
+Last modified: Thu May 21 17:53:12 BST 2020
 <!-- hhmts end -->
 </body>
-<script>cc.getStore().insert(document.getElementsByClassName("test"));
+<script>cc.store.insert(document.getElementsByClassName("test"));
 </script>
 
 </html>

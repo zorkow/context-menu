@@ -1,12 +1,11 @@
 {
   "name": "mj-context-menu",
-  "version": "0.2.2",
+  "version": "0.5.4",
   "description": "A generic context menu",
-  "main": "dist/context_menu.js",
-  "types": "dist/context_menu.d.ts",
+  "main": "dist/ContextMenu.js",
   "scripts": {
-    "build": "./node_modules/.bin/tsc",
-    "prepare": "./node_modules/.bin/tsc"
+    "build": "./node_modules/.bin/tsc; ./node_modules/.bin/webpack",
+    "prepare": "npx rimraf js; npx rimraf dist; ./node_modules/.bin/tsc; ./node_modules/.bin/webpack"
   },
   "maintainers": [
     "Volker Sorge <v.sorge@mathjax.org>"
@@ -26,14 +25,22 @@
   "homepage": "https://github.com/zorkow/context-menu",
   "dependencies": {},
   "devDependencies": {
-    "tslint": "^5.*",
-    "tslint-jsdoc-rules": "*",
-    "tslint-unix-formatter": "*",
-    "typescript": "^3.*"
+    "@babel/core": "^7.10.1",
+    "@babel/preset-env": "^7.10.1",
+    "babel-loader": "^8.1.0",
+    "ts-loader": "^6.2.0",
+    "tslint": "^5.12.1",
+    "tslint-jsdoc-rules": "^0.2.0",
+    "tslint-unix-formatter": "^0.2.0",
+    "typescript": "^3.*",
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11"
   },
   "files": [
     "LICENSE",
     "README.md",
+    "js",
     "dist"
   ]
 }
