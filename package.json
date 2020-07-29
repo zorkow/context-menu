@@ -1,6 +1,6 @@
 {
   "name": "mj-context-menu",
-  "version": "0.5.4",
+  "version": "0.6.0",
   "description": "A generic context menu",
   "main": "dist/ContextMenu.js",
   "scripts": {
