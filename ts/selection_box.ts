@@ -131,8 +131,6 @@ export class SelectionBox extends Info {
     {title: string, signature: string, selections: selection[],
      order?: SelectionOrder, grid?: SelectionGrid},
     ctxt: ContextMenu): SelectionBox {
-      console.log(grid);
-      console.log(order);
       let sb = new this(title, signature, order, grid);
       sb.attachMenu(ctxt);
       let sels = selections.map(
@@ -228,7 +226,7 @@ export class SelectionBox extends Info {
     case SelectionGrid.SQUARE:
       return Math.floor(Math.sqrt(size));
     case SelectionGrid.HORIZONTAL:
-      return size / SelectionBox.chunkSize;
+      return Math.floor(size / SelectionBox.chunkSize);
     case SelectionGrid.VERTICAL:
     default:
       return SelectionBox.chunkSize;
