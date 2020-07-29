@@ -1,8 +1,8 @@
 const path = require('path');
+const Uglify = require('uglifyjs-webpack-plugin');
 
 module.exports = {
   entry: './js/index.js',
-  devtool: 'inline-source-map',
   mode: 'development',
   module: {
     rules: [
@@ -27,5 +27,16 @@ module.exports = {
     libraryTarget: 'umd',
     globalObject: 'this',
     path: path.resolve(__dirname, 'dist')
-  }
+  },
+  optimization: {
+    minimizer: [new Uglify({
+      uglifyOptions: {
+        output: {
+          ascii_only: true
+        }
+      },
+      sourceMap: true
+    })]
+  },
+  mode: 'production'
 };
