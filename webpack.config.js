@@ -35,8 +35,7 @@ module.exports = {
         output: {
           ascii_only: true
         }
-      },
-      sourceMap: true
+      }
     })]
   },
   mode: 'production'
