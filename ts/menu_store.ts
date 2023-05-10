@@ -15,45 +15,38 @@
  *  limitations under the License.
  */
 
-
 /**
- * @fileoverview A store that maps HTML elements in a document to context menus.
- *
+ * @file A store that maps HTML elements in a document to context menus.
  * @author v.sorge@mathjax.org (Volker Sorge)
  */
 
-import {ContextMenu} from './context_menu.js';
-import {MenuUtil} from './menu_util.js';
-import {HtmlClasses, HtmlAttrs} from './html_classes.js';
-import {KEY} from './key_navigatable.js';
-
-
+import { ContextMenu } from './context_menu.js';
+import { MenuUtil } from './menu_util.js';
+import { HtmlClasses, HtmlAttrs } from './html_classes.js';
+import { KEY } from './key_navigatable.js';
 
 export class MenuStore {
-
-
   /**
    * The store of elements the menu belongs to.
-   * @type {HTMLElement[]}
    */
   protected store: HTMLElement[] = [];
 
   private _active: HTMLElement = null;
-  private counter: number = 0;
-  private attachedClass: string = HtmlClasses['ATTACHED'] + '_' +
-    MenuUtil.counter();
+  private counter = 0;
+  private attachedClass: string =
+    HtmlClasses['ATTACHED'] + '_' + MenuUtil.counter();
   private taborder = true;
-  private attrMap: {[name: string]: EventListener} = {};
+  private attrMap: { [name: string]: EventListener } = {};
 
   /**
-   * @constructor
-   * @param {ContextMenu} menu The context menu the store belongs to.
+   * @class
+   * @param menu The context menu the store belongs to.
    */
-  constructor(private menu: ContextMenu) { }
+  constructor(private menu: ContextMenu) {}
 
   /**
    * Sets the new active store element if it exists in the store.
-   * @param {HTMLElement} element Element to be activated.
+   * @param element Element to be activated.
    */
   public set active(element: HTMLElement) {
     do {
@@ -66,7 +59,7 @@ export class MenuStore {
   }
 
   /**
-   * @return {HTMLElement} The currently active store element, if one exists.
+   * @returns The currently active store element, if one exists.
    */
   public get active(): HTMLElement {
     return this._active;
@@ -76,16 +69,16 @@ export class MenuStore {
    * Returns next active element.
    * If store is empty returns null and also unsets active element.
    * If active is not set returns the first element of the store.
-   * @return {HTMLElement} The next element if it exists.
+   * @returns The next element if it exists.
    */
   public next(): HTMLElement {
-    let length = this.store.length;
+    const length = this.store.length;
     if (length === 0) {
       this.active = null;
       return null;
     }
     let index = this.store.indexOf(this.active);
-    index = index === -1 ? 0 : (index < length - 1 ? index + 1 : 0);
+    index = index === -1 ? 0 : index < length - 1 ? index + 1 : 0;
     this.active = this.store[index];
     return this.active;
   }
@@ -94,17 +87,17 @@ export class MenuStore {
    * Returns previous active element.
    * If store is empty returns null and also unsets active element.
    * If active is not set returns the last element of the store.
-   * @return {HTMLElement} The previous element if it exists.
+   * @returns The previous element if it exists.
    */
   public previous(): HTMLElement {
-    let length = this.store.length;
+    const length = this.store.length;
     if (length === 0) {
       this.active = null;
       return null;
     }
-    let last = length - 1;
+    const last = length - 1;
     let index = this.store.indexOf(this.active);
-    index = index === -1 ? last : (index === 0 ? last : index - 1);
+    index = index === -1 ? last : index === 0 ? last : index - 1;
     this.active = this.store[index];
     return this.active;
   }
@@ -117,58 +110,58 @@ export class MenuStore {
   }
 
   /**
-   * @param {HTMLElement} element Single element to insert.
+   * @param element Single element to insert.
    */
   public insert(element: HTMLElement): void;
 
   /**
-   * @param {Array.<HTMLElement>} elements List of elements to insert.
+   * @param elements List of elements to insert.
    */
   public insert(elements: HTMLElement[]): void;
 
   /**
-   * @param {NodeList} elements List of elements to insert.
+   * @param elements List of elements to insert.
    */
   public insert(elements: NodeListOf<HTMLElement>): void;
 
   /**
    * Inserts DOM elements into the store.
-   * @param {HTMLElement|Array.<HTMLElement>|NodeList} elementOrList Elements
+   * @param elementOrList Elements
    *     to insert.
    */
   public insert(elementOrList: any) {
-    let elements = elementOrList instanceof HTMLElement ?
-      [elementOrList] : elementOrList;
-    for (let element of elements) {
+    const elements =
+      elementOrList instanceof HTMLElement ? [elementOrList] : elementOrList;
+    for (const element of elements) {
       this.insertElement(element);
     }
     this.sort();
   }
 
   /**
-   * @param {HTMLElement} element Single element to remove.
+   * @param element Single element to remove.
    */
   public remove(element: HTMLElement): void;
 
   /**
-   * @param {Array.<HTMLElement>} elements List of elements to remove.
+   * @param elements List of elements to remove.
    */
   public remove(element: HTMLElement[]): void;
 
   /**
-   * @param {NodeList} elements List of elements to remove.
+   * @param elements List of elements to remove.
    */
   public remove(element: NodeListOf<HTMLElement>): void;
 
   /**
    * Removes DOM elements from the store.
-   * @param {HTMLElement|Array.<HTMLElement>|NodeList} elementOrList Elements
+   * @param elementOrList Elements
    *     to remove.
    */
   public remove(elementOrList: any) {
-    let elements = elementOrList instanceof HTMLElement ?
-      [elementOrList] : elementOrList;
-    for (let element of elements) {
+    const elements =
+      elementOrList instanceof HTMLElement ? [elementOrList] : elementOrList;
+    for (const element of elements) {
       this.removeElement(element);
     }
     this.sort();
@@ -176,7 +169,7 @@ export class MenuStore {
 
   /**
    * Sets if elements of the store are included in the taborder or not.
-   * @param {boolean} flag If true elements are in taborder, o/w not.
+   * @param flag If true elements are in taborder, o/w not.
    */
   public inTaborder(flag: boolean) {
     if (this.taborder && !flag) {
@@ -208,7 +201,7 @@ export class MenuStore {
 
   /**
    * Adds a DOM element to the store.
-   * @param {HTMLElement} element The DOM element.
+   * @param element The DOM element.
    */
   private insertElement(element: HTMLElement) {
     if (element.classList.contains(this.attachedClass)) {
@@ -221,10 +214,9 @@ export class MenuStore {
     this.addEvents(element);
   }
 
-
   /**
    * Removes a DOM element from the store.
-   * @param {HTMLElement} element The DOM element.
+   * @param element The DOM element.
    */
   private removeElement(element: HTMLElement) {
     if (!element.classList.contains(this.attachedClass)) {
@@ -241,7 +233,7 @@ export class MenuStore {
    * Sorts the elements in the store in DOM order.
    */
   private sort(): void {
-    let nodes = document.getElementsByClassName(this.attachedClass);
+    const nodes = document.getElementsByClassName(this.attachedClass);
     this.store = [].slice.call(nodes);
   }
 
@@ -249,36 +241,40 @@ export class MenuStore {
    * Inserts all elements in the store into the tab order.
    */
   private insertTaborder_() {
-    this.store.forEach(x => x.setAttribute('tabindex', '0'));
+    this.store.forEach((x) => x.setAttribute('tabindex', '0'));
   }
 
   /**
    * Removes all elements in the store from the tab order.
    */
   private removeTaborder_() {
-    this.store.forEach(x => x.setAttribute('tabindex', '-1'));
+    this.store.forEach((x) => x.setAttribute('tabindex', '-1'));
   }
 
   /**
    * Adds tabindex to an element and possibly safes an existing one.
-   * @param {HTMLElement} element The DOM element.
+   * @param element The DOM element.
    */
   private addTabindex(element: HTMLElement) {
     if (element.hasAttribute('tabindex')) {
-      element.setAttribute(HtmlAttrs['OLDTAB'],
-                           element.getAttribute('tabindex'));
+      element.setAttribute(
+        HtmlAttrs['OLDTAB'],
+        element.getAttribute('tabindex')
+      );
     }
     element.setAttribute('tabindex', '0');
   }
 
   /**
    * Removes tabindex from element or restores an old one.
-   * @param {HTMLElement} element The DOM element.
+   * @param element The DOM element.
    */
   private removeTabindex(element: HTMLElement) {
     if (element.hasAttribute(HtmlAttrs['OLDTAB'])) {
-      element.setAttribute('tabindex',
-                           element.getAttribute(HtmlAttrs['OLDTAB']));
+      element.setAttribute(
+        'tabindex',
+        element.getAttribute(HtmlAttrs['OLDTAB'])
+      );
       element.removeAttribute(HtmlAttrs['OLDTAB']);
     } else {
       element.removeAttribute('tabindex');
@@ -294,8 +290,7 @@ export class MenuStore {
    * as a combination of event handler name and counter, which is unique for
    * each HTML element. The counter is stored on the HTML element in an
    * attribute.
-   *
-   * @param {HTMLElement} element The DOM element.
+   * @param element The DOM element.
    */
   private addEvents(element: HTMLElement) {
     if (element.hasAttribute(HtmlAttrs['COUNTER'])) {
@@ -309,25 +304,25 @@ export class MenuStore {
 
   /**
    * Adds a single event listeners and stores them in the attribute mapping.
-   * @param {HTMLElement} element The DOM element.
-   * @param {string} name The name of the event handler.
-   * @param {EventListener} func The event listener.
+   * @param element The DOM element.
+   * @param name The name of the event handler.
+   * @param func The event listener.
    */
   private addEvent(element: HTMLElement, name: string, func: EventListener) {
-    let attrName = HtmlAttrs[name.toUpperCase() + 'FUNC'];
+    const attrName = HtmlAttrs[name.toUpperCase() + 'FUNC'];
     this.attrMap[attrName + this.counter] = func;
     element.addEventListener(name, func);
   }
 
   /**
    * Removes event listeners that activate the context menu from an element.
-   * @param {HTMLElement} element The DOM element.
+   * @param element The DOM element.
    */
   private removeEvents(element: HTMLElement) {
     if (!element.hasAttribute(HtmlAttrs['COUNTER'])) {
       return;
     }
-    let counter = element.getAttribute(HtmlAttrs['COUNTER']);
+    const counter = element.getAttribute(HtmlAttrs['COUNTER']);
     this.removeEvent(element, 'contextmenu', counter);
     this.removeEvent(element, 'keydown', counter);
     element.removeAttribute(HtmlAttrs['COUNTER']);
@@ -335,20 +330,20 @@ export class MenuStore {
 
   /**
    * Removes a single event listeners from an HTML element.
-   * @param {HTMLElement} element The DOM element.
-   * @param {string} name The name of the event handler.
-   * @param {string} counter The unique counter to identify the handler in the
+   * @param element The DOM element.
+   * @param name The name of the event handler.
+   * @param counter The unique counter to identify the handler in the
    *     attribute mappings.
    */
   private removeEvent(element: HTMLElement, name: string, counter: string) {
-    let attrName = HtmlAttrs[name.toUpperCase() + 'FUNC'];
-    let menuFunc = this.attrMap[attrName + counter];
+    const attrName = HtmlAttrs[name.toUpperCase() + 'FUNC'];
+    const menuFunc = this.attrMap[attrName + counter];
     element.removeEventListener(name, menuFunc);
   }
 
   /**
    * Deals with key down keyboard events.
-   * @param {KeyboardEvent} event The keyboard event.
+   * @param event The keyboard event.
    */
   private keydown(event: KeyboardEvent) {
     if (event.keyCode === KEY.SPACE) {
@@ -357,5 +352,4 @@ export class MenuStore {
       event.stopImmediatePropagation();
     }
   }
-
 }

@@ -15,43 +15,46 @@
  *  limitations under the License.
  */
 
-
 /**
- * @fileoverview Class of separator items.
- *
+ * @file Class of separator items.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-import {AbstractItem} from './abstract_item.js';
-import {Menu} from './menu.js';
-import {HtmlClasses} from './html_classes.js';
-import {ParserFactory} from './parser_factory.js';
-
+import { AbstractItem } from './abstract_item.js';
+import { Menu } from './menu.js';
+import { HtmlClasses } from './html_classes.js';
+import { ParserFactory } from './parser_factory.js';
 
 export class Submenu extends AbstractItem {
-
   /**
    * The span with the little arrow.
-   * @type {HTMLElement}
    */
   private span: HTMLElement;
 
   /**
    * The sub menu object.
-   * @type {SubMenu}
    */
   private _submenu: Menu = null;
 
   /**
    * Parses a JSON respresentation of a submenu item.
-   * @param {JSON} json The JSON object to parse.
-   * @param {Menu} menu The menu the item is attached to.
-   * @return {Submenu} The new submenu object.
+   * @param factory The parser factory.
+   * @param json The JSON object to parse.
+   * @param json.content The content of the submenu.
+   * @param json.menu The submenu definition.
+   * @param json.id The id of the item.
+   * @param menu The menu the item is attached to.
+   * @returns The new submenu object.
    */
   public static fromJson(
     factory: ParserFactory,
-    {content: content, menu: submenu, id: id}:
-    {content: string, menu: any, id: string}, menu: Menu): Submenu {
+    {
+      content: content,
+      menu: submenu,
+      id: id
+    }: { content: string; menu: any; id: string },
+    menu: Menu
+  ): Submenu {
     const item = new this(menu, content, id);
     const sm = factory.get('subMenu')(factory, submenu, item);
     item.submenu = sm;
@@ -59,12 +62,11 @@ export class Submenu extends AbstractItem {
   }
 
   /**
-   * @constructor
-   * @extends {AbstractItem}
-   * @param {Menu} menu The context menu or sub-menu the item belongs to.
-   * @param {string} content The content of the menu item.
-   * @param {boolean} variable The variable that is changed.
-   * @param {string=} id Optionally the id of the menu item.
+   * @class
+   * @augments {AbstractItem}
+   * @param menu The context menu or sub-menu the item belongs to.
+   * @param content The content of the menu item.
+   * @param id Optionally the id of the menu item.
    */
   constructor(menu: Menu, content: string, id?: string) {
     super(menu, 'submenu', content, id);
@@ -72,7 +74,7 @@ export class Submenu extends AbstractItem {
 
   /**
    * Sets the submenu.
-   * @param {Menu} menu A menu.
+   * @param menu A menu.
    */
   public set submenu(menu: Menu) {
     this._submenu = menu;
@@ -80,7 +82,7 @@ export class Submenu extends AbstractItem {
 
   /**
    * Returns the submenu element.
-   * @return {Menu} The submenu.
+   * @returns The submenu.
    */
   public get submenu(): Menu {
     return this._submenu;
@@ -126,7 +128,6 @@ export class Submenu extends AbstractItem {
     if (!this.submenu.isPosted() && !this.disabled) {
       this.submenu.post();
     }
-
   }
 
   /**
@@ -141,7 +142,7 @@ export class Submenu extends AbstractItem {
    */
   public generateHtml() {
     super.generateHtml();
-    let html = this.html;
+    const html = this.html;
     this.span = document.createElement('span');
     this.span.textContent = '\u25BA';
     this.span.classList.add(HtmlClasses['MENUARROW']);
@@ -172,11 +173,9 @@ export class Submenu extends AbstractItem {
   }
 
   /**
-   * @return {JSON} The object in JSON.
+   * @returns The object in JSON.
    */
   public toJson() {
-    return {type: ''
-           };
+    return { type: '' };
   }
-
 }

@@ -15,21 +15,17 @@
  *  limitations under the License.
  */
 
-
 /**
- * @fileoverview Class of separator items.
- *
+ * @file Class of separator items.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-import {AbstractEntry} from './abstract_entry.js';
-import {Menu} from './menu.js';
-import {HtmlClasses} from './html_classes.js';
-import {ParserFactory} from './parser_factory.js';
-
+import { AbstractEntry } from './abstract_entry.js';
+import { Menu } from './menu.js';
+import { HtmlClasses } from './html_classes.js';
+import { ParserFactory } from './parser_factory.js';
 
 export class Rule extends AbstractEntry {
-
   /**
    * @override
    */
@@ -42,18 +38,23 @@ export class Rule extends AbstractEntry {
 
   /**
    * Parses a JSON respresentation of the .
-   * @param {JSON} json The JSON object to parse.
-   * @param {Menu} menu The menu for the rule.
-   * @return {Rule} The new rule.
+   * @param _factory The parser factory.
+   * @param _json The empty JSON object.
+   * @param menu The menu the item is attached to.
+   * @returns The new rule.
    */
-  public static fromJson(_factory: ParserFactory, {}: {}, menu: Menu) {
+  public static fromJson(
+    _factory: ParserFactory,
+    _json: Record<string, never>,
+    menu: Menu
+  ) {
     return new this(menu);
   }
 
   /**
-   * @constructor
-   * @extends {AbstractItem}
-   * @param {Menu} menu The context menu or sub-menu the item belongs to.
+   * @class
+   * @augments {AbstractEntry}
+   * @param menu The context menu or sub-menu the item belongs to.
    */
   constructor(menu: Menu) {
     super(menu, 'rule');
@@ -64,7 +65,7 @@ export class Rule extends AbstractEntry {
    */
   public generateHtml() {
     super.generateHtml();
-    let html = this.html;
+    const html = this.html;
     html.classList.add(HtmlClasses['MENURULE']);
     html.setAttribute('aria-orientation', 'vertical');
   }
@@ -72,13 +73,12 @@ export class Rule extends AbstractEntry {
   /**
    * @override
    */
-  public addEvents(_element: HTMLElement) { }
+  public addEvents(_element: HTMLElement) {}
 
   /**
-   * @return {JSON} The object in JSON.
+   * @returns The object in JSON.
    */
   public toJson() {
-    return {type: 'rule'};
+    return { type: 'rule' };
   }
-
 }

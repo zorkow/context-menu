@@ -15,13 +15,10 @@
  *  limitations under the License.
  */
 
-
 /**
- * @fileoverview Interface definition for touch navigatable menu elements.
- *
+ * @file Interface definition for touch navigatable menu elements.
  * @author v.sorge@mathjax.org (Volker Sorge)
  */
-
 
 /**
  * Touch events.
@@ -34,31 +31,28 @@ export const TOUCH = {
   CANCEL: 'touchcancel'
 };
 
-
 export interface TouchNavigatable {
-
   /**
    * Navigation selection on keyboard events.
-   * @param {TouchEvent} event The keyboard event that fired.
+   * @param event The keyboard event that fired.
    */
   touchstart(event: TouchEvent): void;
 
   /**
    * Navigation on escape key pressed.
-   * @param {TouchEvent} event The keyboard event that fired.
+   * @param event The keyboard event that fired.
    */
   touchmove(event: TouchEvent): void;
 
   /**
    * Navigation on space key pressed.
-   * @param {TouchEvent} event The keyboard event that fired.
+   * @param event The keyboard event that fired.
    */
   touchend(event: TouchEvent): void;
 
   /**
    * Navigation on left arrow key pressed.
-   * @param {TouchEvent} event The keyboard event that fired.
+   * @param event The keyboard event that fired.
    */
   touchcancel(event: TouchEvent): void;
-
 }

@@ -15,33 +15,31 @@
  *  limitations under the License.
  */
 
-
 /**
- * @fileoverview Class of sub menus.
- *
+ * @file Class of sub menus.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-import {AbstractMenu} from './abstract_menu.js';
-import {ContextMenu} from './context_menu.js';
-import {Submenu} from './item_submenu.js';
-import {ParserFactory} from './parser_factory.js';
-
-
+import { AbstractMenu } from './abstract_menu.js';
+import { ContextMenu } from './context_menu.js';
+import { Submenu } from './item_submenu.js';
+import { ParserFactory } from './parser_factory.js';
 
 export class SubMenu extends AbstractMenu {
-
-
   /**
    * Parses a JSON respresentation of a submenu.
-   * @param {JSON} json The JSON object to parse.
-   * @param {Submenu} anchor The anchor item the submenu is attached to.
-   * @return {SubMenu} The new submenu object.
+   * @param factory The parser factory.
+   * @param json The JSON object to parse.
+   * @param json.items The list of items to parse.
+   * @param json.id The id of the item.
+   * @param anchor The anchor item the submenu is attached to.
+   * @returns The new submenu object.
    */
   public static fromJson(
     factory: ParserFactory,
-    {items: its}: {items: any[], id: string},
-    anchor: Submenu): SubMenu {
+    { items: its }: { items: any[]; id: string },
+    anchor: Submenu
+  ): SubMenu {
     const submenu = new this(anchor);
     const itemList = factory.get('items')(factory, its, submenu);
     submenu.items = itemList;
@@ -49,9 +47,9 @@ export class SubMenu extends AbstractMenu {
   }
 
   /**
-   * @constructor
-   * @extends {AbstractMenu}
-   * @param {Submenu} anchor The item in the parent menu triggering this
+   * @class
+   * @augments {AbstractMenu}
+   * @param _anchor The item in the parent menu triggering this
    *     submenu.
    */
   constructor(private _anchor: Submenu) {
@@ -61,7 +59,7 @@ export class SubMenu extends AbstractMenu {
   }
 
   /**
-   * @return {Submenu} The submenu item that anchors this popdown submenu to
+   * @returns The submenu item that anchors this popdown submenu to
    *     its parent.
    */
   public get anchor(): Submenu {
@@ -76,16 +74,16 @@ export class SubMenu extends AbstractMenu {
       return;
     }
     //// TODO: These are currently ignored!
-    let mobileFlag = false;
-    let rtlFlag = false;
+    const mobileFlag = false;
+    const rtlFlag = false;
 
-    let margin = 5;
+    const margin = 5;
     let parent = this.anchor.html;
-    let menu = this.html;
-    let base = (this.baseMenu as ContextMenu).frame;
+    const menu = this.html;
+    const base = (this.baseMenu as ContextMenu).frame;
     // // let side = 'left';
-    let mw = parent.offsetWidth;
-    let x = (mobileFlag ? 30 : mw - 2);
+    const mw = parent.offsetWidth;
+    let x = mobileFlag ? 30 : mw - 2;
     let y = 0;
     while (parent && parent !== base) {
       x += parent.offsetLeft;
@@ -93,9 +91,10 @@ export class SubMenu extends AbstractMenu {
       parent = <HTMLElement>parent.parentNode;
     }
     if (!mobileFlag) {
-      if ((rtlFlag && x - mw - menu.offsetWidth > margin) ||
-          (!rtlFlag && x + menu.offsetWidth >
-           document.body.offsetWidth - margin)) {
+      if (
+        (rtlFlag && x - mw - menu.offsetWidth > margin) ||
+        (!rtlFlag && x + menu.offsetWidth > document.body.offsetWidth - margin)
+      ) {
         // // side = 'right';
         x = Math.max(margin, x - mw - menu.offsetWidth + 6);
       }
@@ -139,11 +138,9 @@ export class SubMenu extends AbstractMenu {
   }
 
   /**
-   * @return {JSON} The object in JSON.
+   * @returns The object in JSON.
    */
   public toJson() {
-    return {type: ''
-           };
+    return { type: '' };
   }
-
 }

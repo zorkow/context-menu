@@ -15,18 +15,14 @@
  *  limitations under the License.
  */
 
-
 /**
- * @fileoverview Interface definition for mouse navigatable menu elements.
- *
+ * @file Interface definition for mouse navigatable menu elements.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
-
 
 /**
  * Mouse events.
  * @enum {string}
- * @param {}: {[name: string]: string} TODO: REmove!
  */
 export const MOUSE = {
   CLICK: 'click',
@@ -36,41 +32,38 @@ export const MOUSE = {
   OVER: 'mouseover',
   OUT: 'mouseout',
   MOVE: 'mousemove',
-  SELECTEND: 'selectend',  // Edge, Chrome only
+  SELECTEND: 'selectend', // Edge, Chrome only
   SELECTSTART: 'selectstart'
 };
 
-
 export interface MouseNavigatable {
-
   /**
    * Navigation selection on mouse down events.
-   * @param {MouseEvent} event The mouse event that fired.
+   * @param event The mouse event that fired.
    */
   mousedown(event: MouseEvent): void;
 
   /**
    * Navigation selection on mouse up events.
-   * @param {MouseEvent} event The mouse event that fired.
+   * @param event The mouse event that fired.
    */
   mouseup(event: MouseEvent): void;
 
   /**
    * Navigation selection on mouse over events.
-   * @param {MouseEvent} event The mouse event that fired.
+   * @param event The mouse event that fired.
    */
   mouseover(event: MouseEvent): void;
 
   /**
    * Navigation selection on mouse out events.
-   * @param {MouseEvent} event The mouse event that fired.
+   * @param event The mouse event that fired.
    */
   mouseout(event: MouseEvent): void;
 
   /**
    * Navigation on mouse click events.
-   * @param {MouseEvent} event The mouse event that fired.
+   * @param event The mouse event that fired.
    */
   click(event: MouseEvent): void;
-
 }

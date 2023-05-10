@@ -15,21 +15,17 @@
  *  limitations under the License.
  */
 
-
 /**
- * @fileoverview Pseudo enum structures for HTML classes and ids.
- *
+ * @file Pseudo enum structures for HTML classes and ids.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-
-
-const PREFIX: string = 'CtxtMenu';
+const PREFIX = 'CtxtMenu';
 
 /**
  * Prefixes a html class name.
- * @param {string} name The base name.
- * @return {string} The prefixed name.
+ * @param name The base name.
+ * @returns The prefixed name.
  * @private
  */
 function prefix_(name: string): string {
@@ -38,8 +34,8 @@ function prefix_(name: string): string {
 
 /**
  * Prefixes a html id.
- * @param {string} name The base name.
- * @return {HtmlClass} The prefixed name.
+ * @param name The base name.
+ * @returns The prefixed name.
  * @private
  */
 function prefixClass_(name: string): HtmlClass {
@@ -48,8 +44,8 @@ function prefixClass_(name: string): HtmlClass {
 
 /**
  * Prefixes a html class name.
- * @param {string} name The base name.
- * @return {HtmlAttr} The prefixed name.
+ * @param name The base name.
+ * @returns The prefixed name.
  * @private
  */
 function prefixAttr_(name: string): HtmlAttr {
@@ -62,7 +58,7 @@ function prefixAttr_(name: string): HtmlAttr {
  * HTML classes.
  * @enum {string}
  */
-export const HtmlClasses: {[id: string]: HtmlClass} = {
+export const HtmlClasses: { [id: string]: HtmlClass } = {
   ATTACHED: prefixClass_('Attached'),
   CONTEXTMENU: prefixClass_('ContextMenu'),
   MENU: prefixClass_('Menu'),
@@ -96,30 +92,50 @@ export const HtmlClasses: {[id: string]: HtmlClass} = {
 };
 
 // This is an awkward type construction!
-export type HtmlClass = 'CtxtMenu_ContextMenu' | 'CtxtMenu_Menu' |
-  'CtxtMenu_MenuArrow' | 'CtxtMenu_MenuActive' | 'CtxtMenu_MenuCheck' |
-  'CtxtMenu_MenuClose' | 'CtxtMenu_MenuDisabled' | 'CtxtMenu_MenuItem' |
-  'CtxtMenu_MenuLabel' | 'CtxtMenu_MenuRadioCheck' | 'CtxtMenu_MenuRule' |
-  'CtxtMenu_MousePost' | 'CtxtMenu_RTL' | 'CtxtMenu_Attached' |
-  'CtxtMenu_Info' | 'CtxtMenu_InfoClose' | 'CtxtMenu_InfoContent' |
-  'CtxtMenu_InfoSignature' | 'CtxtMenu_InfoTitle' | 'CtxtMenu_MenuFrame' |
-  'CtxtMenu_MenuInputBox' | 'CtxtMenu_MenuSlider' |
-  'CtxtMenu_Selection' | 'CtxtMenu_SelectionBox' | 'CtxtMenu_SelectionItem' |
-  'CtxtMenu_SelectionDivider' | 'CtxtMenu_SelectionMenu'
-  ;
+export type HtmlClass =
+  | 'CtxtMenu_ContextMenu'
+  | 'CtxtMenu_Menu'
+  | 'CtxtMenu_MenuArrow'
+  | 'CtxtMenu_MenuActive'
+  | 'CtxtMenu_MenuCheck'
+  | 'CtxtMenu_MenuClose'
+  | 'CtxtMenu_MenuDisabled'
+  | 'CtxtMenu_MenuItem'
+  | 'CtxtMenu_MenuLabel'
+  | 'CtxtMenu_MenuRadioCheck'
+  | 'CtxtMenu_MenuRule'
+  | 'CtxtMenu_MousePost'
+  | 'CtxtMenu_RTL'
+  | 'CtxtMenu_Attached'
+  | 'CtxtMenu_Info'
+  | 'CtxtMenu_InfoClose'
+  | 'CtxtMenu_InfoContent'
+  | 'CtxtMenu_InfoSignature'
+  | 'CtxtMenu_InfoTitle'
+  | 'CtxtMenu_MenuFrame'
+  | 'CtxtMenu_MenuInputBox'
+  | 'CtxtMenu_MenuSlider'
+  | 'CtxtMenu_Selection'
+  | 'CtxtMenu_SelectionBox'
+  | 'CtxtMenu_SelectionItem'
+  | 'CtxtMenu_SelectionDivider'
+  | 'CtxtMenu_SelectionMenu';
 
 /**
  * HTML attributes.
  * @enum {string}
  */
-export const HtmlAttrs: {[id: string]: HtmlAttr} = {
+export const HtmlAttrs: { [id: string]: HtmlAttr } = {
   COUNTER: prefixAttr_('Counter'),
   KEYDOWNFUNC: prefixAttr_('keydownFunc'),
   CONTEXTMENUFUNC: prefixAttr_('contextmenuFunc'),
   OLDTAB: prefixAttr_('Oldtabindex'),
-  TOUCHFUNC: prefixAttr_('TouchFunc'),
+  TOUCHFUNC: prefixAttr_('TouchFunc')
 };
 
-export type HtmlAttr = 'CtxtMenu_Counter' | 'CtxtMenu_keydownFunc' |
-  'CtxtMenu_contextmenuFunc' | 'CtxtMenu_touchstartFunc' |
-  'CtxtMenu_Oldtabindex';
+export type HtmlAttr =
+  | 'CtxtMenu_Counter'
+  | 'CtxtMenu_keydownFunc'
+  | 'CtxtMenu_contextmenuFunc'
+  | 'CtxtMenu_touchstartFunc'
+  | 'CtxtMenu_Oldtabindex';

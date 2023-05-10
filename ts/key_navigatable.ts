@@ -15,13 +15,10 @@
  *  limitations under the License.
  */
 
-
 /**
- * @fileoverview Interface definition for key navigatable menu elements.
- *
+ * @file Interface definition for key navigatable menu elements.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
-
 
 /**
  * Key codes.
@@ -37,49 +34,46 @@ export enum KEY {
   DOWN = 40
 }
 
-
 export interface KeyNavigatable {
-
   /**
    * Navigation selection on keyboard events.
-   * @param {KeyboardEvent} event The keyboard event that fired.
+   * @param event The keyboard event that fired.
    */
   keydown(event: KeyboardEvent): void;
 
   /**
    * Navigation on escape key pressed.
-   * @param {KeyboardEvent} event The keyboard event that fired.
+   * @param event The keyboard event that fired.
    */
   escape(event: KeyboardEvent): void;
 
   /**
    * Navigation on space key pressed.
-   * @param {KeyboardEvent} event The keyboard event that fired.
+   * @param event The keyboard event that fired.
    */
   space(event: KeyboardEvent): void;
 
   /**
    * Navigation on left arrow key pressed.
-   * @param {KeyboardEvent} event The keyboard event that fired.
+   * @param event The keyboard event that fired.
    */
   left(event: KeyboardEvent): void;
 
   /**
    * Navigation on right arrow key pressed.
-   * @param {KeyboardEvent} event The keyboard event that fired.
+   * @param event The keyboard event that fired.
    */
   right(event: KeyboardEvent): void;
 
   /**
    * Navigation on upwards arrow key pressed.
-   * @param {KeyboardEvent} event The keyboard event that fired.
+   * @param event The keyboard event that fired.
    */
   up(event: KeyboardEvent): void;
 
   /**
    * Navigation on downwards arrow key pressed.
-   * @param {KeyboardEvent} event The keyboard event that fired.
+   * @param event The keyboard event that fired.
    */
   down(event: KeyboardEvent): void;
-
 }

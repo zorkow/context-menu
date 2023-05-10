@@ -15,56 +15,65 @@
  *  limitations under the License.
  */
 
-
 /**
- * @fileoverview Generic class for keeping menu variables together with callback
+ * @file Generic class for keeping menu variables together with callback
  *     functions to hook into third party libraries.
- *
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-
-import {VariableItem} from './variable_item.js';
-import {MenuUtil} from './menu_util.js';
-import {Checkbox} from './item_checkbox.js';
-import {Radio} from './item_radio.js';
-import {VariablePool} from './variable_pool.js';
-import {ParserFactory} from './parser_factory.js';
-
+import { Item } from './item.js';
+import { VariableItem } from './variable_item.js';
+import { MenuUtil } from './menu_util.js';
+import { Checkbox } from './item_checkbox.js';
+import { Radio } from './item_radio.js';
+import { VariablePool } from './variable_pool.js';
+import { ParserFactory } from './parser_factory.js';
 
 export class Variable<T> {
-
   private items: VariableItem[] = [];
 
   /**
    * Parses a JSON respresentation of a variable and inserts it into the
    * variable pool of the context menu.
-   * @param {JSON} json The JSON object to parse.
-   * @param {VariablePool<string|boolean>} pool The variable pool to insert.
+   * @param _factory The parser factory.
+   * @param variable The variable definition.
+   * @param variable.name The name of the variable.
+   * @param variable.getter The getter function for the variable.
+   * @param variable.setter The setter function for the variable.
+   * @param pool The variable pool to insert.
    */
   public static fromJson(
     _factory: ParserFactory,
-    {name: name, getter: getter, setter: setter}:
-    {name: string, getter: () => string | boolean,
-     setter: (x: (string | boolean)) => void},
-    pool: VariablePool<string|boolean>) {
+    {
+      name,
+      getter,
+      setter
+    }: {
+      name: string;
+      getter: () => string | boolean;
+      setter: (x: string | boolean) => void;
+    },
+    pool: VariablePool<string | boolean>
+  ) {
     const variable = new this(name, getter, setter);
     pool.insert(variable);
   }
 
   /**
-   * @constructor
+   * @class
    * @template T
-   * @param {string} name The variable name.
-   * @param {function(T)} getter It's initial value.
-   * @param {function(T)} callback Function to call when value is changed.
+   * @param _name The variable name.
+   * @param getter The getter function for the variable.
+   * @param setter The setter function for the variable.
    */
-  constructor(private _name: string,
-              private getter: (node?: HTMLElement) => T,
-              private setter: (x: T, node?: HTMLElement) => void) { }
+  constructor(
+    private _name: string,
+    private getter: (node?: HTMLElement) => T,
+    private setter: (x: T, node?: HTMLElement) => void
+  ) {}
 
   /**
-   * @return {string} The name of the variable.
+   * @returns The name of the variable.
    */
   public get name() {
     return this._name;
@@ -72,7 +81,8 @@ export class Variable<T> {
 
   /**
    * Execute getter callback to retrieve the current value of the variable.
-   * @return {T} The value of the variable.
+   * @param node The item node if there is one.
+   * @returns The value of the variable.
    */
   public getValue(node?: HTMLElement) {
     try {
@@ -88,7 +98,8 @@ export class Variable<T> {
   /**
    * Sets new variable value. If different from old one it will execute the
    * callback.
-   * @param {T} value New value of the variable.
+   * @param value New value of the variable.
+   * @param node The item node if there is one.
    */
   public setValue(value: T, node?: HTMLElement) {
     try {
@@ -101,7 +112,7 @@ export class Variable<T> {
 
   /**
    * Registers a new item that has this variable.
-   * @param {VariableItem} item The new variable item.
+   * @param item The new variable item.
    */
   public register(item: VariableItem): void {
     if (this.items.indexOf(item) === -1) {
@@ -111,10 +122,10 @@ export class Variable<T> {
 
   /**
    * Unregisters an item for this variable.
-   * @param {VariableItem} item The old variable item.
+   * @param item The old variable item.
    */
   public unregister(item: VariableItem): void {
-    let index = this.items.indexOf(item);
+    const index = this.items.indexOf(item);
     if (index !== -1) {
       this.items.splice(index, 1);
     }
@@ -124,37 +135,36 @@ export class Variable<T> {
    * Updates the items belonging to the variable.
    */
   public update(): void {
-    this.items.forEach(x => x.update());
+    this.items.forEach((x) => x.update());
   }
 
   /**
    * Registers a callback function with all items associated to this variable.
-   * @param {Function} func Callback that does not take any arguments.
-   * @final
+   * @param func Callback that does not take any arguments.
    */
-  public registerCallback(func: Function) {
-    this.items.forEach(x => (x as Radio|Checkbox).registerCallback(func));
+  public registerCallback(func: (value: Item) => void) {
+    this.items.forEach((x) => (x as Radio | Checkbox).registerCallback(func));
   }
 
   /**
    * Removes a callback function from all items associated to this variable.
-   * @param {Function} func Callback that does not take any arguments.
-   * @final
+   * @param func Callback that does not take any arguments.
    */
-  public unregisterCallback(func: Function) {
-    this.items.forEach(x => (x as Radio|Checkbox).unregisterCallback(func));
+  public unregisterCallback(func: (value: Item) => void) {
+    this.items.forEach((x) => (x as Radio | Checkbox).unregisterCallback(func));
   }
 
   /**
    * The variable object in JSON. Note, that the getter and setter methods will
    * be strings.
-   * @return {JSON} The JSON object.
+   * @returns The JSON object.
    */
   public toJson() {
-    return {type: 'variable',
-            name: this.name,
-            getter: this.getter.toString(),
-            setter: this.setter.toString()};
+    return {
+      type: 'variable',
+      name: this.name,
+      getter: this.getter.toString(),
+      setter: this.setter.toString()
+    };
   }
-
 }

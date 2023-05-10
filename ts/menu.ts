@@ -15,41 +15,34 @@
  *  limitations under the License.
  */
 
-
 /**
- * @fileoverview Interface specification for context menus.
- *
+ * @file Interface specification for context menus.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-import {Item} from './item.js';
-import {Postable} from './postable.js';
-import {VariablePool} from './variable_pool.js';
-import {KeyNavigatable} from './key_navigatable.js';
-import {MouseNavigatable} from './mouse_navigatable.js';
+import { Item } from './item.js';
+import { Postable } from './postable.js';
+import { VariablePool } from './variable_pool.js';
+import { KeyNavigatable } from './key_navigatable.js';
+import { MouseNavigatable } from './mouse_navigatable.js';
 
 export interface Menu extends Postable, KeyNavigatable, MouseNavigatable {
-
   /**
    * The base menu structure this menu belongs to.
-   * @type {Menu}
    */
   baseMenu: Menu;
 
   /**
    * The items in that menu.
-   * @type {Item[]}
    */
   items: Item[];
 
   /**
-   * @type {VariablePool<string | boolean>} The variable pool associated to
    *     this menu.
    */
   pool: VariablePool<string | boolean>;
 
   /**
-   * @type {Item} The currently focused Item.
    */
   focused: Item;
 
@@ -60,8 +53,8 @@ export interface Menu extends Postable, KeyNavigatable, MouseNavigatable {
 
   /**
    * Retrieves a menu item via its id by depth-first search.
-   * @param {string} id The item id.
-   * @return {?Item} The item if it exists.
+   * @param id The item id.
+   * @returns The item if it exists.
    */
   find(id: string): Item;
 
@@ -69,5 +62,4 @@ export interface Menu extends Postable, KeyNavigatable, MouseNavigatable {
    * Generates the HTML element containing the menu entries.
    */
   generateMenu(): void;
-
 }
