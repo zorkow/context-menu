@@ -2,5 +2,6 @@
 doc/tmp/
 dist/
 js/
+cjs/
 node_modules/
 samples/
