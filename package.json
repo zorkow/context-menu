@@ -4,8 +4,11 @@
   "description": "A generic context menu",
   "main": "dist/ContextMenu.js",
   "scripts": {
-    "build": "./node_modules/.bin/tsc; ./node_modules/.bin/webpack",
-    "prepare": "npx rimraf js; npx rimraf dist; ./node_modules/.bin/tsc; ./node_modules/.bin/webpack"
+    "es5": "./node_modules/.bin/tsc --module commonjs --outDir cjs",
+    "es6": "./node_modules/.bin/tsc --module es6 --outDir js",
+    "build": "npm run es5; npm run es6; ./node_modules/.bin/webpack",
+    "clean": "npx rimraf cjs; npx rimraf js; npx rimraf dist",
+    "prepare": "npm run clean; npm run build"
   },
   "maintainers": [
     "Volker Sorge <v.sorge@mathjax.org>"
@@ -40,6 +43,8 @@
     "LICENSE",
     "README.md",
     "js",
+    "cjs",
     "dist"
-  ]
+  ],
+  "type": "module"
 }

@@ -1,20 +1,18 @@
-const path = require('path');
-const TerserPlugin = require('terser-webpack-plugin');
+import * as path from 'path';
+import TerserPlugin from 'terser-webpack-plugin';
+import {fileURLToPath} from 'url';
 
-module.exports = {
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+const exports = {
   entry: './js/index.js',
   mode: 'development',
   module: {
     rules: [
       {
-        test: /\.m?js$/,
-        exclude: /(node_modules)/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env']
-          }
-        }
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/
       }
     ]
   },
@@ -40,3 +38,5 @@ module.exports = {
   },
   mode: 'production'
 };
+
+export default exports;
