@@ -15,33 +15,28 @@
  *  limitations under the License.
  */
 
-
 /**
- * @fileoverview Parser for menu items.
- *
+ * @file Parser for menu items.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-
-import {Command} from './item_command.js';
-import {Menu} from './menu.js';
-import {ContextMenu} from './context_menu.js';
-import {Variable} from './variable.js';
-import {Checkbox} from './item_checkbox.js';
-import {Combo} from './item_combo.js';
-import {Label} from './item_label.js';
-import {Radio} from './item_radio.js';
-import {Submenu} from './item_submenu.js';
-import {Rule} from './item_rule.js';
-import {Item} from './item.js';
-import {Slider} from './item_slider.js';
-import {SubMenu} from './sub_menu.js';
-import {SelectionMenu, SelectionBox} from './selection_box.js';
-import {ParserFactory, ParseMethod} from './parser_factory.js';
-
+import { Command } from './item_command.js';
+import { Menu } from './menu.js';
+import { ContextMenu } from './context_menu.js';
+import { Variable } from './variable.js';
+import { Checkbox } from './item_checkbox.js';
+import { Combo } from './item_combo.js';
+import { Label } from './item_label.js';
+import { Radio } from './item_radio.js';
+import { Submenu } from './item_submenu.js';
+import { Rule } from './item_rule.js';
+import { Item } from './item.js';
+import { Slider } from './item_slider.js';
+import { SubMenu } from './sub_menu.js';
+import { SelectionMenu, SelectionBox } from './selection_box.js';
+import { ParserFactory, ParseMethod } from './parser_factory.js';
 
 export class Parser {
-
   private _initList: [string, ParseMethod][] = [
     ['command', Command.fromJson.bind(Command)],
     ['checkbox', Checkbox.fromJson.bind(Checkbox)],
@@ -59,18 +54,16 @@ export class Parser {
     ['selectionBox', SelectionBox.fromJson.bind(SelectionBox)]
   ];
 
-
   /**
    * The parser factory holding the from Json parse methods for all the
    * components.
-   * @type {ParserFactory}
    */
   private readonly _factory: ParserFactory = new ParserFactory(this._initList);
 
   /**
    * Creates new constructor method.
-   * @constructor
-   * @param {[string, ParseMethod][]} init Extra init mappings for the parser's
+   * @class
+   * @param init Extra init mappings for the parser's
    *     factory.
    */
   constructor(init: [string, ParseMethod][] = []) {
@@ -78,7 +71,7 @@ export class Parser {
   }
 
   /**
-   * @return {ParserFactory} The parser factory.
+   * @returns The parser factory.
    */
   public get factory(): ParserFactory {
     return this._factory;
@@ -86,12 +79,15 @@ export class Parser {
 
   /**
    * Parses items in JSON formats and attaches them to the menu.
-   * @param {Array.<JSON>} items List of JSON menu items.
+   * @param _factory The parser factory.
+   * @param its List of JSON menu items.
+   * @param ctxt The context menu the items will be attached to.
+   * @returns The list of newly created menu items.
    */
   public items(_factory: ParserFactory, its: any[], ctxt: Menu): Item[] {
-    let hidden = [];
-    for (let item of its) {
-      let entry = this.parse(item, ctxt);
+    const hidden = [];
+    for (const item of its) {
+      const entry = this.parse(item, ctxt);
       if (!entry) {
         continue;
       }
@@ -103,20 +99,22 @@ export class Parser {
         hidden.push(entry);
       }
     }
-    hidden.forEach(x => x.hide());
+    hidden.forEach((x) => x.hide());
     return ctxt.items;
   }
 
   /**
    * General parse method.
-   * @param {JSON} json The JSON element to parse.
-   * @param {any[]} rest Optional rest arguments.
-   * @return {any} The parsed item.
+   * @param json The JSON element to parse.
+   * @param json.type The type of the JSON element.
+   * @param rest Optional rest arguments.
+   * @returns The parsed item.
    */
-  public parse({type: kind, ...json}:
-               {type: string, [k: string]: any}, ...rest: any[]): any {
-    let func = this.factory.get(kind);
+  public parse(
+    { type: kind, ...json }: { type: string; [k: string]: any },
+    ...rest: any[]
+  ): any {
+    const func = this.factory.get(kind);
     return func ? func(this.factory, json, ...rest) : null;
   }
-
 }

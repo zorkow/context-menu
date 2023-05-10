@@ -15,24 +15,19 @@
  *  limitations under the License.
  */
 
-
 /**
- * @fileoverview Class of radio buttons.
- *
+ * @file Class of radio buttons.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-
-import {AbstractVariableItem} from './abstract_variable_item.js';
-import {Menu} from './menu.js';
-import {Variable} from './variable.js';
-import {MenuUtil} from './menu_util.js';
-import {HtmlClasses} from './html_classes.js';
-import {ParserFactory} from './parser_factory.js';
-
+import { AbstractVariableItem } from './abstract_variable_item.js';
+import { Menu } from './menu.js';
+import { Variable } from './variable.js';
+import { MenuUtil } from './menu_util.js';
+import { HtmlClasses } from './html_classes.js';
+import { ParserFactory } from './parser_factory.js';
 
 export class Radio extends AbstractVariableItem<string> {
-
   /**
    * @override
    */
@@ -40,24 +35,33 @@ export class Radio extends AbstractVariableItem<string> {
 
   /**
    * Parses a JSON respresentation of a radio item.
-   * @param {JSON} json The JSON object to parse.
-   * @param {Menu} menu The menu the item is attached to.
-   * @return {Radio} The new radio object.
+   * @param _factory The parser factory.
+   * @param json The JSON object to parse.
+   * @param json.content The content of the radio button.
+   * @param json.variable The variable for the radio button.
+   * @param json.id The id of the item.
+   * @param menu The menu the item is attached to.
+   * @returns The new radio object.
    */
   public static fromJson(
     _factory: ParserFactory,
-    {content: content, variable: variable, id: id}:
-    {content: string, variable: string, id: string}, menu: Menu): Radio {
+    {
+      content: content,
+      variable: variable,
+      id: id
+    }: { content: string; variable: string; id: string },
+    menu: Menu
+  ): Radio {
     return new this(menu, content, variable, id);
   }
 
   /**
-   * @constructor
-   * @extends {AbstractVariableItem}
-   * @param {Menu} menu The context menu or sub-menu the item belongs to.
-   * @param {string} content The content of the menu item.
-   * @param {string} variable The variable that is changed.
-   * @param {string=} id Optionally the id of the menu item.
+   * @class
+   * @augments {AbstractVariableItem}
+   * @param menu The context menu or sub-menu the item belongs to.
+   * @param content The content of the menu item.
+   * @param variable The variable that is changed.
+   * @param id Optionally the id of the menu item.
    */
   constructor(menu: Menu, content: string, variable: string, id?: string) {
     super(menu, 'radio', content, id);
@@ -84,7 +88,6 @@ export class Radio extends AbstractVariableItem<string> {
 
   /**
    * @override
-   * Toggles the aria checked attribute.
    */
   protected updateAria() {
     this.html.setAttribute(
@@ -95,7 +98,6 @@ export class Radio extends AbstractVariableItem<string> {
 
   /**
    * @override
-   * Toggles the checked tick.
    */
   protected updateSpan() {
     this.span.style.display =
@@ -103,11 +105,9 @@ export class Radio extends AbstractVariableItem<string> {
   }
 
   /**
-   * @return {JSON} The object in JSON.
+   * @returns The object in JSON.
    */
   public toJson() {
-    return {type: ''
-           };
+    return { type: '' };
   }
-
 }

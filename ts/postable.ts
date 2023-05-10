@@ -15,17 +15,14 @@
  *  limitations under the License.
  */
 
-
 /**
- * @fileoverview Interface specification for elements that are postable.
- *
+ * @file Interface specification for elements that are postable.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
 export interface Postable {
-
   /**
-   * @return {boolean} True if element is posted in the page.
+   * @returns True if element is posted in the page.
    */
   isPosted(): boolean;
 
@@ -36,8 +33,8 @@ export interface Postable {
 
   /**
    * Posts the element at the given coordinates.
-   * @param {?number} x The x coordinate.
-   * @param {?number} y The y coordinate.
+   * @param x The x coordinate.
+   * @param y The y coordinate.
    */
   post(x?: number, y?: number): void;
 
@@ -45,5 +42,4 @@ export interface Postable {
    * Removes element from page.
    */
   unpost(): void;
-
 }

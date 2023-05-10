@@ -15,24 +15,20 @@
  *  limitations under the License.
  */
 
-
 /**
- * @fileoverview Abstract class of context menus.
- *
+ * @file Abstract class of context menus.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-import {AbstractPostable} from './abstract_postable.js';
-import {AbstractItem} from './abstract_item.js';
-import {Menu} from './menu.js';
-import {Item} from './item.js';
-import {VariablePool} from './variable_pool.js';
-import {HtmlClasses} from './html_classes.js';
-import {Submenu} from './item_submenu.js';
-
+import { AbstractPostable } from './abstract_postable.js';
+import { AbstractItem } from './abstract_item.js';
+import { Menu } from './menu.js';
+import { Item } from './item.js';
+import { VariablePool } from './variable_pool.js';
+import { HtmlClasses } from './html_classes.js';
+import { Submenu } from './item_submenu.js';
 
 export abstract class AbstractMenu extends AbstractPostable implements Menu {
-
   /**
    * @override
    */
@@ -40,7 +36,6 @@ export abstract class AbstractMenu extends AbstractPostable implements Menu {
 
   /**
    * The variable pool of the context menu.
-   * @type {VarialbePool<string | boolean>}
    */
   protected variablePool: VariablePool<string | boolean>;
 
@@ -50,7 +45,6 @@ export abstract class AbstractMenu extends AbstractPostable implements Menu {
   protected role = 'menu';
 
   /**
-   * @type {Item[]} Item list.
    */
   protected _items: Item[] = [];
   private _baseMenu: Menu = null;
@@ -109,7 +103,7 @@ export abstract class AbstractMenu extends AbstractPostable implements Menu {
       this.unfocus();
     }
     // Order here is important for test in submenu.unfocus.
-    let old = this._focused;
+    const old = this._focused;
     this._focused = item;
     if (old) {
       old.unfocus();
@@ -120,8 +114,9 @@ export abstract class AbstractMenu extends AbstractPostable implements Menu {
    * @override
    */
   public up(_event: KeyboardEvent): void {
-    let items = this.items.filter(
-      x => (x instanceof AbstractItem) && (!x.isHidden()));
+    const items = this.items.filter(
+      (x) => x instanceof AbstractItem && !x.isHidden()
+    );
     if (items.length === 0) {
       return;
     }
@@ -141,8 +136,9 @@ export abstract class AbstractMenu extends AbstractPostable implements Menu {
    * @override
    */
   public down(_event: KeyboardEvent): void {
-    let items = this.items.filter(
-      x => (x instanceof AbstractItem) && (!x.isHidden()));
+    const items = this.items.filter(
+      (x) => x instanceof AbstractItem && !x.isHidden()
+    );
     if (items.length === 0) {
       return;
     }
@@ -155,7 +151,7 @@ export abstract class AbstractMenu extends AbstractPostable implements Menu {
       return;
     }
     index++;
-    index = (index === items.length) ? 0 : index;
+    index = index === items.length ? 0 : index;
     items[index].focus();
   }
 
@@ -171,14 +167,14 @@ export abstract class AbstractMenu extends AbstractPostable implements Menu {
    * @override
    */
   public generateMenu() {
-    let html = this.html;
+    const html = this.html;
     html.classList.add(HtmlClasses['MENU']);
-    for (let item of this.items) {
+    for (const item of this.items) {
       if (!item.isHidden()) {
         html.appendChild(item.html);
         continue;
       }
-      let itemHtml = item.html;
+      const itemHtml = item.html;
       if (itemHtml.parentNode) {
         itemHtml.parentNode.removeChild(itemHtml);
       }
@@ -197,9 +193,10 @@ export abstract class AbstractMenu extends AbstractPostable implements Menu {
    * @override
    */
   public unpostSubmenus(): void {
-    let submenus =
-      this.items.filter(x => x instanceof Submenu) as Submenu[];
-    for (let submenu of submenus) {
+    const submenus = this.items.filter(
+      (x) => x instanceof Submenu
+    ) as Submenu[];
+    for (const submenu of submenus) {
       submenu.submenu.unpost();
       if (submenu !== this.focused) {
         submenu.unfocus();
@@ -220,7 +217,7 @@ export abstract class AbstractMenu extends AbstractPostable implements Menu {
    * @override
    */
   public find(id: string): Item {
-    for (let item of this.items) {
+    for (const item of this.items) {
       if (item.type === 'rule') {
         continue;
       }
@@ -228,7 +225,7 @@ export abstract class AbstractMenu extends AbstractPostable implements Menu {
         return item;
       }
       if (item.type === 'submenu') {
-        let result = (item as Submenu).submenu.find(id);
+        const result = (item as Submenu).submenu.find(id);
         if (result) {
           return result;
         }
@@ -236,5 +233,4 @@ export abstract class AbstractMenu extends AbstractPostable implements Menu {
     }
     return null;
   }
-
 }

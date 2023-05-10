@@ -15,27 +15,23 @@
  *  limitations under the License.
  */
 
-
 /**
- * @fileoverview Interface specification for menu entries that have content and
+ * @file Interface specification for menu entries that have content and
  *     that are navigatable.
- *
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-import {Element} from './element.js';
-import {Entry} from './entry.js';
-
+import { Element } from './element.js';
+import { Entry } from './entry.js';
 
 export interface Item extends Entry, Element {
-
   /**
-   * @return {string} The content message of this item.
+   * @returns The content message of this item.
    */
   content: string;
 
   /**
-   * @return {string} The id of this item.
+   * @returns The id of this item.
    */
   id: string;
 
@@ -63,5 +59,4 @@ export interface Item extends Entry, Element {
    * Enable item.
    */
   enable(): void;
-
 }

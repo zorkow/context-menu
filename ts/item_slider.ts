@@ -15,25 +15,20 @@
  *  limitations under the License.
  */
 
-
 /**
- * @fileoverview Class of slider.
- *
+ * @file Class of slider.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-
-import {AbstractVariableItem} from './abstract_variable_item.js';
-import {Menu} from './menu.js';
-import {MenuUtil} from './menu_util.js';
-import {Variable} from './variable.js';
-import {HtmlClasses} from './html_classes.js';
-import {KEY} from './key_navigatable.js';
-import {ParserFactory} from './parser_factory.js';
-
+import { AbstractVariableItem } from './abstract_variable_item.js';
+import { Menu } from './menu.js';
+import { MenuUtil } from './menu_util.js';
+import { Variable } from './variable.js';
+import { HtmlClasses } from './html_classes.js';
+import { KEY } from './key_navigatable.js';
+import { ParserFactory } from './parser_factory.js';
 
 export class Slider extends AbstractVariableItem<string> {
-
   /**
    * @override
    */
@@ -45,28 +40,37 @@ export class Slider extends AbstractVariableItem<string> {
 
   private input: HTMLInputElement;
 
-  private inputEvent: boolean = false;
+  private inputEvent = false;
 
   /**
    * Parses a JSON respresentation of a combo item.
-   * @param {JSON} json The JSON object to parse.
-   * @param {Menu} menu The menu the item is attached to.
-   * @return {Slider} The new slider object.
+   * @param _factory The parser factory.
+   * @param json The JSON object to parse.
+   * @param json.content The content of the slider.
+   * @param json.variable The variable for the slider.
+   * @param json.id The id of the item.
+   * @param menu The menu the item is attached to.
+   * @returns The new slider object.
    */
   public static fromJson(
     _factory: ParserFactory,
-    {content: content, variable: variable, id: id}:
-    {content: string, variable: string, id: string}, menu: Menu): Slider {
+    {
+      content: content,
+      variable: variable,
+      id: id
+    }: { content: string; variable: string; id: string },
+    menu: Menu
+  ): Slider {
     return new this(menu, content, variable, id);
   }
 
   /**
-   * @constructor
-   * @extends {AbstractItem}
-   * @param {Menu} menu The context menu or sub-menu the item belongs to.
-   * @param {string} content The content of the menu item.
-   * @param {string} variable The variable that is changed.
-   * @param {string=} id Optionally the id of the menu item.
+   * @class
+   * @augments {AbstractVariableItem}
+   * @param menu The context menu or sub-menu the item belongs to.
+   * @param content The content of the menu item.
+   * @param variable The variable that is changed.
+   * @param id Optionally the id of the menu item.
    */
   constructor(menu: Menu, content: string, variable: string, id?: string) {
     super(menu, 'slider', content, id);
@@ -78,8 +82,7 @@ export class Slider extends AbstractVariableItem<string> {
    * @override
    */
   public executeAction() {
-    this.variable.setValue(
-      this.input.value, MenuUtil.getActiveElement(this));
+    this.variable.setValue(this.input.value, MenuUtil.getActiveElement(this));
     this.update();
   }
 
@@ -112,7 +115,7 @@ export class Slider extends AbstractVariableItem<string> {
    */
   public generateHtml() {
     super.generateHtml();
-    let html = this.html;
+    const html = this.html;
     html.classList.add(HtmlClasses['MENUSLIDER']);
     this.valueSpan = document.createElement('span');
     this.valueSpan.setAttribute('id', this.valueId);
@@ -142,15 +145,13 @@ export class Slider extends AbstractVariableItem<string> {
     this.span.appendChild(this.input);
   }
 
-
   /**
    * Executes the key event of the sliderbox.
-   * @param {KeyboardEvent} event The input event.
+   * @param _event The input event.
    */
   public inputKey(_event: KeyboardEvent) {
     this.inputEvent = true;
   }
-
 
   /**
    * @override
@@ -158,7 +159,6 @@ export class Slider extends AbstractVariableItem<string> {
   public mousedown(event: MouseEvent) {
     event.stopPropagation();
   }
-
 
   /**
    * @override
@@ -170,17 +170,16 @@ export class Slider extends AbstractVariableItem<string> {
 
   /**
    * Specification of the keydown event.
-   * @param {KeyboardEvent} event The input event.
+   * @param event The input event.
    */
   public keydown(event: KeyboardEvent) {
-    let code = event.keyCode;
+    const code = event.keyCode;
     if (code === KEY.UP || code === KEY.DOWN) {
       event.preventDefault();
       super.keydown(event);
       return;
     }
-    if (this.inputEvent &&
-        code !== KEY.ESCAPE && code !== KEY.RETURN) {
+    if (this.inputEvent && code !== KEY.ESCAPE && code !== KEY.RETURN) {
       this.inputEvent = false;
       event.stopPropagation();
       return;
@@ -193,7 +192,7 @@ export class Slider extends AbstractVariableItem<string> {
    * Toggles the aria checked attribute.
    */
   protected updateAria() {
-    let value = this.variable.getValue();
+    const value = this.variable.getValue();
     // TODO: Find out if this method fires before input is available.
     if (value && this.input) {
       this.input.setAttribute('aria-valuenow', value);
@@ -216,11 +215,9 @@ export class Slider extends AbstractVariableItem<string> {
   }
 
   /**
-   * @return {JSON} The object in JSON.
+   * @returns The object in JSON.
    */
   public toJson() {
-    return {type: ''
-           };
+    return { type: '' };
   }
-
 }

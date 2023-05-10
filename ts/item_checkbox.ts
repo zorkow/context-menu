@@ -15,23 +15,19 @@
  *  limitations under the License.
  */
 
-
 /**
- * @fileoverview Class of checkbox items.
- *
+ * @file Class of checkbox items.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-import {AbstractVariableItem} from './abstract_variable_item.js';
-import {Menu} from './menu.js';
-import {MenuUtil} from './menu_util.js';
-import {Variable} from './variable.js';
-import {HtmlClasses} from './html_classes.js';
-import {ParserFactory} from './parser_factory.js';
-
+import { AbstractVariableItem } from './abstract_variable_item.js';
+import { Menu } from './menu.js';
+import { MenuUtil } from './menu_util.js';
+import { Variable } from './variable.js';
+import { HtmlClasses } from './html_classes.js';
+import { ParserFactory } from './parser_factory.js';
 
 export class Checkbox extends AbstractVariableItem<boolean> {
-
   /**
    * @override
    */
@@ -39,25 +35,33 @@ export class Checkbox extends AbstractVariableItem<boolean> {
 
   /**
    * Parses a JSON respresentation of a checkbox item.
-   * @param {JSON} json The JSON object to parse.
-   * @param {Menu} menu The menu the item is attached to.
-   * @return {Checkbox} The new checkbox object.
+   * @param _factory The parser factory.
+   * @param json The JSON object to parse.
+   * @param json.content The content of the checkbox.
+   * @param json.variable The variable for the checkbox.
+   * @param json.id The id of the item.
+   * @param menu The menu the item is attached to.
+   * @returns The new checkbox object.
    */
   public static fromJson(
     _factory: ParserFactory,
-    {content: content, variable: variable, id: id}:
-    {content: string, variable: string, id: string}, menu: Menu): Checkbox {
+    {
+      content: content,
+      variable: variable,
+      id: id
+    }: { content: string; variable: string; id: string },
+    menu: Menu
+  ): Checkbox {
     return new this(menu, content, variable, id);
-
   }
 
   /**
-   * @constructor
-   * @extends {AbstractItem}
-   * @param {Menu} menu The context menu or sub-menu the item belongs to.
-   * @param {string} content The content of the menu item.
-   * @param {string} variable The variable that is changed.
-   * @param {string=} id Optionally the id of the menu item.
+   * @class
+   * @augments {AbstractVariableItem}
+   * @param menu The context menu or sub-menu the item belongs to.
+   * @param content The content of the menu item.
+   * @param variable The variable that is changed.
+   * @param id Optionally the id of the menu item.
    */
   constructor(menu: Menu, content: string, variable: string, id?: string) {
     super(menu, 'checkbox', content, id);
@@ -84,7 +88,6 @@ export class Checkbox extends AbstractVariableItem<boolean> {
 
   /**
    * @override
-   * Toggles the aria checked attribute.
    */
   protected updateAria() {
     this.html.setAttribute(
@@ -101,11 +104,9 @@ export class Checkbox extends AbstractVariableItem<boolean> {
   }
 
   /**
-   * @return {JSON} The object in JSON.
+   * @returns The object in JSON.
    */
   public toJson() {
-    return {type: ''
-           };
+    return { type: '' };
   }
-
 }

@@ -15,21 +15,17 @@
  *  limitations under the License.
  */
 
-
 /**
- * @fileoverview Class of info widgets.
- *
+ * @file Class of info widgets.
  * @author v.sorge@mathjax.org (Volker Sorge)
  */
 
-import {CloseButton} from './close_button.js';
-import {ContextMenu} from './context_menu.js';
-import {HtmlClasses} from './html_classes.js';
-import {AbstractPostable} from './abstract_postable.js';
-
+import { CloseButton } from './close_button.js';
+import { ContextMenu } from './context_menu.js';
+import { HtmlClasses } from './html_classes.js';
+import { AbstractPostable } from './abstract_postable.js';
 
 export class Info extends AbstractPostable {
-
   /**
    * @override
    */
@@ -44,31 +40,31 @@ export class Info extends AbstractPostable {
 
   public menu: ContextMenu;
   private close: CloseButton = this.generateClose();
-  private content: Function;
+  private content: () => string;
 
   /**
-   * Parses a JSON respresentation of the .
-   * @param {JSON} json The JSON object to parse.
+   * @class
+   * @augments {AbstractPostable}
+   * @param title The title of the info box.
+   * @param content Function generating the content of the box.
+   * @param signature The final line of the info box.
    */
-  // public static fromJson() {
-  // }
-
-  /**
-   * @constructor
-   * @extends {AbstractPostable}
-   * @param {string} title The title of the info box.
-   * @param {Function} content Function generating the content of the box.
-   * @param {string} signature The final line of the info box.
-   */
-  constructor(private title: string, content: Function,
-              private signature: string) {
+  constructor(
+    private title: string,
+    content: () => string,
+    private signature: string
+  ) {
     super();
-    this.content = content || function() { return ''; };
+    this.content =
+      content ||
+      function () {
+        return '';
+      };
   }
 
   /**
    * Attaches the widget to a context menu.
-   * @param {ContextMenu} menu The parent menu.
+   * @param menu The parent menu.
    */
   public attachMenu(menu: ContextMenu): void {
     this.menu = menu;
@@ -79,7 +75,7 @@ export class Info extends AbstractPostable {
    */
   public generateHtml() {
     super.generateHtml();
-    let html = this.html;
+    const html = this.html;
     html.appendChild(this.generateTitle());
     html.appendChild(this.contentDiv);
     html.appendChild(this.generateSignature());
@@ -94,13 +90,12 @@ export class Info extends AbstractPostable {
     super.post();
     //// TODO: There is potentially a bug in IE. Look into it.
     //  Look for MENU.prototype.msieAboutBug in MathMenu.js
-    let doc = document.documentElement;
-    let html = this.html;
-    let H = window.innerHeight || doc.clientHeight || doc.scrollHeight || 0;
-    let x = Math.floor((- html.offsetWidth) / 2);
-    let y = Math.floor((H - html.offsetHeight) / 3);
-    html.setAttribute(
-      'style', 'margin-left: ' + x + 'px; top: ' + y + 'px;');
+    const doc = document.documentElement;
+    const html = this.html;
+    const H = window.innerHeight || doc.clientHeight || doc.scrollHeight || 0;
+    const x = Math.floor(-html.offsetWidth / 2);
+    const y = Math.floor((H - html.offsetHeight) / 3);
+    html.setAttribute('style', 'margin-left: ' + x + 'px; top: ' + y + 'px;');
     if (window.event instanceof MouseEvent) {
       html.classList.add(HtmlClasses['MOUSEPOST']);
     }
@@ -113,7 +108,7 @@ export class Info extends AbstractPostable {
   protected display() {
     this.menu.registerWidget(this);
     this.contentDiv.innerHTML = this.content();
-    let html = this.menu.html;
+    const html = this.menu.html;
     if (html.parentNode) {
       html.parentNode.removeChild(html);
     }
@@ -123,7 +118,7 @@ export class Info extends AbstractPostable {
   /**
    * @override
    */
-  public click(_event: MouseEvent): void { }
+  public click(_event: MouseEvent): void {}
 
   /**
    * @override
@@ -150,53 +145,51 @@ export class Info extends AbstractPostable {
   }
 
   /**
-   * @return {CloseButton} The close button for the widget.
+   * @returns The close button for the widget.
    */
   private generateClose(): CloseButton {
-    let close = new CloseButton(this);
-    let html = close.html;
+    const close = new CloseButton(this);
+    const html = close.html;
     html.classList.add(HtmlClasses['INFOCLOSE']);
     html.setAttribute('aria-label', 'Close Dialog Box');
     return close;
   }
 
   /**
-   * @return {HTMLElement} The title element of the widget.
+   * @returns The title element of the widget.
    */
   private generateTitle(): HTMLElement {
-    let span = document.createElement('span');
+    const span = document.createElement('span');
     span.innerHTML = this.title;
     span.classList.add(HtmlClasses['INFOTITLE']);
     return span;
   }
 
   /**
-   * @return {HTMLElement} The basic content element of the widget. The actual
+   * @returns The basic content element of the widget. The actual
    *     content is regenerated and attached during posting.
    */
   protected generateContent(): HTMLElement {
-    let div = document.createElement('div');
+    const div = document.createElement('div');
     div.classList.add(HtmlClasses['INFOCONTENT']);
     div.setAttribute('tabindex', '0');
     return div;
   }
 
   /**
-   * @return {HTMLElement} The signature element of the widget.
+   * @returns The signature element of the widget.
    */
   private generateSignature(): HTMLElement {
-    let span = document.createElement('span');
+    const span = document.createElement('span');
     span.innerHTML = this.signature;
     span.classList.add(HtmlClasses['INFOSIGNATURE']);
     return span;
   }
 
   /**
-   * @return {JSON} The object in JSON.
+   * @returns The object in JSON.
    */
   public toJson() {
-    return {type: ''
-           };
+    return { type: '' };
   }
-
 }
