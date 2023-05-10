@@ -17,8 +17,7 @@
 
 
 /**
- * @fileoverview Interface specification for context menus.
- *
+ * @file Interface specification for context menus.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
@@ -61,7 +60,7 @@ export interface Menu extends Postable, KeyNavigatable, MouseNavigatable {
   /**
    * Retrieves a menu item via its id by depth-first search.
    * @param {string} id The item id.
-   * @return {?Item} The item if it exists.
+   * @returns {?Item} The item if it exists.
    */
   find(id: string): Item;
 

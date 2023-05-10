@@ -17,8 +17,7 @@
 
 
 /**
- * @fileoverview Class of radio buttons.
- *
+ * @file Class of radio buttons.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
@@ -53,7 +52,7 @@ implements VariableItem {
    */
   public generateHtml() {
     super.generateHtml();
-    let html = this.html;
+    const html = this.html;
     if (!this.span) {
       this.generateSpan();
     }

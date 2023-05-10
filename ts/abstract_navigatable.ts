@@ -17,8 +17,7 @@
 
 
 /**
- * @fileoverview Abstract class of navigatable menu elements.
- *
+ * @file Abstract class of navigatable menu elements.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 

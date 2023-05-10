@@ -17,8 +17,7 @@
 
 
 /**
- * @fileoverview Abstract class of context menus.
- *
+ * @file Abstract class of context menus.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
@@ -61,7 +60,7 @@ implements Postable {
     if (!this.posted) {
       return;
     }
-    let html = this.html;
+    const html = this.html;
     if (html.parentNode) {
       html.parentNode.removeChild(html);
     }

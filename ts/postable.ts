@@ -17,15 +17,14 @@
 
 
 /**
- * @fileoverview Interface specification for elements that are postable.
- *
+ * @file Interface specification for elements that are postable.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
 export interface Postable {
 
   /**
-   * @return {boolean} True if element is posted in the page.
+   * @returns {boolean} True if element is posted in the page.
    */
   isPosted(): boolean;
 

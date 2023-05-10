@@ -17,8 +17,7 @@
 
 
 /**
- * @fileoverview Interface definition for mouse navigatable menu elements.
- *
+ * @file Interface definition for mouse navigatable menu elements.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 

@@ -17,9 +17,8 @@
 
 
 /**
- * @fileoverview Generic class for keeping menu variables together with callback
+ * @file Generic class for keeping menu variables together with callback
  *     functions to hook into third party libraries.
- *
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
@@ -40,7 +39,11 @@ export class Variable<T> {
    * Parses a JSON respresentation of a variable and inserts it into the
    * variable pool of the context menu.
    * @param {JSON} json The JSON object to parse.
+   * @param _factory
+   * @param _factory.name
+   * @param _factory.getter
    * @param {VariablePool<string|boolean>} pool The variable pool to insert.
+   * @param _factory.setter
    */
   public static fromJson(
     _factory: ParserFactory,
@@ -53,9 +56,11 @@ export class Variable<T> {
   }
 
   /**
-   * @constructor
+   * @class
    * @template T
    * @param {string} name The variable name.
+   * @param _name
+   * @param setter
    * @param {function(T)} getter It's initial value.
    * @param {function(T)} callback Function to call when value is changed.
    */
@@ -64,7 +69,7 @@ export class Variable<T> {
               private setter: (x: T, node?: HTMLElement) => void) { }
 
   /**
-   * @return {string} The name of the variable.
+   * @returns {string} The name of the variable.
    */
   public get name() {
     return this._name;
@@ -72,7 +77,8 @@ export class Variable<T> {
 
   /**
    * Execute getter callback to retrieve the current value of the variable.
-   * @return {T} The value of the variable.
+   * @param node
+   * @returns {T} The value of the variable.
    */
   public getValue(node?: HTMLElement) {
     try {
@@ -89,6 +95,7 @@ export class Variable<T> {
    * Sets new variable value. If different from old one it will execute the
    * callback.
    * @param {T} value New value of the variable.
+   * @param node
    */
   public setValue(value: T, node?: HTMLElement) {
     try {
@@ -114,7 +121,7 @@ export class Variable<T> {
    * @param {VariableItem} item The old variable item.
    */
   public unregister(item: VariableItem): void {
-    let index = this.items.indexOf(item);
+    const index = this.items.indexOf(item);
     if (index !== -1) {
       this.items.splice(index, 1);
     }
@@ -148,7 +155,7 @@ export class Variable<T> {
   /**
    * The variable object in JSON. Note, that the getter and setter methods will
    * be strings.
-   * @return {JSON} The JSON object.
+   * @returns {JSON} The JSON object.
    */
   public toJson() {
     return {type: 'variable',

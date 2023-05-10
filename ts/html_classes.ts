@@ -17,19 +17,18 @@
 
 
 /**
- * @fileoverview Pseudo enum structures for HTML classes and ids.
- *
+ * @file Pseudo enum structures for HTML classes and ids.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
 
 
-const PREFIX: string = 'CtxtMenu';
+const PREFIX = 'CtxtMenu';
 
 /**
  * Prefixes a html class name.
  * @param {string} name The base name.
- * @return {string} The prefixed name.
+ * @returns {string} The prefixed name.
  * @private
  */
 function prefix_(name: string): string {
@@ -39,7 +38,7 @@ function prefix_(name: string): string {
 /**
  * Prefixes a html id.
  * @param {string} name The base name.
- * @return {HtmlClass} The prefixed name.
+ * @returns {HtmlClass} The prefixed name.
  * @private
  */
 function prefixClass_(name: string): HtmlClass {
@@ -49,7 +48,7 @@ function prefixClass_(name: string): HtmlClass {
 /**
  * Prefixes a html class name.
  * @param {string} name The base name.
- * @return {HtmlAttr} The prefixed name.
+ * @returns {HtmlAttr} The prefixed name.
  * @private
  */
 function prefixAttr_(name: string): HtmlAttr {

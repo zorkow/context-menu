@@ -17,8 +17,7 @@
 
 
 /**
- * @fileoverview A store that maps HTML elements in a document to context menus.
- *
+ * @file A store that maps HTML elements in a document to context menus.
  * @author v.sorge@mathjax.org (Volker Sorge)
  */
 
@@ -39,14 +38,14 @@ export class MenuStore {
   protected store: HTMLElement[] = [];
 
   private _active: HTMLElement = null;
-  private counter: number = 0;
+  private counter = 0;
   private attachedClass: string = HtmlClasses['ATTACHED'] + '_' +
     MenuUtil.counter();
   private taborder = true;
   private attrMap: {[name: string]: EventListener} = {};
 
   /**
-   * @constructor
+   * @class
    * @param {ContextMenu} menu The context menu the store belongs to.
    */
   constructor(private menu: ContextMenu) { }
@@ -66,7 +65,7 @@ export class MenuStore {
   }
 
   /**
-   * @return {HTMLElement} The currently active store element, if one exists.
+   * @returns {HTMLElement} The currently active store element, if one exists.
    */
   public get active(): HTMLElement {
     return this._active;
@@ -76,10 +75,10 @@ export class MenuStore {
    * Returns next active element.
    * If store is empty returns null and also unsets active element.
    * If active is not set returns the first element of the store.
-   * @return {HTMLElement} The next element if it exists.
+   * @returns {HTMLElement} The next element if it exists.
    */
   public next(): HTMLElement {
-    let length = this.store.length;
+    const length = this.store.length;
     if (length === 0) {
       this.active = null;
       return null;
@@ -94,15 +93,15 @@ export class MenuStore {
    * Returns previous active element.
    * If store is empty returns null and also unsets active element.
    * If active is not set returns the last element of the store.
-   * @return {HTMLElement} The previous element if it exists.
+   * @returns {HTMLElement} The previous element if it exists.
    */
   public previous(): HTMLElement {
-    let length = this.store.length;
+    const length = this.store.length;
     if (length === 0) {
       this.active = null;
       return null;
     }
-    let last = length - 1;
+    const last = length - 1;
     let index = this.store.indexOf(this.active);
     index = index === -1 ? last : (index === 0 ? last : index - 1);
     this.active = this.store[index];
@@ -137,9 +136,9 @@ export class MenuStore {
    *     to insert.
    */
   public insert(elementOrList: any) {
-    let elements = elementOrList instanceof HTMLElement ?
+    const elements = elementOrList instanceof HTMLElement ?
       [elementOrList] : elementOrList;
-    for (let element of elements) {
+    for (const element of elements) {
       this.insertElement(element);
     }
     this.sort();
@@ -166,9 +165,9 @@ export class MenuStore {
    *     to remove.
    */
   public remove(elementOrList: any) {
-    let elements = elementOrList instanceof HTMLElement ?
+    const elements = elementOrList instanceof HTMLElement ?
       [elementOrList] : elementOrList;
-    for (let element of elements) {
+    for (const element of elements) {
       this.removeElement(element);
     }
     this.sort();
@@ -241,7 +240,7 @@ export class MenuStore {
    * Sorts the elements in the store in DOM order.
    */
   private sort(): void {
-    let nodes = document.getElementsByClassName(this.attachedClass);
+    const nodes = document.getElementsByClassName(this.attachedClass);
     this.store = [].slice.call(nodes);
   }
 
@@ -294,7 +293,6 @@ export class MenuStore {
    * as a combination of event handler name and counter, which is unique for
    * each HTML element. The counter is stored on the HTML element in an
    * attribute.
-   *
    * @param {HTMLElement} element The DOM element.
    */
   private addEvents(element: HTMLElement) {
@@ -314,7 +312,7 @@ export class MenuStore {
    * @param {EventListener} func The event listener.
    */
   private addEvent(element: HTMLElement, name: string, func: EventListener) {
-    let attrName = HtmlAttrs[name.toUpperCase() + 'FUNC'];
+    const attrName = HtmlAttrs[name.toUpperCase() + 'FUNC'];
     this.attrMap[attrName + this.counter] = func;
     element.addEventListener(name, func);
   }
@@ -327,7 +325,7 @@ export class MenuStore {
     if (!element.hasAttribute(HtmlAttrs['COUNTER'])) {
       return;
     }
-    let counter = element.getAttribute(HtmlAttrs['COUNTER']);
+    const counter = element.getAttribute(HtmlAttrs['COUNTER']);
     this.removeEvent(element, 'contextmenu', counter);
     this.removeEvent(element, 'keydown', counter);
     element.removeAttribute(HtmlAttrs['COUNTER']);
@@ -341,8 +339,8 @@ export class MenuStore {
    *     attribute mappings.
    */
   private removeEvent(element: HTMLElement, name: string, counter: string) {
-    let attrName = HtmlAttrs[name.toUpperCase() + 'FUNC'];
-    let menuFunc = this.attrMap[attrName + counter];
+    const attrName = HtmlAttrs[name.toUpperCase() + 'FUNC'];
+    const menuFunc = this.attrMap[attrName + counter];
     element.removeEventListener(name, menuFunc);
   }
 

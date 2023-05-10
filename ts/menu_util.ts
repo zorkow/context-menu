@@ -17,8 +17,7 @@
 
 
 /**
- * @fileoverview Utility class for menu handling.
- *
+ * @file Utility class for menu handling.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
@@ -37,7 +36,7 @@ export namespace MenuUtil {
    * @param {Item} item The item on which the menu close is called.
    */
   export function close(item: Item): void {
-    let menu = item.menu;
+    const menu = item.menu;
     // TODO: Have baseMenu point to itself and simplify unposting.
     if (menu.baseMenu) {
       menu.baseMenu.unpost();
@@ -49,17 +48,18 @@ export namespace MenuUtil {
   /**
    * Retrieves the currently active element of the overall context menu.
    * @param {Item} item The item on which the last call was made.
-   * @return {HtmlElement} The currently active element.
+   * @returns {HtmlElement} The currently active element.
    */
   export function getActiveElement(item: Item): HTMLElement {
-    let menu = item.menu;
-    let baseMenu = (menu.baseMenu ? menu.baseMenu : menu) as ContextMenu;
+    const menu = item.menu;
+    const baseMenu = (menu.baseMenu ? menu.baseMenu : menu) as ContextMenu;
     return baseMenu.store.active;
   }
 
   /**
    * Error function for controlled exceptions.
    * @param {Error} error The thrown error, containing the stack trace.
+   * @param _error
    * @param {string} msg The message to be signalled.
    */
   export function error(_error: Error, msg: string): void {
@@ -67,7 +67,7 @@ export namespace MenuUtil {
   }
 
   /**
-   * @return {number} A global, increasing unique counter.
+   * @returns {number} A global, increasing unique counter.
    */
   export function counter(): number {
     return count++;

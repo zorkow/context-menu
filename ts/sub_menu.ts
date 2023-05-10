@@ -17,8 +17,7 @@
 
 
 /**
- * @fileoverview Class of sub menus.
- *
+ * @file Class of sub menus.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
@@ -35,8 +34,11 @@ export class SubMenu extends AbstractMenu {
   /**
    * Parses a JSON respresentation of a submenu.
    * @param {JSON} json The JSON object to parse.
+   * @param factory
+   * @param factory.items
+   * @param factory.id
    * @param {Submenu} anchor The anchor item the submenu is attached to.
-   * @return {SubMenu} The new submenu object.
+   * @returns {SubMenu} The new submenu object.
    */
   public static fromJson(
     factory: ParserFactory,
@@ -49,8 +51,9 @@ export class SubMenu extends AbstractMenu {
   }
 
   /**
-   * @constructor
-   * @extends {AbstractMenu}
+   * @class
+   * @augments {AbstractMenu}
+   * @param _anchor
    * @param {Submenu} anchor The item in the parent menu triggering this
    *     submenu.
    */
@@ -61,7 +64,7 @@ export class SubMenu extends AbstractMenu {
   }
 
   /**
-   * @return {Submenu} The submenu item that anchors this popdown submenu to
+   * @returns {Submenu} The submenu item that anchors this popdown submenu to
    *     its parent.
    */
   public get anchor(): Submenu {
@@ -76,15 +79,15 @@ export class SubMenu extends AbstractMenu {
       return;
     }
     //// TODO: These are currently ignored!
-    let mobileFlag = false;
-    let rtlFlag = false;
+    const mobileFlag = false;
+    const rtlFlag = false;
 
-    let margin = 5;
+    const margin = 5;
     let parent = this.anchor.html;
-    let menu = this.html;
-    let base = (this.baseMenu as ContextMenu).frame;
+    const menu = this.html;
+    const base = (this.baseMenu as ContextMenu).frame;
     // // let side = 'left';
-    let mw = parent.offsetWidth;
+    const mw = parent.offsetWidth;
     let x = (mobileFlag ? 30 : mw - 2);
     let y = 0;
     while (parent && parent !== base) {
@@ -139,7 +142,7 @@ export class SubMenu extends AbstractMenu {
   }
 
   /**
-   * @return {JSON} The object in JSON.
+   * @returns {JSON} The object in JSON.
    */
   public toJson() {
     return {type: ''

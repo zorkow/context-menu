@@ -17,8 +17,7 @@
 
 
 /**
- * @fileoverview Interface definition for touch navigatable menu elements.
- *
+ * @file Interface definition for touch navigatable menu elements.
  * @author v.sorge@mathjax.org (Volker Sorge)
  */
 

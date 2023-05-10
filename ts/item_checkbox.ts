@@ -17,8 +17,7 @@
 
 
 /**
- * @fileoverview Class of checkbox items.
- *
+ * @file Class of checkbox items.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
@@ -40,8 +39,12 @@ export class Checkbox extends AbstractVariableItem<boolean> {
   /**
    * Parses a JSON respresentation of a checkbox item.
    * @param {JSON} json The JSON object to parse.
+   * @param _factory
+   * @param _factory.content
+   * @param _factory.variable
    * @param {Menu} menu The menu the item is attached to.
-   * @return {Checkbox} The new checkbox object.
+   * @param _factory.id
+   * @returns {Checkbox} The new checkbox object.
    */
   public static fromJson(
     _factory: ParserFactory,
@@ -52,8 +55,8 @@ export class Checkbox extends AbstractVariableItem<boolean> {
   }
 
   /**
-   * @constructor
-   * @extends {AbstractItem}
+   * @class
+   * @augments {AbstractItem}
    * @param {Menu} menu The context menu or sub-menu the item belongs to.
    * @param {string} content The content of the menu item.
    * @param {string} variable The variable that is changed.
@@ -101,7 +104,7 @@ export class Checkbox extends AbstractVariableItem<boolean> {
   }
 
   /**
-   * @return {JSON} The object in JSON.
+   * @returns {JSON} The object in JSON.
    */
   public toJson() {
     return {type: ''

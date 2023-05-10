@@ -17,8 +17,7 @@
 
 
 /**
- * @fileoverview Class of separator items.
- *
+ * @file Class of separator items.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
@@ -45,8 +44,12 @@ export class Submenu extends AbstractItem {
   /**
    * Parses a JSON respresentation of a submenu item.
    * @param {JSON} json The JSON object to parse.
+   * @param factory
+   * @param factory.content
    * @param {Menu} menu The menu the item is attached to.
-   * @return {Submenu} The new submenu object.
+   * @param factory.menu
+   * @param factory.id
+   * @returns {Submenu} The new submenu object.
    */
   public static fromJson(
     factory: ParserFactory,
@@ -59,8 +62,8 @@ export class Submenu extends AbstractItem {
   }
 
   /**
-   * @constructor
-   * @extends {AbstractItem}
+   * @class
+   * @augments {AbstractItem}
    * @param {Menu} menu The context menu or sub-menu the item belongs to.
    * @param {string} content The content of the menu item.
    * @param {boolean} variable The variable that is changed.
@@ -80,7 +83,7 @@ export class Submenu extends AbstractItem {
 
   /**
    * Returns the submenu element.
-   * @return {Menu} The submenu.
+   * @returns {Menu} The submenu.
    */
   public get submenu(): Menu {
     return this._submenu;
@@ -141,7 +144,7 @@ export class Submenu extends AbstractItem {
    */
   public generateHtml() {
     super.generateHtml();
-    let html = this.html;
+    const html = this.html;
     this.span = document.createElement('span');
     this.span.textContent = '\u25BA';
     this.span.classList.add(HtmlClasses['MENUARROW']);
@@ -172,7 +175,7 @@ export class Submenu extends AbstractItem {
   }
 
   /**
-   * @return {JSON} The object in JSON.
+   * @returns {JSON} The object in JSON.
    */
   public toJson() {
     return {type: ''

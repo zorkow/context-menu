@@ -17,8 +17,7 @@
 
 
 /**
- * @fileoverview Class of items that execute a command.
- *
+ * @file Class of items that execute a command.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
@@ -33,8 +32,12 @@ export class Command extends AbstractItem {
   /**
    * Parses a JSON respresentation of a command item.
    * @param {JSON} json The JSON object to parse.
+   * @param _factory
+   * @param _factory.content
+   * @param _factory.action
    * @param {Menu} menu The menu the item is attached to.
-   * @return {Command} The new command object.
+   * @param _factory.id
+   * @returns {Command} The new command object.
    */
   public static fromJson(
     _factory: ParserFactory,
@@ -44,8 +47,8 @@ export class Command extends AbstractItem {
   }
 
   /**
-   * @constructor
-   * @extends {AbstractItem}
+   * @class
+   * @augments {AbstractItem}
    * @param {Menu} menu The context menu or sub-menu the item belongs to.
    * @param {string} content The content of the menu item.
    * @param {Function} command The command to be executed on
@@ -70,7 +73,7 @@ export class Command extends AbstractItem {
   }
 
   /**
-   * @return {JSON} The object in JSON.
+   * @returns {JSON} The object in JSON.
    */
   public toJson() {
     return {type: ''

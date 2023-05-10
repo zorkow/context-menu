@@ -17,9 +17,8 @@
 
 
 /**
- * @fileoverview Class of popup windows. Each object can actually spawn multiple
+ * @file Class of popup windows. Each object can actually spawn multiple
  *      windows.
- *
  * @author v.sorge@mathjax.org (Volker Sorge)
  */
 
@@ -72,8 +71,8 @@ export class Popup extends AbstractPostable {
   }
 
   /**
-   * @constructor
-   * @extends {AbstractPostable}
+   * @class
+   * @augments {AbstractPostable}
    * @param {string} title The title of the popup window.
    * @param {Function} content Function generating the content.
    */
@@ -102,16 +101,16 @@ export class Popup extends AbstractPostable {
    */
   protected display() {
     this.active = this.menu.store.active;
-    let settings: string[] = [];
-    for (let setting in Popup.popupSettings) {
+    const settings: string[] = [];
+    for (const setting in Popup.popupSettings) {
       settings.push(setting + '=' + Popup.popupSettings[setting]);
     }
-    for (let setting in this.localSettings) {
+    for (const setting in this.localSettings) {
       settings.push(setting + '=' + this.localSettings[setting]);
     }
     this.window = window.open('', '_blank', settings.join(','));
     this.windowList.push(this.window);
-    let doc = this.window.document;
+    const doc = this.window.document;
     if (this.mobileFlag) {
       doc.open();
       doc.write('<html><head><meta name="viewport" ' +
@@ -146,7 +145,7 @@ export class Popup extends AbstractPostable {
 
   /**
    * Generates the content of the window.
-   * @return {string} The generated content.
+   * @returns {string} The generated content.
    */
   private generateContent(): string {
     return this.content(this.active);
@@ -157,7 +156,7 @@ export class Popup extends AbstractPostable {
    * @private
    */
   private resize(): void {
-    let table = this.window.document.body.firstChild as HTMLElement;
+    const table = this.window.document.body.firstChild as HTMLElement;
     let H = (this.window.outerHeight - this.window.innerHeight) || 30;
     let W = (this.window.outerWidth - this.window.innerWidth) || 30;
     W = Math.max(140, Math.min(Math.floor(.5 * this.window.screen.width),
@@ -165,11 +164,11 @@ export class Popup extends AbstractPostable {
     H = Math.max(40, Math.min(Math.floor(.5 * this.window.screen.height),
                               table.offsetHeight + H + 25));
     this.window.resizeTo(W, H);
-    let bb = this.active.getBoundingClientRect();
+    const bb = this.active.getBoundingClientRect();
     if (bb) {
-      let x = Math.max(0, Math.min(bb.right - Math.floor(W / 2),
+      const x = Math.max(0, Math.min(bb.right - Math.floor(W / 2),
                                    this.window.screen.width - W - 20));
-      let y = Math.max(0, Math.min(bb.bottom - Math.floor(H / 2),
+      const y = Math.max(0, Math.min(bb.bottom - Math.floor(H / 2),
                                    this.window.screen.height - H - 20));
       this.window.moveTo(x, y);
     }
@@ -177,7 +176,7 @@ export class Popup extends AbstractPostable {
   }
 
   /**
-   * @return {JSON} The object in JSON.
+   * @returns {JSON} The object in JSON.
    */
   public toJson() {
     return {type: ''

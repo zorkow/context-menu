@@ -17,8 +17,7 @@
 
 
 /**
- * @fileoverview Class of kill buttons to close menus and widgets.
- *
+ * @file Class of kill buttons to close menus and widgets.
  * @author v.sorge@mathjax.org (Volker Sorge)
  */
 
@@ -40,8 +39,8 @@ export class CloseButton extends AbstractPostable {
   protected role = 'button';
 
   /**
-   * @constructor
-   * @extends {AbstractPostable}
+   * @class
+   * @augments {AbstractPostable}
    * @param {Postable} element The postable element the close button is
    *     attached to.
    */
@@ -53,11 +52,11 @@ export class CloseButton extends AbstractPostable {
    * @override
    */
   public generateHtml() {
-    let html = document.createElement('span');
+    const html = document.createElement('span');
     html.classList.add(this.className);
     html.setAttribute('role', this.role);
     html.setAttribute('tabindex', '0');
-    let content = document.createElement('span');
+    const content = document.createElement('span');
     content.textContent = '\u00D7';
     html.appendChild(content);
     this.html = html;

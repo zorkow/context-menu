@@ -17,8 +17,7 @@
 
 
 /**
- * @fileoverview Class of slider.
- *
+ * @file Class of slider.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
@@ -45,13 +44,17 @@ export class Slider extends AbstractVariableItem<string> {
 
   private input: HTMLInputElement;
 
-  private inputEvent: boolean = false;
+  private inputEvent = false;
 
   /**
    * Parses a JSON respresentation of a combo item.
    * @param {JSON} json The JSON object to parse.
+   * @param _factory
+   * @param _factory.content
+   * @param _factory.variable
    * @param {Menu} menu The menu the item is attached to.
-   * @return {Slider} The new slider object.
+   * @param _factory.id
+   * @returns {Slider} The new slider object.
    */
   public static fromJson(
     _factory: ParserFactory,
@@ -61,8 +64,8 @@ export class Slider extends AbstractVariableItem<string> {
   }
 
   /**
-   * @constructor
-   * @extends {AbstractItem}
+   * @class
+   * @augments {AbstractItem}
    * @param {Menu} menu The context menu or sub-menu the item belongs to.
    * @param {string} content The content of the menu item.
    * @param {string} variable The variable that is changed.
@@ -112,7 +115,7 @@ export class Slider extends AbstractVariableItem<string> {
    */
   public generateHtml() {
     super.generateHtml();
-    let html = this.html;
+    const html = this.html;
     html.classList.add(HtmlClasses['MENUSLIDER']);
     this.valueSpan = document.createElement('span');
     this.valueSpan.setAttribute('id', this.valueId);
@@ -146,6 +149,7 @@ export class Slider extends AbstractVariableItem<string> {
   /**
    * Executes the key event of the sliderbox.
    * @param {KeyboardEvent} event The input event.
+   * @param _event
    */
   public inputKey(_event: KeyboardEvent) {
     this.inputEvent = true;
@@ -173,7 +177,7 @@ export class Slider extends AbstractVariableItem<string> {
    * @param {KeyboardEvent} event The input event.
    */
   public keydown(event: KeyboardEvent) {
-    let code = event.keyCode;
+    const code = event.keyCode;
     if (code === KEY.UP || code === KEY.DOWN) {
       event.preventDefault();
       super.keydown(event);
@@ -193,7 +197,7 @@ export class Slider extends AbstractVariableItem<string> {
    * Toggles the aria checked attribute.
    */
   protected updateAria() {
-    let value = this.variable.getValue();
+    const value = this.variable.getValue();
     // TODO: Find out if this method fires before input is available.
     if (value && this.input) {
       this.input.setAttribute('aria-valuenow', value);
@@ -216,7 +220,7 @@ export class Slider extends AbstractVariableItem<string> {
   }
 
   /**
-   * @return {JSON} The object in JSON.
+   * @returns {JSON} The object in JSON.
    */
   public toJson() {
     return {type: ''

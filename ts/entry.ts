@@ -17,8 +17,7 @@
 
 
 /**
- * @fileoverview Interface specification for menu entries.
- *
+ * @file Interface specification for menu entries.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
@@ -48,7 +47,7 @@ export interface Entry {
   show(): void;
 
   /**
-   * @return {boolean} Indicates if item is hidden from display.
+   * @returns {boolean} Indicates if item is hidden from display.
    */
   isHidden(): boolean;
 

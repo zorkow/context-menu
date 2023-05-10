@@ -17,8 +17,7 @@
 
 
 /**
- * @fileoverview Generic class for keeping track of menu variables.
- *
+ * @file Generic class for keeping track of menu variables.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
@@ -41,7 +40,7 @@ export class VariablePool<T> {
    * Lookup a variable in the pool. Returns undefined if the variable does not
    * exist.
    * @param {string} name The name of the variable.
-   * @return {?Variable<T>} The variable if it is in the pool.
+   * @returns {?Variable<T>} The variable if it is in the pool.
    */
   public lookup(name: string) {
     return this.pool[name];
@@ -59,7 +58,7 @@ export class VariablePool<T> {
    * Executes update method for all variables in the pool.
    */
   public update() {
-    for (let variable in this.pool) {
+    for (const variable in this.pool) {
       this.pool[variable].update();
     }
   }

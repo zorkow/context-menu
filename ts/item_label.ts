@@ -17,8 +17,7 @@
 
 
 /**
- * @fileoverview Class of labelled separator items.
- *
+ * @file Class of labelled separator items.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
@@ -33,8 +32,11 @@ export class Label extends AbstractItem {
   /**
    * Parses a JSON respresentation of a label item.
    * @param {JSON} json The JSON object to parse.
+   * @param _factory
+   * @param _factory.content
+   * @param _factory.id
    * @param {Menu} menu The menu the item is attached to.
-   * @return {Label} The new label object.
+   * @returns {Label} The new label object.
    */
   public static fromJson(
     _factory: ParserFactory,
@@ -44,8 +46,8 @@ export class Label extends AbstractItem {
   }
 
   /**
-   * @constructor
-   * @extends {AbstractItem}
+   * @class
+   * @augments {AbstractItem}
    * @param {Menu} menu The context menu or sub-menu the item belongs to.
    * @param {string} content The content of the menu item.
    * @param {string=} id Optionally the id of the menu item.
@@ -59,12 +61,12 @@ export class Label extends AbstractItem {
    */
   public generateHtml() {
     super.generateHtml();
-    let html = this.html;
+    const html = this.html;
     html.classList.add(HtmlClasses['MENULABEL']);
   }
 
   /**
-   * @return {JSON} The object in JSON.
+   * @returns {JSON} The object in JSON.
    */
   public toJson() {
     return {type: ''

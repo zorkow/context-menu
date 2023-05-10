@@ -17,8 +17,7 @@
 
 
 /**
- * @fileoverview Parser factory for menu elements.
- *
+ * @file Parser factory for menu elements.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
@@ -31,7 +30,7 @@ export class ParserFactory {
   private _parser: Map<string, ParseMethod>;
 
   /**
-   * @constructor
+   * @class
    * @param {[string, ParseMethod][]} init Parse method mappings.
    */
   constructor(init: [string, ParseMethod][]) {
@@ -41,7 +40,7 @@ export class ParserFactory {
   /**
    * Gets a parse method by name.
    * @param {string} name The type of parse method.
-   * @return {ParseMethod} The parse method if it exists.
+   * @returns {ParseMethod} The parse method if it exists.
    */
   public get(name: string): ParseMethod {
     return this._parser.get(name);

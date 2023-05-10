@@ -17,8 +17,7 @@
 
 
 /**
- * @fileoverview Class of context menus.
- *
+ * @file Class of context menus.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
@@ -36,13 +35,13 @@ export class ContextMenu extends AbstractMenu {
    * Id of the context menu.
    * @type {string}
    */
-  public id: string = '';
+  public id = '';
 
   /**
    * Flag to avoid redoing taborder if we are between elements.
    * @type {boolean}
    */
-  private moving: boolean = false;
+  private moving = false;
 
   /**
    * The div that holds the entire menu.
@@ -71,7 +70,15 @@ export class ContextMenu extends AbstractMenu {
   /**
    * Parses a JSON respresentation of a context menu.
    * @param {JSON} json The JSON object to parse.
-   * @return {ContextMenu} The new context menu object.
+   * @param factory
+   * @param root0
+   * @param root0.pool
+   * @param root0.items
+   * @param root0.id
+   * @param factory.pool
+   * @param factory.items
+   * @param factory.id
+   * @returns {ContextMenu} The new context menu object.
    */
   public static fromJson(
     factory: ParserFactory,
@@ -81,7 +88,7 @@ export class ContextMenu extends AbstractMenu {
     // The variable id is currently ignored!
     const ctxtMenu = new this(factory);
     ctxtMenu.id = id;
-    let varParser = factory.get('variable'); // Allow different parser.
+    const varParser = factory.get('variable'); // Allow different parser.
     pool.forEach(x => varParser(factory, x as any, ctxtMenu.pool));
     const itemList = factory.get('items')(factory, items, ctxtMenu);
     ctxtMenu.items = itemList;
@@ -89,8 +96,9 @@ export class ContextMenu extends AbstractMenu {
   }
 
   /**
-   * @constructor
-   * @extends {AbstractMenu}
+   * @param factory
+   * @class
+   * @augments {AbstractMenu}
    */
   constructor(public factory: ParserFactory) {
     super();
@@ -108,10 +116,10 @@ export class ContextMenu extends AbstractMenu {
     this._frame = document.createElement('div');
     this._frame.classList.add(HtmlClasses['MENUFRAME']);
     //// TODO: Adapt to other browsers.
-    let styleString = 'left: 0px; top: 0px; z-index: 200; width: 100%; ' +
+    const styleString = 'left: 0px; top: 0px; z-index: 200; width: 100%; ' +
       'height: 100%; border: 0px; padding: 0px; margin: 0px;';
     this._frame.setAttribute('style', 'position: absolute; ' + styleString);
-    let innerDiv = document.createElement('div');
+    const innerDiv = document.createElement('div');
     innerDiv.setAttribute('style', 'position: fixed; ' + styleString);
     this._frame.appendChild(innerDiv);
     innerDiv.addEventListener('mousedown',
@@ -148,7 +156,7 @@ export class ContextMenu extends AbstractMenu {
       return;
     }
     this.frame.parentNode.removeChild(this.frame);
-    let store = this.store;
+    const store = this.store;
     if (!this.moving) {
       store.insertTaborder();
     }
@@ -170,7 +178,7 @@ export class ContextMenu extends AbstractMenu {
   }
 
   /**
-   * @return {HTMLElement} The frame element wrapping all the elements of the
+   * @returns {HTMLElement} The frame element wrapping all the elements of the
    *     menu.
    */
   public get frame(): HTMLElement {
@@ -178,7 +186,7 @@ export class ContextMenu extends AbstractMenu {
   }
 
   /**
-   * @return {MenuStore} The store of this menu.
+   * @returns {MenuStore} The store of this menu.
    */
   public get store(): MenuStore {
     return this._store;
@@ -213,7 +221,7 @@ export class ContextMenu extends AbstractMenu {
       super.post(numberOrEvent, isY);
       return;
     }
-    let event = numberOrEvent;
+    const event = numberOrEvent;
     let node;
     if (event instanceof Event) {
       node = event.target;
@@ -233,16 +241,16 @@ export class ContextMenu extends AbstractMenu {
       }
     }
     if (!x && !y && node) {
-      let offsetX = window.pageXOffset || document.documentElement.scrollLeft;
-      let offsetY = window.pageYOffset || document.documentElement.scrollTop;
-      let rect = node.getBoundingClientRect();
+      const offsetX = window.pageXOffset || document.documentElement.scrollLeft;
+      const offsetY = window.pageYOffset || document.documentElement.scrollTop;
+      const rect = node.getBoundingClientRect();
       x = (rect.right + rect.left) / 2 + offsetX;
       y = (rect.bottom + rect.top) / 2 + offsetY;
     }
     this.store.active = node;
     this.anchor = this.store.active;
-    let menu = this.html;
-    let margin = 5;
+    const menu = this.html;
+    const margin = 5;
     if (x + menu.offsetWidth > document.body.offsetWidth - margin) {
       x = document.body.offsetWidth - menu.offsetWidth - margin;
     }
@@ -269,7 +277,7 @@ export class ContextMenu extends AbstractMenu {
    * @param {Postable} widget The closed widget.
    */
   public unregisterWidget(widget: Postable) {
-    let index = this.widgets.indexOf(widget);
+    const index = this.widgets.indexOf(widget);
     if (index > -1) {
       this.widgets.splice(index, 1);
     }
@@ -286,7 +294,7 @@ export class ContextMenu extends AbstractMenu {
   }
 
   /**
-   * @return {JSON} The object in JSON.
+   * @returns {JSON} The object in JSON.
    */
   public toJson() {
     return {type: ''};

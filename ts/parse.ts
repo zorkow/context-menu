@@ -17,8 +17,7 @@
 
 
 /**
- * @fileoverview Parser for menu items.
- *
+ * @file Parser for menu items.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
@@ -69,7 +68,7 @@ export class Parser {
 
   /**
    * Creates new constructor method.
-   * @constructor
+   * @class
    * @param {[string, ParseMethod][]} init Extra init mappings for the parser's
    *     factory.
    */
@@ -78,7 +77,7 @@ export class Parser {
   }
 
   /**
-   * @return {ParserFactory} The parser factory.
+   * @returns {ParserFactory} The parser factory.
    */
   public get factory(): ParserFactory {
     return this._factory;
@@ -87,11 +86,14 @@ export class Parser {
   /**
    * Parses items in JSON formats and attaches them to the menu.
    * @param {Array.<JSON>} items List of JSON menu items.
+   * @param _factory
+   * @param its
+   * @param ctxt
    */
   public items(_factory: ParserFactory, its: any[], ctxt: Menu): Item[] {
-    let hidden = [];
-    for (let item of its) {
-      let entry = this.parse(item, ctxt);
+    const hidden = [];
+    for (const item of its) {
+      const entry = this.parse(item, ctxt);
       if (!entry) {
         continue;
       }
@@ -111,11 +113,11 @@ export class Parser {
    * General parse method.
    * @param {JSON} json The JSON element to parse.
    * @param {any[]} rest Optional rest arguments.
-   * @return {any} The parsed item.
+   * @returns {any} The parsed item.
    */
   public parse({type: kind, ...json}:
                {type: string, [k: string]: any}, ...rest: any[]): any {
-    let func = this.factory.get(kind);
+    const func = this.factory.get(kind);
     return func ? func(this.factory, json, ...rest) : null;
   }
 

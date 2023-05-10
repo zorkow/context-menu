@@ -17,8 +17,7 @@
 
 
 /**
- * @fileoverview Abstract class of menu items.
- *
+ * @file Abstract class of menu items.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
@@ -37,15 +36,15 @@ export abstract class AbstractItem extends AbstractEntry implements Item {
    * Flag indicating if element is disabled.
    * @type {boolean}
    */
-  protected disabled: boolean = false;
+  protected disabled = false;
 
   private _id: string;
   private callbacks: Function[] = [];
 
   /**
-   * @constructor
+   * @class
    * @implements {Item}
-   * @extends {AbstractEntry}
+   * @augments {AbstractEntry}
    * @param {Menu} menu The context menu or sub-menu the item belongs to.
    * @param {string} type The type of the entry.
    * @param {string} _content The content of the menu item.
@@ -114,7 +113,7 @@ export abstract class AbstractItem extends AbstractEntry implements Item {
    * @final
    */
   public unregisterCallback(func: Function): void {
-    let index = this.callbacks.indexOf(func);
+    const index = this.callbacks.indexOf(func);
     if (index !== -1) {
       this.callbacks.splice(index, 1);
     }
@@ -149,7 +148,7 @@ export abstract class AbstractItem extends AbstractEntry implements Item {
    */
   public generateHtml() {
     super.generateHtml();
-    let html = this.html;
+    const html = this.html;
     html.setAttribute('aria-disabled', 'false');
     html.textContent = this.content;
   }
@@ -235,7 +234,7 @@ export abstract class AbstractItem extends AbstractEntry implements Item {
    */
   public disable() {
     this.disabled = true;
-    let html = this.html;
+    const html = this.html;
     html.classList.add(HtmlClasses['MENUDISABLED']);
     html.setAttribute('aria-disabled', 'true');
   }
@@ -245,7 +244,7 @@ export abstract class AbstractItem extends AbstractEntry implements Item {
    */
   public enable() {
     this.disabled = false;
-    let html = this.html;
+    const html = this.html;
     html.classList.remove(HtmlClasses['MENUDISABLED']);
     html.removeAttribute('aria-disabled');
   }
@@ -254,7 +253,7 @@ export abstract class AbstractItem extends AbstractEntry implements Item {
    * Executes the additional callbacks registered with this menu item.
    */
   private executeCallbacks_() {
-    for (let func of this.callbacks) {
+    for (const func of this.callbacks) {
       try {
         func(this);
       } catch (e) {

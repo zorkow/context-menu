@@ -17,8 +17,7 @@
 
 
 /**
- * @fileoverview Interface definition for key navigatable menu elements.
- *
+ * @file Interface definition for key navigatable menu elements.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 

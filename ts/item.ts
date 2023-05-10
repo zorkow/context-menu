@@ -17,9 +17,8 @@
 
 
 /**
- * @fileoverview Interface specification for menu entries that have content and
+ * @file Interface specification for menu entries that have content and
  *     that are navigatable.
- *
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
@@ -30,12 +29,12 @@ import {Entry} from './entry.js';
 export interface Item extends Entry, Element {
 
   /**
-   * @return {string} The content message of this item.
+   * @returns {string} The content message of this item.
    */
   content: string;
 
   /**
-   * @return {string} The id of this item.
+   * @returns {string} The id of this item.
    */
   id: string;
 

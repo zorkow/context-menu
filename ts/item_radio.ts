@@ -17,8 +17,7 @@
 
 
 /**
- * @fileoverview Class of radio buttons.
- *
+ * @file Class of radio buttons.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
@@ -41,8 +40,12 @@ export class Radio extends AbstractVariableItem<string> {
   /**
    * Parses a JSON respresentation of a radio item.
    * @param {JSON} json The JSON object to parse.
+   * @param _factory
+   * @param _factory.content
+   * @param _factory.variable
    * @param {Menu} menu The menu the item is attached to.
-   * @return {Radio} The new radio object.
+   * @param _factory.id
+   * @returns {Radio} The new radio object.
    */
   public static fromJson(
     _factory: ParserFactory,
@@ -52,8 +55,8 @@ export class Radio extends AbstractVariableItem<string> {
   }
 
   /**
-   * @constructor
-   * @extends {AbstractVariableItem}
+   * @class
+   * @augments {AbstractVariableItem}
    * @param {Menu} menu The context menu or sub-menu the item belongs to.
    * @param {string} content The content of the menu item.
    * @param {string} variable The variable that is changed.
@@ -103,7 +106,7 @@ export class Radio extends AbstractVariableItem<string> {
   }
 
   /**
-   * @return {JSON} The object in JSON.
+   * @returns {JSON} The object in JSON.
    */
   public toJson() {
     return {type: ''

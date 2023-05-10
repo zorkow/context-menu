@@ -17,8 +17,7 @@
 
 
 /**
- * @fileoverview Abstract class of menu entries.
- *
+ * @file Abstract class of menu entries.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
@@ -44,12 +43,12 @@ export abstract class AbstractEntry extends MenuElement implements Entry {
    */
   protected role = 'menuitem';
 
-  private hidden: boolean = false;
+  private hidden = false;
 
   /**
-   * @constructor
+   * @class
    * @implements {Entry}
-   * @extends {MenuElement}
+   * @augments {MenuElement}
    * @param {Menu} menu The context menu or sub-menu the entry belongs to.
    * @param {string} type The type of the entry.
    */
@@ -58,7 +57,7 @@ export abstract class AbstractEntry extends MenuElement implements Entry {
   }
 
   /**
-   * @return {Menu} The context menu or sub-menu the entry belongs to.
+   * @returns {Menu} The context menu or sub-menu the entry belongs to.
    */
   public get menu(): Menu {
     return this._menu as Menu;
@@ -72,7 +71,7 @@ export abstract class AbstractEntry extends MenuElement implements Entry {
   }
 
   /**
-   * @return {string} The type of the menu entry, used for jsonification.
+   * @returns {string} The type of the menu entry, used for jsonification.
    */
   public get type() {
     return this._type;

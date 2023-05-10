@@ -17,8 +17,7 @@
 
 
 /**
- * @fileoverview Class of separator items.
- *
+ * @file Class of separator items.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
@@ -43,16 +42,17 @@ export class Rule extends AbstractEntry {
   /**
    * Parses a JSON respresentation of the .
    * @param {JSON} json The JSON object to parse.
+   * @param _factory
    * @param {Menu} menu The menu for the rule.
-   * @return {Rule} The new rule.
+   * @returns {Rule} The new rule.
    */
   public static fromJson(_factory: ParserFactory, {}: {}, menu: Menu) {
     return new this(menu);
   }
 
   /**
-   * @constructor
-   * @extends {AbstractItem}
+   * @class
+   * @augments {AbstractItem}
    * @param {Menu} menu The context menu or sub-menu the item belongs to.
    */
   constructor(menu: Menu) {
@@ -64,7 +64,7 @@ export class Rule extends AbstractEntry {
    */
   public generateHtml() {
     super.generateHtml();
-    let html = this.html;
+    const html = this.html;
     html.classList.add(HtmlClasses['MENURULE']);
     html.setAttribute('aria-orientation', 'vertical');
   }
@@ -75,7 +75,7 @@ export class Rule extends AbstractEntry {
   public addEvents(_element: HTMLElement) { }
 
   /**
-   * @return {JSON} The object in JSON.
+   * @returns {JSON} The object in JSON.
    */
   public toJson() {
     return {type: 'rule'};

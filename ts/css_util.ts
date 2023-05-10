@@ -17,8 +17,7 @@
 
 
 /**
- * @fileoverview Utility functions for adding CSS styles.
- *
+ * @file Utility functions for adding CSS styles.
  * @author v.sorge@mathjax.org (Volker Sorge)
  */
 
@@ -33,13 +32,13 @@ export namespace CssStyles {
   /**
    * Creates CSS classname by prefixing a dot.
    * @param {string} name The class name.
-   * @return {string} The context menu class name.
+   * @returns {string} The context menu class name.
    */
   function makeClass_(name: string): string {
     return '.' + (HtmlClasses[name] || name);
   }
 
-  let INFO_STYLES: {[id: string]: string} = {};
+  const INFO_STYLES: {[id: string]: string} = {};
   INFO_STYLES[makeClass_('INFOCLOSE')] = '{' +
     '  top:.2em; right:.2em;' +
     '}',
@@ -72,7 +71,7 @@ export namespace CssStyles {
     ' OffY=2, Color="gray", Positive="true"); /* IE */' +
     '}';
 
-  let MENU_STYLES: {[id: string]: string} = {};
+  const MENU_STYLES: {[id: string]: string} = {};
   MENU_STYLES[makeClass_('MENU')] = '{' +
     '  position:absolute;' +
     '  background-color:white;' +
@@ -189,7 +188,7 @@ export namespace CssStyles {
 
 
   // Style of the little cross button to close a dialog or the mobile menu.
-  let CLOSE_ICON_STYLES: {[id: string]: string} = {};
+  const CLOSE_ICON_STYLES: {[id: string]: string} = {};
   CLOSE_ICON_STYLES[makeClass_('MENUCLOSE')] = '{' +
     '  position:absolute;' +
     '  cursor:pointer;' +
@@ -273,11 +272,11 @@ export namespace CssStyles {
    */
   function addStyles_(
     styles: {[id: string]: string}, opt_document: HTMLDocument): void {
-    let doc = opt_document || document;
-    let element: HTMLStyleElement = doc.createElement('style');
+    const doc = opt_document || document;
+    const element: HTMLStyleElement = doc.createElement('style');
     element.type = 'text/css';
     let inner = '';
-    for (let style in styles) {
+    for (const style in styles) {
       inner += style;
       inner += ' ';
       inner += styles[style];

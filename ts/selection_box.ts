@@ -17,8 +17,7 @@
 
 
 /**
- * @fileoverview Class of selection boxes with multiple radio buttons.
- *
+ * @file Class of selection boxes with multiple radio buttons.
  * @author v.sorge@mathjax.org (Volker Sorge)
  */
 
@@ -43,27 +42,32 @@ export class SelectionMenu extends AbstractMenu {
   /**
    * Parses a JSON respresentation of a selection menu.
    * @param {JSON} json The JSON object to parse.
+   * @param factory
+   * @param factory.title
+   * @param factory.values
    * @param {SelectionBox} sb The selection box to attach to.
-   * @return {SelectionMenu} The new selection menu.
+   * @param factory.variable
+   * @returns {SelectionMenu} The new selection menu.
    */
   public static fromJson(
     factory: ParserFactory,
     {title: title, values: values, variable: variable}: selection,
     sb: SelectionBox): SelectionMenu {
-    let selection = new this(sb);
-    let tit = factory.get('label')(
+    const selection = new this(sb);
+    const tit = factory.get('label')(
       factory, {content: title || '', id: title || 'id'}, selection);
-    let rul = factory.get('rule')(factory, {}, selection);
-    let radios = values.map(
+    const rul = factory.get('rule')(factory, {}, selection);
+    const radios = values.map(
       x => factory.get('radio')(
         factory, {content: x, variable: variable, id: x}, selection));
-    let items = [tit, rul].concat(radios) as Item[];
+    const items = [tit, rul].concat(radios) as Item[];
     selection.items = items;
     return selection;
   }
 
   /**
-   * @constructor
+   * @class
+   * @param anchor
    * @param{SelectionBox} anchor The anchor element.
    */
   constructor(public anchor: SelectionBox) {
@@ -117,13 +121,26 @@ export const enum SelectionGrid {
 export class SelectionBox extends Info {
 
   private _selections: SelectionMenu[] = [];
-  private prefix: string = 'ctxt-selection';
-  private _balanced: boolean = true;
+  private prefix = 'ctxt-selection';
+  private _balanced = true;
   public static chunkSize = 4;
 
   /**
    * Parses a JSON respresentation of a selection box.
    * @param {JSON} json The JSON object to parse.
+   * @param factory
+   * @param root0
+   * @param root0.title
+   * @param root0.signature
+   * @param root0.selections
+   * @param root0.order
+   * @param root0.grid
+   * @param factory.title
+   * @param factory.signature
+   * @param ctxt
+   * @param factory.selections
+   * @param factory.order
+   * @param factory.grid
    */
   public static fromJson(
     factory: ParserFactory,
@@ -131,18 +148,19 @@ export class SelectionBox extends Info {
     {title: string, signature: string, selections: selection[],
      order?: SelectionOrder, grid?: SelectionGrid},
     ctxt: ContextMenu): SelectionBox {
-      let sb = new this(title, signature, order, grid);
+      const sb = new this(title, signature, order, grid);
       sb.attachMenu(ctxt);
-      let sels = selections.map(
+      const sels = selections.map(
         x => factory.get('selectionMenu')(factory, x, sb));
       sb.selections = sels;
       return sb;
     }
 
   /**
-   * @constructor
-   * @extends {Info}
+   * @class
+   * @augments {Info}
    * @param {string} title The title of the selection box.
+   * @param grid
    * @param {string} signature The final line of the selection box.
    * @param {string=} style The style component.
    */
@@ -176,18 +194,18 @@ export class SelectionBox extends Info {
 
 
   private rowDiv(sels: SelectionMenu[]): [HTMLElement, number, number, number[]] {
-    let div = document.createElement('div');
+    const div = document.createElement('div');
     this.contentDiv.appendChild(div);
-    let rects = sels.map(sel => {
+    const rects = sels.map(sel => {
       div.appendChild(sel.html);
       if (!sel.html.id) {
         sel.html.id = this.prefix + MenuUtil.counter();
       }
       return sel.html.getBoundingClientRect();
     });
-    let column = rects.map(x => x.width);
-    let width = column.reduce((x, y) => x + y, 0);
-    let height = rects.reduce((x, y) => Math.max(x, y.height), 0);
+    const column = rects.map(x => x.width);
+    const width = column.reduce((x, y) => x + y, 0);
+    const height = rects.reduce((x, y) => Math.max(x, y.height), 0);
     div.classList.add(HtmlClasses['SELECTIONDIVIDER']);
     div.setAttribute('style', 'height: ' + height + 'px;');
     return [div, width, height, column];
@@ -202,13 +220,13 @@ export class SelectionBox extends Info {
     if (!this.selections.length) {
       return;
     }
-    let outerDivs: HTMLElement[] = [];
+    const outerDivs: HTMLElement[] = [];
     let maxWidth = 0;
     let balancedColumn: number[] = [];
-    let chunks = this.getChunkSize(this.selections.length);
+    const chunks = this.getChunkSize(this.selections.length);
     for (let i = 0; i < this.selections.length; i += chunks) {
-      let sels = this.selections.slice(i, i + chunks);
-      let [div, width, height, column] = this.rowDiv(sels);
+      const sels = this.selections.slice(i, i + chunks);
+      const [div, width, height, column] = this.rowDiv(sels);
       outerDivs.push(div);
       maxWidth = Math.max(maxWidth, width);
       sels.forEach(sel => sel.html.style.height = height + 'px');
@@ -236,7 +254,7 @@ export class SelectionBox extends Info {
 
   private balanceColumn(divs: HTMLElement[], column: number[]) {
     divs.forEach(div => {
-      let children = Array.from(div.children) as HTMLElement[];
+      const children = Array.from(div.children) as HTMLElement[];
       for (let i = 0, child: HTMLElement; child = children[i]; i++) {
         child.style.width = column[i] + 'px';
       }
@@ -289,20 +307,20 @@ export class SelectionBox extends Info {
    * @override
    */
   protected generateContent(): HTMLElement {
-    let div = super.generateContent();
+    const div = super.generateContent();
     div.classList.add(HtmlClasses['SELECTIONBOX']);
     div.removeAttribute('tabindex');
     return div;
   }
 
   private findSelection(event: KeyboardEvent): SelectionMenu {
-    let target = event.target as HTMLElement;
+    const target = event.target as HTMLElement;
     let selection = null;
     if (target.id) {
       selection = this.selections.find(x => x.html.id === target.id);
     }
     if (!selection) {
-      let id = target.parentElement.id;
+      const id = target.parentElement.id;
       selection = this.selections.find(x => x.html.id === id);
     }
     return selection;
@@ -310,12 +328,12 @@ export class SelectionBox extends Info {
 
   private move(event: KeyboardEvent,
                isNext: (x: number) => number) {
-    let selection = this.findSelection(event);
+    const selection = this.findSelection(event);
     if (selection.focused) {
       selection.focused.unfocus();
     }
-    let index = this.selections.indexOf(selection);
-    let next = isNext(index);
+    const index = this.selections.indexOf(selection);
+    const next = isNext(index);
     this.selections[next].focus();
   }
 
@@ -323,13 +341,13 @@ export class SelectionBox extends Info {
     [SelectionOrder.ALPHABETICAL, (x, y) => x.items[0].content.localeCompare(y.items[0].content)],
     [SelectionOrder.NONE, (_x, _y) => 1],
     [SelectionOrder.DECREASING, (x, y) => {
-      let xl = x.items.length;
-      let yl = y.items.length;
+      const xl = x.items.length;
+      const yl = y.items.length;
       return (xl < yl) ? 1 : ((yl < xl) ? -1 : 0);
     }],
     [SelectionOrder.INCREASING, (x, y) => {
-      let xl = x.items.length;
-      let yl = y.items.length;
+      const xl = x.items.length;
+      const yl = y.items.length;
       return (xl < yl) ? -1 : ((yl < xl) ? 1 : 0);
     }],
   ]);
@@ -342,7 +360,7 @@ export class SelectionBox extends Info {
   }
 
   /**
-   * @return {JSON} The object in JSON.
+   * @returns {JSON} The object in JSON.
    */
   public toJson() {
     return {type: ''

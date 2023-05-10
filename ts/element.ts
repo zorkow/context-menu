@@ -17,8 +17,7 @@
 
 
 /**
- * @fileoverview Interface for handling HTML elements.
- *
+ * @file Interface for handling HTML elements.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 

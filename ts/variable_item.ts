@@ -17,8 +17,7 @@
 
 
 /**
- * @fileoverview Interface for menu items with variable attachment.
- *
+ * @file Interface for menu items with variable attachment.
  * @author v.sorge@mathjax.org (Volker Sorge)
  */
 
