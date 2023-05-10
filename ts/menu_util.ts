@@ -15,22 +15,18 @@
  *  limitations under the License.
  */
 
-
 /**
  * @file Utility class for menu handling.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-import {ContextMenu} from './context_menu.js';
-import {Item} from './item.js';
-
-
+import { ContextMenu } from './context_menu.js';
+import { Item } from './item.js';
 
 /**
  * @namespace
  */
 export namespace MenuUtil {
-
   /**
    * Closes the entire context menu.
    * @param item The item on which the menu close is called.
@@ -72,5 +68,4 @@ export namespace MenuUtil {
     return count++;
   }
   let count = 0;
-
 }

@@ -15,18 +15,15 @@
  *  limitations under the License.
  */
 
-
 /**
  * @file Generic class for keeping track of menu variables.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-import {Variable} from './variable.js';
-
+import { Variable } from './variable.js';
 
 export class VariablePool<T> {
-
-  private pool: {[name: string]: Variable<T>} = {};
+  private pool: { [name: string]: Variable<T> } = {};
 
   /**
    * Inserts a new variable into the pool.
@@ -62,5 +59,4 @@ export class VariablePool<T> {
       this.pool[variable].update();
     }
   }
-
 }

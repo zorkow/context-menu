@@ -15,12 +15,10 @@
  *  limitations under the License.
  */
 
-
 /**
  * @file Interface definition for mouse navigatable menu elements.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
-
 
 /**
  * Mouse events.
@@ -34,13 +32,11 @@ export const MOUSE = {
   OVER: 'mouseover',
   OUT: 'mouseout',
   MOVE: 'mousemove',
-  SELECTEND: 'selectend',  // Edge, Chrome only
+  SELECTEND: 'selectend', // Edge, Chrome only
   SELECTSTART: 'selectstart'
 };
 
-
 export interface MouseNavigatable {
-
   /**
    * Navigation selection on mouse down events.
    * @param event The mouse event that fired.
@@ -70,5 +66,4 @@ export interface MouseNavigatable {
    * @param event The mouse event that fired.
    */
   click(event: MouseEvent): void;
-
 }

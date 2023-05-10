@@ -15,23 +15,19 @@
  *  limitations under the License.
  */
 
-
 /**
  * @file Abstract class of menu items.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-import {AbstractEntry} from './abstract_entry.js';
-import {AbstractMenu} from './abstract_menu.js';
-import {Item} from './item.js';
-import {Menu} from './menu.js';
-import {MenuUtil} from './menu_util.js';
-import {HtmlClasses} from './html_classes.js';
-
-
+import { AbstractEntry } from './abstract_entry.js';
+import { AbstractMenu } from './abstract_menu.js';
+import { Item } from './item.js';
+import { Menu } from './menu.js';
+import { MenuUtil } from './menu_util.js';
+import { HtmlClasses } from './html_classes.js';
 
 export abstract class AbstractItem extends AbstractEntry implements Item {
-
   /**
    * Flag indicating if element is disabled.
    */
@@ -49,8 +45,7 @@ export abstract class AbstractItem extends AbstractEntry implements Item {
    * @param _content The content of the menu item.
    * @param id Optionally the id of the menu item.
    */
-  constructor(menu: Menu, type: string,
-              private _content: string, id?: string) {
+  constructor(menu: Menu, type: string, private _content: string, id?: string) {
     super(menu, type);
     this._id = id ? id : _content;
   }
@@ -93,7 +88,7 @@ export abstract class AbstractItem extends AbstractEntry implements Item {
   /**
    * Execute the item's action if it is not disabled.
    */
-  protected executeAction() { }
+  protected executeAction() {}
 
   /**
    * Registers a callback function.
@@ -254,10 +249,8 @@ export abstract class AbstractItem extends AbstractEntry implements Item {
       try {
         func(this);
       } catch (e) {
-        MenuUtil.error(e, 'Callback for menu entry ' + this.id +
-                       ' failed.');
+        MenuUtil.error(e, 'Callback for menu entry ' + this.id + ' failed.');
       }
     }
   }
-
 }

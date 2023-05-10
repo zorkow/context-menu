@@ -1,11 +1,11 @@
-import {ContextMenu as obj0} from './context_menu.js';
-import {CssStyles as obj1} from './css_util.js';
-import {Info as obj2} from './info.js';
-import {Popup as obj3} from './popup.js';
-import {Parser as obj4} from './parse.js';
-import {SelectionBox as obj5} from './selection_box.js';
-import {Variable as obj6} from './variable.js';
-import {ParserFactory as obj7} from './parser_factory.js';
+import { ContextMenu as obj0 } from './context_menu.js';
+import { CssStyles as obj1 } from './css_util.js';
+import { Info as obj2 } from './info.js';
+import { Popup as obj3 } from './popup.js';
+import { Parser as obj4 } from './parse.js';
+import { SelectionBox as obj5 } from './selection_box.js';
+import { Variable as obj6 } from './variable.js';
+import { ParserFactory as obj7 } from './parser_factory.js';
 
 export const ContextMenu = obj0;
 export const CssStyles = obj1;

@@ -15,22 +15,17 @@
  *  limitations under the License.
  */
 
-
 /**
  * @file Abstract class of menu entries.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-import {Entry} from './entry.js';
-import {MenuElement} from './menu_element.js';
-import {Menu} from './menu.js';
-import {HtmlClass, HtmlClasses} from './html_classes.js';
-
-
+import { Entry } from './entry.js';
+import { MenuElement } from './menu_element.js';
+import { Menu } from './menu.js';
+import { HtmlClass, HtmlClasses } from './html_classes.js';
 
 export abstract class AbstractEntry extends MenuElement implements Entry {
-
-
   /**
    * Class name.
    */
@@ -97,5 +92,4 @@ export abstract class AbstractEntry extends MenuElement implements Entry {
   public isHidden() {
     return this.hidden;
   }
-
 }

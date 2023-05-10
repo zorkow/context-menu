@@ -15,22 +15,19 @@
  *  limitations under the License.
  */
 
-
 /**
  * @file Class of checkbox items.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-import {AbstractVariableItem} from './abstract_variable_item.js';
-import {Menu} from './menu.js';
-import {MenuUtil} from './menu_util.js';
-import {Variable} from './variable.js';
-import {HtmlClasses} from './html_classes.js';
-import {ParserFactory} from './parser_factory.js';
-
+import { AbstractVariableItem } from './abstract_variable_item.js';
+import { Menu } from './menu.js';
+import { MenuUtil } from './menu_util.js';
+import { Variable } from './variable.js';
+import { HtmlClasses } from './html_classes.js';
+import { ParserFactory } from './parser_factory.js';
 
 export class Checkbox extends AbstractVariableItem<boolean> {
-
   /**
    * @override
    */
@@ -48,10 +45,14 @@ export class Checkbox extends AbstractVariableItem<boolean> {
    */
   public static fromJson(
     _factory: ParserFactory,
-    {content: content, variable: variable, id: id}:
-    {content: string, variable: string, id: string}, menu: Menu): Checkbox {
+    {
+      content: content,
+      variable: variable,
+      id: id
+    }: { content: string; variable: string; id: string },
+    menu: Menu
+  ): Checkbox {
     return new this(menu, content, variable, id);
-
   }
 
   /**
@@ -106,8 +107,6 @@ export class Checkbox extends AbstractVariableItem<boolean> {
    * @returns The object in JSON.
    */
   public toJson() {
-    return {type: ''
-           };
+    return { type: '' };
   }
-
 }

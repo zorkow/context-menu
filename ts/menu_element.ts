@@ -15,21 +15,19 @@
  *  limitations under the License.
  */
 
-
 /**
  * @file Abstract class of menu elements.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-import {AbstractNavigatable} from './abstract_navigatable.js';
-import {HtmlClass} from './html_classes.js';
-import {Element} from './element.js';
+import { AbstractNavigatable } from './abstract_navigatable.js';
+import { HtmlClass } from './html_classes.js';
+import { Element } from './element.js';
 
-
-
-export abstract class MenuElement extends AbstractNavigatable implements
-Element {
-
+export abstract class MenuElement
+  extends AbstractNavigatable
+  implements Element
+{
   /**
    * @override
    */
@@ -46,7 +44,7 @@ Element {
    * Adds a attributes and values to the HTML element.
    * @param attributes A dictionary of attributes.
    */
-  public addAttributes(attributes: {[attr: string]: string}): void {
+  public addAttributes(attributes: { [attr: string]: string }): void {
     for (const attr in attributes) {
       this.html.setAttribute(attr, attributes[attr]);
     }
@@ -105,5 +103,4 @@ Element {
     }
     html.blur();
   }
-
 }

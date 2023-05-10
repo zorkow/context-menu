@@ -15,19 +15,16 @@
  *  limitations under the License.
  */
 
-
 /**
  * @file Class of kill buttons to close menus and widgets.
  * @author v.sorge@mathjax.org (Volker Sorge)
  */
 
-import {AbstractPostable} from './abstract_postable.js';
-import {HtmlClasses} from './html_classes.js';
-import {Postable} from './postable.js';
-
+import { AbstractPostable } from './abstract_postable.js';
+import { HtmlClasses } from './html_classes.js';
+import { Postable } from './postable.js';
 
 export class CloseButton extends AbstractPostable {
-
   /**
    * @override
    */
@@ -65,7 +62,7 @@ export class CloseButton extends AbstractPostable {
   /**
    * @override
    */
-  protected display() { }
+  protected display() {}
 
   /**
    * @override
@@ -98,5 +95,4 @@ export class CloseButton extends AbstractPostable {
     this.unpost();
     this.stop(event);
   }
-
 }

@@ -15,19 +15,17 @@
  *  limitations under the License.
  */
 
-
 /**
  * @file Abstract class of navigatable menu elements.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-import {KEY, KeyNavigatable} from './key_navigatable.js';
-import {MOUSE, MouseNavigatable} from './mouse_navigatable.js';
+import { KEY, KeyNavigatable } from './key_navigatable.js';
+import { MOUSE, MouseNavigatable } from './mouse_navigatable.js';
 
-
-export abstract class AbstractNavigatable implements
-KeyNavigatable, MouseNavigatable {
-
+export abstract class AbstractNavigatable
+  implements KeyNavigatable, MouseNavigatable
+{
   private bubble = false;
 
   /**
@@ -42,29 +40,29 @@ KeyNavigatable, MouseNavigatable {
    */
   public keydown(event: KeyboardEvent): void {
     switch (event.keyCode) {
-    case KEY.ESCAPE:
-      this.escape(event);
-      break;
-    case KEY.RIGHT:
-      this.right(event);
-      break;
-    case KEY.LEFT:
-      this.left(event);
-      break;
-    case KEY.UP:
-      this.up(event);
-      break;
-    case KEY.DOWN:
-      this.down(event);
-      break;
-    case KEY.RETURN:
-    case KEY.SPACE:
-      this.space(event);
-      break;
-    default:
-      return;
+      case KEY.ESCAPE:
+        this.escape(event);
+        break;
+      case KEY.RIGHT:
+        this.right(event);
+        break;
+      case KEY.LEFT:
+        this.left(event);
+        break;
+      case KEY.UP:
+        this.up(event);
+        break;
+      case KEY.DOWN:
+        this.down(event);
+        break;
+      case KEY.RETURN:
+      case KEY.SPACE:
+        this.space(event);
+        break;
+      default:
+        return;
     }
-    this.bubble ? this.bubble = false : this.stop(event);
+    this.bubble ? (this.bubble = false) : this.stop(event);
   }
 
   /**

@@ -15,16 +15,12 @@
  *  limitations under the License.
  */
 
-
 /**
  * @file Interface for handling HTML elements.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-
-
-export interface Element  {
-
+export interface Element {
   /**
    * The getter generates the DOM element if it does not yet exist.
    */
@@ -34,5 +30,4 @@ export interface Element  {
    * Forces generation of the actual DOM element.
    */
   generateHtml(): void;
-
 }

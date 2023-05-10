@@ -15,14 +15,12 @@
  *  limitations under the License.
  */
 
-
 /**
  * @file Interface specification for elements that are postable.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
 export interface Postable {
-
   /**
    * @returns True if element is posted in the page.
    */
@@ -44,5 +42,4 @@ export interface Postable {
    * Removes element from page.
    */
   unpost(): void;
-
 }

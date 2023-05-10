@@ -15,17 +15,14 @@
  *  limitations under the License.
  */
 
-
 /**
  * @file Interface specification for menu entries.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-import {Menu} from './menu.js';
-
+import { Menu } from './menu.js';
 
 export interface Entry {
-
   /**
    */
   menu: Menu;
@@ -48,5 +45,4 @@ export interface Entry {
    * @returns Indicates if item is hidden from display.
    */
   isHidden(): boolean;
-
 }

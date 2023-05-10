@@ -15,22 +15,17 @@
  *  limitations under the License.
  */
 
-
 /**
  * @file A store that maps HTML elements in a document to context menus.
  * @author v.sorge@mathjax.org (Volker Sorge)
  */
 
-import {ContextMenu} from './context_menu.js';
-import {MenuUtil} from './menu_util.js';
-import {HtmlClasses, HtmlAttrs} from './html_classes.js';
-import {KEY} from './key_navigatable.js';
-
-
+import { ContextMenu } from './context_menu.js';
+import { MenuUtil } from './menu_util.js';
+import { HtmlClasses, HtmlAttrs } from './html_classes.js';
+import { KEY } from './key_navigatable.js';
 
 export class MenuStore {
-
-
   /**
    * The store of elements the menu belongs to.
    */
@@ -38,16 +33,16 @@ export class MenuStore {
 
   private _active: HTMLElement = null;
   private counter = 0;
-  private attachedClass: string = HtmlClasses['ATTACHED'] + '_' +
-    MenuUtil.counter();
+  private attachedClass: string =
+    HtmlClasses['ATTACHED'] + '_' + MenuUtil.counter();
   private taborder = true;
-  private attrMap: {[name: string]: EventListener} = {};
+  private attrMap: { [name: string]: EventListener } = {};
 
   /**
    * @class
    * @param menu The context menu the store belongs to.
    */
-  constructor(private menu: ContextMenu) { }
+  constructor(private menu: ContextMenu) {}
 
   /**
    * Sets the new active store element if it exists in the store.
@@ -83,7 +78,7 @@ export class MenuStore {
       return null;
     }
     let index = this.store.indexOf(this.active);
-    index = index === -1 ? 0 : (index < length - 1 ? index + 1 : 0);
+    index = index === -1 ? 0 : index < length - 1 ? index + 1 : 0;
     this.active = this.store[index];
     return this.active;
   }
@@ -102,7 +97,7 @@ export class MenuStore {
     }
     const last = length - 1;
     let index = this.store.indexOf(this.active);
-    index = index === -1 ? last : (index === 0 ? last : index - 1);
+    index = index === -1 ? last : index === 0 ? last : index - 1;
     this.active = this.store[index];
     return this.active;
   }
@@ -135,8 +130,8 @@ export class MenuStore {
    *     to insert.
    */
   public insert(elementOrList: any) {
-    const elements = elementOrList instanceof HTMLElement ?
-      [elementOrList] : elementOrList;
+    const elements =
+      elementOrList instanceof HTMLElement ? [elementOrList] : elementOrList;
     for (const element of elements) {
       this.insertElement(element);
     }
@@ -164,8 +159,8 @@ export class MenuStore {
    *     to remove.
    */
   public remove(elementOrList: any) {
-    const elements = elementOrList instanceof HTMLElement ?
-      [elementOrList] : elementOrList;
+    const elements =
+      elementOrList instanceof HTMLElement ? [elementOrList] : elementOrList;
     for (const element of elements) {
       this.removeElement(element);
     }
@@ -219,7 +214,6 @@ export class MenuStore {
     this.addEvents(element);
   }
 
-
   /**
    * Removes a DOM element from the store.
    * @param element The DOM element.
@@ -247,14 +241,14 @@ export class MenuStore {
    * Inserts all elements in the store into the tab order.
    */
   private insertTaborder_() {
-    this.store.forEach(x => x.setAttribute('tabindex', '0'));
+    this.store.forEach((x) => x.setAttribute('tabindex', '0'));
   }
 
   /**
    * Removes all elements in the store from the tab order.
    */
   private removeTaborder_() {
-    this.store.forEach(x => x.setAttribute('tabindex', '-1'));
+    this.store.forEach((x) => x.setAttribute('tabindex', '-1'));
   }
 
   /**
@@ -263,8 +257,10 @@ export class MenuStore {
    */
   private addTabindex(element: HTMLElement) {
     if (element.hasAttribute('tabindex')) {
-      element.setAttribute(HtmlAttrs['OLDTAB'],
-                           element.getAttribute('tabindex'));
+      element.setAttribute(
+        HtmlAttrs['OLDTAB'],
+        element.getAttribute('tabindex')
+      );
     }
     element.setAttribute('tabindex', '0');
   }
@@ -275,8 +271,10 @@ export class MenuStore {
    */
   private removeTabindex(element: HTMLElement) {
     if (element.hasAttribute(HtmlAttrs['OLDTAB'])) {
-      element.setAttribute('tabindex',
-                           element.getAttribute(HtmlAttrs['OLDTAB']));
+      element.setAttribute(
+        'tabindex',
+        element.getAttribute(HtmlAttrs['OLDTAB'])
+      );
       element.removeAttribute(HtmlAttrs['OLDTAB']);
     } else {
       element.removeAttribute('tabindex');
@@ -354,5 +352,4 @@ export class MenuStore {
       event.stopImmediatePropagation();
     }
   }
-
 }

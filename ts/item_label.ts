@@ -15,20 +15,17 @@
  *  limitations under the License.
  */
 
-
 /**
  * @file Class of labelled separator items.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-import {AbstractItem} from './abstract_item.js';
-import {Menu} from './menu.js';
-import {HtmlClasses} from './html_classes.js';
-import {ParserFactory} from './parser_factory.js';
-
+import { AbstractItem } from './abstract_item.js';
+import { Menu } from './menu.js';
+import { HtmlClasses } from './html_classes.js';
+import { ParserFactory } from './parser_factory.js';
 
 export class Label extends AbstractItem {
-
   /**
    * Parses a JSON respresentation of a label item.
    * @param _factory The parser factory.
@@ -40,8 +37,9 @@ export class Label extends AbstractItem {
    */
   public static fromJson(
     _factory: ParserFactory,
-    {content: content, id: id}: {content: string, id: string},
-    menu: Menu): Label {
+    { content: content, id: id }: { content: string; id: string },
+    menu: Menu
+  ): Label {
     return new this(menu, content, id);
   }
 
@@ -69,8 +67,6 @@ export class Label extends AbstractItem {
    * @returns The object in JSON.
    */
   public toJson() {
-    return {type: ''
-           };
+    return { type: '' };
   }
-
 }

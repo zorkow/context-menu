@@ -15,22 +15,17 @@
  *  limitations under the License.
  */
 
-
 /**
  * @file Class of sub menus.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-import {AbstractMenu} from './abstract_menu.js';
-import {ContextMenu} from './context_menu.js';
-import {Submenu} from './item_submenu.js';
-import {ParserFactory} from './parser_factory.js';
-
-
+import { AbstractMenu } from './abstract_menu.js';
+import { ContextMenu } from './context_menu.js';
+import { Submenu } from './item_submenu.js';
+import { ParserFactory } from './parser_factory.js';
 
 export class SubMenu extends AbstractMenu {
-
-
   /**
    * Parses a JSON respresentation of a submenu.
    * @param factory The parser factory.
@@ -42,8 +37,9 @@ export class SubMenu extends AbstractMenu {
    */
   public static fromJson(
     factory: ParserFactory,
-    {items: its}: {items: any[], id: string},
-    anchor: Submenu): SubMenu {
+    { items: its }: { items: any[]; id: string },
+    anchor: Submenu
+  ): SubMenu {
     const submenu = new this(anchor);
     const itemList = factory.get('items')(factory, its, submenu);
     submenu.items = itemList;
@@ -87,7 +83,7 @@ export class SubMenu extends AbstractMenu {
     const base = (this.baseMenu as ContextMenu).frame;
     // // let side = 'left';
     const mw = parent.offsetWidth;
-    let x = (mobileFlag ? 30 : mw - 2);
+    let x = mobileFlag ? 30 : mw - 2;
     let y = 0;
     while (parent && parent !== base) {
       x += parent.offsetLeft;
@@ -95,9 +91,10 @@ export class SubMenu extends AbstractMenu {
       parent = <HTMLElement>parent.parentNode;
     }
     if (!mobileFlag) {
-      if ((rtlFlag && x - mw - menu.offsetWidth > margin) ||
-          (!rtlFlag && x + menu.offsetWidth >
-           document.body.offsetWidth - margin)) {
+      if (
+        (rtlFlag && x - mw - menu.offsetWidth > margin) ||
+        (!rtlFlag && x + menu.offsetWidth > document.body.offsetWidth - margin)
+      ) {
         // // side = 'right';
         x = Math.max(margin, x - mw - menu.offsetWidth + 6);
       }
@@ -144,8 +141,6 @@ export class SubMenu extends AbstractMenu {
    * @returns The object in JSON.
    */
   public toJson() {
-    return {type: ''
-           };
+    return { type: '' };
   }
-
 }

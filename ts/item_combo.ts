@@ -15,24 +15,20 @@
  *  limitations under the License.
  */
 
-
 /**
  * @file Class of combo boxes.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-
-import {AbstractVariableItem} from './abstract_variable_item.js';
-import {Menu} from './menu.js';
-import {MenuUtil} from './menu_util.js';
-import {Variable} from './variable.js';
-import {HtmlClasses} from './html_classes.js';
-import {KEY} from './key_navigatable.js';
-import {ParserFactory} from './parser_factory.js';
-
+import { AbstractVariableItem } from './abstract_variable_item.js';
+import { Menu } from './menu.js';
+import { MenuUtil } from './menu_util.js';
+import { Variable } from './variable.js';
+import { HtmlClasses } from './html_classes.js';
+import { KEY } from './key_navigatable.js';
+import { ParserFactory } from './parser_factory.js';
 
 export class Combo extends AbstractVariableItem<string> {
-
   /**
    * @override
    */
@@ -54,8 +50,13 @@ export class Combo extends AbstractVariableItem<string> {
    */
   public static fromJson(
     _factory: ParserFactory,
-    {content: content, variable: variable, id: id}:
-    {content: string, variable: string, id: string}, menu: Menu): Combo {
+    {
+      content: content,
+      variable: variable,
+      id: id
+    }: { content: string; variable: string; id: string },
+    menu: Menu
+  ): Combo {
     return new this(menu, content, variable, id);
   }
 
@@ -77,8 +78,7 @@ export class Combo extends AbstractVariableItem<string> {
    * @override
    */
   public executeAction() {
-    this.variable.setValue(
-      this.input.value, MenuUtil.getActiveElement(this));
+    this.variable.setValue(this.input.value, MenuUtil.getActiveElement(this));
   }
 
   /**
@@ -128,7 +128,6 @@ export class Combo extends AbstractVariableItem<string> {
     this.span.appendChild(this.input);
   }
 
-
   /**
    * Executes the key event of the combobox.
    * @param _event A key event.
@@ -138,15 +137,16 @@ export class Combo extends AbstractVariableItem<string> {
     this.inputEvent = true;
   }
 
-
   /**
    * Specification of the keydown event.
    * @param event The input event.
    */
   public keydown(event: KeyboardEvent) {
-    if (this.inputEvent &&
-        event.keyCode !== KEY.ESCAPE &&
-        event.keyCode !== KEY.RETURN) {
+    if (
+      this.inputEvent &&
+      event.keyCode !== KEY.ESCAPE &&
+      event.keyCode !== KEY.RETURN
+    ) {
       this.inputEvent = false;
       event.stopPropagation();
       return;
@@ -158,7 +158,7 @@ export class Combo extends AbstractVariableItem<string> {
   /**
    * Toggles the aria checked attribute.
    */
-  protected updateAria() { }
+  protected updateAria() {}
 
   /**
    * Toggles the checked tick.
@@ -177,8 +177,6 @@ export class Combo extends AbstractVariableItem<string> {
    * @returns The object in JSON.
    */
   public toJson() {
-    return {type: ''
-           };
+    return { type: '' };
   }
-
 }

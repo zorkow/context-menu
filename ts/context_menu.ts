@@ -15,22 +15,19 @@
  *  limitations under the License.
  */
 
-
 /**
  * @file Class of context menus.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-import {AbstractMenu} from './abstract_menu.js';
-import {HtmlClasses} from './html_classes.js';
-import {MenuStore} from './menu_store.js';
-import {Postable} from './postable.js';
-import {VariablePool} from './variable_pool.js';
-import {ParserFactory} from './parser_factory.js';
-
+import { AbstractMenu } from './abstract_menu.js';
+import { HtmlClasses } from './html_classes.js';
+import { MenuStore } from './menu_store.js';
+import { Postable } from './postable.js';
+import { VariablePool } from './variable_pool.js';
+import { ParserFactory } from './parser_factory.js';
 
 export class ContextMenu extends AbstractMenu {
-
   /**
    * Id of the context menu.
    */
@@ -72,14 +69,17 @@ export class ContextMenu extends AbstractMenu {
    */
   public static fromJson(
     factory: ParserFactory,
-    {pool: pool, items: items, id: id = ''}: {pool: Array<any>,
-                                              items: Array<any>,
-                                              id: string}): ContextMenu {
+    {
+      pool: pool,
+      items: items,
+      id: id = ''
+    }: { pool: Array<any>; items: Array<any>; id: string }
+  ): ContextMenu {
     // The variable id is currently ignored!
     const ctxtMenu = new this(factory);
     ctxtMenu.id = id;
     const varParser = factory.get('variable'); // Allow different parser.
-    pool.forEach(x => varParser(factory, x as any, ctxtMenu.pool));
+    pool.forEach((x) => varParser(factory, x as any, ctxtMenu.pool));
     const itemList = factory.get('items')(factory, items, ctxtMenu);
     ctxtMenu.items = itemList;
     return ctxtMenu;
@@ -99,25 +99,29 @@ export class ContextMenu extends AbstractMenu {
    * @override
    */
   public generateHtml() {
-    if (this.isPosted()) {  // In case we are updating.
+    if (this.isPosted()) {
+      // In case we are updating.
       this.unpost();
     }
     super.generateHtml();
     this._frame = document.createElement('div');
     this._frame.classList.add(HtmlClasses['MENUFRAME']);
     //// TODO: Adapt to other browsers.
-    const styleString = 'left: 0px; top: 0px; z-index: 200; width: 100%; ' +
+    const styleString =
+      'left: 0px; top: 0px; z-index: 200; width: 100%; ' +
       'height: 100%; border: 0px; padding: 0px; margin: 0px;';
     this._frame.setAttribute('style', 'position: absolute; ' + styleString);
     const innerDiv = document.createElement('div');
     innerDiv.setAttribute('style', 'position: fixed; ' + styleString);
     this._frame.appendChild(innerDiv);
-    innerDiv.addEventListener('mousedown',
-                              function(event: Event) {
-                                this.unpost();
-                                this.unpostWidgets();
-                                this.stop(event);
-                              }.bind(this));
+    innerDiv.addEventListener(
+      'mousedown',
+      function (event: Event) {
+        this.unpost();
+        this.unpostWidgets();
+        this.stop(event);
+      }.bind(this)
+    );
   }
 
   /**
@@ -204,7 +208,7 @@ export class ContextMenu extends AbstractMenu {
    * @param isY The y coordinate.
    */
   public post(numberOrEvent?: any, isY?: number) {
-    if (typeof(isY) !== 'undefined') {
+    if (typeof isY !== 'undefined') {
       if (!this.moving) {
         this.store.removeTaborder();
       }
@@ -222,11 +226,15 @@ export class ContextMenu extends AbstractMenu {
     let x: number;
     let y: number;
     if (event instanceof MouseEvent) {
-      x = event.pageX, y = event.pageY;
+      (x = event.pageX), (y = event.pageY);
       if (!x && !y && event.clientX) {
-        x = event.clientX + document.body.scrollLeft +
+        x =
+          event.clientX +
+          document.body.scrollLeft +
           document.documentElement.scrollLeft;
-        y = event.clientY + document.body.scrollTop  +
+        y =
+          event.clientY +
+          document.body.scrollTop +
           document.documentElement.scrollTop;
       }
     }
@@ -280,14 +288,14 @@ export class ContextMenu extends AbstractMenu {
    * Closes all widgets that were opened from this menu.
    */
   public unpostWidgets() {
-    this.widgets.forEach(x => x.unpost());
+    this.widgets.forEach((x) => x.unpost());
   }
 
   /**
    * @returns The object in JSON.
    */
   public toJson() {
-    return {type: ''};
+    return { type: '' };
   }
 
   /**
@@ -303,5 +311,4 @@ export class ContextMenu extends AbstractMenu {
       this.moving = false;
     }
   }
-
 }

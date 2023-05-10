@@ -15,20 +15,17 @@
  *  limitations under the License.
  */
 
-
 /**
  * @file Class of separator items.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-import {AbstractItem} from './abstract_item.js';
-import {Menu} from './menu.js';
-import {HtmlClasses} from './html_classes.js';
-import {ParserFactory} from './parser_factory.js';
-
+import { AbstractItem } from './abstract_item.js';
+import { Menu } from './menu.js';
+import { HtmlClasses } from './html_classes.js';
+import { ParserFactory } from './parser_factory.js';
 
 export class Submenu extends AbstractItem {
-
   /**
    * The span with the little arrow.
    */
@@ -51,8 +48,13 @@ export class Submenu extends AbstractItem {
    */
   public static fromJson(
     factory: ParserFactory,
-    {content: content, menu: submenu, id: id}:
-    {content: string, menu: any, id: string}, menu: Menu): Submenu {
+    {
+      content: content,
+      menu: submenu,
+      id: id
+    }: { content: string; menu: any; id: string },
+    menu: Menu
+  ): Submenu {
     const item = new this(menu, content, id);
     const sm = factory.get('subMenu')(factory, submenu, item);
     item.submenu = sm;
@@ -126,7 +128,6 @@ export class Submenu extends AbstractItem {
     if (!this.submenu.isPosted() && !this.disabled) {
       this.submenu.post();
     }
-
   }
 
   /**
@@ -175,8 +176,6 @@ export class Submenu extends AbstractItem {
    * @returns The object in JSON.
    */
   public toJson() {
-    return {type: ''
-           };
+    return { type: '' };
   }
-
 }

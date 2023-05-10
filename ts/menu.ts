@@ -15,20 +15,18 @@
  *  limitations under the License.
  */
 
-
 /**
  * @file Interface specification for context menus.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-import {Item} from './item.js';
-import {Postable} from './postable.js';
-import {VariablePool} from './variable_pool.js';
-import {KeyNavigatable} from './key_navigatable.js';
-import {MouseNavigatable} from './mouse_navigatable.js';
+import { Item } from './item.js';
+import { Postable } from './postable.js';
+import { VariablePool } from './variable_pool.js';
+import { KeyNavigatable } from './key_navigatable.js';
+import { MouseNavigatable } from './mouse_navigatable.js';
 
 export interface Menu extends Postable, KeyNavigatable, MouseNavigatable {
-
   /**
    * The base menu structure this menu belongs to.
    */
@@ -64,5 +62,4 @@ export interface Menu extends Postable, KeyNavigatable, MouseNavigatable {
    * Generates the HTML element containing the menu entries.
    */
   generateMenu(): void;
-
 }

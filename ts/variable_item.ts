@@ -15,16 +15,12 @@
  *  limitations under the License.
  */
 
-
 /**
  * @file Interface for menu items with variable attachment.
  * @author v.sorge@mathjax.org (Volker Sorge)
  */
 
-
-
 export interface VariableItem {
-
   //// TODO: Add level of abstraction for items with variable dependency.
   /**
    * Registers item with variable.

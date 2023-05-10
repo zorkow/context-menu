@@ -15,18 +15,18 @@
  *  limitations under the License.
  */
 
-
 /**
  * @file Parser factory for menu elements.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-
-export type ParseMethod =
-  (factory: ParserFactory, json: any, ...aux: any[]) => any;
+export type ParseMethod = (
+  factory: ParserFactory,
+  json: any,
+  ...aux: any[]
+) => any;
 
 export class ParserFactory {
-
   private _parser: Map<string, ParseMethod>;
 
   /**
@@ -54,5 +54,4 @@ export class ParserFactory {
   public add(name: string, method: ParseMethod) {
     this._parser.set(name, method);
   }
-
 }

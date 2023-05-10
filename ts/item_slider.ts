@@ -15,24 +15,20 @@
  *  limitations under the License.
  */
 
-
 /**
  * @file Class of slider.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-
-import {AbstractVariableItem} from './abstract_variable_item.js';
-import {Menu} from './menu.js';
-import {MenuUtil} from './menu_util.js';
-import {Variable} from './variable.js';
-import {HtmlClasses} from './html_classes.js';
-import {KEY} from './key_navigatable.js';
-import {ParserFactory} from './parser_factory.js';
-
+import { AbstractVariableItem } from './abstract_variable_item.js';
+import { Menu } from './menu.js';
+import { MenuUtil } from './menu_util.js';
+import { Variable } from './variable.js';
+import { HtmlClasses } from './html_classes.js';
+import { KEY } from './key_navigatable.js';
+import { ParserFactory } from './parser_factory.js';
 
 export class Slider extends AbstractVariableItem<string> {
-
   /**
    * @override
    */
@@ -58,8 +54,13 @@ export class Slider extends AbstractVariableItem<string> {
    */
   public static fromJson(
     _factory: ParserFactory,
-    {content: content, variable: variable, id: id}:
-    {content: string, variable: string, id: string}, menu: Menu): Slider {
+    {
+      content: content,
+      variable: variable,
+      id: id
+    }: { content: string; variable: string; id: string },
+    menu: Menu
+  ): Slider {
     return new this(menu, content, variable, id);
   }
 
@@ -81,8 +82,7 @@ export class Slider extends AbstractVariableItem<string> {
    * @override
    */
   public executeAction() {
-    this.variable.setValue(
-      this.input.value, MenuUtil.getActiveElement(this));
+    this.variable.setValue(this.input.value, MenuUtil.getActiveElement(this));
     this.update();
   }
 
@@ -145,7 +145,6 @@ export class Slider extends AbstractVariableItem<string> {
     this.span.appendChild(this.input);
   }
 
-
   /**
    * Executes the key event of the sliderbox.
    * @param _event The input event.
@@ -154,14 +153,12 @@ export class Slider extends AbstractVariableItem<string> {
     this.inputEvent = true;
   }
 
-
   /**
    * @override
    */
   public mousedown(event: MouseEvent) {
     event.stopPropagation();
   }
-
 
   /**
    * @override
@@ -182,8 +179,7 @@ export class Slider extends AbstractVariableItem<string> {
       super.keydown(event);
       return;
     }
-    if (this.inputEvent &&
-        code !== KEY.ESCAPE && code !== KEY.RETURN) {
+    if (this.inputEvent && code !== KEY.ESCAPE && code !== KEY.RETURN) {
       this.inputEvent = false;
       event.stopPropagation();
       return;
@@ -222,8 +218,6 @@ export class Slider extends AbstractVariableItem<string> {
    * @returns The object in JSON.
    */
   public toJson() {
-    return {type: ''
-           };
+    return { type: '' };
   }
-
 }

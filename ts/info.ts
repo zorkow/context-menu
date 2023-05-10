@@ -15,20 +15,17 @@
  *  limitations under the License.
  */
 
-
 /**
  * @file Class of info widgets.
  * @author v.sorge@mathjax.org (Volker Sorge)
  */
 
-import {CloseButton} from './close_button.js';
-import {ContextMenu} from './context_menu.js';
-import {HtmlClasses} from './html_classes.js';
-import {AbstractPostable} from './abstract_postable.js';
-
+import { CloseButton } from './close_button.js';
+import { ContextMenu } from './context_menu.js';
+import { HtmlClasses } from './html_classes.js';
+import { AbstractPostable } from './abstract_postable.js';
 
 export class Info extends AbstractPostable {
-
   /**
    * @override
    */
@@ -52,10 +49,17 @@ export class Info extends AbstractPostable {
    * @param content Function generating the content of the box.
    * @param signature The final line of the info box.
    */
-  constructor(private title: string, content: () => string,
-              private signature: string) {
+  constructor(
+    private title: string,
+    content: () => string,
+    private signature: string
+  ) {
     super();
-    this.content = content || function() { return ''; };
+    this.content =
+      content ||
+      function () {
+        return '';
+      };
   }
 
   /**
@@ -89,10 +93,9 @@ export class Info extends AbstractPostable {
     const doc = document.documentElement;
     const html = this.html;
     const H = window.innerHeight || doc.clientHeight || doc.scrollHeight || 0;
-    const x = Math.floor((- html.offsetWidth) / 2);
+    const x = Math.floor(-html.offsetWidth / 2);
     const y = Math.floor((H - html.offsetHeight) / 3);
-    html.setAttribute(
-      'style', 'margin-left: ' + x + 'px; top: ' + y + 'px;');
+    html.setAttribute('style', 'margin-left: ' + x + 'px; top: ' + y + 'px;');
     if (window.event instanceof MouseEvent) {
       html.classList.add(HtmlClasses['MOUSEPOST']);
     }
@@ -115,7 +118,7 @@ export class Info extends AbstractPostable {
   /**
    * @override
    */
-  public click(_event: MouseEvent): void { }
+  public click(_event: MouseEvent): void {}
 
   /**
    * @override
@@ -187,8 +190,6 @@ export class Info extends AbstractPostable {
    * @returns The object in JSON.
    */
   public toJson() {
-    return {type: ''
-           };
+    return { type: '' };
   }
-
 }

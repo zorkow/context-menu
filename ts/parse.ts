@@ -15,32 +15,28 @@
  *  limitations under the License.
  */
 
-
 /**
  * @file Parser for menu items.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-
-import {Command} from './item_command.js';
-import {Menu} from './menu.js';
-import {ContextMenu} from './context_menu.js';
-import {Variable} from './variable.js';
-import {Checkbox} from './item_checkbox.js';
-import {Combo} from './item_combo.js';
-import {Label} from './item_label.js';
-import {Radio} from './item_radio.js';
-import {Submenu} from './item_submenu.js';
-import {Rule} from './item_rule.js';
-import {Item} from './item.js';
-import {Slider} from './item_slider.js';
-import {SubMenu} from './sub_menu.js';
-import {SelectionMenu, SelectionBox} from './selection_box.js';
-import {ParserFactory, ParseMethod} from './parser_factory.js';
-
+import { Command } from './item_command.js';
+import { Menu } from './menu.js';
+import { ContextMenu } from './context_menu.js';
+import { Variable } from './variable.js';
+import { Checkbox } from './item_checkbox.js';
+import { Combo } from './item_combo.js';
+import { Label } from './item_label.js';
+import { Radio } from './item_radio.js';
+import { Submenu } from './item_submenu.js';
+import { Rule } from './item_rule.js';
+import { Item } from './item.js';
+import { Slider } from './item_slider.js';
+import { SubMenu } from './sub_menu.js';
+import { SelectionMenu, SelectionBox } from './selection_box.js';
+import { ParserFactory, ParseMethod } from './parser_factory.js';
 
 export class Parser {
-
   private _initList: [string, ParseMethod][] = [
     ['command', Command.fromJson.bind(Command)],
     ['checkbox', Checkbox.fromJson.bind(Checkbox)],
@@ -57,7 +53,6 @@ export class Parser {
     ['selectionMenu', SelectionMenu.fromJson.bind(SelectionMenu)],
     ['selectionBox', SelectionBox.fromJson.bind(SelectionBox)]
   ];
-
 
   /**
    * The parser factory holding the from Json parse methods for all the
@@ -85,7 +80,7 @@ export class Parser {
   /**
    * Parses items in JSON formats and attaches them to the menu.
    * @param _factory The parser factory.
-   * @param its List of JSON menu items. 
+   * @param its List of JSON menu items.
    * @param ctxt The context menu the items will be attached to.
    * @returns The list of newly created menu items.
    */
@@ -104,7 +99,7 @@ export class Parser {
         hidden.push(entry);
       }
     }
-    hidden.forEach(x => x.hide());
+    hidden.forEach((x) => x.hide());
     return ctxt.items;
   }
 
@@ -115,10 +110,11 @@ export class Parser {
    * @param rest Optional rest arguments.
    * @returns The parsed item.
    */
-  public parse({type: kind, ...json}:
-               {type: string, [k: string]: any}, ...rest: any[]): any {
+  public parse(
+    { type: kind, ...json }: { type: string; [k: string]: any },
+    ...rest: any[]
+  ): any {
     const func = this.factory.get(kind);
     return func ? func(this.factory, json, ...rest) : null;
   }
-
 }

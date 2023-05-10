@@ -15,12 +15,10 @@
  *  limitations under the License.
  */
 
-
 /**
  * @file Interface definition for key navigatable menu elements.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
-
 
 /**
  * Key codes.
@@ -36,9 +34,7 @@ export enum KEY {
   DOWN = 40
 }
 
-
 export interface KeyNavigatable {
-
   /**
    * Navigation selection on keyboard events.
    * @param event The keyboard event that fired.
@@ -80,5 +76,4 @@ export interface KeyNavigatable {
    * @param event The keyboard event that fired.
    */
   down(event: KeyboardEvent): void;
-
 }

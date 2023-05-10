@@ -15,20 +15,17 @@
  *  limitations under the License.
  */
 
-
 /**
  * @file Class of popup windows. Each object can actually spawn multiple
  *      windows.
  * @author v.sorge@mathjax.org (Volker Sorge)
  */
 
-import {ContextMenu} from './context_menu.js';
-import {AbstractPostable} from './abstract_postable.js';
-
+import { ContextMenu } from './context_menu.js';
+import { AbstractPostable } from './abstract_postable.js';
 
 export class Popup extends AbstractPostable {
-
-  private static popupSettings: {[id: string]: (string | number)} = {
+  private static popupSettings: { [id: string]: string | number } = {
     status: 'no',
     toolbar: 'no',
     locationbar: 'no',
@@ -38,7 +35,7 @@ export class Popup extends AbstractPostable {
     resizable: 'yes',
     scrollbars: 'yes',
     width: 400,
-    height: 300,
+    height: 300
   };
   private menu: ContextMenu;
   private content: (node: HTMLElement) => string;
@@ -48,9 +45,9 @@ export class Popup extends AbstractPostable {
    */
   private window: Window = null;
 
-  private localSettings: {[id: string]: (string | number)} = {
+  private localSettings: { [id: string]: string | number } = {
     left: Math.round((screen.width - 400) / 2),
-    top:  Math.round((screen.height - 300) / 3)
+    top: Math.round((screen.height - 300) / 3)
   };
 
   /**
@@ -69,7 +66,11 @@ export class Popup extends AbstractPostable {
    */
   constructor(private title: string, content: (node: HTMLElement) => string) {
     super();
-    this.content = content || function() { return ''; };
+    this.content =
+      content ||
+      function () {
+        return '';
+      };
   }
 
   /**
@@ -104,22 +105,33 @@ export class Popup extends AbstractPostable {
     const doc = this.window.document;
     if (this.mobileFlag) {
       doc.open();
-      doc.write('<html><head><meta name="viewport" ' +
-                'content="width=device-width, initial-scale=1.0" /><title>' +
-                this.title +
-                '</title></head><body style="font-size:85%">');
+      doc.write(
+        '<html><head><meta name="viewport" ' +
+          'content="width=device-width, initial-scale=1.0" /><title>' +
+          this.title +
+          '</title></head><body style="font-size:85%">'
+      );
       doc.write('<pre>' + this.generateContent() + '</pre>');
-      doc.write('<hr><input type="button" value="' +
-                //// TODO: Localise
-                'Close' + '" onclick="window.close()" />');
+      doc.write(
+        '<hr><input type="button" value="' +
+          //// TODO: Localise
+          'Close' +
+          '" onclick="window.close()" />'
+      );
       doc.write('</body></html>');
       doc.close();
     } else {
       doc.open();
-      doc.write('<html><head><title>' + this.title +
-                '</title></head><body style="font-size:85%">');
-      doc.write('<table><tr><td><pre>' + this.generateContent() +
-                '</pre></td></tr></table>');
+      doc.write(
+        '<html><head><title>' +
+          this.title +
+          '</title></head><body style="font-size:85%">'
+      );
+      doc.write(
+        '<table><tr><td><pre>' +
+          this.generateContent() +
+          '</pre></td></tr></table>'
+      );
       doc.write('</body></html>');
       doc.close();
       setTimeout(this.resize.bind(this), 50);
@@ -130,7 +142,7 @@ export class Popup extends AbstractPostable {
    * @override
    */
   public unpost() {
-    this.windowList.forEach(x => x.close());
+    this.windowList.forEach((x) => x.close());
     this.window = null;
   }
 
@@ -148,19 +160,39 @@ export class Popup extends AbstractPostable {
    */
   private resize(): void {
     const table = this.window.document.body.firstChild as HTMLElement;
-    let H = (this.window.outerHeight - this.window.innerHeight) || 30;
-    let W = (this.window.outerWidth - this.window.innerWidth) || 30;
-    W = Math.max(140, Math.min(Math.floor(.5 * this.window.screen.width),
-                               table.offsetWidth + W + 25));
-    H = Math.max(40, Math.min(Math.floor(.5 * this.window.screen.height),
-                              table.offsetHeight + H + 25));
+    let H = this.window.outerHeight - this.window.innerHeight || 30;
+    let W = this.window.outerWidth - this.window.innerWidth || 30;
+    W = Math.max(
+      140,
+      Math.min(
+        Math.floor(0.5 * this.window.screen.width),
+        table.offsetWidth + W + 25
+      )
+    );
+    H = Math.max(
+      40,
+      Math.min(
+        Math.floor(0.5 * this.window.screen.height),
+        table.offsetHeight + H + 25
+      )
+    );
     this.window.resizeTo(W, H);
     const bb = this.active.getBoundingClientRect();
     if (bb) {
-      const x = Math.max(0, Math.min(bb.right - Math.floor(W / 2),
-                                   this.window.screen.width - W - 20));
-      const y = Math.max(0, Math.min(bb.bottom - Math.floor(H / 2),
-                                   this.window.screen.height - H - 20));
+      const x = Math.max(
+        0,
+        Math.min(
+          bb.right - Math.floor(W / 2),
+          this.window.screen.width - W - 20
+        )
+      );
+      const y = Math.max(
+        0,
+        Math.min(
+          bb.bottom - Math.floor(H / 2),
+          this.window.screen.height - H - 20
+        )
+      );
       this.window.moveTo(x, y);
     }
     this.active = null;
@@ -170,8 +202,6 @@ export class Popup extends AbstractPostable {
    * @returns The object in JSON.
    */
   public toJson() {
-    return {type: ''
-           };
+    return { type: '' };
   }
-
 }

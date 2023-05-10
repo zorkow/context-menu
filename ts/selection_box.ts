@@ -15,25 +15,22 @@
  *  limitations under the License.
  */
 
-
 /**
  * @file Class of selection boxes with multiple radio buttons.
  * @author v.sorge@mathjax.org (Volker Sorge)
  */
 
-import {ContextMenu} from './context_menu.js';
-import {MenuUtil} from './menu_util.js';
-import {HtmlClasses} from './html_classes.js';
-import {AbstractMenu} from './abstract_menu.js';
-import {Info} from './info.js';
-import {Item} from './item.js';
-import {ParserFactory} from './parser_factory.js';
+import { ContextMenu } from './context_menu.js';
+import { MenuUtil } from './menu_util.js';
+import { HtmlClasses } from './html_classes.js';
+import { AbstractMenu } from './abstract_menu.js';
+import { Info } from './info.js';
+import { Item } from './item.js';
+import { ParserFactory } from './parser_factory.js';
 
-
-declare type selection = {title: string, values: string[], variable: string};
+declare type selection = { title: string; values: string[]; variable: string };
 
 export class SelectionMenu extends AbstractMenu {
-
   /**
    * @override
    */
@@ -51,15 +48,23 @@ export class SelectionMenu extends AbstractMenu {
    */
   public static fromJson(
     factory: ParserFactory,
-    {title: title, values: values, variable: variable}: selection,
-    sb: SelectionBox): SelectionMenu {
+    { title: title, values: values, variable: variable }: selection,
+    sb: SelectionBox
+  ): SelectionMenu {
     const selection = new this(sb);
     const tit = factory.get('label')(
-      factory, {content: title || '', id: title || 'id'}, selection);
+      factory,
+      { content: title || '', id: title || 'id' },
+      selection
+    );
     const rul = factory.get('rule')(factory, {}, selection);
-    const radios = values.map(
-      x => factory.get('radio')(
-        factory, {content: x, variable: variable, id: x}, selection));
+    const radios = values.map((x) =>
+      factory.get('radio')(
+        factory,
+        { content: x, variable: variable, id: x },
+        selection
+      )
+    );
     const items = [tit, rul].concat(radios) as Item[];
     selection.items = items;
     return selection;
@@ -80,13 +85,15 @@ export class SelectionMenu extends AbstractMenu {
    */
   public generateHtml() {
     super.generateHtml();
-    this.items.forEach(item => item.html.classList.add(HtmlClasses['SELECTIONITEM']));
+    this.items.forEach((item) =>
+      item.html.classList.add(HtmlClasses['SELECTIONITEM'])
+    );
   }
 
   /**
    * @override
    */
-  protected display() { }
+  protected display() {}
 
   /**
    * @override
@@ -103,7 +110,6 @@ export class SelectionMenu extends AbstractMenu {
   }
 }
 
-
 export const enum SelectionOrder {
   NONE = 'none',
   ALPHABETICAL = 'alphabetical',
@@ -118,7 +124,6 @@ export const enum SelectionGrid {
 }
 
 export class SelectionBox extends Info {
-
   private _selections: SelectionMenu[] = [];
   private prefix = 'ctxt-selection';
   private _balanced = true;
@@ -134,21 +139,33 @@ export class SelectionBox extends Info {
    * @param json.order The order command for the selections.
    * @param json.grid The grid layout command for the menus.
    * @param ctxt The context menu to which the selection box is attached.
-   * @returns The selection box. 
+   * @returns The selection box.
    */
   public static fromJson(
     factory: ParserFactory,
-    {title: title, signature: signature, selections: selections, order: order, grid: grid}:
-    {title: string, signature: string, selections: selection[],
-     order?: SelectionOrder, grid?: SelectionGrid},
-    ctxt: ContextMenu): SelectionBox {
-      const sb = new this(title, signature, order, grid);
-      sb.attachMenu(ctxt);
-      const sels = selections.map(
-        x => factory.get('selectionMenu')(factory, x, sb));
-      sb.selections = sels;
-      return sb;
-    }
+    {
+      title: title,
+      signature: signature,
+      selections: selections,
+      order: order,
+      grid: grid
+    }: {
+      title: string;
+      signature: string;
+      selections: selection[];
+      order?: SelectionOrder;
+      grid?: SelectionGrid;
+    },
+    ctxt: ContextMenu
+  ): SelectionBox {
+    const sb = new this(title, signature, order, grid);
+    sb.attachMenu(ctxt);
+    const sels = selections.map((x) =>
+      factory.get('selectionMenu')(factory, x, sb)
+    );
+    sb.selections = sels;
+    return sb;
+  }
 
   /**
    * @class
@@ -158,9 +175,12 @@ export class SelectionBox extends Info {
    * @param style The optional selection order.
    * @param grid The optional grid layout command.
    */
-  constructor(title: string, signature: string,
-              public style: SelectionOrder = SelectionOrder.NONE,
-              public grid: SelectionGrid = SelectionGrid.VERTICAL) {
+  constructor(
+    title: string,
+    signature: string,
+    public style: SelectionOrder = SelectionOrder.NONE,
+    public grid: SelectionGrid = SelectionGrid.VERTICAL
+  ) {
     super(title, null, signature);
   }
 
@@ -178,7 +198,7 @@ export class SelectionBox extends Info {
 
   public set selections(selections: SelectionMenu[]) {
     this._selections = [];
-    selections.forEach(x => this.addSelection(x));
+    selections.forEach((x) => this.addSelection(x));
   }
 
   public addSelection(selection: SelectionMenu) {
@@ -186,18 +206,19 @@ export class SelectionBox extends Info {
     this._selections.push(selection);
   }
 
-
-  private rowDiv(sels: SelectionMenu[]): [HTMLElement, number, number, number[]] {
+  private rowDiv(
+    sels: SelectionMenu[]
+  ): [HTMLElement, number, number, number[]] {
     const div = document.createElement('div');
     this.contentDiv.appendChild(div);
-    const rects = sels.map(sel => {
+    const rects = sels.map((sel) => {
       div.appendChild(sel.html);
       if (!sel.html.id) {
         sel.html.id = this.prefix + MenuUtil.counter();
       }
       return sel.html.getBoundingClientRect();
     });
-    const column = rects.map(x => x.width);
+    const column = rects.map((x) => x.width);
     const width = column.reduce((x, y) => x + y, 0);
     const height = rects.reduce((x, y) => Math.max(x, y.height), 0);
     div.classList.add(HtmlClasses['SELECTIONDIVIDER']);
@@ -223,33 +244,32 @@ export class SelectionBox extends Info {
       const [div, width, height, column] = this.rowDiv(sels);
       outerDivs.push(div);
       maxWidth = Math.max(maxWidth, width);
-      sels.forEach(sel => sel.html.style.height = height + 'px');
+      sels.forEach((sel) => (sel.html.style.height = height + 'px'));
       balancedColumn = this.combineColumn(balancedColumn, column);
     }
     if (this._balanced) {
       this.balanceColumn(outerDivs, balancedColumn);
       maxWidth = balancedColumn.reduce((x, y) => x + y, 20);
     }
-    outerDivs.forEach(div => div.style.width = maxWidth + 'px');
+    outerDivs.forEach((div) => (div.style.width = maxWidth + 'px'));
   }
 
   private getChunkSize(size: number) {
     switch (this.grid) {
-    case SelectionGrid.SQUARE:
-      return Math.floor(Math.sqrt(size));
-    case SelectionGrid.HORIZONTAL:
-      return Math.floor(size / SelectionBox.chunkSize);
-    case SelectionGrid.VERTICAL:
-    default:
-      return SelectionBox.chunkSize;
-
+      case SelectionGrid.SQUARE:
+        return Math.floor(Math.sqrt(size));
+      case SelectionGrid.HORIZONTAL:
+        return Math.floor(size / SelectionBox.chunkSize);
+      case SelectionGrid.VERTICAL:
+      default:
+        return SelectionBox.chunkSize;
     }
   }
 
   private balanceColumn(divs: HTMLElement[], column: number[]) {
-    divs.forEach(div => {
+    divs.forEach((div) => {
       const children = Array.from(div.children) as HTMLElement[];
-      for (let i = 0, child: HTMLElement; child = children[i]; i++) {
+      for (let i = 0, child: HTMLElement; (child = children[i]); i++) {
         child.style.width = column[i] + 'px';
       }
     });
@@ -268,8 +288,8 @@ export class SelectionBox extends Info {
         break;
       }
       result.push(Math.max(col1[i], col2[i]));
-      i++
-    };
+      i++;
+    }
     return result;
   }
 
@@ -277,8 +297,10 @@ export class SelectionBox extends Info {
    * @override
    */
   public left(event: KeyboardEvent) {
-    this.move(event, (index: number) =>
-              (index === 0 ? this.selections.length : index) - 1);
+    this.move(
+      event,
+      (index: number) => (index === 0 ? this.selections.length : index) - 1
+    );
   }
 
   /**
@@ -286,7 +308,8 @@ export class SelectionBox extends Info {
    */
   public right(event: KeyboardEvent) {
     this.move(event, (index: number) =>
-              index === this.selections.length - 1 ? 0 : index + 1);
+      index === this.selections.length - 1 ? 0 : index + 1
+    );
   }
 
   /**
@@ -311,17 +334,16 @@ export class SelectionBox extends Info {
     const target = event.target as HTMLElement;
     let selection = null;
     if (target.id) {
-      selection = this.selections.find(x => x.html.id === target.id);
+      selection = this.selections.find((x) => x.html.id === target.id);
     }
     if (!selection) {
       const id = target.parentElement.id;
-      selection = this.selections.find(x => x.html.id === id);
+      selection = this.selections.find((x) => x.html.id === id);
     }
     return selection;
   }
 
-  private move(event: KeyboardEvent,
-               isNext: (x: number) => number) {
+  private move(event: KeyboardEvent, isNext: (x: number) => number) {
     const selection = this.findSelection(event);
     if (selection.focused) {
       selection.focused.unfocus();
@@ -331,19 +353,31 @@ export class SelectionBox extends Info {
     this.selections[next].focus();
   }
 
-  static orderMethod = new Map<SelectionOrder, (x: SelectionMenu, y: SelectionMenu) => number>([
-    [SelectionOrder.ALPHABETICAL, (x, y) => x.items[0].content.localeCompare(y.items[0].content)],
+  static orderMethod = new Map<
+    SelectionOrder,
+    (x: SelectionMenu, y: SelectionMenu) => number
+  >([
+    [
+      SelectionOrder.ALPHABETICAL,
+      (x, y) => x.items[0].content.localeCompare(y.items[0].content)
+    ],
     [SelectionOrder.NONE, (_x, _y) => 1],
-    [SelectionOrder.DECREASING, (x, y) => {
-      const xl = x.items.length;
-      const yl = y.items.length;
-      return (xl < yl) ? 1 : ((yl < xl) ? -1 : 0);
-    }],
-    [SelectionOrder.INCREASING, (x, y) => {
-      const xl = x.items.length;
-      const yl = y.items.length;
-      return (xl < yl) ? -1 : ((yl < xl) ? 1 : 0);
-    }],
+    [
+      SelectionOrder.DECREASING,
+      (x, y) => {
+        const xl = x.items.length;
+        const yl = y.items.length;
+        return xl < yl ? 1 : yl < xl ? -1 : 0;
+      }
+    ],
+    [
+      SelectionOrder.INCREASING,
+      (x, y) => {
+        const xl = x.items.length;
+        const yl = y.items.length;
+        return xl < yl ? -1 : yl < xl ? 1 : 0;
+      }
+    ]
   ]);
 
   /**
@@ -357,8 +391,6 @@ export class SelectionBox extends Info {
    * @returns The object in JSON.
    */
   public toJson() {
-    return {type: ''
-           };
+    return { type: '' };
   }
-
 }

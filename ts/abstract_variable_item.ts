@@ -15,21 +15,19 @@
  *  limitations under the License.
  */
 
-
 /**
  * @file Class of radio buttons.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
+import { AbstractItem } from './abstract_item.js';
+import { VariableItem } from './variable_item.js';
+import { Variable } from './variable.js';
 
-import {AbstractItem} from './abstract_item.js';
-import {VariableItem} from './variable_item.js';
-import {Variable} from './variable.js';
-
-
-export abstract class AbstractVariableItem<T> extends AbstractItem
-implements VariableItem {
-
+export abstract class AbstractVariableItem<T>
+  extends AbstractItem
+  implements VariableItem
+{
   /**
    * Additional span element.
    */
@@ -91,5 +89,4 @@ implements VariableItem {
    * Toggles the checked tick.
    */
   protected abstract updateSpan(): void;
-
 }

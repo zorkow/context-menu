@@ -15,23 +15,20 @@
  *  limitations under the License.
  */
 
-
 /**
  * @file Abstract class of context menus.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-import {AbstractPostable} from './abstract_postable.js';
-import {AbstractItem} from './abstract_item.js';
-import {Menu} from './menu.js';
-import {Item} from './item.js';
-import {VariablePool} from './variable_pool.js';
-import {HtmlClasses} from './html_classes.js';
-import {Submenu} from './item_submenu.js';
-
+import { AbstractPostable } from './abstract_postable.js';
+import { AbstractItem } from './abstract_item.js';
+import { Menu } from './menu.js';
+import { Item } from './item.js';
+import { VariablePool } from './variable_pool.js';
+import { HtmlClasses } from './html_classes.js';
+import { Submenu } from './item_submenu.js';
 
 export abstract class AbstractMenu extends AbstractPostable implements Menu {
-
   /**
    * @override
    */
@@ -118,7 +115,8 @@ export abstract class AbstractMenu extends AbstractPostable implements Menu {
    */
   public up(_event: KeyboardEvent): void {
     const items = this.items.filter(
-      x => (x instanceof AbstractItem) && (!x.isHidden()));
+      (x) => x instanceof AbstractItem && !x.isHidden()
+    );
     if (items.length === 0) {
       return;
     }
@@ -139,7 +137,8 @@ export abstract class AbstractMenu extends AbstractPostable implements Menu {
    */
   public down(_event: KeyboardEvent): void {
     const items = this.items.filter(
-      x => (x instanceof AbstractItem) && (!x.isHidden()));
+      (x) => x instanceof AbstractItem && !x.isHidden()
+    );
     if (items.length === 0) {
       return;
     }
@@ -152,7 +151,7 @@ export abstract class AbstractMenu extends AbstractPostable implements Menu {
       return;
     }
     index++;
-    index = (index === items.length) ? 0 : index;
+    index = index === items.length ? 0 : index;
     items[index].focus();
   }
 
@@ -194,8 +193,9 @@ export abstract class AbstractMenu extends AbstractPostable implements Menu {
    * @override
    */
   public unpostSubmenus(): void {
-    const submenus =
-      this.items.filter(x => x instanceof Submenu) as Submenu[];
+    const submenus = this.items.filter(
+      (x) => x instanceof Submenu
+    ) as Submenu[];
     for (const submenu of submenus) {
       submenu.submenu.unpost();
       if (submenu !== this.focused) {
@@ -233,5 +233,4 @@ export abstract class AbstractMenu extends AbstractPostable implements Menu {
     }
     return null;
   }
-
 }

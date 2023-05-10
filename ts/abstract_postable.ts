@@ -15,20 +15,15 @@
  *  limitations under the License.
  */
 
-
 /**
  * @file Abstract class of context menus.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-import {MenuElement} from './menu_element.js';
-import {Postable} from './postable.js';
+import { MenuElement } from './menu_element.js';
+import { Postable } from './postable.js';
 
-
-
-export abstract class AbstractPostable extends MenuElement
-implements Postable {
-
+export abstract class AbstractPostable extends MenuElement implements Postable {
   private posted = false;
 
   /**
@@ -45,9 +40,8 @@ implements Postable {
     if (this.posted) {
       return;
     }
-    if (typeof(x) !== 'undefined' && typeof(y) !== 'undefined') {
-      this.html.setAttribute(
-        'style', 'left: ' + x + 'px; top: ' + y + 'px;');
+    if (typeof x !== 'undefined' && typeof y !== 'undefined') {
+      this.html.setAttribute('style', 'left: ' + x + 'px; top: ' + y + 'px;');
     }
     this.display();
     this.posted = true;
@@ -71,5 +65,4 @@ implements Postable {
    * Displays the element on screen.
    */
   protected abstract display(): void;
-
 }

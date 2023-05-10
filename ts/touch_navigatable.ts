@@ -15,12 +15,10 @@
  *  limitations under the License.
  */
 
-
 /**
  * @file Interface definition for touch navigatable menu elements.
  * @author v.sorge@mathjax.org (Volker Sorge)
  */
-
 
 /**
  * Touch events.
@@ -33,9 +31,7 @@ export const TOUCH = {
   CANCEL: 'touchcancel'
 };
 
-
 export interface TouchNavigatable {
-
   /**
    * Navigation selection on keyboard events.
    * @param event The keyboard event that fired.
@@ -59,5 +55,4 @@ export interface TouchNavigatable {
    * @param event The keyboard event that fired.
    */
   touchcancel(event: TouchEvent): void;
-
 }

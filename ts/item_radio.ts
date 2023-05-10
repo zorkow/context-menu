@@ -15,23 +15,19 @@
  *  limitations under the License.
  */
 
-
 /**
  * @file Class of radio buttons.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-
-import {AbstractVariableItem} from './abstract_variable_item.js';
-import {Menu} from './menu.js';
-import {Variable} from './variable.js';
-import {MenuUtil} from './menu_util.js';
-import {HtmlClasses} from './html_classes.js';
-import {ParserFactory} from './parser_factory.js';
-
+import { AbstractVariableItem } from './abstract_variable_item.js';
+import { Menu } from './menu.js';
+import { Variable } from './variable.js';
+import { MenuUtil } from './menu_util.js';
+import { HtmlClasses } from './html_classes.js';
+import { ParserFactory } from './parser_factory.js';
 
 export class Radio extends AbstractVariableItem<string> {
-
   /**
    * @override
    */
@@ -49,8 +45,13 @@ export class Radio extends AbstractVariableItem<string> {
    */
   public static fromJson(
     _factory: ParserFactory,
-    {content: content, variable: variable, id: id}:
-    {content: string, variable: string, id: string}, menu: Menu): Radio {
+    {
+      content: content,
+      variable: variable,
+      id: id
+    }: { content: string; variable: string; id: string },
+    menu: Menu
+  ): Radio {
     return new this(menu, content, variable, id);
   }
 
@@ -107,8 +108,6 @@ export class Radio extends AbstractVariableItem<string> {
    * @returns The object in JSON.
    */
   public toJson() {
-    return {type: ''
-           };
+    return { type: '' };
   }
-
 }

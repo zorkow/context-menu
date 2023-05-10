@@ -15,20 +15,17 @@
  *  limitations under the License.
  */
 
-
 /**
  * @file Class of separator items.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-import {AbstractEntry} from './abstract_entry.js';
-import {Menu} from './menu.js';
-import {HtmlClasses} from './html_classes.js';
-import {ParserFactory} from './parser_factory.js';
-
+import { AbstractEntry } from './abstract_entry.js';
+import { Menu } from './menu.js';
+import { HtmlClasses } from './html_classes.js';
+import { ParserFactory } from './parser_factory.js';
 
 export class Rule extends AbstractEntry {
-
   /**
    * @override
    */
@@ -46,7 +43,11 @@ export class Rule extends AbstractEntry {
    * @param menu The menu the item is attached to.
    * @returns The new rule.
    */
-  public static fromJson(_factory: ParserFactory, _json: Record<string, never>, menu: Menu) {
+  public static fromJson(
+    _factory: ParserFactory,
+    _json: Record<string, never>,
+    menu: Menu
+  ) {
     return new this(menu);
   }
 
@@ -72,13 +73,12 @@ export class Rule extends AbstractEntry {
   /**
    * @override
    */
-  public addEvents(_element: HTMLElement) { }
+  public addEvents(_element: HTMLElement) {}
 
   /**
    * @returns The object in JSON.
    */
   public toJson() {
-    return {type: 'rule'};
+    return { type: 'rule' };
   }
-
 }

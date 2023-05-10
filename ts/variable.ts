@@ -15,25 +15,21 @@
  *  limitations under the License.
  */
 
-
 /**
  * @file Generic class for keeping menu variables together with callback
  *     functions to hook into third party libraries.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-
-import {Item} from './item.js';
-import {VariableItem} from './variable_item.js';
-import {MenuUtil} from './menu_util.js';
-import {Checkbox} from './item_checkbox.js';
-import {Radio} from './item_radio.js';
-import {VariablePool} from './variable_pool.js';
-import {ParserFactory} from './parser_factory.js';
-
+import { Item } from './item.js';
+import { VariableItem } from './variable_item.js';
+import { MenuUtil } from './menu_util.js';
+import { Checkbox } from './item_checkbox.js';
+import { Radio } from './item_radio.js';
+import { VariablePool } from './variable_pool.js';
+import { ParserFactory } from './parser_factory.js';
 
 export class Variable<T> {
-
   private items: VariableItem[] = [];
 
   /**
@@ -48,10 +44,17 @@ export class Variable<T> {
    */
   public static fromJson(
     _factory: ParserFactory,
-    {name, getter, setter}:
-    {name: string, getter: () => string | boolean,
-     setter: (x: (string | boolean)) => void},
-    pool: VariablePool<string|boolean>) {
+    {
+      name,
+      getter,
+      setter
+    }: {
+      name: string;
+      getter: () => string | boolean;
+      setter: (x: string | boolean) => void;
+    },
+    pool: VariablePool<string | boolean>
+  ) {
     const variable = new this(name, getter, setter);
     pool.insert(variable);
   }
@@ -63,9 +66,11 @@ export class Variable<T> {
    * @param getter The getter function for the variable.
    * @param setter The setter function for the variable.
    */
-  constructor(private _name: string,
-              private getter: (node?: HTMLElement) => T,
-              private setter: (x: T, node?: HTMLElement) => void) { }
+  constructor(
+    private _name: string,
+    private getter: (node?: HTMLElement) => T,
+    private setter: (x: T, node?: HTMLElement) => void
+  ) {}
 
   /**
    * @returns The name of the variable.
@@ -130,7 +135,7 @@ export class Variable<T> {
    * Updates the items belonging to the variable.
    */
   public update(): void {
-    this.items.forEach(x => x.update());
+    this.items.forEach((x) => x.update());
   }
 
   /**
@@ -138,7 +143,7 @@ export class Variable<T> {
    * @param func Callback that does not take any arguments.
    */
   public registerCallback(func: (value: Item) => void) {
-    this.items.forEach(x => (x as Radio|Checkbox).registerCallback(func));
+    this.items.forEach((x) => (x as Radio | Checkbox).registerCallback(func));
   }
 
   /**
@@ -146,7 +151,7 @@ export class Variable<T> {
    * @param func Callback that does not take any arguments.
    */
   public unregisterCallback(func: (value: Item) => void) {
-    this.items.forEach(x => (x as Radio|Checkbox).unregisterCallback(func));
+    this.items.forEach((x) => (x as Radio | Checkbox).unregisterCallback(func));
   }
 
   /**
@@ -155,10 +160,11 @@ export class Variable<T> {
    * @returns The JSON object.
    */
   public toJson() {
-    return {type: 'variable',
-            name: this.name,
-            getter: this.getter.toString(),
-            setter: this.setter.toString()};
+    return {
+      type: 'variable',
+      name: this.name,
+      getter: this.getter.toString(),
+      setter: this.setter.toString()
+    };
   }
-
 }

@@ -15,20 +15,17 @@
  *  limitations under the License.
  */
 
-
 /**
  * @file Class of items that execute a command.
  * @author volker.sorge@gmail.com (Volker Sorge)
  */
 
-import {AbstractItem} from './abstract_item.js';
-import {MenuUtil} from './menu_util.js';
-import {Menu} from './menu.js';
-import {ParserFactory} from './parser_factory.js';
-
+import { AbstractItem } from './abstract_item.js';
+import { MenuUtil } from './menu_util.js';
+import { Menu } from './menu.js';
+import { ParserFactory } from './parser_factory.js';
 
 export class Command extends AbstractItem {
-
   /**
    * Parses a JSON respresentation of a command item.
    * @param _factory The parser factory.
@@ -41,8 +38,13 @@ export class Command extends AbstractItem {
    */
   public static fromJson(
     _factory: ParserFactory,
-    {content: content, action: action, id: id}:
-    {content: string, action: (node: HTMLElement) => void, id: string}, menu: Menu): Command {
+    {
+      content: content,
+      action: action,
+      id: id
+    }: { content: string; action: (node: HTMLElement) => void; id: string },
+    menu: Menu
+  ): Command {
     return new this(menu, content, action, id);
   }
 
@@ -55,8 +57,12 @@ export class Command extends AbstractItem {
    *     triggering the menu item.
    * @param id Optionally the id of the menu item.
    */
-  constructor(menu: Menu, content: string, private command: (node: HTMLElement) => void,
-              id?: string) {
+  constructor(
+    menu: Menu,
+    content: string,
+    private command: (node: HTMLElement) => void,
+    id?: string
+  ) {
     super(menu, 'command', content, id);
   }
 
@@ -76,8 +82,6 @@ export class Command extends AbstractItem {
    * @returns The object in JSON.
    */
   public toJson() {
-    return {type: ''
-           };
+    return { type: '' };
   }
-
 }
