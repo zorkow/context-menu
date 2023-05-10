@@ -38,7 +38,7 @@ export interface Menu extends Postable, KeyNavigatable, MouseNavigatable {
   items: Item[];
 
   /**
-   *     this menu.
+   *  The variable pool associated to this menu.
    */
   pool: VariablePool<string | boolean>;
 

@@ -226,7 +226,8 @@ export class ContextMenu extends AbstractMenu {
     let x: number;
     let y: number;
     if (event instanceof MouseEvent) {
-      (x = event.pageX), (y = event.pageY);
+      x = event.pageX;
+      y = event.pageY;
       if (!x && !y && event.clientX) {
         x =
           event.clientX +
