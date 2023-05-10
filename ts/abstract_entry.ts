@@ -49,8 +49,8 @@ export abstract class AbstractEntry extends MenuElement implements Entry {
    * @class
    * @implements {Entry}
    * @augments {MenuElement}
-   * @param {Menu} menu The context menu or sub-menu the entry belongs to.
-   * @param {string} type The type of the entry.
+   * @param menu The context menu or sub-menu the entry belongs to.
+   * @param type The type of the entry.
    */
   constructor(private _menu: Menu, private _type: string) {
     super();
@@ -64,7 +64,7 @@ export abstract class AbstractEntry extends MenuElement implements Entry {
   }
 
   /**
-   * @param {Menu} menu Sets the menu.
+   * @param menu Sets the menu.
    */
   public set menu(menu: Menu) {
     this._menu = menu;

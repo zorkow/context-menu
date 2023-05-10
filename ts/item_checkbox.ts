@@ -38,11 +38,11 @@ export class Checkbox extends AbstractVariableItem<boolean> {
 
   /**
    * Parses a JSON respresentation of a checkbox item.
-   * @param {JSON} json The JSON object to parse.
+   * @param json The JSON object to parse.
    * @param _factory
    * @param _factory.content
    * @param _factory.variable
-   * @param {Menu} menu The menu the item is attached to.
+   * @param menu The menu the item is attached to.
    * @param _factory.id
    * @returns {Checkbox} The new checkbox object.
    */
@@ -57,10 +57,10 @@ export class Checkbox extends AbstractVariableItem<boolean> {
   /**
    * @class
    * @augments {AbstractItem}
-   * @param {Menu} menu The context menu or sub-menu the item belongs to.
-   * @param {string} content The content of the menu item.
-   * @param {string} variable The variable that is changed.
-   * @param {string=} id Optionally the id of the menu item.
+   * @param menu The context menu or sub-menu the item belongs to.
+   * @param content The content of the menu item.
+   * @param variable The variable that is changed.
+   * @param id Optionally the id of the menu item.
    */
   constructor(menu: Menu, content: string, variable: string, id?: string) {
     super(menu, 'checkbox', content, id);

@@ -25,7 +25,7 @@
 /**
  * Mouse events.
  * @enum {string}
- * @param {}: {[name: string]: string} TODO: REmove!
+ * @param TODO: REmove!
  */
 export const MOUSE = {
   CLICK: 'click',
@@ -44,31 +44,31 @@ export interface MouseNavigatable {
 
   /**
    * Navigation selection on mouse down events.
-   * @param {MouseEvent} event The mouse event that fired.
+   * @param event The mouse event that fired.
    */
   mousedown(event: MouseEvent): void;
 
   /**
    * Navigation selection on mouse up events.
-   * @param {MouseEvent} event The mouse event that fired.
+   * @param event The mouse event that fired.
    */
   mouseup(event: MouseEvent): void;
 
   /**
    * Navigation selection on mouse over events.
-   * @param {MouseEvent} event The mouse event that fired.
+   * @param event The mouse event that fired.
    */
   mouseover(event: MouseEvent): void;
 
   /**
    * Navigation selection on mouse out events.
-   * @param {MouseEvent} event The mouse event that fired.
+   * @param event The mouse event that fired.
    */
   mouseout(event: MouseEvent): void;
 
   /**
    * Navigation on mouse click events.
-   * @param {MouseEvent} event The mouse event that fired.
+   * @param event The mouse event that fired.
    */
   click(event: MouseEvent): void;
 

@@ -31,7 +31,7 @@ export namespace CssStyles {
 
   /**
    * Creates CSS classname by prefixing a dot.
-   * @param {string} name The class name.
+   * @param name The class name.
    * @returns {string} The context menu class name.
    */
   function makeClass_(name: string): string {
@@ -229,7 +229,7 @@ export namespace CssStyles {
 
   /**
    * Adds the CSS styles for context menus.
-   * @param {?HTMLDocument} opt_document The HTML document.
+   * @param opt_document The HTML document.
    */
   export function addMenuStyles(opt_document: HTMLDocument): void {
     if (MENU_ADDED) {
@@ -242,7 +242,7 @@ export namespace CssStyles {
 
   /**
    * Adds the CSS styles for info widgets.
-   * @param {?HTMLDocument} opt_document The HTML document.
+   * @param opt_document The HTML document.
    */
   export function addInfoStyles(opt_document: HTMLDocument): void {
     if (INFO_ADDED) {
@@ -255,7 +255,7 @@ export namespace CssStyles {
 
   /**
    * Adds the CSS style sheets for the close button.
-   * @param {?HTMLDocument} opt_document The HTML document.
+   * @param opt_document The HTML document.
    */
   function addCloseIconStyles_(opt_document: HTMLDocument): void {
     if (CLOSE_ICON_ADDED) {
@@ -267,8 +267,8 @@ export namespace CssStyles {
 
   /**
    * Creates style elements and adds them to the document.
-   * @param {Object.<string, string>} styles The style dictionary.
-   * @param {?HTMLDocument} opt_document The HTML document.
+   * @param styles The style dictionary.
+   * @param opt_document The HTML document.
    */
   function addStyles_(
     styles: {[id: string]: string}, opt_document: HTMLDocument): void {

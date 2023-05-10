@@ -27,7 +27,7 @@ const PREFIX = 'CtxtMenu';
 
 /**
  * Prefixes a html class name.
- * @param {string} name The base name.
+ * @param name The base name.
  * @returns {string} The prefixed name.
  * @private
  */
@@ -37,7 +37,7 @@ function prefix_(name: string): string {
 
 /**
  * Prefixes a html id.
- * @param {string} name The base name.
+ * @param name The base name.
  * @returns {HtmlClass} The prefixed name.
  * @private
  */
@@ -47,7 +47,7 @@ function prefixClass_(name: string): HtmlClass {
 
 /**
  * Prefixes a html class name.
- * @param {string} name The base name.
+ * @param name The base name.
  * @returns {HtmlAttr} The prefixed name.
  * @private
  */

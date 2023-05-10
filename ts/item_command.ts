@@ -31,11 +31,11 @@ export class Command extends AbstractItem {
 
   /**
    * Parses a JSON respresentation of a command item.
-   * @param {JSON} json The JSON object to parse.
+   * @param json The JSON object to parse.
    * @param _factory
    * @param _factory.content
    * @param _factory.action
-   * @param {Menu} menu The menu the item is attached to.
+   * @param menu The menu the item is attached to.
    * @param _factory.id
    * @returns {Command} The new command object.
    */
@@ -49,11 +49,11 @@ export class Command extends AbstractItem {
   /**
    * @class
    * @augments {AbstractItem}
-   * @param {Menu} menu The context menu or sub-menu the item belongs to.
-   * @param {string} content The content of the menu item.
-   * @param {Function} command The command to be executed on
+   * @param menu The context menu or sub-menu the item belongs to.
+   * @param content The content of the menu item.
+   * @param command The command to be executed on
    *     triggering the menu item.
-   * @param {string=} id Optionally the id of the menu item.
+   * @param id Optionally the id of the menu item.
    */
   constructor(menu: Menu, content: string, private command: Function,
               id?: string) {

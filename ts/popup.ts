@@ -65,7 +65,7 @@ export class Popup extends AbstractPostable {
 
   /**
    * Parses a JSON respresentation of the .
-   * @param {JSON} json The JSON object to parse.
+   * @param json The JSON object to parse.
    */
   public static fromJson() {
   }
@@ -73,8 +73,8 @@ export class Popup extends AbstractPostable {
   /**
    * @class
    * @augments {AbstractPostable}
-   * @param {string} title The title of the popup window.
-   * @param {Function} content Function generating the content.
+   * @param title The title of the popup window.
+   * @param content Function generating the content.
    */
   constructor(private title: string, content: Function) {
     super();
@@ -83,7 +83,7 @@ export class Popup extends AbstractPostable {
 
   /**
    * Attaches the widget to a context menu.
-   * @param {ContextMenu} menu The parent menu.
+   * @param menu The parent menu.
    */
   public attachMenu(menu: ContextMenu): void {
     this.menu = menu;

@@ -47,7 +47,7 @@ export class Info extends AbstractPostable {
 
   /**
    * Parses a JSON respresentation of the .
-   * @param {JSON} json The JSON object to parse.
+   * @param json The JSON object to parse.
    */
   // public static fromJson() {
   // }
@@ -55,9 +55,9 @@ export class Info extends AbstractPostable {
   /**
    * @class
    * @augments {AbstractPostable}
-   * @param {string} title The title of the info box.
-   * @param {Function} content Function generating the content of the box.
-   * @param {string} signature The final line of the info box.
+   * @param title The title of the info box.
+   * @param content Function generating the content of the box.
+   * @param signature The final line of the info box.
    */
   constructor(private title: string, content: Function,
               private signature: string) {
@@ -67,7 +67,7 @@ export class Info extends AbstractPostable {
 
   /**
    * Attaches the widget to a context menu.
-   * @param {ContextMenu} menu The parent menu.
+   * @param menu The parent menu.
    */
   public attachMenu(menu: ContextMenu): void {
     this.menu = menu;

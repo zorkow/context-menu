@@ -69,7 +69,7 @@ export class ContextMenu extends AbstractMenu {
 
   /**
    * Parses a JSON respresentation of a context menu.
-   * @param {JSON} json The JSON object to parse.
+   * @param json The JSON object to parse.
    * @param factory
    * @param root0
    * @param root0.pool
@@ -201,17 +201,17 @@ export class ContextMenu extends AbstractMenu {
    */
   public post(x: number, y: number): void;
   /**
-   * @param {Event} event The event that triggered posting the element.
+   * @param event The event that triggered posting the element.
    */
   public post(event: Event): void;
   /**
-   * @param {HTMLElement} element The element for which the menu is posted.
+   * @param element The element for which the menu is posted.
    */
   public post(element: HTMLElement): void;
   /**
-   * @param {Event|number|HTMLElement} numberOrEvent The overloaded first
+   * @param numberOrEvent The overloaded first
    *     argument.
-   * @param {number} isY The y coordinate.
+   * @param isY The y coordinate.
    */
   public post(numberOrEvent?: any, isY?: number) {
     if (typeof(isY) !== 'undefined') {
@@ -266,7 +266,7 @@ export class ContextMenu extends AbstractMenu {
 
   /**
    * Registers widgets that are opened by the menu.
-   * @param {Postable} widget The open widget.
+   * @param widget The open widget.
    */
   public registerWidget(widget: Postable) {
     this.widgets.push(widget);
@@ -274,7 +274,7 @@ export class ContextMenu extends AbstractMenu {
 
   /**
    * Removes an opened widgets.
-   * @param {Postable} widget The closed widget.
+   * @param widget The closed widget.
    */
   public unregisterWidget(widget: Postable) {
     const index = this.widgets.indexOf(widget);
@@ -302,7 +302,7 @@ export class ContextMenu extends AbstractMenu {
 
   /**
    * Moves to the given next element.
-   * @param {HTMLELement} next The next element in the sequence.
+   * @param next The next element in the sequence.
    * @private
    */
   private move_(next: HTMLElement) {

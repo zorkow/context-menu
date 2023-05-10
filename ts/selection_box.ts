@@ -41,11 +41,11 @@ export class SelectionMenu extends AbstractMenu {
 
   /**
    * Parses a JSON respresentation of a selection menu.
-   * @param {JSON} json The JSON object to parse.
+   * @param json The JSON object to parse.
    * @param factory
    * @param factory.title
    * @param factory.values
-   * @param {SelectionBox} sb The selection box to attach to.
+   * @param sb The selection box to attach to.
    * @param factory.variable
    * @returns {SelectionMenu} The new selection menu.
    */
@@ -127,7 +127,7 @@ export class SelectionBox extends Info {
 
   /**
    * Parses a JSON respresentation of a selection box.
-   * @param {JSON} json The JSON object to parse.
+   * @param json The JSON object to parse.
    * @param factory
    * @param root0
    * @param root0.title
@@ -159,10 +159,10 @@ export class SelectionBox extends Info {
   /**
    * @class
    * @augments {Info}
-   * @param {string} title The title of the selection box.
+   * @param title The title of the selection box.
    * @param grid
-   * @param {string} signature The final line of the selection box.
-   * @param {string=} style The style component.
+   * @param signature The final line of the selection box.
+   * @param style The style component.
    */
   constructor(title: string, signature: string,
               public style: SelectionOrder = SelectionOrder.NONE,
@@ -172,7 +172,7 @@ export class SelectionBox extends Info {
 
   /**
    * Attaches the widget to a context menu.
-   * @param {ContextMenu} menu The parent menu.
+   * @param menu The parent menu.
    */
   public attachMenu(menu: ContextMenu): void {
     this.menu = menu;

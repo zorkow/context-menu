@@ -46,13 +46,13 @@ export class MenuStore {
 
   /**
    * @class
-   * @param {ContextMenu} menu The context menu the store belongs to.
+   * @param menu The context menu the store belongs to.
    */
   constructor(private menu: ContextMenu) { }
 
   /**
    * Sets the new active store element if it exists in the store.
-   * @param {HTMLElement} element Element to be activated.
+   * @param element Element to be activated.
    */
   public set active(element: HTMLElement) {
     do {
@@ -116,23 +116,23 @@ export class MenuStore {
   }
 
   /**
-   * @param {HTMLElement} element Single element to insert.
+   * @param element Single element to insert.
    */
   public insert(element: HTMLElement): void;
 
   /**
-   * @param {Array.<HTMLElement>} elements List of elements to insert.
+   * @param elements List of elements to insert.
    */
   public insert(elements: HTMLElement[]): void;
 
   /**
-   * @param {NodeList} elements List of elements to insert.
+   * @param elements List of elements to insert.
    */
   public insert(elements: NodeListOf<HTMLElement>): void;
 
   /**
    * Inserts DOM elements into the store.
-   * @param {HTMLElement|Array.<HTMLElement>|NodeList} elementOrList Elements
+   * @param elementOrList Elements
    *     to insert.
    */
   public insert(elementOrList: any) {
@@ -145,23 +145,23 @@ export class MenuStore {
   }
 
   /**
-   * @param {HTMLElement} element Single element to remove.
+   * @param element Single element to remove.
    */
   public remove(element: HTMLElement): void;
 
   /**
-   * @param {Array.<HTMLElement>} elements List of elements to remove.
+   * @param elements List of elements to remove.
    */
   public remove(element: HTMLElement[]): void;
 
   /**
-   * @param {NodeList} elements List of elements to remove.
+   * @param elements List of elements to remove.
    */
   public remove(element: NodeListOf<HTMLElement>): void;
 
   /**
    * Removes DOM elements from the store.
-   * @param {HTMLElement|Array.<HTMLElement>|NodeList} elementOrList Elements
+   * @param elementOrList Elements
    *     to remove.
    */
   public remove(elementOrList: any) {
@@ -175,7 +175,7 @@ export class MenuStore {
 
   /**
    * Sets if elements of the store are included in the taborder or not.
-   * @param {boolean} flag If true elements are in taborder, o/w not.
+   * @param flag If true elements are in taborder, o/w not.
    */
   public inTaborder(flag: boolean) {
     if (this.taborder && !flag) {
@@ -207,7 +207,7 @@ export class MenuStore {
 
   /**
    * Adds a DOM element to the store.
-   * @param {HTMLElement} element The DOM element.
+   * @param element The DOM element.
    */
   private insertElement(element: HTMLElement) {
     if (element.classList.contains(this.attachedClass)) {
@@ -223,7 +223,7 @@ export class MenuStore {
 
   /**
    * Removes a DOM element from the store.
-   * @param {HTMLElement} element The DOM element.
+   * @param element The DOM element.
    */
   private removeElement(element: HTMLElement) {
     if (!element.classList.contains(this.attachedClass)) {
@@ -260,7 +260,7 @@ export class MenuStore {
 
   /**
    * Adds tabindex to an element and possibly safes an existing one.
-   * @param {HTMLElement} element The DOM element.
+   * @param element The DOM element.
    */
   private addTabindex(element: HTMLElement) {
     if (element.hasAttribute('tabindex')) {
@@ -272,7 +272,7 @@ export class MenuStore {
 
   /**
    * Removes tabindex from element or restores an old one.
-   * @param {HTMLElement} element The DOM element.
+   * @param element The DOM element.
    */
   private removeTabindex(element: HTMLElement) {
     if (element.hasAttribute(HtmlAttrs['OLDTAB'])) {
@@ -293,7 +293,7 @@ export class MenuStore {
    * as a combination of event handler name and counter, which is unique for
    * each HTML element. The counter is stored on the HTML element in an
    * attribute.
-   * @param {HTMLElement} element The DOM element.
+   * @param element The DOM element.
    */
   private addEvents(element: HTMLElement) {
     if (element.hasAttribute(HtmlAttrs['COUNTER'])) {
@@ -307,9 +307,9 @@ export class MenuStore {
 
   /**
    * Adds a single event listeners and stores them in the attribute mapping.
-   * @param {HTMLElement} element The DOM element.
-   * @param {string} name The name of the event handler.
-   * @param {EventListener} func The event listener.
+   * @param element The DOM element.
+   * @param name The name of the event handler.
+   * @param func The event listener.
    */
   private addEvent(element: HTMLElement, name: string, func: EventListener) {
     const attrName = HtmlAttrs[name.toUpperCase() + 'FUNC'];
@@ -319,7 +319,7 @@ export class MenuStore {
 
   /**
    * Removes event listeners that activate the context menu from an element.
-   * @param {HTMLElement} element The DOM element.
+   * @param element The DOM element.
    */
   private removeEvents(element: HTMLElement) {
     if (!element.hasAttribute(HtmlAttrs['COUNTER'])) {
@@ -333,9 +333,9 @@ export class MenuStore {
 
   /**
    * Removes a single event listeners from an HTML element.
-   * @param {HTMLElement} element The DOM element.
-   * @param {string} name The name of the event handler.
-   * @param {string} counter The unique counter to identify the handler in the
+   * @param element The DOM element.
+   * @param name The name of the event handler.
+   * @param counter The unique counter to identify the handler in the
    *     attribute mappings.
    */
   private removeEvent(element: HTMLElement, name: string, counter: string) {
@@ -346,7 +346,7 @@ export class MenuStore {
 
   /**
    * Deals with key down keyboard events.
-   * @param {KeyboardEvent} event The keyboard event.
+   * @param event The keyboard event.
    */
   private keydown(event: KeyboardEvent) {
     if (event.keyCode === KEY.SPACE) {

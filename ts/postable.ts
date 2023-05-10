@@ -35,8 +35,8 @@ export interface Postable {
 
   /**
    * Posts the element at the given coordinates.
-   * @param {?number} x The x coordinate.
-   * @param {?number} y The y coordinate.
+   * @param x The x coordinate.
+   * @param y The y coordinate.
    */
   post(x?: number, y?: number): void;
 

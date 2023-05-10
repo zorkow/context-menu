@@ -31,7 +31,7 @@ export class ParserFactory {
 
   /**
    * @class
-   * @param {[string, ParseMethod][]} init Parse method mappings.
+   * @param init Parse method mappings.
    */
   constructor(init: [string, ParseMethod][]) {
     this._parser = new Map<string, ParseMethod>(init);
@@ -39,7 +39,7 @@ export class ParserFactory {
 
   /**
    * Gets a parse method by name.
-   * @param {string} name The type of parse method.
+   * @param name The type of parse method.
    * @returns {ParseMethod} The parse method if it exists.
    */
   public get(name: string): ParseMethod {
@@ -48,8 +48,8 @@ export class ParserFactory {
 
   /**
    * Adds a parse method for a given type.
-   * @param {string} name The name of the type.
-   * @param {ParseMethod} method The new method.
+   * @param name The name of the type.
+   * @param method The new method.
    */
   public add(name: string, method: ParseMethod) {
     this._parser.set(name, method);

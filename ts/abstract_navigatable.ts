@@ -99,7 +99,7 @@ KeyNavigatable, MouseNavigatable {
 
   /**
    * Stops event propagation and bubbling.
-   * @param {Event} event The keyboard event that fired.
+   * @param event The keyboard event that fired.
    */
   protected stop(event: Event): void {
     if (event) {
@@ -146,7 +146,7 @@ KeyNavigatable, MouseNavigatable {
 
   /**
    * Adds navigation events to an HTML element.
-   * @param {HTMLElement} element The HTML element for navigation.
+   * @param element The HTML element for navigation.
    */
   public addEvents(element: HTMLElement): void {
     element.addEventListener(MOUSE.DOWN, this.mousedown.bind(this));

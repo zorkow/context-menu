@@ -69,7 +69,7 @@ export class Parser {
   /**
    * Creates new constructor method.
    * @class
-   * @param {[string, ParseMethod][]} init Extra init mappings for the parser's
+   * @param init Extra init mappings for the parser's
    *     factory.
    */
   constructor(init: [string, ParseMethod][] = []) {
@@ -85,7 +85,7 @@ export class Parser {
 
   /**
    * Parses items in JSON formats and attaches them to the menu.
-   * @param {Array.<JSON>} items List of JSON menu items.
+   * @param items List of JSON menu items.
    * @param _factory
    * @param its
    * @param ctxt
@@ -111,8 +111,8 @@ export class Parser {
 
   /**
    * General parse method.
-   * @param {JSON} json The JSON element to parse.
-   * @param {any[]} rest Optional rest arguments.
+   * @param json The JSON element to parse.
+   * @param rest Optional rest arguments.
    * @returns {any} The parsed item.
    */
   public parse({type: kind, ...json}:

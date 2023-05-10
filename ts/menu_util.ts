@@ -33,7 +33,7 @@ export namespace MenuUtil {
 
   /**
    * Closes the entire context menu.
-   * @param {Item} item The item on which the menu close is called.
+   * @param item The item on which the menu close is called.
    */
   export function close(item: Item): void {
     const menu = item.menu;
@@ -47,7 +47,7 @@ export namespace MenuUtil {
 
   /**
    * Retrieves the currently active element of the overall context menu.
-   * @param {Item} item The item on which the last call was made.
+   * @param item The item on which the last call was made.
    * @returns {HtmlElement} The currently active element.
    */
   export function getActiveElement(item: Item): HTMLElement {
@@ -58,9 +58,9 @@ export namespace MenuUtil {
 
   /**
    * Error function for controlled exceptions.
-   * @param {Error} error The thrown error, containing the stack trace.
+   * @param error The thrown error, containing the stack trace.
    * @param _error
-   * @param {string} msg The message to be signalled.
+   * @param msg The message to be signalled.
    */
   export function error(_error: Error, msg: string): void {
     console.error('ContextMenu Error: ' + msg);

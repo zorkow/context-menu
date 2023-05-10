@@ -38,11 +38,11 @@ export class Variable<T> {
   /**
    * Parses a JSON respresentation of a variable and inserts it into the
    * variable pool of the context menu.
-   * @param {JSON} json The JSON object to parse.
+   * @param json The JSON object to parse.
    * @param _factory
    * @param _factory.name
    * @param _factory.getter
-   * @param {VariablePool<string|boolean>} pool The variable pool to insert.
+   * @param pool The variable pool to insert.
    * @param _factory.setter
    */
   public static fromJson(
@@ -58,11 +58,11 @@ export class Variable<T> {
   /**
    * @class
    * @template T
-   * @param {string} name The variable name.
+   * @param name The variable name.
    * @param _name
    * @param setter
-   * @param {function(T)} getter It's initial value.
-   * @param {function(T)} callback Function to call when value is changed.
+   * @param getter It's initial value.
+   * @param callback Function to call when value is changed.
    */
   constructor(private _name: string,
               private getter: (node?: HTMLElement) => T,
@@ -94,7 +94,7 @@ export class Variable<T> {
   /**
    * Sets new variable value. If different from old one it will execute the
    * callback.
-   * @param {T} value New value of the variable.
+   * @param value New value of the variable.
    * @param node
    */
   public setValue(value: T, node?: HTMLElement) {
@@ -108,7 +108,7 @@ export class Variable<T> {
 
   /**
    * Registers a new item that has this variable.
-   * @param {VariableItem} item The new variable item.
+   * @param item The new variable item.
    */
   public register(item: VariableItem): void {
     if (this.items.indexOf(item) === -1) {
@@ -118,7 +118,7 @@ export class Variable<T> {
 
   /**
    * Unregisters an item for this variable.
-   * @param {VariableItem} item The old variable item.
+   * @param item The old variable item.
    */
   public unregister(item: VariableItem): void {
     const index = this.items.indexOf(item);
@@ -136,7 +136,7 @@ export class Variable<T> {
 
   /**
    * Registers a callback function with all items associated to this variable.
-   * @param {Function} func Callback that does not take any arguments.
+   * @param func Callback that does not take any arguments.
    * @final
    */
   public registerCallback(func: Function) {
@@ -145,7 +145,7 @@ export class Variable<T> {
 
   /**
    * Removes a callback function from all items associated to this variable.
-   * @param {Function} func Callback that does not take any arguments.
+   * @param func Callback that does not take any arguments.
    * @final
    */
   public unregisterCallback(func: Function) {

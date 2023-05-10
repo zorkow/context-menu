@@ -41,7 +41,7 @@ export class CloseButton extends AbstractPostable {
   /**
    * @class
    * @augments {AbstractPostable}
-   * @param {Postable} element The postable element the close button is
+   * @param element The postable element the close button is
    *     attached to.
    */
   constructor(private element: Postable) {

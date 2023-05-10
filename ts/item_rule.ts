@@ -41,9 +41,9 @@ export class Rule extends AbstractEntry {
 
   /**
    * Parses a JSON respresentation of the .
-   * @param {JSON} json The JSON object to parse.
+   * @param json The JSON object to parse.
    * @param _factory
-   * @param {Menu} menu The menu for the rule.
+   * @param menu The menu for the rule.
    * @returns {Rule} The new rule.
    */
   public static fromJson(_factory: ParserFactory, {}: {}, menu: Menu) {
@@ -53,7 +53,7 @@ export class Rule extends AbstractEntry {
   /**
    * @class
    * @augments {AbstractItem}
-   * @param {Menu} menu The context menu or sub-menu the item belongs to.
+   * @param menu The context menu or sub-menu the item belongs to.
    */
   constructor(menu: Menu) {
     super(menu, 'rule');

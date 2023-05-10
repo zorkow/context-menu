@@ -30,7 +30,7 @@ export class VariablePool<T> {
 
   /**
    * Inserts a new variable into the pool.
-   * @param {Variable<T>} variable The new variable.
+   * @param variable The new variable.
    */
   public insert(variable: Variable<T>) {
     this.pool[variable.name] = variable;
@@ -39,7 +39,7 @@ export class VariablePool<T> {
   /**
    * Lookup a variable in the pool. Returns undefined if the variable does not
    * exist.
-   * @param {string} name The name of the variable.
+   * @param name The name of the variable.
    * @returns {?Variable<T>} The variable if it is in the pool.
    */
   public lookup(name: string) {
@@ -48,7 +48,7 @@ export class VariablePool<T> {
 
   /**
    * Removes the variable from the pool.
-   * @param {name} name The name of the variable.
+   * @param name The name of the variable.
    */
   public remove(name: string) {
     delete this.pool[name];

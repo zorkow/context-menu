@@ -45,10 +45,10 @@ export abstract class AbstractItem extends AbstractEntry implements Item {
    * @class
    * @implements {Item}
    * @augments {AbstractEntry}
-   * @param {Menu} menu The context menu or sub-menu the item belongs to.
-   * @param {string} type The type of the entry.
-   * @param {string} _content The content of the menu item.
-   * @param {string=} id Optionally the id of the menu item.
+   * @param menu The context menu or sub-menu the item belongs to.
+   * @param type The type of the entry.
+   * @param _content The content of the menu item.
+   * @param id Optionally the id of the menu item.
    */
   constructor(menu: Menu, type: string,
               private _content: string, id?: string) {
@@ -98,7 +98,7 @@ export abstract class AbstractItem extends AbstractEntry implements Item {
 
   /**
    * Registers a callback function.
-   * @param {Function} func Callback that does not take any arguments.
+   * @param func Callback that does not take any arguments.
    * @final
    */
   public registerCallback(func: Function): void {
@@ -109,7 +109,7 @@ export abstract class AbstractItem extends AbstractEntry implements Item {
 
   /**
    * Removes a callback function.
-   * @param {Function} func Callback that does not take any arguments.
+   * @param func Callback that does not take any arguments.
    * @final
    */
   public unregisterCallback(func: Function): void {
