@@ -7,6 +7,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const exports = {
   entry: './js/index.js',
+  mode: 'production',
   module: {
     rules: [
       {
@@ -48,8 +49,7 @@ const exports = {
         }
       }
     })]
-  },
-  mode: 'production'
+  }
 };
 
 export default exports;
