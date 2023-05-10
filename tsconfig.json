@@ -2,6 +2,7 @@
   "compileOnSave": true,
   "compilerOptions": {
     "target": "ES6",
+    "module": "es6",
     "declaration": true,
     "noImplicitAny": true,
     "noImplicitReturns": true,
@@ -13,6 +14,7 @@
     "alwaysStrict": true,
     "sourceMap": true,
     "lib": ["es6", "dom"],
+    "outDir": "js"
   },
   "include": ["ts/**/*"],
   "typeRoots": [],
