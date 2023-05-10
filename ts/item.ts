@@ -29,12 +29,12 @@ import {Entry} from './entry.js';
 export interface Item extends Entry, Element {
 
   /**
-   * @returns {string} The content message of this item.
+   * @returns The content message of this item.
    */
   content: string;
 
   /**
-   * @returns {string} The id of this item.
+   * @returns The id of this item.
    */
   id: string;
 

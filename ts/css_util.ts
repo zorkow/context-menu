@@ -32,7 +32,7 @@ export namespace CssStyles {
   /**
    * Creates CSS classname by prefixing a dot.
    * @param name The class name.
-   * @returns {string} The context menu class name.
+   * @returns The context menu class name.
    */
   function makeClass_(name: string): string {
     return '.' + (HtmlClasses[name] || name);

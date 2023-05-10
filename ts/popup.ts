@@ -145,7 +145,7 @@ export class Popup extends AbstractPostable {
 
   /**
    * Generates the content of the window.
-   * @returns {string} The generated content.
+   * @returns The generated content.
    */
   private generateContent(): string {
     return this.content(this.active);
@@ -176,7 +176,7 @@ export class Popup extends AbstractPostable {
   }
 
   /**
-   * @returns {JSON} The object in JSON.
+   * @returns The object in JSON.
    */
   public toJson() {
     return {type: ''

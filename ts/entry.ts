@@ -47,7 +47,7 @@ export interface Entry {
   show(): void;
 
   /**
-   * @returns {boolean} Indicates if item is hidden from display.
+   * @returns Indicates if item is hidden from display.
    */
   isHidden(): boolean;
 

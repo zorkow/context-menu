@@ -44,7 +44,7 @@ export class Checkbox extends AbstractVariableItem<boolean> {
    * @param _factory.variable
    * @param menu The menu the item is attached to.
    * @param _factory.id
-   * @returns {Checkbox} The new checkbox object.
+   * @returns The new checkbox object.
    */
   public static fromJson(
     _factory: ParserFactory,
@@ -104,7 +104,7 @@ export class Checkbox extends AbstractVariableItem<boolean> {
   }
 
   /**
-   * @returns {JSON} The object in JSON.
+   * @returns The object in JSON.
    */
   public toJson() {
     return {type: ''

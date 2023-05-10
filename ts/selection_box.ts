@@ -47,7 +47,7 @@ export class SelectionMenu extends AbstractMenu {
    * @param factory.values
    * @param sb The selection box to attach to.
    * @param factory.variable
-   * @returns {SelectionMenu} The new selection menu.
+   * @returns The new selection menu.
    */
   public static fromJson(
     factory: ParserFactory,
@@ -360,7 +360,7 @@ export class SelectionBox extends Info {
   }
 
   /**
-   * @returns {JSON} The object in JSON.
+   * @returns The object in JSON.
    */
   public toJson() {
     return {type: ''

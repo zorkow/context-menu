@@ -77,7 +77,7 @@ export class Parser {
   }
 
   /**
-   * @returns {ParserFactory} The parser factory.
+   * @returns The parser factory.
    */
   public get factory(): ParserFactory {
     return this._factory;
@@ -113,7 +113,7 @@ export class Parser {
    * General parse method.
    * @param json The JSON element to parse.
    * @param rest Optional rest arguments.
-   * @returns {any} The parsed item.
+   * @returns The parsed item.
    */
   public parse({type: kind, ...json}:
                {type: string, [k: string]: any}, ...rest: any[]): any {

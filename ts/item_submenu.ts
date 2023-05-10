@@ -49,7 +49,7 @@ export class Submenu extends AbstractItem {
    * @param menu The menu the item is attached to.
    * @param factory.menu
    * @param factory.id
-   * @returns {Submenu} The new submenu object.
+   * @returns The new submenu object.
    */
   public static fromJson(
     factory: ParserFactory,
@@ -83,7 +83,7 @@ export class Submenu extends AbstractItem {
 
   /**
    * Returns the submenu element.
-   * @returns {Menu} The submenu.
+   * @returns The submenu.
    */
   public get submenu(): Menu {
     return this._submenu;
@@ -175,7 +175,7 @@ export class Submenu extends AbstractItem {
   }
 
   /**
-   * @returns {JSON} The object in JSON.
+   * @returns The object in JSON.
    */
   public toJson() {
     return {type: ''

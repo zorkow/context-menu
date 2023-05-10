@@ -37,7 +37,7 @@ export class Command extends AbstractItem {
    * @param _factory.action
    * @param menu The menu the item is attached to.
    * @param _factory.id
-   * @returns {Command} The new command object.
+   * @returns The new command object.
    */
   public static fromJson(
     _factory: ParserFactory,
@@ -73,7 +73,7 @@ export class Command extends AbstractItem {
   }
 
   /**
-   * @returns {JSON} The object in JSON.
+   * @returns The object in JSON.
    */
   public toJson() {
     return {type: ''

@@ -48,7 +48,7 @@ export namespace MenuUtil {
   /**
    * Retrieves the currently active element of the overall context menu.
    * @param item The item on which the last call was made.
-   * @returns {HtmlElement} The currently active element.
+   * @returns The currently active element.
    */
   export function getActiveElement(item: Item): HTMLElement {
     const menu = item.menu;
@@ -67,7 +67,7 @@ export namespace MenuUtil {
   }
 
   /**
-   * @returns {number} A global, increasing unique counter.
+   * @returns A global, increasing unique counter.
    */
   export function counter(): number {
     return count++;

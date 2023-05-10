@@ -54,7 +54,7 @@ export class Slider extends AbstractVariableItem<string> {
    * @param _factory.variable
    * @param menu The menu the item is attached to.
    * @param _factory.id
-   * @returns {Slider} The new slider object.
+   * @returns The new slider object.
    */
   public static fromJson(
     _factory: ParserFactory,
@@ -220,7 +220,7 @@ export class Slider extends AbstractVariableItem<string> {
   }
 
   /**
-   * @returns {JSON} The object in JSON.
+   * @returns The object in JSON.
    */
   public toJson() {
     return {type: ''

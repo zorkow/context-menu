@@ -65,7 +65,7 @@ export class MenuStore {
   }
 
   /**
-   * @returns {HTMLElement} The currently active store element, if one exists.
+   * @returns The currently active store element, if one exists.
    */
   public get active(): HTMLElement {
     return this._active;
@@ -75,7 +75,7 @@ export class MenuStore {
    * Returns next active element.
    * If store is empty returns null and also unsets active element.
    * If active is not set returns the first element of the store.
-   * @returns {HTMLElement} The next element if it exists.
+   * @returns The next element if it exists.
    */
   public next(): HTMLElement {
     const length = this.store.length;
@@ -93,7 +93,7 @@ export class MenuStore {
    * Returns previous active element.
    * If store is empty returns null and also unsets active element.
    * If active is not set returns the last element of the store.
-   * @returns {HTMLElement} The previous element if it exists.
+   * @returns The previous element if it exists.
    */
   public previous(): HTMLElement {
     const length = this.store.length;

@@ -40,7 +40,7 @@ export class VariablePool<T> {
    * Lookup a variable in the pool. Returns undefined if the variable does not
    * exist.
    * @param name The name of the variable.
-   * @returns {?Variable<T>} The variable if it is in the pool.
+   * @returns The variable if it is in the pool.
    */
   public lookup(name: string) {
     return this.pool[name];

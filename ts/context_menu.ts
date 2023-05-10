@@ -78,7 +78,7 @@ export class ContextMenu extends AbstractMenu {
    * @param factory.pool
    * @param factory.items
    * @param factory.id
-   * @returns {ContextMenu} The new context menu object.
+   * @returns The new context menu object.
    */
   public static fromJson(
     factory: ParserFactory,
@@ -178,7 +178,7 @@ export class ContextMenu extends AbstractMenu {
   }
 
   /**
-   * @returns {HTMLElement} The frame element wrapping all the elements of the
+   * @returns The frame element wrapping all the elements of the
    *     menu.
    */
   public get frame(): HTMLElement {
@@ -186,7 +186,7 @@ export class ContextMenu extends AbstractMenu {
   }
 
   /**
-   * @returns {MenuStore} The store of this menu.
+   * @returns The store of this menu.
    */
   public get store(): MenuStore {
     return this._store;
@@ -294,7 +294,7 @@ export class ContextMenu extends AbstractMenu {
   }
 
   /**
-   * @returns {JSON} The object in JSON.
+   * @returns The object in JSON.
    */
   public toJson() {
     return {type: ''};

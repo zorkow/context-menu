@@ -44,7 +44,7 @@ export class Rule extends AbstractEntry {
    * @param json The JSON object to parse.
    * @param _factory
    * @param menu The menu for the rule.
-   * @returns {Rule} The new rule.
+   * @returns The new rule.
    */
   public static fromJson(_factory: ParserFactory, {}: {}, menu: Menu) {
     return new this(menu);
@@ -75,7 +75,7 @@ export class Rule extends AbstractEntry {
   public addEvents(_element: HTMLElement) { }
 
   /**
-   * @returns {JSON} The object in JSON.
+   * @returns The object in JSON.
    */
   public toJson() {
     return {type: 'rule'};

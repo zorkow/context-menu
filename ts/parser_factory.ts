@@ -40,7 +40,7 @@ export class ParserFactory {
   /**
    * Gets a parse method by name.
    * @param name The type of parse method.
-   * @returns {ParseMethod} The parse method if it exists.
+   * @returns The parse method if it exists.
    */
   public get(name: string): ParseMethod {
     return this._parser.get(name);

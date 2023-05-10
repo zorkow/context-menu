@@ -24,7 +24,7 @@
 export interface Postable {
 
   /**
-   * @returns {boolean} True if element is posted in the page.
+   * @returns True if element is posted in the page.
    */
   isPosted(): boolean;
 

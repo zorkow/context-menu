@@ -69,7 +69,7 @@ export class Variable<T> {
               private setter: (x: T, node?: HTMLElement) => void) { }
 
   /**
-   * @returns {string} The name of the variable.
+   * @returns The name of the variable.
    */
   public get name() {
     return this._name;
@@ -78,7 +78,7 @@ export class Variable<T> {
   /**
    * Execute getter callback to retrieve the current value of the variable.
    * @param node
-   * @returns {T} The value of the variable.
+   * @returns The value of the variable.
    */
   public getValue(node?: HTMLElement) {
     try {
@@ -155,7 +155,7 @@ export class Variable<T> {
   /**
    * The variable object in JSON. Note, that the getter and setter methods will
    * be strings.
-   * @returns {JSON} The JSON object.
+   * @returns The JSON object.
    */
   public toJson() {
     return {type: 'variable',

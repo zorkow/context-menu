@@ -38,7 +38,7 @@ export class SubMenu extends AbstractMenu {
    * @param factory.items
    * @param factory.id
    * @param anchor The anchor item the submenu is attached to.
-   * @returns {SubMenu} The new submenu object.
+   * @returns The new submenu object.
    */
   public static fromJson(
     factory: ParserFactory,
@@ -64,7 +64,7 @@ export class SubMenu extends AbstractMenu {
   }
 
   /**
-   * @returns {Submenu} The submenu item that anchors this popdown submenu to
+   * @returns The submenu item that anchors this popdown submenu to
    *     its parent.
    */
   public get anchor(): Submenu {
@@ -142,7 +142,7 @@ export class SubMenu extends AbstractMenu {
   }
 
   /**
-   * @returns {JSON} The object in JSON.
+   * @returns The object in JSON.
    */
   public toJson() {
     return {type: ''

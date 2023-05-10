@@ -36,7 +36,7 @@ export class Label extends AbstractItem {
    * @param _factory.content
    * @param _factory.id
    * @param menu The menu the item is attached to.
-   * @returns {Label} The new label object.
+   * @returns The new label object.
    */
   public static fromJson(
     _factory: ParserFactory,
@@ -66,7 +66,7 @@ export class Label extends AbstractItem {
   }
 
   /**
-   * @returns {JSON} The object in JSON.
+   * @returns The object in JSON.
    */
   public toJson() {
     return {type: ''

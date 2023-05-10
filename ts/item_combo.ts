@@ -50,7 +50,7 @@ export class Combo extends AbstractVariableItem<string> {
    * @param _factory.variable
    * @param menu The menu the item is attached to.
    * @param _factory.id
-   * @returns {Combo} The new combo object.
+   * @returns The new combo object.
    */
   public static fromJson(
     _factory: ParserFactory,
@@ -175,7 +175,7 @@ export class Combo extends AbstractVariableItem<string> {
   }
 
   /**
-   * @returns {JSON} The object in JSON.
+   * @returns The object in JSON.
    */
   public toJson() {
     return {type: ''

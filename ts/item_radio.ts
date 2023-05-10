@@ -45,7 +45,7 @@ export class Radio extends AbstractVariableItem<string> {
    * @param _factory.variable
    * @param menu The menu the item is attached to.
    * @param _factory.id
-   * @returns {Radio} The new radio object.
+   * @returns The new radio object.
    */
   public static fromJson(
     _factory: ParserFactory,
@@ -106,7 +106,7 @@ export class Radio extends AbstractVariableItem<string> {
   }
 
   /**
-   * @returns {JSON} The object in JSON.
+   * @returns The object in JSON.
    */
   public toJson() {
     return {type: ''

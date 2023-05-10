@@ -149,7 +149,7 @@ export class Info extends AbstractPostable {
   }
 
   /**
-   * @returns {CloseButton} The close button for the widget.
+   * @returns The close button for the widget.
    */
   private generateClose(): CloseButton {
     const close = new CloseButton(this);
@@ -160,7 +160,7 @@ export class Info extends AbstractPostable {
   }
 
   /**
-   * @returns {HTMLElement} The title element of the widget.
+   * @returns The title element of the widget.
    */
   private generateTitle(): HTMLElement {
     const span = document.createElement('span');
@@ -170,7 +170,7 @@ export class Info extends AbstractPostable {
   }
 
   /**
-   * @returns {HTMLElement} The basic content element of the widget. The actual
+   * @returns The basic content element of the widget. The actual
    *     content is regenerated and attached during posting.
    */
   protected generateContent(): HTMLElement {
@@ -181,7 +181,7 @@ export class Info extends AbstractPostable {
   }
 
   /**
-   * @returns {HTMLElement} The signature element of the widget.
+   * @returns The signature element of the widget.
    */
   private generateSignature(): HTMLElement {
     const span = document.createElement('span');
@@ -191,7 +191,7 @@ export class Info extends AbstractPostable {
   }
 
   /**
-   * @returns {JSON} The object in JSON.
+   * @returns The object in JSON.
    */
   public toJson() {
     return {type: ''

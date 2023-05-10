@@ -57,7 +57,7 @@ export abstract class AbstractEntry extends MenuElement implements Entry {
   }
 
   /**
-   * @returns {Menu} The context menu or sub-menu the entry belongs to.
+   * @returns The context menu or sub-menu the entry belongs to.
    */
   public get menu(): Menu {
     return this._menu as Menu;
@@ -71,7 +71,7 @@ export abstract class AbstractEntry extends MenuElement implements Entry {
   }
 
   /**
-   * @returns {string} The type of the menu entry, used for jsonification.
+   * @returns The type of the menu entry, used for jsonification.
    */
   public get type() {
     return this._type;
