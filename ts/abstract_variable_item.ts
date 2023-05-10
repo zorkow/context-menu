@@ -32,13 +32,11 @@ implements VariableItem {
 
   /**
    * Additional span element.
-   * @type {Node}
    */
   protected span: HTMLElement;
 
   /**
    * The state variable. Initially set false.
-   * @type {Variable}
    */
   protected variable: Variable<T>;
 

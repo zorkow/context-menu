@@ -31,18 +31,18 @@ export class Command extends AbstractItem {
 
   /**
    * Parses a JSON respresentation of a command item.
+   * @param _factory The parser factory.
    * @param json The JSON object to parse.
-   * @param _factory
-   * @param _factory.content
-   * @param _factory.action
+   * @param json.content The content of the command.
+   * @param json.action The action the command performs.
+   * @param json.id The id of the item.
    * @param menu The menu the item is attached to.
-   * @param _factory.id
    * @returns The new command object.
    */
   public static fromJson(
     _factory: ParserFactory,
     {content: content, action: action, id: id}:
-    {content: string, action: Function, id: string}, menu: Menu): Command {
+    {content: string, action: (node: HTMLElement) => void, id: string}, menu: Menu): Command {
     return new this(menu, content, action, id);
   }
 
@@ -55,7 +55,7 @@ export class Command extends AbstractItem {
    *     triggering the menu item.
    * @param id Optionally the id of the menu item.
    */
-  constructor(menu: Menu, content: string, private command: Function,
+  constructor(menu: Menu, content: string, private command: (node: HTMLElement) => void,
               id?: string) {
     super(menu, 'command', content, id);
   }

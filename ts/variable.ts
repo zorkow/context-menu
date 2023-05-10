@@ -23,6 +23,7 @@
  */
 
 
+import {Item} from './item.js';
 import {VariableItem} from './variable_item.js';
 import {MenuUtil} from './menu_util.js';
 import {Checkbox} from './item_checkbox.js';
@@ -38,16 +39,16 @@ export class Variable<T> {
   /**
    * Parses a JSON respresentation of a variable and inserts it into the
    * variable pool of the context menu.
-   * @param json The JSON object to parse.
-   * @param _factory
-   * @param _factory.name
-   * @param _factory.getter
+   * @param _factory The parser factory.
+   * @param variable The variable definition.
+   * @param variable.name The name of the variable.
+   * @param variable.getter The getter function for the variable.
+   * @param variable.setter The setter function for the variable.
    * @param pool The variable pool to insert.
-   * @param _factory.setter
    */
   public static fromJson(
     _factory: ParserFactory,
-    {name: name, getter: getter, setter: setter}:
+    {name, getter, setter}:
     {name: string, getter: () => string | boolean,
      setter: (x: (string | boolean)) => void},
     pool: VariablePool<string|boolean>) {
@@ -58,11 +59,9 @@ export class Variable<T> {
   /**
    * @class
    * @template T
-   * @param name The variable name.
-   * @param _name
-   * @param setter
-   * @param getter It's initial value.
-   * @param callback Function to call when value is changed.
+   * @param _name The variable name.
+   * @param getter The getter function for the variable.
+   * @param setter The setter function for the variable.
    */
   constructor(private _name: string,
               private getter: (node?: HTMLElement) => T,
@@ -77,7 +76,7 @@ export class Variable<T> {
 
   /**
    * Execute getter callback to retrieve the current value of the variable.
-   * @param node
+   * @param node The item node if there is one.
    * @returns The value of the variable.
    */
   public getValue(node?: HTMLElement) {
@@ -95,7 +94,7 @@ export class Variable<T> {
    * Sets new variable value. If different from old one it will execute the
    * callback.
    * @param value New value of the variable.
-   * @param node
+   * @param node The item node if there is one.
    */
   public setValue(value: T, node?: HTMLElement) {
     try {
@@ -137,18 +136,16 @@ export class Variable<T> {
   /**
    * Registers a callback function with all items associated to this variable.
    * @param func Callback that does not take any arguments.
-   * @final
    */
-  public registerCallback(func: Function) {
+  public registerCallback(func: (value: Item) => void) {
     this.items.forEach(x => (x as Radio|Checkbox).registerCallback(func));
   }
 
   /**
    * Removes a callback function from all items associated to this variable.
    * @param func Callback that does not take any arguments.
-   * @final
    */
-  public unregisterCallback(func: Function) {
+  public unregisterCallback(func: (value: Item) => void) {
     this.items.forEach(x => (x as Radio|Checkbox).unregisterCallback(func));
   }
 

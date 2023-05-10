@@ -34,12 +34,11 @@ export abstract class AbstractItem extends AbstractEntry implements Item {
 
   /**
    * Flag indicating if element is disabled.
-   * @type {boolean}
    */
   protected disabled = false;
 
-  private _id: string;
-  private callbacks: Function[] = [];
+  private _id;
+  private callbacks: ((item: Item) => void)[] = [];
 
   /**
    * @class
@@ -99,9 +98,8 @@ export abstract class AbstractItem extends AbstractEntry implements Item {
   /**
    * Registers a callback function.
    * @param func Callback that does not take any arguments.
-   * @final
    */
-  public registerCallback(func: Function): void {
+  public registerCallback(func: (value: Item) => void): void {
     if (this.callbacks.indexOf(func) === -1) {
       this.callbacks.push(func);
     }
@@ -110,9 +108,8 @@ export abstract class AbstractItem extends AbstractEntry implements Item {
   /**
    * Removes a callback function.
    * @param func Callback that does not take any arguments.
-   * @final
    */
-  public unregisterCallback(func: Function): void {
+  public unregisterCallback(func: (value: Item) => void): void {
     const index = this.callbacks.indexOf(func);
     if (index !== -1) {
       this.callbacks.splice(index, 1);

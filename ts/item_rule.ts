@@ -41,18 +41,18 @@ export class Rule extends AbstractEntry {
 
   /**
    * Parses a JSON respresentation of the .
-   * @param json The JSON object to parse.
-   * @param _factory
-   * @param menu The menu for the rule.
+   * @param _factory The parser factory.
+   * @param _json The empty JSON object.
+   * @param menu The menu the item is attached to.
    * @returns The new rule.
    */
-  public static fromJson(_factory: ParserFactory, {}: {}, menu: Menu) {
+  public static fromJson(_factory: ParserFactory, _json: Record<string, never>, menu: Menu) {
     return new this(menu);
   }
 
   /**
    * @class
-   * @augments {AbstractItem}
+   * @augments {AbstractEntry}
    * @param menu The context menu or sub-menu the item belongs to.
    */
   constructor(menu: Menu) {

@@ -41,11 +41,10 @@ export class Popup extends AbstractPostable {
     height: 300,
   };
   private menu: ContextMenu;
-  private content: Function;
+  private content: (node: HTMLElement) => string;
 
   /**
    * The last opened window.
-   * @type {Window}
    */
   private window: Window = null;
 
@@ -56,7 +55,6 @@ export class Popup extends AbstractPostable {
 
   /**
    * The list of all windows opened by this object.
-   * @type {Array.<Window>}
    */
   private windowList: Window[] = [];
 
@@ -64,19 +62,12 @@ export class Popup extends AbstractPostable {
   private active: HTMLElement = null;
 
   /**
-   * Parses a JSON respresentation of the .
-   * @param json The JSON object to parse.
-   */
-  public static fromJson() {
-  }
-
-  /**
    * @class
    * @augments {AbstractPostable}
    * @param title The title of the popup window.
    * @param content Function generating the content.
    */
-  constructor(private title: string, content: Function) {
+  constructor(private title: string, content: (node: HTMLElement) => string) {
     super();
     this.content = content || function() { return ''; };
   }

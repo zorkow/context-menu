@@ -39,12 +39,12 @@ export class Radio extends AbstractVariableItem<string> {
 
   /**
    * Parses a JSON respresentation of a radio item.
+   * @param _factory The parser factory.
    * @param json The JSON object to parse.
-   * @param _factory
-   * @param _factory.content
-   * @param _factory.variable
+   * @param json.content The content of the radio button.
+   * @param json.variable The variable for the radio button.
+   * @param json.id The id of the item.
    * @param menu The menu the item is attached to.
-   * @param _factory.id
    * @returns The new radio object.
    */
   public static fromJson(
@@ -87,7 +87,6 @@ export class Radio extends AbstractVariableItem<string> {
 
   /**
    * @override
-   * Toggles the aria checked attribute.
    */
   protected updateAria() {
     this.html.setAttribute(
@@ -98,7 +97,6 @@ export class Radio extends AbstractVariableItem<string> {
 
   /**
    * @override
-   * Toggles the checked tick.
    */
   protected updateSpan() {
     this.span.style.display =

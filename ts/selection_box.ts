@@ -41,12 +41,12 @@ export class SelectionMenu extends AbstractMenu {
 
   /**
    * Parses a JSON respresentation of a selection menu.
+   * @param factory The parser factory.
    * @param json The JSON object to parse.
-   * @param factory
-   * @param factory.title
-   * @param factory.values
+   * @param json.title The title of the selection menu.
+   * @param json.values The values of the selections.
+   * @param json.variable The variable affected by the selections.
    * @param sb The selection box to attach to.
-   * @param factory.variable
    * @returns The new selection menu.
    */
   public static fromJson(
@@ -67,8 +67,7 @@ export class SelectionMenu extends AbstractMenu {
 
   /**
    * @class
-   * @param anchor
-   * @param{SelectionBox} anchor The anchor element.
+   * @param anchor The anchor element.
    */
   constructor(public anchor: SelectionBox) {
     super();
@@ -127,20 +126,15 @@ export class SelectionBox extends Info {
 
   /**
    * Parses a JSON respresentation of a selection box.
+   * @param factory The parser factory.
    * @param json The JSON object to parse.
-   * @param factory
-   * @param root0
-   * @param root0.title
-   * @param root0.signature
-   * @param root0.selections
-   * @param root0.order
-   * @param root0.grid
-   * @param factory.title
-   * @param factory.signature
-   * @param ctxt
-   * @param factory.selections
-   * @param factory.order
-   * @param factory.grid
+   * @param json.title The title of the selection box..
+   * @param json.signature The final line of the box.
+   * @param json.selections The individual selection menus.
+   * @param json.order The order command for the selections.
+   * @param json.grid The grid layout command for the menus.
+   * @param ctxt The context menu to which the selection box is attached.
+   * @returns The selection box. 
    */
   public static fromJson(
     factory: ParserFactory,
@@ -160,9 +154,9 @@ export class SelectionBox extends Info {
    * @class
    * @augments {Info}
    * @param title The title of the selection box.
-   * @param grid
    * @param signature The final line of the selection box.
-   * @param style The style component.
+   * @param style The optional selection order.
+   * @param grid The optional grid layout command.
    */
   constructor(title: string, signature: string,
               public style: SelectionOrder = SelectionOrder.NONE,

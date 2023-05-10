@@ -33,7 +33,6 @@ export class MenuStore {
 
   /**
    * The store of elements the menu belongs to.
-   * @type {HTMLElement[]}
    */
   protected store: HTMLElement[] = [];
 

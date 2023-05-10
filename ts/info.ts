@@ -43,14 +43,7 @@ export class Info extends AbstractPostable {
 
   public menu: ContextMenu;
   private close: CloseButton = this.generateClose();
-  private content: Function;
-
-  /**
-   * Parses a JSON respresentation of the .
-   * @param json The JSON object to parse.
-   */
-  // public static fromJson() {
-  // }
+  private content: () => string;
 
   /**
    * @class
@@ -59,7 +52,7 @@ export class Info extends AbstractPostable {
    * @param content Function generating the content of the box.
    * @param signature The final line of the info box.
    */
-  constructor(private title: string, content: Function,
+  constructor(private title: string, content: () => string,
               private signature: string) {
     super();
     this.content = content || function() { return ''; };

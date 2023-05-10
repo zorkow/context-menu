@@ -38,12 +38,12 @@ export class Checkbox extends AbstractVariableItem<boolean> {
 
   /**
    * Parses a JSON respresentation of a checkbox item.
+   * @param _factory The parser factory.
    * @param json The JSON object to parse.
-   * @param _factory
-   * @param _factory.content
-   * @param _factory.variable
+   * @param json.content The content of the checkbox.
+   * @param json.variable The variable for the checkbox.
+   * @param json.id The id of the item.
    * @param menu The menu the item is attached to.
-   * @param _factory.id
    * @returns The new checkbox object.
    */
   public static fromJson(
@@ -56,7 +56,7 @@ export class Checkbox extends AbstractVariableItem<boolean> {
 
   /**
    * @class
-   * @augments {AbstractItem}
+   * @augments {AbstractVariableItem}
    * @param menu The context menu or sub-menu the item belongs to.
    * @param content The content of the menu item.
    * @param variable The variable that is changed.
@@ -87,7 +87,6 @@ export class Checkbox extends AbstractVariableItem<boolean> {
 
   /**
    * @override
-   * Toggles the aria checked attribute.
    */
   protected updateAria() {
     this.html.setAttribute(

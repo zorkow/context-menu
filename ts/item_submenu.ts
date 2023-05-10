@@ -31,24 +31,22 @@ export class Submenu extends AbstractItem {
 
   /**
    * The span with the little arrow.
-   * @type {HTMLElement}
    */
   private span: HTMLElement;
 
   /**
    * The sub menu object.
-   * @type {SubMenu}
    */
   private _submenu: Menu = null;
 
   /**
    * Parses a JSON respresentation of a submenu item.
+   * @param factory The parser factory.
    * @param json The JSON object to parse.
-   * @param factory
-   * @param factory.content
+   * @param json.content The content of the submenu.
+   * @param json.menu The submenu definition.
+   * @param json.id The id of the item.
    * @param menu The menu the item is attached to.
-   * @param factory.menu
-   * @param factory.id
    * @returns The new submenu object.
    */
   public static fromJson(
@@ -66,7 +64,6 @@ export class Submenu extends AbstractItem {
    * @augments {AbstractItem}
    * @param menu The context menu or sub-menu the item belongs to.
    * @param content The content of the menu item.
-   * @param variable The variable that is changed.
    * @param id Optionally the id of the menu item.
    */
   constructor(menu: Menu, content: string, id?: string) {

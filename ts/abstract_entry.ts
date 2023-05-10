@@ -24,7 +24,7 @@
 import {Entry} from './entry.js';
 import {MenuElement} from './menu_element.js';
 import {Menu} from './menu.js';
-import {HtmlClasses} from './html_classes.js';
+import {HtmlClass, HtmlClasses} from './html_classes.js';
 
 
 
@@ -33,13 +33,11 @@ export abstract class AbstractEntry extends MenuElement implements Entry {
 
   /**
    * Class name.
-   * @type {HtmlClass}
    */
-  protected className = HtmlClasses['MENUITEM'];
+  protected className: HtmlClass = HtmlClasses['MENUITEM'];
 
   /**
    * Aria role element.
-   * @type {string}
    */
   protected role = 'menuitem';
 
@@ -49,8 +47,8 @@ export abstract class AbstractEntry extends MenuElement implements Entry {
    * @class
    * @implements {Entry}
    * @augments {MenuElement}
-   * @param menu The context menu or sub-menu the entry belongs to.
-   * @param type The type of the entry.
+   * @param _menu The context menu or sub-menu the entry belongs to.
+   * @param _type The type of the entry.
    */
   constructor(private _menu: Menu, private _type: string) {
     super();

@@ -11,6 +11,7 @@
     "es5": "./node_modules/.bin/tsc --module commonjs --outDir cjs",
     "es6": "./node_modules/.bin/tsc --module es6 --outDir js",
     "build": "npm run es5; npm run es6; ./node_modules/.bin/webpack",
+    "clean:ts": "npx rimraf ts/*.d.ts ts/*.js ts/*.js.map",
     "clean": "npx rimraf cjs; npx rimraf js; npx rimraf dist",
     "prepare": "npm run clean; npm run build"
   },

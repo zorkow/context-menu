@@ -31,24 +31,20 @@ export interface Menu extends Postable, KeyNavigatable, MouseNavigatable {
 
   /**
    * The base menu structure this menu belongs to.
-   * @type {Menu}
    */
   baseMenu: Menu;
 
   /**
    * The items in that menu.
-   * @type {Item[]}
    */
   items: Item[];
 
   /**
-   * @type {VariablePool<string | boolean>} The variable pool associated to
    *     this menu.
    */
   pool: VariablePool<string | boolean>;
 
   /**
-   * @type {Item} The currently focused Item.
    */
   focused: Item;
 

@@ -27,12 +27,10 @@ import {Menu} from './menu.js';
 export interface Entry {
 
   /**
-   * @type {Menu} The menu the entry belongs to.
    */
   menu: Menu;
 
   /**
-   * @type {string} The type of the entry.
    */
   type: string;
 

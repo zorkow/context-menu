@@ -31,10 +31,10 @@ export class Label extends AbstractItem {
 
   /**
    * Parses a JSON respresentation of a label item.
+   * @param _factory The parser factory.
    * @param json The JSON object to parse.
-   * @param _factory
-   * @param _factory.content
-   * @param _factory.id
+   * @param json.content The content of the label.
+   * @param json.id The id of the item.
    * @param menu The menu the item is attached to.
    * @returns The new label object.
    */

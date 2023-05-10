@@ -48,12 +48,12 @@ export class Slider extends AbstractVariableItem<string> {
 
   /**
    * Parses a JSON respresentation of a combo item.
+   * @param _factory The parser factory.
    * @param json The JSON object to parse.
-   * @param _factory
-   * @param _factory.content
-   * @param _factory.variable
+   * @param json.content The content of the slider.
+   * @param json.variable The variable for the slider.
+   * @param json.id The id of the item.
    * @param menu The menu the item is attached to.
-   * @param _factory.id
    * @returns The new slider object.
    */
   public static fromJson(
@@ -65,7 +65,7 @@ export class Slider extends AbstractVariableItem<string> {
 
   /**
    * @class
-   * @augments {AbstractItem}
+   * @augments {AbstractVariableItem}
    * @param menu The context menu or sub-menu the item belongs to.
    * @param content The content of the menu item.
    * @param variable The variable that is changed.
@@ -148,8 +148,7 @@ export class Slider extends AbstractVariableItem<string> {
 
   /**
    * Executes the key event of the sliderbox.
-   * @param event The input event.
-   * @param _event
+   * @param _event The input event.
    */
   public inputKey(_event: KeyboardEvent) {
     this.inputEvent = true;

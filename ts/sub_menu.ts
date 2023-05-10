@@ -33,10 +33,10 @@ export class SubMenu extends AbstractMenu {
 
   /**
    * Parses a JSON respresentation of a submenu.
+   * @param factory The parser factory.
    * @param json The JSON object to parse.
-   * @param factory
-   * @param factory.items
-   * @param factory.id
+   * @param json.items The list of items to parse.
+   * @param json.id The id of the item.
    * @param anchor The anchor item the submenu is attached to.
    * @returns The new submenu object.
    */
@@ -53,8 +53,7 @@ export class SubMenu extends AbstractMenu {
   /**
    * @class
    * @augments {AbstractMenu}
-   * @param _anchor
-   * @param anchor The item in the parent menu triggering this
+   * @param _anchor The item in the parent menu triggering this
    *     submenu.
    */
   constructor(private _anchor: Submenu) {

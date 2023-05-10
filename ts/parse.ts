@@ -62,7 +62,6 @@ export class Parser {
   /**
    * The parser factory holding the from Json parse methods for all the
    * components.
-   * @type {ParserFactory}
    */
   private readonly _factory: ParserFactory = new ParserFactory(this._initList);
 
@@ -85,10 +84,10 @@ export class Parser {
 
   /**
    * Parses items in JSON formats and attaches them to the menu.
-   * @param items List of JSON menu items.
-   * @param _factory
-   * @param its
-   * @param ctxt
+   * @param _factory The parser factory.
+   * @param its List of JSON menu items. 
+   * @param ctxt The context menu the items will be attached to.
+   * @returns The list of newly created menu items.
    */
   public items(_factory: ParserFactory, its: any[], ctxt: Menu): Item[] {
     const hidden = [];
@@ -112,6 +111,7 @@ export class Parser {
   /**
    * General parse method.
    * @param json The JSON element to parse.
+   * @param json.type The type of the JSON element.
    * @param rest Optional rest arguments.
    * @returns The parsed item.
    */

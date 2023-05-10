@@ -39,7 +39,6 @@ export abstract class AbstractMenu extends AbstractPostable implements Menu {
 
   /**
    * The variable pool of the context menu.
-   * @type {VarialbePool<string | boolean>}
    */
   protected variablePool: VariablePool<string | boolean>;
 
@@ -49,7 +48,6 @@ export abstract class AbstractMenu extends AbstractPostable implements Menu {
   protected role = 'menu';
 
   /**
-   * @type {Item[]} Item list.
    */
   protected _items: Item[] = [];
   private _baseMenu: Menu = null;

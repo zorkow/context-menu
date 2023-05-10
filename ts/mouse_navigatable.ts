@@ -25,7 +25,6 @@
 /**
  * Mouse events.
  * @enum {string}
- * @param TODO: REmove!
  */
 export const MOUSE = {
   CLICK: 'click',

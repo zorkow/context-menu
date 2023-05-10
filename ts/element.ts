@@ -26,7 +26,6 @@
 export interface Element  {
 
   /**
-   * @type {HTMLElement} The HTML element associated with this entry.
    * The getter generates the DOM element if it does not yet exist.
    */
   html: HTMLElement;

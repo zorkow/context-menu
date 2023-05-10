@@ -33,57 +33,47 @@ export class ContextMenu extends AbstractMenu {
 
   /**
    * Id of the context menu.
-   * @type {string}
    */
   public id = '';
 
   /**
    * Flag to avoid redoing taborder if we are between elements.
-   * @type {boolean}
    */
   private moving = false;
 
   /**
    * The div that holds the entire menu.
-   * @type {HTMLElement}
    */
   private _frame: HTMLElement;
 
   /**
    * A store the menu belongs to.
-   * @type {MenuStore}
    */
   private _store: MenuStore = new MenuStore(this);
 
   /**
    * The element the menu is anchored to.
-   * @type {HTMLElement}
    */
   private anchor: HTMLElement;
 
   /**
    * Registry of currently open widgets.
-   * @type {Array.<Postable>}
    */
   private widgets: Postable[] = [];
 
   /**
    * Parses a JSON respresentation of a context menu.
-   * @param json The JSON object to parse.
-   * @param factory
-   * @param root0
-   * @param root0.pool
-   * @param root0.items
-   * @param root0.id
-   * @param factory.pool
-   * @param factory.items
-   * @param factory.id
+   * @param factory The parser factory.
+   * @param ctxtmenu The context menu definition.
+   * @param ctxtmenu.pool The variable pool.
+   * @param ctxtmenu.items The item lists.
+   * @param ctxtmenu.id The id of the menu.
    * @returns The new context menu object.
    */
   public static fromJson(
     factory: ParserFactory,
-    {pool: pool, items: items, id: id = ''}: {pool: Array<Object>,
-                                              items: Array<Object>,
+    {pool: pool, items: items, id: id = ''}: {pool: Array<any>,
+                                              items: Array<any>,
                                               id: string}): ContextMenu {
     // The variable id is currently ignored!
     const ctxtMenu = new this(factory);
@@ -96,7 +86,7 @@ export class ContextMenu extends AbstractMenu {
   }
 
   /**
-   * @param factory
+   * @param factory The parser factory for this context menu.
    * @class
    * @augments {AbstractMenu}
    */

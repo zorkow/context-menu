@@ -58,8 +58,7 @@ export namespace MenuUtil {
 
   /**
    * Error function for controlled exceptions.
-   * @param error The thrown error, containing the stack trace.
-   * @param _error
+   * @param _error The thrown error, containing the stack trace.
    * @param msg The message to be signalled.
    */
   export function error(_error: Error, msg: string): void {
