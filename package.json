@@ -8,9 +8,10 @@
     "format-fix": "prettier --write ts/",
     "lint": "eslint ts/ --ext .ts,.tsx",
     "lint-fix": "eslint ts/ --ext .ts,.tsx --fix",
-    "es5": "./node_modules/.bin/tsc --module commonjs --outDir cjs",
-    "es6": "./node_modules/.bin/tsc --module es6 --outDir js",
-    "build": "npm run es5; npm run es6; ./node_modules/.bin/webpack",
+    "es5": "npx tsc --module commonjs --outDir cjs",
+    "postes5": "node -e 'require(\"fs\").writeFileSync(\"cjs/package.json\", \"{\\n  \\\"type\\\": \\\"commonjs\\\"\\n}\\n\");'",
+    "es6": "npx tsc --module es6 --outDir js",
+    "build": "npm run es5; npm run es6; npx webpack",
     "clean:ts": "npx rimraf ts/*.d.ts ts/*.js ts/*.js.map",
     "clean": "npx rimraf cjs; npx rimraf js; npx rimraf dist",
     "prepare": "npm run clean; npm run build"
