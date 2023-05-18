@@ -1,6 +1,6 @@
 {
   "name": "mj-context-menu",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "A generic context menu",
   "main": "dist/ContextMenu.js",
   "scripts": {
@@ -8,7 +8,7 @@
     "format-fix": "prettier --write ts/",
     "lint": "eslint ts/ --ext .ts,.tsx",
     "lint-fix": "eslint ts/ --ext .ts,.tsx --fix",
-    "es5": "npx tsc --module commonjs --outDir cjs",
+    "es5": "npx tsc --target es5 --module commonjs --outDir cjs",
     "postes5": "node -e 'require(\"fs\").writeFileSync(\"cjs/package.json\", \"{\\n  \\\"type\\\": \\\"commonjs\\\"\\n}\\n\");'",
     "es6": "npx tsc",
     "build": "npm run es5; npm run es6; npx webpack",
