@@ -24,48 +24,43 @@ import { ContextMenu } from './context_menu.js';
 import { Item } from './item.js';
 
 /**
- * @namespace
+ * Closes the entire context menu.
+ * @param item The item on which the menu close is called.
  */
-export namespace MenuUtil {
-  /**
-   * Closes the entire context menu.
-   * @param item The item on which the menu close is called.
-   */
-  export function close(item: Item): void {
-    const menu = item.menu;
-    // TODO: Have baseMenu point to itself and simplify unposting.
-    if (menu.baseMenu) {
-      menu.baseMenu.unpost();
-    } else {
-      menu.unpost();
-    }
+export function close(item: Item): void {
+  const menu = item.menu;
+  // TODO: Have baseMenu point to itself and simplify unposting.
+  if (menu.baseMenu) {
+    menu.baseMenu.unpost();
+  } else {
+    menu.unpost();
   }
-
-  /**
-   * Retrieves the currently active element of the overall context menu.
-   * @param item The item on which the last call was made.
-   * @returns The currently active element.
-   */
-  export function getActiveElement(item: Item): HTMLElement {
-    const menu = item.menu;
-    const baseMenu = (menu.baseMenu ? menu.baseMenu : menu) as ContextMenu;
-    return baseMenu.store.active;
-  }
-
-  /**
-   * Error function for controlled exceptions.
-   * @param _error The thrown error, containing the stack trace.
-   * @param msg The message to be signalled.
-   */
-  export function error(_error: Error, msg: string): void {
-    console.error('ContextMenu Error: ' + msg);
-  }
-
-  /**
-   * @returns A global, increasing unique counter.
-   */
-  export function counter(): number {
-    return count++;
-  }
-  let count = 0;
 }
+
+/**
+ * Retrieves the currently active element of the overall context menu.
+ * @param item The item on which the last call was made.
+ * @returns The currently active element.
+ */
+export function getActiveElement(item: Item): HTMLElement {
+  const menu = item.menu;
+  const baseMenu = (menu.baseMenu ? menu.baseMenu : menu) as ContextMenu;
+  return baseMenu.store.active;
+}
+
+/**
+ * Error function for controlled exceptions.
+ * @param _error The thrown error, containing the stack trace.
+ * @param msg The message to be signalled.
+ */
+export function error(_error: Error, msg: string): void {
+  console.error('ContextMenu Error: ' + msg);
+}
+
+/**
+ * @returns A global, increasing unique counter.
+ */
+export function counter(): number {
+  return count++;
+}
+let count = 0;

@@ -21,7 +21,7 @@
  */
 
 import { AbstractItem } from './abstract_item.js';
-import { MenuUtil } from './menu_util.js';
+import * as MenuUtil from './menu_util.js';
 import { Menu } from './menu.js';
 import { ParserFactory } from './parser_factory.js';
 

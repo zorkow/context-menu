@@ -1,5 +1,5 @@
 import { ContextMenu as obj0 } from './context_menu.js';
-import { CssStyles as obj1 } from './css_util.js';
+import * as obj1 from './css_util.js';
 import { Info as obj2 } from './info.js';
 import { Popup as obj3 } from './popup.js';
 import { Parser as obj4 } from './parse.js';

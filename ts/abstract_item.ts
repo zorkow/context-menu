@@ -24,7 +24,7 @@ import { AbstractEntry } from './abstract_entry.js';
 import { AbstractMenu } from './abstract_menu.js';
 import { Item } from './item.js';
 import { Menu } from './menu.js';
-import { MenuUtil } from './menu_util.js';
+import * as MenuUtil from './menu_util.js';
 import { HtmlClasses } from './html_classes.js';
 
 export abstract class AbstractItem extends AbstractEntry implements Item {

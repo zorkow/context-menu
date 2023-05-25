@@ -23,7 +23,7 @@
 import { AbstractVariableItem } from './abstract_variable_item.js';
 import { Menu } from './menu.js';
 import { Variable } from './variable.js';
-import { MenuUtil } from './menu_util.js';
+import * as MenuUtil from './menu_util.js';
 import { HtmlClasses } from './html_classes.js';
 import { ParserFactory } from './parser_factory.js';
 
