@@ -21,7 +21,7 @@
  */
 
 import { ContextMenu } from './context_menu.js';
-import { MenuUtil } from './menu_util.js';
+import * as MenuUtil from './menu_util.js';
 import { HtmlClasses, HtmlAttrs } from './html_classes.js';
 import { KEY } from './key_navigatable.js';
 

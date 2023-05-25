@@ -23,7 +23,7 @@
 
 import { Item } from './item.js';
 import { VariableItem } from './variable_item.js';
-import { MenuUtil } from './menu_util.js';
+import * as MenuUtil from './menu_util.js';
 import { Checkbox } from './item_checkbox.js';
 import { Radio } from './item_radio.js';
 import { VariablePool } from './variable_pool.js';
