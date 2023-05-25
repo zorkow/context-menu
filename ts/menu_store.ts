@@ -120,16 +120,11 @@ export class MenuStore {
   public insert(elements: HTMLElement[]): void;
 
   /**
-   * @param elements List of elements to insert.
-   */
-  public insert(elements: NodeListOf<HTMLElement>): void;
-
-  /**
    * Inserts DOM elements into the store.
    * @param elementOrList Elements
    *     to insert.
    */
-  public insert(elementOrList: any) {
+  public insert(elementOrList: HTMLElement | HTMLElement[]) {
     const elements =
       elementOrList instanceof HTMLElement ? [elementOrList] : elementOrList;
     for (const element of elements) {
@@ -149,16 +144,11 @@ export class MenuStore {
   public remove(element: HTMLElement[]): void;
 
   /**
-   * @param elements List of elements to remove.
-   */
-  public remove(element: NodeListOf<HTMLElement>): void;
-
-  /**
    * Removes DOM elements from the store.
    * @param elementOrList Elements
    *     to remove.
    */
-  public remove(elementOrList: any) {
+  public remove(elementOrList: HTMLElement | HTMLElement[]) {
     const elements =
       elementOrList instanceof HTMLElement ? [elementOrList] : elementOrList;
     for (const element of elements) {

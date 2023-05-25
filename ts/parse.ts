@@ -111,7 +111,7 @@ export class Parser {
    * @returns The parsed item.
    */
   public parse(
-    { type: kind, ...json }: { type: string; [k: string]: any },
+    { type: kind, ...json }: { type: string; [k: string]: unknown },
     ...rest: any[]
   ): any {
     const func = this.factory.get(kind);

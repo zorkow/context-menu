@@ -73,13 +73,13 @@ export class ContextMenu extends AbstractMenu {
       pool: pool,
       items: items,
       id: id = ''
-    }: { pool: Array<any>; items: Array<any>; id: string }
+    }: { pool: Array<JSON>; items: Array<JSON>; id: string }
   ): ContextMenu {
     // The variable id is currently ignored!
     const ctxtMenu = new this(factory);
     ctxtMenu.id = id;
     const varParser = factory.get('variable'); // Allow different parser.
-    pool.forEach((x) => varParser(factory, x as any, ctxtMenu.pool));
+    pool.forEach((x) => varParser(factory, x as JSON, ctxtMenu.pool));
     const itemList = factory.get('items')(factory, items, ctxtMenu);
     ctxtMenu.items = itemList;
     return ctxtMenu;
@@ -207,18 +207,18 @@ export class ContextMenu extends AbstractMenu {
    *     argument.
    * @param isY The y coordinate.
    */
-  public post(numberOrEvent?: any, isY?: number) {
+  public post(numberOrEvent?: number | HTMLElement | Event, isY?: number) {
     if (typeof isY !== 'undefined') {
       if (!this.moving) {
         this.store.removeTaborder();
       }
-      super.post(numberOrEvent, isY);
+      super.post(numberOrEvent as number, isY);
       return;
     }
-    const event = numberOrEvent;
-    let node;
+    const event = numberOrEvent as HTMLElement | Event;
+    let node: HTMLElement;
     if (event instanceof Event) {
-      node = event.target;
+      node = event.target as HTMLElement;
       this.stop(event);
     } else {
       node = event;

@@ -22,6 +22,7 @@
 
 import { AbstractMenu } from './abstract_menu.js';
 import { ContextMenu } from './context_menu.js';
+import { Item } from './item.js';
 import { Submenu } from './item_submenu.js';
 import { ParserFactory } from './parser_factory.js';
 
@@ -37,7 +38,7 @@ export class SubMenu extends AbstractMenu {
    */
   public static fromJson(
     factory: ParserFactory,
-    { items: its }: { items: any[]; id: string },
+    { items: its }: { items: (Item | SubMenu)[]; id: string },
     anchor: Submenu
   ): SubMenu {
     const submenu = new this(anchor);
@@ -125,9 +126,10 @@ export class SubMenu extends AbstractMenu {
    */
   private setBaseMenu() {
     //// TODO: Make this type safer!
-    let menu: any = this;
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    let menu: SubMenu = this;
     do {
-      menu = menu.anchor.menu;
+      menu = menu.anchor.menu as SubMenu;
     } while (menu instanceof SubMenu);
     this.baseMenu = menu;
   }

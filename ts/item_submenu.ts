@@ -52,7 +52,7 @@ export class Submenu extends AbstractItem {
       content: content,
       menu: submenu,
       id: id
-    }: { content: string; menu: any; id: string },
+    }: { content: string; menu: JSON; id: string },
     menu: Menu
   ): Submenu {
     const item = new this(menu, content, id);
